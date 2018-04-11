@@ -1,0 +1,13 @@
+<!-- ANT entity include/definition for MockObjects library files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.mockobjects SYSTEM "mockobjects.ant-inc.xml">
+
+<!ENTITY inc.javadoc.mockobjects.0_01 SYSTEM "0.01/javadoc-links.ant-inc.xml">
+
+<!ENTITY inc.javadoc.mockobjects.0_4rc1 SYSTEM "0.4rc1/javadoc-links.ant-inc.xml">
+

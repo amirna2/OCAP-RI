@@ -1,0 +1,51 @@
+--- gnutls-2.8.5/src/Makefile.in.orig	2010-06-17 11:42:17.000000000 -0600
++++ gnutls-2.8.5/src/Makefile.in	2010-06-17 12:01:46.000000000 -0600
+@@ -827,31 +827,31 @@
+ 	libcmd-certtool.la
+ gnutls_serv_SOURCES = list.h serv.c common.h common.c certtool-common.h
+ gnutls_serv_LDADD = ../lib/libgnutls.la ../libextra/libgnutls-extra.la \
+-	libcmd-serv.la ../gl/libgnu.la $(LIBSOCKET) $(GETADDRINFO_LIB)
++	libcmd-serv.la ../gl/libgnu.la $(LIBGCRYPT) $(LIBSOCKET) $(GETADDRINFO_LIB)
+ libcmd_serv_la_CFLAGS = 
+ libcmd_serv_la_SOURCES = serv.gaa serv-gaa.h serv-gaa.c
+ @ENABLE_SRP_TRUE@srptool_SOURCES = crypt.c
+-@ENABLE_SRP_TRUE@srptool_LDADD = ../lib/libgnutls.la libcmd-srp.la ../gl/libgnu.la
++@ENABLE_SRP_TRUE@srptool_LDADD = ../lib/libgnutls.la libcmd-srp.la ../gl/libgnu.la $(LIBGCRYPT)
+ @ENABLE_SRP_TRUE@libcmd_srp_la_CFLAGS = 
+ @ENABLE_SRP_TRUE@libcmd_srp_la_SOURCES = crypt.gaa crypt-gaa.h crypt-gaa.c
+ psktool_SOURCES = psk.c
+-psktool_LDADD = ../lib/libgnutls.la libcmd-psk.la ../gl/libgnu.la
++psktool_LDADD = ../lib/libgnutls.la libcmd-psk.la ../gl/libgnu.la $(LIBGCRYPT)
+ libcmd_psk_la_CFLAGS = 
+ libcmd_psk_la_SOURCES = psk.gaa psk-gaa.h psk-gaa.c
+ gnutls_cli_SOURCES = cli.c common.h common.c
+ gnutls_cli_LDADD = ../lib/libgnutls.la ../libextra/libgnutls-extra.la \
+-	libcmd-cli.la ../gl/libgnu.la $(LIBSOCKET) $(GETADDRINFO_LIB)
++	libcmd-cli.la ../gl/libgnu.la $(LIBGCRYPT) $(LIBSOCKET) $(GETADDRINFO_LIB)
+ libcmd_cli_la_CFLAGS = 
+ libcmd_cli_la_SOURCES = cli.gaa cli-gaa.h cli-gaa.c
+ gnutls_cli_debug_SOURCES = tls_test.c tests.h tests.c common.h common.c
+ gnutls_cli_debug_LDADD = ../lib/libgnutls.la libcmd-cli-debug.la \
+-	../gl/libgnu.la $(LIBSOCKET) $(GETADDRINFO_LIB)
++	../gl/libgnu.la $(LIBGCRYPT) $(LIBSOCKET) $(GETADDRINFO_LIB)
+ libcmd_cli_debug_la_CFLAGS = 
+ libcmd_cli_debug_la_SOURCES = tls_test.gaa tls_test-gaa.h tls_test-gaa.c
+ certtool_SOURCES = certtool.c prime.c
+ certtool_LDADD = libcmd-certtool.la ../lib/libgnutls.la \
+ 	../libextra/libgnutls-extra.la ../gl/libgnu.la $(am__append_4) \
+-	$(am__append_6)
++	$(am__append_6) $(LIBGCRYPT)
+ @HAVE_LIBCFG_FALSE@libcfg_la_CFLAGS = 
+ @HAVE_LIBCFG_FALSE@libcfg_la_SOURCES = cfg/cfg+.c cfg/cfgfile.c cfg/cmdline.c cfg/parse.c	\
+ @HAVE_LIBCFG_FALSE@	cfg/props.c cfg/shared.c cfg/platon/str/dynfgets.c		\
+--- gnutls-2.8.5/doc/examples/Makefile.in.orig	2010-06-17 12:13:35.000000000 -0600
++++ gnutls-2.8.5/doc/examples/Makefile.in	2010-06-17 12:14:35.000000000 -0600
+@@ -810,7 +810,7 @@
+ 	../../lib/libgnutls.la			\
+ 	../../libextra/libgnutls-extra.la	\
+ 	../../gl/libgnu.la			\
+-	$(LIBSOCKET)
++	$(LIBSOCKET) $(LIBGCRYPT)
+ 
+ CXX_LDADD = $(LDADD) \
+ 	../../lib/libgnutlsxx.la

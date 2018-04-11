@@ -1,0 +1,26 @@
+###
+### MPE/MPEOS Media Unit Tests
+###
+test_mediaRunTunerTests
+#test_mediaRunVideoTests
+test_mediaRunVideoOneTest
+#test_mediaRunVideoTwoTest
+test_mediaRunVideoThreeTest
+test_mediaRunVideoFourTest
+test_mediaRunVideoFiveTest
+#test_mediaRunSetSAPTest
+#test_mediaRunGetSAPTest
+#test_mediaRunPlayStillTest
+test_mediaRunDecoderOneTest
+test_mediaRunDecoderTwoTest
+test_mediaRunDecoderThreeTest
+test_mediaRunDecoderFourTest
+#test_mediaRunAudioTests
+test_mediaRunDecoderTests
+#test_mediaRunMiscTests
+test_mediaRunNegTests
+#test_mediaRunNegAudioTest
+test_mediaRunNegDecoderTest
+#test_mediaRunNegTunerTest
+test_mediaRunNegVideoTest
+

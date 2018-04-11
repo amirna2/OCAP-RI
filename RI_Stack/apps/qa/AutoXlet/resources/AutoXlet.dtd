@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- The AutoXlet tag is the root tag of the document type. It has no 
+     attributes, and must contain one or more Xlet tags.  
+-->
+<!ELEMENT AutoXlet (Xlet+)>
+
+
+<!-- The Xlet tag specifies an Xlet to be run.  There are five attributes
+     (three required, two optional):
+
+     1.  name -  
+            The name of the Xlet.  This can be any string used to identify 
+            the Xlet being run - e.g., name of the Xlet class, common name
+            for the test, etc.
+     2.  orgID - 
+            The orgID of the Xlet, as it is signalled within the OCAP apps 
+            database.  This is specified within the hostapp.properties file.
+            Should be of the format "0x1234".  For example, specify "0x0001" 
+            for orgID=1.
+     3.  appID - 
+            The appID of the Xlet, as it is signalled within the OCAP apps
+            database.  This is specified within the hostapp.properties file.
+            Should be of the format "0x1234".  For example, specify "0x7000" 
+            for appID=7000.
+     4.  pauseAfterLast - 
+            This attribute controls the behavior of AutoXlet at the end of
+            an Xlet invocation using the Xlet tag.  After sending the last
+            RCEvent to the Xlet, AutoXlet will wait for this amount of time
+            before retrieving the results from the Xlet, destroying the Xlet,
+            and starting the next Xlet.  Note that in some cases, Xlets may
+            not require any user input to run.  In this case, AutoXlet will
+            still wait before retriving the results, destroying the Xlet, and
+            starting the next Xlet in the script.  The value specified must
+            be in milliseconds.
+	5.  startupTimeout -
+			This attribute specifies the amount of time (in ms) to wait for
+			the app to complete its initXlet() and startXlet() methods.  Since
+			different xlets can take different amounts of time to startup,
+			it is necessary to allow them to specify their own timeouts.
+			The default value for this attribute (in the case it is not
+			specified) is 60000ms.  If the application fails to complete its
+			startup methods in this time period, execution of the xlet will
+			be aborted.
+
+
+<!-- The Xlet tag can contain zero or more RCEvent tags OR zero of more
+     Repeat tags.
+-->
+<!ELEMENT Xlet (RCEvent*|Repeat*)>
+	<!ATTLIST Xlet 
+	name CDATA #REQUIRED
+	orgID CDATA #REQUIRED
+	appID CDATA #REQUIRED
+	pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+
+
+<!-- The RCEvent tag specifies a remote control key code to feed into the
+     Xlet, along with some optional timing information.  There are four
+     optional attributes:
+
+     1.  name - 
+            Specifies a name to be given to this event for the convenience
+            of the user.  Rather than view output with "VK_CHANNEL_UP" and
+            the like, the user can specify a more meaningful string, which
+            will be saved in the output.  e.g., "Channel Up".
+
+     2.  pauseBeforeNext - 
+            This specifies the amount of time to wait before sending the next
+            RCEvent to the Xlet.  This is a number in milliseconds.  For 
+            example, to wait for 3 seconds before sending the next event, 
+            specify pauseBeforeNext="3000".
+
+     3.  monitorTimeout - 
+            This specifies the amount of time the Xlet's monitor should block
+            waiting for an asynchronous event to occur.  Monitors are an
+            optional way to allow asynchronous events to be handled 
+            synchronously within the AutoXlet framework.  When monitors are 
+            used, a monitor timeout MUST be specified to prevent the monitor
+            from blocking indefinitely in the case of an error and hanging the
+            execution of the AutoXlet script.  A default timeout is specified
+            within the monitor itself, but to override that default, specify a
+            value using this attribute.  The value must be specified in 
+            milliseconds.
+     4.  getResultsAfter - 
+            This specifies whether test results should be retrieved following
+            this event.  Normally, test results are retrieved only once at the
+            end of an Xlet test.  To make it easier for testers to associate
+            results with particular events (or sets of events), specifying 
+            this attribute as true will retrieve the results at the end of
+            the event, and then clear the results.  In this way, results can
+            be retrieved and printed to output as many times during an Xlet's
+            execution as makes sense.
+
+     The content of the RCEvent tag specifies the remote control keycode to
+     send to the Xlet.  This is specified as the string identifier of a remote
+     control keycode as specified within the org.havi.ui.event.HRcEvent
+     or org.ocap.ui.event.OCRcEvent classes.  For example, to specify the
+     equivalent of a "channel up", while sleeping 2 seconds before sending the
+     next event, do the following:
+
+     <RCEvent name="Channel Up" sleepBeforeNext="2000">VK_CHANNEL_UP</RcEvent>
+-->
+<!ELEMENT RCEvent (#PCDATA)>
+	<!ATTLIST RCEvent 
+	name CDATA #IMPLIED
+	pauseBeforeNext CDATA #IMPLIED
+	monitorTimeout CDATA #IMPLIED
+	getResultsAfter (true|false) #IMPLIED>
+
+
+<!-- The Repeat tag identifies a list of RCEvents that should be repeated a
+     certain number of times.  There is a single attribute for this tag:
+
+     1.  count -
+             Specifies the number of times to loop over the contained series of
+			 event tags
+
+     The Repeat tag must contain one or more RCEvent tags.
+-->
+<!ELEMENT Repeat (RCEvent+)>
+	<!ATTLIST Repeat
+	count CDATA #REQUIRED>

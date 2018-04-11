@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- $Id: MonitorApplication.perm 11712 2008-06-21 02:07:42Z thayakawa $ -->
+<!-- Copyright (c) 2006-2007 CableLabs -->
+<!DOCTYPE permissionrequestfile PUBLIC "-//OCAP//DTD Permission Request File 1.0//EN" "http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-1-0.dtd">
+<permissionrequestfile orgid="0x00000001" appid="0x7204">
+  <ocap:monitorapplication name="UPnPDeviceManagerTestApplication" value="true"/>
+    <network>
+        <host action="connect,listen,accept">*</host>
+    </network>
+<ocap:monitorapplication name="handler.homenetwork" value="true"/>
+</permissionrequestfile>
+
+

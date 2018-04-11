@@ -1,0 +1,42 @@
+<!-- Main Entrypoint for defining the Xerces libraries properties.
+-->
+    <property name="_shared.dirs.3rdparty.xerces"
+            value="${_shared.dirs.3rdparty}/xerces" />
+    
+    
+    <!-- Xerces libraries -->
+    <property name="libs.xerces.2_0_2.impl"
+            value="${_shared.dirs.3rdparty.xerces}/2.0.2/xercesImpl.jar" />
+    <property name="libs.xerces.2_0_2.api"
+            value="${_shared.dirs.3rdparty.xerces}/2.0.2/xmlParserAPIs.jar" />
+    
+    <property name="javadoc.package-list.xerces.2_0_2"
+            value="${_shared.dirs.3rdparty.xerces}/2.0.2/package-list" />
+    <property name="javadoc.url.xerces.2_0_2"
+            value="http://xml.apache.org/xerces-j/apiDocs" />
+    
+    <property name="licenses.xerces.2_0_2"
+            value="${_shared.dirs.3rdparty.xerces}/2.0.2/LICENSE.txt" />
+
+            
+    <property name="libs.xerces.2_2_0.impl"
+            value="${_shared.dirs.3rdparty.xerces}/2.2.0/xercesImpl.jar" />
+    <property name="libs.xerces.2_2_0.api"
+            value="${_shared.dirs.3rdparty.xerces}/2.2.0/xmlParserAPIs.jar" />
+    
+    <property name="javadoc.package-list.xerces.2_2_0"
+            value="${_shared.dirs.3rdparty.xerces}/2.2.0/package-list" />
+    <property name="javadoc.url.xerces.2_2_0"
+            value="http://xml.apache.org/xerces-j/apiDocs" />
+    
+    <property name="licenses.xerces.2_2_0"
+            value="${_shared.dirs.3rdparty.xerces}/2.2.0/LICENSE" />
+
+             
+    
+    
+    <property name="libs.xerces.current.impl"
+            value="${libs.xerces.2_2_0.impl}" />
+    <property name="libs.xerces.current.api"
+            value="${libs.xerces.2_2_0.api}" />
+

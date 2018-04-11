@@ -1,0 +1,33 @@
+
+version=2
+
+svc.0.service_id=0x100001
+svc.0.auto_select=true
+svc.0.name=Test Service
+
+app.0.application_identifier=0x000000116001
+app.0.application_control_code=DESTROY
+app.0.application_name=TestApp_version_1
+app.0.version=1
+app.0.visibility=VISIBLE
+app.0.priority=100
+app.0.initial_class_name=org.cablelabs.xlet.AppVersionTest.VersionTestXlet
+app.0.base_directory=/syscwd/qa/xlet
+app.0.service=0x100001
+app.0.args.0=BGCOLOR=BLACK
+app.0.args.1=MESSAGE=Version 1
+
+app.1.application_identifier=0x000000116001
+app.1.application_control_code=AUTOSTART
+app.1.application_name=TestApp_version_2
+app.1.version=2
+app.1.storage_priority=100
+app.1.launch_order=3
+app.1.visibility=VISIBLE
+app.1.priority=100
+app.1.initial_class_name=org.cablelabs.xlet.AppVersionTest.VersionTestXlet
+app.1.base_directory=/syscwd/qa/xlet
+app.1.service=0x100001
+app.1.args.0=BGCOLOR=BLACK
+app.1.args.1=MESSAGE=Version 2
+

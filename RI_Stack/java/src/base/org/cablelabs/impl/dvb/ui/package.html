@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+</head>
+<body bgcolor="white">
+
+The <code>org.cablelabs.impl.dvb.ui</code> package contains interfaces and 
+classes specific to the CableLabs implementation of <code>org.dvb.ui</code>.
+
+<h2>Package Specification</h2>
+
+Currently contains the following interfaces and classes:
+
+  <ul>
+  <li> {@link org.cablelabs.impl.dvb.ui.DVBGraphicsPeer}
+  <li> {@link org.cablelabs.impl.dvb.ui.DVBGraphicsImpl}
+  <li> {@link org.cablelabs.impl.dvb.ui.DVBGraphicsImpl2}
+  <li> {@link org.cablelabs.impl.dvb.ui.FontFactoryPeer}
+  <li> {@link org.cablelabs.impl.dvb.ui.DVBBufferedImagePeer}
+  <li> {@link org.cablelabs.impl.dvb.ui.DVBBufferedImagePeer1}
+  <li> {@link org.cablelabs.impl.dvb.ui.DVBBufferedImagePeer2}
+  </ul>
+
+The <code>DVBGraphicsImpl</code> and <code>DVBGraphicsImpl2</code> classes 
+provide simple adapters for <code>Graphics</code> objects; adapting them
+to the <code>DVBGraphics</code> interface.  
+
+<p>
+
+The <code>FontFactoryPeer</code> class is essentially a placeholder for
+compiling <code>org.dvb.ui.FontFactory</code> against.
+It is expected that the actual implementation is provided by the AWT
+implementation.  
+
+<p>
+
+The <code>DVBBufferedImagePeer</code> interface defines an implementation
+layer for the {@link org.dvb.ui.DVBBufferedImage} class.
+
+<p>
+
+<i>
+<b>Note:</b> that the <code>DVBGraphicsPeer</code> interface may need to be copied 
+into the AWT implementation so that they can be referenced there.  
+As such, changes to these interfaces should ensure that any such copies are 
+also updated!
+</i>
+
+<p>
+
+<i>TBD</i>
+
+<h2>Package Design</h2>
+
+This package provides for the abstraction of implementation for three
+different classes in different ways.
+
+<h3>FontFactoryPeer</h3>
+
+The <code>FontFactoryPeer</code> is implemented by the AWT implementation 
+directly.  I.e., <code>FontFactoryPeer</code> is a concrete class.
+This is because how the peer is implemented is expected to be
+tightly integrated with how <code>Font</code>s are represented and created
+by the AWT.  The <code>FontFactoryPeer</code> class is accessed directly
+by the <code>FontFactory</code> class.
+
+<h3>DVBGraphics</h3>
+
+The <code>DVBGraphics</code> implementation (using <code>DVBGraphicsImpl</code>
+or <code>DVBGraphicsImpl2</code>) is <i>installed</i> into the AWT implementation.
+This is done for AWT <code>Toolkit</code> implementations which implement the
+{@link org.cablelabs.impl.awt.GraphicsAdaptable} interface.  Once the implementation
+is installed (via the installation of a suitable {@link 
+org.cablelabs.impl.awt.GraphicsFactory} class), it is expected that the AWT 
+<code>Toolkit</code> implementation will wrap the <i>native</i> <code>Graphics</code>
+objects with the specified <code>DVBGraphics</code> wrapper object.
+<p>
+The <code>DVBGraphicsImpl2</code> implementation is based upon Java2 
+<code>Graphics2D</code> support.  While the <code>DVBGraphicsImpl</code> is
+based upon generic Java <code>Graphics</code> and <code>DVBGraphicsPeer</code>
+support.  
+
+<h3>DVBBufferedImagePeer</h3>
+
+Instances of <code>DVBBufferedImagePeer</code> are returned by an object
+<i>factory</i> which selects the appropriate implementation for the current
+platform.  Three implementations are assumed to exist; they are checked for 
+in the following order:
+
+  <ol>
+  <li> AWT port-specific version - <code>DVBBufferedImagePeer0</code>
+  <li> Java2 version based on <code>BufferedImage</code> - <code>DVBBufferedImagePeer2</code>
+  <li> Java1 version based on <code>MemoryImageSource</code> and <code>PixelGrabber</code> - <code>DVBBufferedImagePeer2</code>
+  </ol>
+
+The <code>DVBBufferedImagePeer0</code> implementation is expected to be provided
+by the AWT implementation if necessary.  The Java1 version provided by
+<code>DVBBufferedImagePeer1</code> is expected to work for all Java-based DVB
+platforms (including those based on PJava 1.2a, JDK 1.1.8, or Java2).
+The Java2 version provided by <code>DVBBufferedImagePeer2</code> is expected to
+work for all Java2-based DVB platforms (including those based on J2SE or
+J2ME-CDC with Personal Basis Profile).  
+<p>
+<i>Note that currently, the <code>DVBBufferedImagePeer1</code> implementation
+is considered non-functional.</i>
+
+<h2>Related Documentation</h2>
+
+<i>TBD</i>
+
+@see org.dvb.ui
+@see org.cablelabs.impl.awt.GraphicsFactory
+@see org.cablelabs.impl.awt.GraphicsAdaptable
+
+@todo Correct statement about non-functional DVBBufferedImagePeer1 if
+it is ever made functional.
+
+@author Aaron Kamienski
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+--- orig/mib.c	2011-11-17 11:26:31.000000000 -0700
++++ mib.c	2012-02-10 11:59:12.000000000 -0700
+@@ -58,6 +58,55 @@
+ 
+ #include "agent.h"
+ 
++#define USE_REAL_MIBS
++
++#ifdef USE_REAL_MIBS
++#include "hrDeviceTable.h"
++#include "hrProcessorTable.h"
++#include "hrStorage.h"
++#include "hrStorageTable.h"
++#include "hrSWRunPerfTable.h"
++#include "hrSWRunTable.h"
++#include "ifTable.h"
++#include "ocHnNetConfig.h"
++#include "ocStbCardInfo.h"
++#include "ocStbHostAnalogVideoTable.h"
++#include "ocStbHostAVInterfaceTable.h"
++#include "ocStbHostCCMMI.h"
++#include "ocStbHostComponentVideoTable.h"
++#include "ocStbHostDeviceSoftwareBase.h"
++#include "ocStbHostDVIHDMIAvailableVideoFormatTable.h"
++#include "ocStbHostDVIHDMITable.h"
++#include "ocStbHostEasObjects.h"
++#include "ocStbHostFirmwareDownloadStatus.h"
++#include "ocStbHostHWIdentifiers.h"
++#include "ocStbHostIEEE1394ConnectedDevicesTable.h"
++#include "ocStbHostIEEE1394Table.h"
++#include "ocStbHostInBandTunerTable.h"
++#include "ocStbHostInfo.h"
++#include "ocStbHostMemoryInfo.h"
++#include "ocStbHostMpeg2ContentTable.h"
++#include "ocStbHostMpeg4ContentTable.h"
++#include "ocStbHostPower.h"
++#include "ocStbHostProgramStatusTable.h"
++#include "ocStbHostQpskObjects.h"
++#include "ocStbHostRebootInfo.h"
++#include "ocStbHostRFChannelOutTable.h"
++#include "ocStbHostSecuritySubSystem.h"
++#include "ocStbHostSPDIfTable.h"
++#include "ocStbHostSystemDriveInfoTable.h"
++#include "ocStbHostSystemHomeNetworkTable.h"
++#include "ocStbHostSystemLogging.h"
++#include "ocStbHostSystemLoggingEventEntry.h"
++#include "ocStbHostSystemLoggingEventTable.h"
++#include "ocStbHostSystemMemoryReportTable.h"
++#include "ocStbHostSystemTempTable.h"
++#include "ocStbHostUserSettings.h"
++#include "ocStbHostVc1ContentTable.h"
++#include "sysORTable.h"
++#include "system.h"
++#endif
++
+ oid sysDescr[] = {1, 3, 6, 1, 2, 1, 1, 1};
+ oid sysUptime[] = {1, 3, 6, 1, 2, 1, 1, 3, 0};  // ulong reg needs .0 ???
+ oid sysContact[] = {1, 3, 6, 1, 2, 1, 1, 4};
+@@ -162,7 +211,54 @@
+     CHECK_LOGGER();
+     RILOG_INFO("%s();\n", __func__);
+ 
++#ifdef USE_REAL_MIBS
++    init_hrDeviceTable();
++    init_hrProcessorTable();
++    init_hrStorage();
++    init_hrStorageTable();
++    init_hrSWRunPerfTable();
++    init_hrSWRunTable();
++    init_ifTable();
++    init_ocHnNetConfig();
++    init_ocStbCardInfo();
++    init_ocStbHostAnalogVideoTable();
++    init_ocStbHostAVInterfaceTable();
++    init_ocStbHostCCMMI();
++    init_ocStbHostComponentVideoTable();
++    init_ocStbHostDeviceSoftwareBase();
++    init_ocStbHostDVIHDMIAvailableVideoFormatTable();
++    init_ocStbHostDVIHDMITable();
++    init_ocStbHostEasObjects();
++    init_ocStbHostFirmwareDownloadStatus();
++    init_ocStbHostHWIdentifiers();
++    init_ocStbHostIEEE1394ConnectedDevicesTable();
++    init_ocStbHostIEEE1394Table();
++    init_ocStbHostInBandTunerTable();
++    init_ocStbHostInfo();
++    init_ocStbHostMemoryInfo();
++    init_ocStbHostMpeg2ContentTable();
++    init_ocStbHostMpeg4ContentTable();
++    init_ocStbHostPower();
++    init_ocStbHostProgramStatusTable();
++    init_ocStbHostQpskObjects();
++    init_ocStbHostRebootInfo();
++    init_ocStbHostRFChannelOutTable();
++    init_ocStbHostSecuritySubSystem();
++    init_ocStbHostSPDIfTable();
++    init_ocStbHostSystemDriveInfoTable();
++    init_ocStbHostSystemHomeNetworkTable();
++    init_ocStbHostSystemLogging();
++    init_ocStbHostSystemLoggingEventEntry();
++    init_ocStbHostSystemLoggingEventTable();
++    init_ocStbHostSystemMemoryReportTable();
++    init_ocStbHostSystemTempTable();
++    init_ocStbHostUserSettings();
++    init_ocStbHostVc1ContentTable();
++    init_sysORTable();
++    init_system();
++#else
+     snmp_SystemMibInit();
++#endif
+ 
+     RILOG_INFO("%s exiting...\n", __func__);
+ }

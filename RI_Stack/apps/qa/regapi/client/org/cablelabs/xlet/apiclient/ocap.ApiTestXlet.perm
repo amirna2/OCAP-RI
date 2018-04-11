@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<!DOCTYPE permissionrequestfile PUBLIC "-//OCAP//DTD Permission Request File 1.0//EN" "http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-1-0.dtd">
+
+<permissionrequestfile appid="0x6021" orgid="0x000000001">
+
+    <!-- Post-I16 ECO 852 compatible request -->
+    <ocap:registeredapi.user 
+        name="org.cablelabs.api.apitest.TestApi" />
+    <!-- Explicitly grant access to non-existent API. -->
+    <ocap:registeredapi.user 
+        name="org.cablelabs.api.apitest.TestApi.bad" />
+
+</permissionrequestfile>

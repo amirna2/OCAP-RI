@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:04 $
+-->
+
+
+<document>
+<head>
+    <name>Naming Your JUnit Tests</name>
+</head>
+<body>
+    <i>An article by Matt Albrecht</i>
+
+
+<P>
+A critical component to starting off a project with good tests involves
+designing a robust set of conventions for segmenting and naming the
+automated tests.  This article presents the conventions used in the
+GroboUtils project (<a href="http://groboutils.sourceforge.net">
+http://groboutils.sourceforge.net </a>) for Java tests based on the JUnit
+testing framework.
+</P>
+
+<H3>Moving Tests Away From Development Code</H3>
+<P>
+The GroboUtils project separates the development (API) code away from the tests
+into parallel directory trees (Figure 1).  This helps to keep all the Java
+source code contained in one tree, while logically dividing the different
+kinds of tests and API source.  Note that this places test classes in the same
+Java package as the classes which they purport to test.
+</P>
+<P>
+Since the test classes are now in the same Java package as the API code they
+test, the test classes can access protected and package-private members of
+all API classes in that package.  This allows for the unit tests to act more
+like black-box tests without any special back-door access or special
+classloader extentions.
+</P>
+<P>
+Building and packaging the project becomes easier as well.  Now that the
+project source files are separate from the tests, they can be easily compiled
+independent of one another, which allows JARring of tests separate from API.
+Having these two physically separated leads to smaller deployment files.
+</P>
+<P>
+This does lead to one problem related to Extreme Programming (XP) conformance.
+XP states that the tests should always be compiled with the project source, in
+order to guarantee that the tests are always up-to-date with the project.  If
+we break the tests away from the projects, then it is difficult to make this
+guarantee.  However, tools such as Ant (<a
+href="http://jakarta.apache.org/ant">http://jakarta.apache.org/ant</a>) can
+help to rectify this problem by always building the two together.  
+</P>
+
+<H3>A Test Class For Every Project Class</H3>
+<P>
+My personal test process involves creating a Unit Test for every project class.
+This tells me at a glance which classes I have tests for, and those that I
+don't.  Also, putting all the unit tests for a class in a single JUnit class
+allows me to keep all of a project class's tests well contained and organized. 
+</P>
+<P>
+Inside the test class, I usually start with at least one test method per
+accessible method in the project class.  This allows me to ensure that each
+outside-accesible method works under all conditions I can think of.  I can
+quickly tell which methods need tests by tools such as JBrowse for jEdit
+(<a href="http://jedit.org">jedit.org</a>). 
+</P>
+
+<H3>Consistent Naming Convention</H3>
+<P>
+Nothing helps keep tests organized like a consistent naming convention.
+For each test class that tests a project class, say class <tt>Xyz</tt>,
+I name the test class <tt>XyzTest</tt>.  I put the 'Test' part at the end
+of the name, so that tools such as command-line name-completion can be more
+effectively used.  Nothing's more annoying than having to type out 'vi TestX'
+before tab-completion becomes useful.  One of my co-workers
+<!-- Dave Middleton -->
+once went on a thirty minute rant about how there were 132 files in one
+directory, all starting with 'TestProjectNameSetup'.
+</P>
+<P>
+As for the test method names for each project class method, say
+<tt>getMno()</tt>, I create test methods named <tt>testGetMno1()</tt>,
+<tt>testGetMno2()</tt>, and so on. 
+</P>
+
+
+<H3>Test Categories</H3>
+<P>
+I split my tests into four general categories, listed in order of execution:
+    <OL>
+        <definition term="Enemy Unit Test">
+        Ensures that the project's class's outside dependencies work as
+        expected (see my <link name="art_eut">article on the subject</link>).
+        </definition>
+        <definition term="Unit Test">
+        focus on the verification of the smallest building blocks of software
+        design <ref name="Pre97" /> - the class, ensuring that they work
+        correctly in isolation.
+        </definition>
+        <definition term="Integration Unit Test">
+        testing performed to catch errors when two or more components are
+        combined to execute their functionalities <ref name="BG99" />
+        (see my <link name="art_iut">article on the subject</link>).
+        </definition>
+        <definition term="Application Integration Test">
+        in this context, I use this phrase to mean tests that run the entire
+        application.  The tests usually are either very long lasting, or
+        sometimes require user interation.  In other scenarios, they may even
+        include multi-process or multi-computer depedencies.  There are too
+        many books and research articles on the subject to list.
+        </definition>
+    </OL>
+</P>
+<P>
+Each one of these categories has a separate directory, all siblings to the
+project source directory.  If you look at how the GroboUtils project
+organizes its files, it looks like:
+<PRE>
+    sub-project
+       |
+       +-- sources
+            |
+            +-- dev
+            |
+            +-- eut
+            |
+            +-- ut
+            |
+            +-- iut
+            |
+            +-- ait
+</PRE>
+Each of these source directories are compiled separately.
+</P>
+<P>
+You don't have to know exactly how do divide up your tests.  Some tests
+may go in integration unit tests or in unit tests.  It doesn't matter where
+you put them, just as long as it makes sense.  I generally follow these
+guidelines:
+    <UL>
+        <definition term="ut">
+        Tests that the class operates correctly within itself.  All public
+        and protected methods are directly tested from UTs.  Also,
+        internal-state tests (multiple calls of the same instance or class)
+        are performed here.  Mock Objects can be used to simulate outside
+        classes.
+        </definition>
+        <definition term="iut">
+        Tests that each class within the project works well with others.
+        This ensures the internal consistency of the package / project.
+        In the case of GroboUtils, this involves testing only the classes
+        within the same sub-project.
+        </definition>
+        <definition term="eut">
+        Tests to ensure that the project classes work well with third-party
+        libraries or classes outside the project, and that the developer's
+        assumptions about the library are correct.
+        </definition>
+        <definition term="ait">
+        Contains large scale tests that excercise the entire project,
+        end-to-end.
+        </definition>
+    </UL>
+</P>
+
+<H3>Inter-Test Dependencies</H3>
+<P>
+I allow for tests to use other tests, even if from another category or another
+project.
+</P>
+<P>
+In order to avoid test naming colisions, which can happen often between
+categories of the same project, I give each test class a name dependent
+upon the class tested (or test description) and the test category.  So,
+for UTs, I use <tt>ClassUTest</tt>; for EUTs, I use <tt>ClassEUTest</tt>;
+for IUTs, I use <tt>ClassIUTest</tt>.  AITs tend to be in a package which
+is completely different than the rest of the project, so the class naming
+convention is not strictly followed, but I do try to name the main entry
+classes as <tt>ClassAITest</tt>.  
+</P>
+
+<H3>Hierarchy Tests</H3>
+<P>
+If you implement any <link name="art_hierarchy">hierarchy tests</link> in your
+project, you may encounter the same problem I did: since the tests can't be
+directly run (they rely upon a factory from a concrete class), tools such
+as the Ant <tt>&lt;junit&gt;</tt> task, with its <tt>&lt;batch&gt;</tt>
+capability, will discover and try to run the hierarchy tests, failing in
+the process.
+</P>
+<P>
+In response, I end all my hierarchy tests with an <tt>I</tt>, which stands for
+"interface".  So a unit test for <tt>IMyInterface.java</tt> would be named
+<tt>IMyInterfaceUTestI.java</tt>.  Then, tools such as the Ant
+<tt>&lt;junit&gt;</tt> task mentioned above can filter on <tt>*Test.java</tt>
+files, which will avoid the hierarchy tests completely.
+</P>
+
+<reflist>
+    <refitem id="BG99">
+    Imran Bashir and Amrit L. Goel.  <i>Testing Object-Oriented Software:
+    Life Cycle Solutions.</i>  Springer, 1999.
+    </refitem>
+    <refitem id="PBC93">
+    A. Parrish, R. Borie, and D. Cordes.  Automated Flowgraph-Based Testing
+    of Object-Oriented Software Modules.  <i>Journal of Systems and
+    Software,</i> Nov 1993.
+    </refitem>
+    <refitem id="Pre97">
+    R.S. Pressman.  <i>Software Engineering A Practitioner's Approach.</i>
+    McGraw-Hill, 1997.
+    </refitem>
+</reflist>
+
+</body>
+</document>
+

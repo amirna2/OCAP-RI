@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!DOCTYPE permissionrequestfile PUBLIC "-//OCAP//DTD Permission Request File 1.0//EN" "http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-1-0.dtd">
+
+<permissionrequestfile appid="0x7000" orgid="0x000000001">
+ 
+    <file value="true"> </file>
+
+    <applifecyclecontrol />
+
+    <network>
+        <host action="connect,accept,resolve">192.168.168.81:8010</host>
+        <host action="connect,accept,resolve">192.168.168.81:8000</host>
+    </network>
+
+</permissionrequestfile>

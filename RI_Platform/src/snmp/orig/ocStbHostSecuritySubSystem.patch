@@ -1,0 +1,46 @@
+--- orig/ocStbHostSecuritySubSystem.c	2011-04-11 15:35:55.525080002 -0600
++++ ocStbHostSecuritySubSystem.c	2011-04-12 09:52:29.193080001 -0600
+@@ -9,6 +9,10 @@
+ #include "ocStbHostSecuritySubSystem.h"
+ 
+ /** Initializes the ocStbHostSecuritySubSystem module */
++static unsigned char ocStbHostSecurityIdentifier[32];
++static unsigned char ocStbHostCASystemIdentifier[32];
++static int ocStbHostCAType;
++
+ void
+ init_ocStbHostSecuritySubSystem(void)
+ {
+@@ -51,8 +55,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostSecurityIdentifier,
++                                     sizeof(ocStbHostSecurityIdentifier));
+             break;
+ 
+ 
+@@ -80,8 +84,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCASystemIdentifier,
++                                     sizeof(ocStbHostCASystemIdentifier));
+             break;
+ 
+ 
+@@ -109,8 +113,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostCAType,
++                                     sizeof(ocStbHostCAType));
+             break;
+ 
+ 

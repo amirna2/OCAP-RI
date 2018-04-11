@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/13 00:41:37 $
+-->
+
+
+<document>
+<head>
+    <name>Application Integration Tests</name>
+</head>
+<body>
+    <i>An article by Matt Albrecht</i>
+
+<P>
+For the series of articles on this site that concern testing levels, I
+use the term system tests to refer to those tests that
+verify that the whole application works as planned, and that outside forces
+do not cause unexpected errors.  One particular subset of system tests are
+Application Integration Tests, which I term to mean completely automated
+system tests.
+</P>
+<P>
+System level tests generally require much more interaction with the native
+platform than <link href="art_iut">integration unit tests</link> or
+unit tests.  As such, it makes sense to implement this logic in a scriptable
+language, rather than Java.  Personally, I choose Ant, since it is a
+Java native tool and has good cross-platform capabilities.
+</P>
+</body>
+</document>
+

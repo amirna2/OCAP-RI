@@ -1,0 +1,1134 @@
+--- cdc-orig/build/linux/defs_jdwp.mk	1969-12-31 17:00:00.000000000 -0700
++++ cdc/build/linux/defs_jdwp.mk	2012-09-11 18:46:49.368736700 -0600
+@@ -0,0 +1 @@
++CVM_JDWP_SHAREOBJS += mpelib_init.o
+--- cdc-orig/build/linux/defs_jvmti_hprof.mk	1969-12-31 17:00:00.000000000 -0700
++++ cdc/build/linux/defs_jvmti_hprof.mk	2012-09-11 18:46:49.368736700 -0600
+@@ -0,0 +1 @@
++CVM_JVMTI_HPROF_SHAREOBJS += mpelib_init.o
+--- cdc-orig/build/share/defs_op.mk	2012-09-11 19:23:46.507030900 -0600
++++ cdc/build/share/defs_op.mk	2012-09-11 18:46:49.384336800 -0600
+@@ -108,7 +108,8 @@
+ include $(SECOP_DIR)/build/share/$(SUBSYSTEM_MAKE_FILE)
+ endif
+ 
+-# If any JSR is built include JSROP abstractions building
++# If any JSR (except 280) is built include JSROP abstractions building 
++ifeq ($(USE_JSR_280), false)
+ ifneq ($(INCLUDED_JSROP_NUMBERS),)
+ export ABSTRACTIONS_DIR ?= $(COMPONENTS_DIR)/abstractions
+ 
+@@ -127,6 +128,9 @@
+ # abstractions required javacall types
+ CVM_INCLUDE_JAVACALL=true
+ endif
++else
++JSROP_JARS=$(JSROP_BUILD_JARS)
++endif
+ 
+ # Include JSR 75
+ ifeq ($(USE_JSR_75), true)
+--- cdc-orig/build/share/defs_zoneinfo.mk	2012-09-11 19:23:46.522631000 -0600
++++ cdc/build/share/defs_zoneinfo.mk	2012-09-11 18:46:49.384336800 -0600
+@@ -72,6 +72,9 @@
+ TZFILE = j2meref
+ JDKTZDATA = $(CVM_SHAREROOT)/tools/javazic/tzdata_jdk/
+ JDKTZFILES = gmt jdk11_backward
++TZFILES_HOST = \
++    $(addprefix $(call POSIX2HOST,$(TZDATA)),$(TZFILE)) \
++    $(addprefix $(call POSIX2HOST,$(JDKTZDATA)),$(JDKTZFILES))
+ TZFILES = \
+     $(addprefix $(TZDATA),$(TZFILE)) \
+     $(addprefix $(JDKTZDATA),$(JDKTZFILES))
+--- cdc-orig/build/share/jcc.mk	2012-09-11 19:23:46.522631000 -0600
++++ cdc/build/share/jcc.mk	2012-09-11 18:46:49.399936800 -0600
+@@ -75,16 +75,16 @@
+ $(CVM_GENOPCODE_TARGETS): $(CVM_OPCODE_LIST) $(CVM_GENOPCODE_DEPEND)
+ 	@echo ... $(CVM_OPCODE_LIST)
+ 	$(AT)export CLASSPATH; \
+-	CLASSPATH=$(CVM_JCC_CLASSPATH); \
+-	$(CVM_JAVA) GenOpcodes $(CVM_OPCODE_LIST) \
+-	    -h $(CVM_DERIVEDROOT)/javavm/include/gen_opcodes.h \
+-	    -c $(CVM_DERIVEDROOT)/javavm/runtime/gen_opcodes.c \
+-	    -bcAttr $(CVM_DERIVEDROOT)/javavm/runtime/bcattr.c \
+-	    -opcodeLengths $(CVM_DERIVEDROOT)/javavm/runtime/opcodelen.c \
+-	    $(CVM_JITOPCODEMAP) \
+-	    -label $(CVM_DERIVEDROOT)/javavm/include/opcodeLabels.h \
+-	    -javaConst $(CVM_DERIVEDROOT)/javavm/runtime/opcodeconsts/OpcodeConst.java \
+-	    -simplification $(CVM_DERIVEDROOT)/javavm/include/opcodeSimplification.h
++	CLASSPATH=$(call POSIX2HOST,$(CVM_JCC_CLASSPATH)); \
++	$(CVM_JAVA) GenOpcodes $(call POSIX2HOST,$(CVM_OPCODE_LIST)) \
++	    -h $(call POSIX2HOST,$(CVM_DERIVEDROOT))/javavm/include/gen_opcodes.h \
++	    -c $(call POSIX2HOST,$(CVM_DERIVEDROOT))/javavm/runtime/gen_opcodes.c \
++	    -bcAttr $(call POSIX2HOST,$(CVM_DERIVEDROOT))/javavm/runtime/bcattr.c \
++	    -opcodeLengths $(call POSIX2HOST,$(CVM_DERIVEDROOT))/javavm/runtime/opcodelen.c \
++	    $(call POSIX2HOST,$(CVM_JITOPCODEMAP)) \
++	    -label $(call POSIX2HOST,$(CVM_DERIVEDROOT))/javavm/include/opcodeLabels.h \
++	    -javaConst $(call POSIX2HOST,$(CVM_DERIVEDROOT))/javavm/runtime/opcodeconsts/OpcodeConst.java \
++	    -simplification $(call POSIX2HOST,$(CVM_DERIVEDROOT))/javavm/include/opcodeSimplification.h
+ 
+ $(CVM_GENOPCODE_DEPEND) :: $(CVM_JCC_CLASSPATH)
+ $(CVM_GENOPCODE_DEPEND) :: $(CVM_JCC_SRCPATH)/GenOpcodes.java \
+@@ -92,9 +92,9 @@
+ 		 $(CVM_JCC_SRCPATH)/util/*.java \
+ 		 $(CVM_JCC_SRCPATH)/JCCMessage.properties
+ 	@echo "... $@"
+-	$(AT)CLASSPATH=$(CVM_JCC_SRCPATH); export CLASSPATH; \
+-	$(CVM_JAVAC) $(JAVAC_OPTIONS) -d $(CVM_JCC_CLASSPATH) \
+-	    $(subst /,$(CVM_FILESEP),$(CVM_JCC_SRCPATH)/GenOpcodes.java)
++	$(AT)CLASSPATH=$(call POSIX2HOST,$(CVM_JCC_SRCPATH)); export CLASSPATH; \
++	$(CVM_JAVAC) $(JAVAC_OPTIONS) -d $(call POSIX2HOST,$(CVM_JCC_CLASSPATH)) \
++	    $(subst /,$(CVM_FILESEP),$(call POSIX2HOST,$(CVM_JCC_SRCPATH))/GenOpcodes.java)
+ 	$(AT)rm -f $(CVM_JCC_CLASSPATH)/JCCMessage.properties; \
+ 	cp $(CVM_JCC_SRCPATH)/JCCMessage.properties $(CVM_JCC_CLASSPATH)/JCCMessage.properties
+ 
+@@ -125,9 +125,9 @@
+ CVM_JCC_OPTIONS += \
+ 		  $(CVM_GENERATE_NATIVES) \
+ 		  -nativesType JNI "-*" \
+-		  -headersDir CNI $(CVM_DERIVEDROOT)/cni \
+-		  -headersDir JNI $(CVM_DERIVEDROOT)/jni \
+-		  -headersDir CVMOffsets $(CVM_DERIVEDROOT)/offsets \
++		  -headersDir CNI $(call POSIX2HOST,$(CVM_DERIVEDROOT))/cni \
++		  -headersDir JNI $(call POSIX2HOST,$(CVM_DERIVEDROOT))/jni \
++		  -headersDir CVMOffsets $(call POSIX2HOST,$(CVM_DERIVEDROOT))/offsets \
+ 		  $(JCC_EXCLUDES) \
+ 		  $(CVM_PROFILE_JCC_OPTIONS) \
+ 	          $(CVM_GENERATE_OFFSETS)
+@@ -188,10 +188,11 @@
+ 
+ $(CVM_ROMJAVA_LIST): $(CVM_JCC_INPUT_FILES) $(CVM_JCC_DEPEND)
+ 	@echo "jcc romjava.c files"
+-	$(AT)$(CVM_JAVA) -cp $(CVM_JCC_CLASSPATH) -Xmx256m JavaCodeCompact \
++	$(AT)$(CVM_JAVA) -cp $(call POSIX2HOST,$(CVM_JCC_CLASSPATH)) -Xmx256m JavaCodeCompact \
+ 		$(CVM_JCC_OPTIONS) \
+ 		-maxSegmentSize $(CVM_ROMJAVA_CLASSES_PER_FILE) \
+-		-o $(CVM_ROMJAVA_CPATTERN) \
++		-o $(call POSIX2HOST,$(CVM_ROMJAVA_CPATTERN)) \
++		-po $(CVM_ROMJAVA_CPATTERN) \
+ 		$(call POSIX2HOST,$(CVM_JCC_INPUT)) \
+ 		$(CVM_JCC_CL_SYS_INPUT) $(CVM_JCC_CL_MIDP_INPUT) $(CVM_JCC_CL_MISC_INPUT) $(CVM_JCC_APILISTER_OPTIONS)
+ 
+@@ -242,7 +243,7 @@
+ 	runtime/JNIHeader.java \
+ 	runtime/CVMWriter.java
+ 
+-CVM_JCC_CLASSES1 = $(patsubst %,$(CVM_JCC_SRCPATH)/%,$(CVM_JCC_CLASSES0))
++CVM_JCC_CLASSES1 = $(patsubst %,$(call POSIX2HOST,$(CVM_JCC_SRCPATH))/%,$(CVM_JCC_CLASSES0))
+ CVM_JCC_CLASSES  = $(subst /,$(CVM_FILESEP),$(CVM_JCC_CLASSES1))
+ 
+ $(CVM_JCC_DEPEND) :: $(CVM_JCC_CLASSPATH)
+@@ -257,8 +258,8 @@
+ 		 $(CVM_JCC_SRCPATH)/vm/*.java \
+ 		 $(CVM_JCC_SRCPATH)/JCCMessage.properties
+ 	@echo "... $@"
+-	@CLASSPATH=$(CVM_JCC_CLASSPATH)$(PS)$(CVM_JCC_SRCPATH)$(PS)$(CVM_DERIVEDROOT)/javavm/runtime; export CLASSPATH; \
+-	$(CVM_JAVAC) $(JAVAC_OPTIONS) -d $(CVM_JCC_CLASSPATH) \
++	@CLASSPATH=$(call POSIX2HOST,$(CVM_JCC_CLASSPATH))$(PS)$(call POSIX2HOST,$(CVM_JCC_SRCPATH))$(PS)$(call POSIX2HOST,$(CVM_DERIVEDROOT))/javavm/runtime; export CLASSPATH; \
++	$(CVM_JAVAC) $(JAVAC_OPTIONS) -d $(call POSIX2HOST,$(CVM_JCC_CLASSPATH)) \
+ 	    $(CVM_JCC_CLASSES)
+ 	@rm -f $(CVM_JCC_CLASSPATH)/JCCMessage.properties; \
+ 	cp $(CVM_JCC_SRCPATH)/JCCMessage.properties $(CVM_JCC_CLASSPATH)/JCCMessage.properties
+--- cdc-orig/build/share/rules.mk	2012-09-11 19:23:46.522631000 -0600
++++ cdc/build/share/rules.mk	2012-09-11 18:46:49.415536800 -0600
+@@ -538,22 +538,22 @@
+ endif
+ 
+ CVM_LIB_BOOTCLASSPATH = \
+-    $(CVM_BUILDTIME_CLASSESZIP)$(PS)$(JAVACLASSES_CLASSPATH)
++    $(call POSIX2HOST,$(CVM_BUILDTIME_CLASSESZIP))$(PS)$(call POSIX2HOST,$(JAVACLASSES_CLASSPATH))
+ 
+ .compile.libclasses: .move.extra.btclasses
+ 	$(AT)if [ -s $(CVM_BUILD_TOP)/.libclasses.list ] ; then		\
+ 		echo "Compiling $(J2ME_PRODUCT_NAME) classes...";	\
+ 		$(JAVAC_CMD)						\
+-			-d $(LIB_CLASSESDIR) 				\
++			-d $(call POSIX2HOST,$(LIB_CLASSESDIR)) 			\
+ 			-bootclasspath $(CVM_LIB_BOOTCLASSPATH) 	\
+ 			-classpath -none-				\
+ 			-sourcepath $(JAVACLASSES_SRCPATH)		\
+-			@$(CVM_BUILD_TOP)/.libclasses.list ;		\
++			@$(call POSIX2HOST,$(CVM_BUILD_TOP))/.libclasses.list ;		\
+ 		touch $(CVM_BUILD_TOP)/.libclasses;			\
+ 	fi
+ 
+ CVM_BT_BOOTCLASSPATH = \
+-    $(CVM_BUILDTIME_CLASSESDIR)$(PS)$(OPTPKGS_CLASSPATH)
++    $(call POSIX2HOST,$(CVM_BUILDTIME_CLASSESDIR))$(PS)$(OPTPKGS_CLASSPATH)
+ 
+ .cvm_bt_files:
+ 	$(AT)$(MAKE) .cvm_bt_files_check
+@@ -573,14 +573,14 @@
+ endif
+ 
+ .compile.btclasses: .cvm_bt_files
+-	$(AT)if [ -s $(CVM_BUILD_TOP)/.btclasses.list ] ; then		\
++	if [ -s $(CVM_BUILD_TOP)/.btclasses.list ] ; then		\
+ 		echo "Compiling build-time classes...";			\
+ 		$(JAVAC_CMD)						\
+-			-d $(CVM_BUILDTIME_CLASSESDIR)			\
++			-d $(call POSIX2HOST,$(CVM_BUILDTIME_CLASSESDIR))	\
+ 			-bootclasspath $(CVM_BT_BOOTCLASSPATH)	 	\
+ 			-classpath -none- \
+ 			-sourcepath $(JAVACLASSES_SRCPATH)		\
+-			@$(CVM_BUILD_TOP)/.btclasses.list ;		\
++			@$(call POSIX2HOST,$(CVM_BUILD_TOP)/.btclasses.list) ;		\
+ 		touch $(CVM_BUILD_TOP)/.btclasses;			\
+ 	fi
+ 
+@@ -590,12 +590,12 @@
+ 		cp -f $(CVM_TESTCLASSES_SRCDIR)/TestSyncLocker.class	\
+ 		      $(CVM_TEST_CLASSESDIR); \
+ 		$(JAVAC_CMD)						\
+-			-d $(CVM_TEST_CLASSESDIR)			\
++			-d $(call POSIX2HOST,$(CVM_TEST_CLASSESDIR))			\
+ 			-bootclasspath 					\
+-			   $(CVM_BUILDTIME_CLASSESZIP)$(PS)$(LIB_CLASSESDIR)\
+-			-classpath $(CVM_TEST_CLASSESDIR)$(PS)$(TEST_JARFILES) \
++			   $(call POSIX2HOST,$(CVM_BUILDTIME_CLASSESZIP))$(PS)$(call POSIX2HOST,$(LIB_CLASSESDIR))\
++			-classpath $(call POSIX2HOST,$(CVM_TEST_CLASSESDIR))$(PS)$(call POSIX2HOST,$(TEST_JARFILES)) \
+ 			-sourcepath $(TESTCLASSES_SRCPATH)		\
+-			@$(CVM_BUILD_TOP)/.testclasses.list ;		\
++			@$(call POSIX2HOST,$(CVM_BUILD_TOP))/.testclasses.list ;		\
+ 		touch $(CVM_BUILD_TOP)/.testclasses;			\
+ 	fi
+ 
+@@ -603,12 +603,12 @@
+ 	$(AT)if [ -s $(CVM_BUILD_TOP)/.democlasses.list ] ; then	\
+ 		echo "Compiling demo classes...";			\
+ 		$(JAVAC_CMD)						\
+-			-d $(CVM_DEMO_CLASSESDIR)			\
++			-d $(call POSIX2HOST,$(CVM_DEMO_CLASSESDIR))			\
+ 			-bootclasspath 					\
+-			   $(CVM_BUILDTIME_CLASSESZIP)$(PS)$(LIB_CLASSESDIR)\
+-			-classpath $(CVM_DEMO_CLASSESDIR) 		\
++			   $(call POSIX2HOST,$(CVM_BUILDTIME_CLASSESZIP))$(PS)$(call POSIX2HOST,$(LIB_CLASSESDIR))\
++			-classpath $(call POSIX2HOST,$(CVM_DEMO_CLASSESDIR)) 		\
+ 			-sourcepath $(CVM_DEMOCLASSES_SRCPATH)		\
+-			@$(CVM_BUILD_TOP)/.democlasses.list ;	\
++			@$(call POSIX2HOST,$(CVM_BUILD_TOP))/.democlasses.list ;	\
+ 		touch $(CVM_BUILD_TOP)/.democlasses;			\
+ 	fi
+ 
+@@ -1126,11 +1126,11 @@
+ 	$(AT)if [ -s $(CVM_BUILD_TOP)/.javahclasses.list ] ; then	\
+ 		echo ... generating jni class headers ;			\
+ 		$(CVM_JAVAH) -jni					\
+-			-d $(CVM_DERIVEDROOT)/jni			\
++			-d $(call POSIX2HOST,$(CVM_DERIVEDROOT))/jni			\
+ 			-bootclasspath $(JAVAH_HOST_BT_PATH)		\
+ 			-classpath $(JAVAH_HOST_CP_PATH)		\
+ 			$(JSR_JNI_CLASSES) 				\
+-			@$(CVM_BUILD_TOP)/.javahclasses.list		\
++			@$(call POSIX2HOST,$(CVM_BUILD_TOP))/.javahclasses.list		\
+ 			$(CVM_EXTRA_JNI_CLASSES) ;			\
+ 	fi
+ 	@touch $@
+--- cdc-orig/build/share/rules_cdc.mk	2012-09-11 19:23:46.522631000 -0600
++++ cdc/build/share/rules_cdc.mk	2012-09-11 18:46:49.415536800 -0600
+@@ -24,10 +24,10 @@
+ 
+ $(CVM_DERIVEDROOT)/classes/java/util/CurrencyData.java: $(CVM_MISC_TOOLS_SRCDIR)/GenerateCurrencyData/GenerateCurrencyData.java $(CVM_SHAREDCLASSES_SRCDIR)/java/util/CurrencyData.properties
+ 	@echo ... generating CurrencyData.java
+-	$(AT)$(JAVAC_CMD) -d $(CVM_MISC_TOOLS_CLASSPATH) \
+-		$(CVM_MISC_TOOLS_SRCDIR)/GenerateCurrencyData/GenerateCurrencyData.java
++	$(AT)$(JAVAC_CMD) -d $(call POSIX2HOST,$(CVM_MISC_TOOLS_CLASSPATH)) \
++		$(call POSIX2HOST,$(CVM_MISC_TOOLS_SRCDIR))/GenerateCurrencyData/GenerateCurrencyData.java
+ 	$(AT)$(CVM_JAVA) \
+-		-classpath $(CVM_MISC_TOOLS_CLASSPATH) \
++		-classpath $(call POSIX2HOST,$(CVM_MISC_TOOLS_CLASSPATH)) \
+ 		GenerateCurrencyData \
+ 		< $(CVM_SHAREDCLASSES_SRCDIR)/java/util/CurrencyData.properties > $@
+ 
+@@ -38,10 +38,10 @@
+ 	    $(CONFIGURATOR_DIR)/xsl/cdc/propertiesInit.xsl
+ 	@echo ... generating PackageManager.java
+ 	$(AT)$(call runJarFile, $(CONFIGURATOR_JAR_FILE), \
+-	-xml $(CVM_MISC_TOOLS_SRCDIR)/xml/empty.xml \
++	-xml $(call POSIX2HOST,$(CVM_MISC_TOOLS_SRCDIR)/xml/empty.xml) \
+ 	-xsl $(call POSIX2HOST,$(CONFIGURATOR_DIR)/xsl/cdc/propertiesInit.xsl)\
+ 	-params initializers '$(JSR_INITIALIZER_LIST)' \
+-	-out $(CVM_DERIVEDROOT)/classes/com/sun/cdc/config/PackageManager.java)
++	-out $(call POSIX2HOST,$(CVM_DERIVEDROOT)/classes/com/sun/cdc/config/PackageManager.java))
+ 
+ # CDC test classes are built by the 'all' target.
+ build-unittests::
+--- cdc-orig/build/share/rules_jdwp.mk	2012-09-11 19:23:46.538231000 -0600
++++ cdc/build/share/rules_jdwp.mk	2012-09-11 18:46:49.415536800 -0600
+@@ -111,14 +111,14 @@
+ JDWPGEN_CLASS = $(CVM_JDWP_CLASSES)/$(JDWPGENPKGDIR)/Main.class
+ 
+ $(JDWPGEN_CLASS) : $(CVM_JDWP_SHAREROOT)/classes/$(JDWPGENPKGDIR)/Main.java
+-	$(CVM_JAVAC) -d $(CVM_JDWP_CLASSES) \
+-		-sourcepath $(CVM_JDWP_SHAREROOT)/classes \
+-		$<
++	$(CVM_JAVAC) -d $(call POSIX2HOST,$(CVM_JDWP_CLASSES)) \
++		-sourcepath $(call POSIX2HOST,$(CVM_JDWP_SHAREROOT))/classes \
++		$(call POSIX2HOST,$<)
+ 
+ $(CVM_JDWP_BUILD_TOP)/JDWPCommands.h : $(JDWPGEN_CLASS)
+-	$(CVM_JAVA) -Xbootclasspath/p:$(CVM_JDWP_CLASSES) \
+-		$(JDWPGEN).Main $(JDWP_SPEC) \
+-	    -include $@
++	$(CVM_JAVA) -Xbootclasspath/p:$(call POSIX2HOST,$(CVM_JDWP_CLASSES)) \
++		$(JDWPGEN).Main $(call POSIX2HOST,$(JDWP_SPEC)) \
++	    -include $(call POSIX2HOST,$@)
+ 
+ $(CVM_JDWP_OBJDIR)/%.o: %.c
+ 	@echo "... $@"
+--- cdc-orig/build/share/rules_jvmti_crw.mk	2012-09-11 19:23:46.538231000 -0600
++++ cdc/build/share/rules_jvmti_crw.mk	2012-09-11 18:46:49.415536800 -0600
+@@ -106,16 +106,16 @@
+ 
+ $(CVM_CRW_JARDIR)/$(CVM_CRW_JAR): $(CVM_CRW_TRACKER)
+ 	@echo "... $@"
+-	$(AT)$(CVM_JAR) cf $@ -C $(CVM_CRW_CLASSES) com/
++	$(AT)$(CVM_JAR) cf $(call POSIX2HOST,$@) -C $(call POSIX2HOST,$(CVM_CRW_CLASSES)) com/
+ 	$(AT)unzip -l $@ | fgrep .class | awk '{print $$4}' | sed -e 's|/|.|g' | sed -e 's|.class||' > $(CVM_CRW_BUILD_TOP)/MIDPPermittedClasses.txt
+-	$(AT)$(CVM_JAR) uf $@ -C $(CVM_CRW_BUILD_TOP) MIDPPermittedClasses.txt
++	$(AT)$(CVM_JAR) uf $(call POSIX2HOST,$@) -C $(call POSIX2HOST,$(CVM_CRW_BUILD_TOP)) MIDPPermittedClasses.txt
+ 	$(AT)-rm -f $(CVM_CRW_BUILD_TOP)/MIDPPermittedClasses.txt
+ 
+ $(CVM_CRW_CLASSES)/%.class: %.java
+ 	@echo "Compiling crw classes..."
+-	$(AT)$(CVM_JAVAC) -d $(CVM_CRW_CLASSES) \
+-		-sourcepath $(CVM_CRW_SHARECLASSESROOT) \
+-		$<
++	$(AT)$(CVM_JAVAC) -d $(call POSIX2HOST,$(CVM_CRW_CLASSES)) \
++		-sourcepath $(call POSIX2HOST,$(CVM_CRW_SHARECLASSESROOT)) \
++		$(call POSIX2HOST,$<)
+ 
+ $(CVM_CRW_OBJDIR)/%.o: %.c
+ 	@echo "... $@"
+--- cdc-orig/build/share/rules_nb_profiler.mk	2012-09-11 19:23:46.538231000 -0600
++++ cdc/build/share/rules_nb_profiler.mk	2012-09-11 18:46:49.431136800 -0600
+@@ -107,7 +107,7 @@
+ 	$(AT)cp $< $(CVM_LIBDIR)/profiler/lib
+ 	-$(AT)find $(CVM_LIBDIR)/profiler -depth -name .svn -exec rm -rf {} \;
+ 	$(AT)unzip -l $@ | fgrep server | awk '{print $$4}' | sed -e 's|/|.|g' | sed -e 's|.class||' > $(CVM_LIBDIR)/profiler/lib/MIDPPermittedClasses.txt
+-	$(AT)$(CVM_JAR) uf $@ -C $(CVM_LIBDIR)/profiler/lib MIDPPermittedClasses.txt
++	$(AT)$(CVM_JAR) uf $(call POSIX2HOST,$@) -C $(call POSIX2HOST,$(CVM_LIBDIR))/profiler/lib MIDPPermittedClasses.txt
+ 	$(AT)-rm -f $(CVM_LIBDIR)/profiler/lib/MIDPPermittedClasses.txt
+ 
+ # The following are used to build the .o files needed for $(CVM_NB_PROFILER_OBJECTS):
+@@ -130,4 +130,4 @@
+ 	$(SO_ASM_CMD)
+ 
+ # post process...
+-#$ unzip -l jfluid-server-cvm.jar | fgrep server | awk '{print $4}' | sed -e 's|/|.|g' | sed 's|.class||' > MIDPPermittedClasses.txt
+\ No newline at end of file
++#$ unzip -l jfluid-server-cvm.jar | fgrep server | awk '{print $4}' | sed -e 's|/|.|g' | sed 's|.class||' > MIDPPermittedClasses.txt
+--- cdc-orig/build/share/rules_op.mk	2012-09-11 19:23:46.538231000 -0600
++++ cdc/build/share/rules_op.mk	2012-09-11 18:46:49.431136800 -0600
+@@ -33,14 +33,14 @@
+ # generateJSRInitializer(xmlFiles,generatedDir,initializerPackage,outputFile,nativeLibs)
+ define generateJSRInitializer
+ 	$(AT)$(call runJarFile, $(CONFIGURATOR_JAR_FILE),      \
+-	-xml $(CVM_MISC_TOOLS_SRCDIR)/xml/empty.xml            \
+-	-xsl $(CONFIGURATOR_DIR)/xsl/share/merge.xsl           \
+-	-params filesList '$(1)'                               \
+-	-out $(2)/properties_merged.xml                        \
+-	-xml $(2)/properties_merged.xml                        \
+-	-xsl $(CONFIGURATOR_DIR)/xsl/cdc/propertiesJava.xsl    \
++	-xml $(call POSIX2HOST,$(CVM_MISC_TOOLS_SRCDIR)/xml/empty.xml)            \
++	-xsl $(call POSIX2HOST,$(CONFIGURATOR_DIR)/xsl/share/merge.xsl)           \
++	-params filesList '$(call POSIX2HOST,$(1))'                               \
++	-out $(call POSIX2HOST,$(2)/properties_merged.xml)                        \
++	-xml $(call POSIX2HOST,$(2)/properties_merged.xml)                        \
++	-xsl $(call POSIX2HOST,$(CONFIGURATOR_DIR)/xsl/cdc/propertiesJava.xsl)    \
+ 	-params packageName $(3) nativeLibs $(JSR_NATIVE_LIBS) \
+-	-out $(4))
++	-out $(call POSIX2HOST,$(4)))
+ endef
+ 
+ # Generate constant classes
+@@ -78,16 +78,16 @@
+ 	@echo "Compiling "$(1)" classes...";			\
+ 	mkdir -p $(2);			\
+ 	$(JAVAC_CMD)						\
+-		-d $(2) \
+-		-bootclasspath $(CVM_BUILDTIME_CLASSESDIR) 	\
+-		-classpath $(JAVACLASSES_CLASSPATH)$(PS)$(JSROP_JUMP_API)$(PS)$(ABSTRACTIONS_JAR)$(4) \
+-		$(3)
++		-d $(call POSIX2HOST,$(2)) \
++		-bootclasspath $(call POSIX2HOST,$(CVM_BUILDTIME_CLASSESDIR)) 	\
++		-classpath $(call POSIX2HOST,$(JAVACLASSES_CLASSPATH))$(PS)$(call POSIX2HOST,$(JSROP_JUMP_API))$(PS)$(call POSIX2HOST,$(ABSTRACTIONS_JAR))$(call POSIX2HOST,$(4)) \
++		$(call POSIX2HOST,$(3))
+ endef
+ 
+ # makeJSROPJar(jarFileName,jsrDir)
+ define makeJSROPJar
+ 	@echo ...$(1);     \
+-	$(CVM_JAR) cf $(1) -C $(2) .;
++	$(CVM_JAR) cf $(call POSIX2HOST,$(1)) -C $(call POSIX2HOST,$(2)) .
+ endef
+ 
+ # Creates an additional jar file containing classes implemented outside JSR's
+--- cdc-orig/build/share/rules_zoneinfo.mk	2012-09-11 19:23:46.538231000 -0600
++++ cdc/build/share/rules_zoneinfo.mk	2012-09-11 18:46:49.431136800 -0600
+@@ -29,10 +29,10 @@
+ #
+ 
+ $(ZONEINFO_CLASSES_DIR)/%.class: $(CVM_SHAREROOT)/tools/javazic/%.java
+-	$(AT)echo $? >> $(ZONEINFO_CLASSES_DIR)/.classes.list
++	$(AT)echo $(call POSIX2HOST,$?) >> $(ZONEINFO_CLASSES_DIR)/.classes.list
+ 
+ $(ZONEINFO_CLASSES_DIR)/%.class: $(CVM_SHAREROOT)/classes/%.java 
+-	$(AT)echo $? >> $(ZONEINFO_CLASSES_DIR)/.classes.list
++	$(AT)echo $(call POSIX2HOST,$?) >> $(ZONEINFO_CLASSES_DIR)/.classes.list
+ 
+ $(J2ME_CLASSLIB):: $(ZONEINFO_CLASSES_DIR) .delete.classlist $(FILES_class) .compile.classlist $(ZONEINFO_INSTALLDIR)/$(MAPFILE)
+ 
+@@ -46,16 +46,16 @@
+ 	$(AT)if [ -s $(ZONEINFO_CLASSES_DIR)/.classes.list ] ; then	\
+ 	     echo "Compiling zic classes... ";				\
+ 	     $(JAVAC_CMD)						\
+-			-d $(ZONEINFO_CLASSES_DIR)			\
+-			@$(ZONEINFO_CLASSES_DIR)/.classes.list ;	\
++			-d $(call POSIX2HOST,$(ZONEINFO_CLASSES_DIR))			\
++			@$(call POSIX2HOST,$(ZONEINFO_CLASSES_DIR))/.classes.list ;	\
+ 	fi
+ 
+ $(ZONEINFO_WORKDIR)/$(MAPFILE): $(FILES_class) $(TZFILES)
+ 	$(AT)rm -rf $(ZONEINFO_WORKDIR)
+-	$(AT)$(CVM_JAVA) -classpath $(ZONEINFO_CLASSES_DIR) \
++	$(AT)$(CVM_JAVA) -classpath $(call POSIX2HOST,$(ZONEINFO_CLASSES_DIR)) \
+ 	    sun.tools.MyClassPath \
+ 	    sun.tools.javazic.Main \
+-	    -V "$(TZDATA_VER)" -d $(ZONEINFO_WORKDIR) $(TZFILES)
++	    -V "$(TZDATA_VER)" -d $(call POSIX2HOST,$(ZONEINFO_WORKDIR)) $(TZFILES_HOST)
+ 
+ $(ZONEINFO_INSTALLDIR)/$(MAPFILE): $(ZONEINFO_WORKDIR)/$(MAPFILE)
+ 	$(AT)if [ ! -d $(ZONEINFO_INSTALLDIR) ] ; then \
+--- cdc-orig/build/win32/defs_jdwp.mk	2012-09-11 19:23:46.600631100 -0600
++++ cdc/build/win32/defs_jdwp.mk	2012-09-11 18:46:49.431136800 -0600
+@@ -26,11 +26,7 @@
+ # Makefile for building the jdwp tool for windows target
+ #
+ 
+-CVM_JDWP_LIBDIR		= $(CVM_BINDIR)
+-
+-ifeq ($(WIN32_PLATFORM),wince)
+-CVM_JDWP_DT_LINKLIBS = winsock.lib
+-else
+-CVM_JDWP_DT_LINKLIBS = ws2_32.lib user32.lib
+-CVM_JDWP_LINKLIBS = user32.lib
+-endif
+\ No newline at end of file
++CVM_JDWP_LIBDIR = $(CVM_BINDIR)
++CVM_JDWP_DT_LINKLIBS = -L/usr/lib/w32api -lws2_32 -luser32
++CVM_JDWP_LINKLIBS = -L/usr/lib/w32api -luser32
++CVM_JDWP_SHAREOBJS += mpelib_init.o
+--- cdc-orig/build/win32/defs_jvmti_hprof.mk	2012-09-11 19:23:46.600631100 -0600
++++ cdc/build/win32/defs_jvmti_hprof.mk	2012-09-11 18:46:49.446736900 -0600
+@@ -28,10 +28,6 @@
+ #  Platform specific makefile for building the Hprof tool
+ #
+ 
+-CVM_JVMTI_HPROF_LIBDIR        = $(CVM_BINDIR)
+-
+-ifeq ($(WIN32_PLATFORM),wince)
+-CVM_JVMTI_LINKLIBS = winsock.lib
+-else
+-CVM_JVMTI_LINKLIBS = ws2_32.lib
+-endif
++CVM_JVMTI_HPROF_LIBDIR = $(CVM_BINDIR)
++CVM_JVMTI_LINKLIBS = -L/usr/lib/w32api -lws2_32
++CVM_JVMTI_HPROF_SHAREOBJS += mpelib_init.o
+--- cdc-orig/build/win32/rules_jvmti_hprof.mk	2012-09-11 19:23:46.600631100 -0600
++++ cdc/build/win32/rules_jvmti_hprof.mk	2012-09-11 18:46:49.446736900 -0600
+@@ -24,4 +24,4 @@
+ # @(#) rules_jvmti_hprof.mk	1.23 06/10/24
+ #
+ 
+-CVM_JVMTI_LINKLIBS += user32.lib kernel32.lib
++CVM_JVMTI_LINKLIBS += -L/usr/lib/w32api -luser32 -lkernel32
+--- cdc-orig/src/share/basis/classes/common/java/awt/AlphaComposite.java	2012-09-11 19:23:47.302632300 -0600
++++ cdc/src/share/basis/classes/common/java/awt/AlphaComposite.java	2012-09-11 18:46:49.446736900 -0600
+@@ -65,6 +65,99 @@
+      */
+     public static final int SRC_OVER = 3;
+     /**
++     * Porter-Duff Destination Over Source rule. The destination is composited
++     * over the source and the result replaces the destination.
++     * <p>
++     * Fs = (1-Ad) and Fd = 1, thus:
++     * 
++     * <pre>
++     *  cn = (As*Ar)*Cs*(1-Ad) + Ad*Cd
++     *  An = (As*Ar)*(1-Ad) + Ad
++     * </pre>
++     * 
++     * <img src="DST_OVER.jpg">
++     * <p>
++     * <b>Note that this can be a very slow drawing operation</b>
++     */
++    public static final int DST_OVER = 4;
++
++    /**
++     * Porter-Duff Source In Destination rule. The part of the source lying
++     * inside of the destination replaces the destination.
++     * <p>
++     * Fs = Ad and Fd = 0, thus:
++     * 
++     * <pre>
++     *  cn = (As*Ar)*Cs*Ad
++     *  An = (As*Ar)*Ad
++     *  Cn = Cs
++     * </pre>
++     * 
++     * <img src="SRC_IN.jpg">
++     * <p>
++     * <b>Note that this operation is faster than e.g. SRC_OVER but slower then
++     * SRC</b>
++     */
++    public static final int SRC_IN = 5;
++
++    /**
++     * Porter-Duff Destination In Source rule. The part of the destination lying
++     * inside of the source replaces the destination.
++     * <p>
++     * Fs = 0 and Fd = (As*Ar), thus:
++     * 
++     * <pre>
++     *  cn = Ad*Cd*(As*Ar)
++     *  An = Ad*(As*Ar)
++     *  Cn = Cd
++     * </pre>
++     * 
++     * <img src="DST_IN.jpg">
++     * <p>
++     * <b>Note that this operation is faster than e.g. SRC_OVER but slower than
++     * SRC</b>
++     */
++    public static final int DST_IN = 6;
++
++    /**
++     * Porter-Duff Source Held Out By Destination rule. The part of the source
++     * lying outside of the destination replaces the destination.
++     * <p>
++     * Fs = (1-Ad) and Fd = 0, thus:
++     * 
++     * <pre>
++     *  cn = (As*Ar)*Cs*(1-Ad)
++     *  An = (As*Ar)*(1-Ad)
++     *  Cn = Cs
++     * </pre>
++     * 
++     * <img src="SRC_OUT.jpg">
++     * <p>
++     * <b>Note that this operation is faster than e.g. SRC_OVER but slower than
++     * SRC</b>
++     */
++    public static final int SRC_OUT = 7;
++
++    /**
++     * Porter-Duff Destination Held Out By Source rule. The part of the
++     * destination lying outside of the source replaces the destination.
++     * <p>
++     * Fs = 0 and Fd = (1-(As*Ar)), thus:
++     * 
++     * <pre>
++     *  cn = Ad*Cd*(1-(As*Ar))
++     *  An = Ad*(1-(As*Ar))
++     *  Cn = Cd
++     * </pre>
++     * 
++     * <img src="DST_OUT.jpg">
++     * <p>
++     * <b>Note that this operation is faster than e.g. SRC_OVER but slower than
++     * SRC</b>
++     */
++    public static final int DST_OUT = 8;
++
++    /**
+      * <code>AlphaComposite</code> object that implements the opaque CLEAR rule
+      * with an alpha of 1.0f.
+      * @see #CLEAR
+@@ -82,8 +175,34 @@
+      * @see #SRC_OVER
+      */
+     public static final AlphaComposite SrcOver = new AlphaComposite(SRC_OVER);
++    /**
++     * <code>AlphaComposite</code> object that implements the opaque DST_OVER rule
++     * @see #DST_OVER
++     */
++    public static final AlphaComposite DstOver = new AlphaComposite(DST_OVER);
++    /**
++     * <code>AlphaComposite</code> object that implements the opaque SRC_IN rule
++     * @see SRC_IN
++     */
++    public static final AlphaComposite SrcIn = new AlphaComposite(SRC_IN);
++    /**
++     * <code>AlphaComposite</code> object that implements the opaque DST_IN rule
++     * @see #DST_IN
++     */
++    public static final AlphaComposite DstIn = new AlphaComposite(DST_IN);
++    /**
++     * <code>AlphaComposite</code> object that implements the opaque SRC_OUT rule
++     * @see #SRC_OUT
++     */
++    public static final AlphaComposite SrcOut = new AlphaComposite(SRC_OUT);
++    /**
++     * <code>AlphaComposite</code> object that implements the opaque DST_OUT rule
++     * @see DST_OUT
++     */
++    public static final AlphaComposite DstOut = new AlphaComposite(DST_OUT);
++
+     private static final int MIN_RULE = CLEAR;
+-    private static final int MAX_RULE = SRC_OVER;
++    private static final int MAX_RULE = DST_OUT;
+     float extraAlpha;
+     int rule;
+     private AlphaComposite(int rule) {
+@@ -121,6 +240,21 @@
+         case SRC_OVER:
+             return SrcOver;
+ 
++        case DST_OVER:
++            return DstOver;
++
++        case SRC_IN:
++            return SrcIn;
++
++        case DST_IN:
++            return DstIn;
++
++        case SRC_OUT:
++            return SrcOut;
++
++        case DST_OUT:
++            return DstOut;
++
+         default:
+             throw new IllegalArgumentException("unknown composite rule");
+         }
+--- cdc-orig/src/share/basis/classes/common/sun/awt/image/GifImageDecoder.java	2012-09-11 19:23:47.848633300 -0600
++++ cdc/src/share/basis/classes/common/sun/awt/image/GifImageDecoder.java	2012-09-11 18:46:49.462336900 -0600
+@@ -298,10 +298,14 @@
+ 
+ 	// colormap info
+ 	int ch = ExtractByte(buf, 10);
+-	if ((ch & COLORMAPMASK) == 0) {
+-	    error("no global colormap in GIF file.");
++	if ((ch & COLORMAPMASK) == 0) 
++    {
++        num_global_colors = 0;
+ 	}
+-	num_global_colors = 1 << ((ch & 0x7) + 1);
++    else
++    {
++	    num_global_colors = 1 << ((ch & 0x7) + 1);
++    }
+ 
+ 	global_bgpixel = ExtractByte(buf, 11);
+ 
+@@ -773,6 +777,13 @@
+ 					0, false, trans_pixel);
+ 	} else if (model == null
+ 		   || trans_pixel != model.getTransparentPixel()) {
++
++        if (global_colormap == null)
++        {
++            // GIF spec states that we can use a color map of our choosing if none is available
++            // For now, throw error here
++            throw new IOException("No local or global colormap specified");
++        }
+ 	    model = new IndexColorModel(8, num_global_colors, global_colormap,
+ 					0, false, trans_pixel);
+ 	    global_model = model;
+--- cdc-orig/src/share/basis/classes/common/sun/awt/image/PNGImageDecoder.java	2012-09-11 19:23:47.926633400 -0600
++++ cdc/src/share/basis/classes/common/sun/awt/image/PNGImageDecoder.java	2012-09-11 18:46:49.540337000 -0600
+@@ -227,9 +227,9 @@
+             case COLOR | ALPHA: // doesn't deal with 16 bit colors properly
+                 verify(len == 6);
+                 transparentPixel =
+-                        ((buf[st + 0] & 0xFF) << 16)
+-                        | ((buf[st + 2] & 0xFF) << 8)
+-                        | ((buf[st + 4] & 0xFF));
++                        ((buf[st + 1] & 0xFF) << 16)
++                        | ((buf[st + 3] & 0xFF) << 8)
++                        | ((buf[st + 5] & 0xFF));
+                 break;
+ 
+             case GRAY:  // doesn't deal with 16 bit colors properly
+@@ -466,6 +466,11 @@
+                             default:
+                                 throw new PNGException("illegal type/depth");
+                             }
++
++                            if ((wPixels[col + rowOffset] & 0x00FFFFFF) == transparentPixel)
++                            {
++                                wPixels[col + rowOffset] = (wPixels[col + rowOffset] & 0x00FFFFFF);
++                            }
+                         } else switch (bitDepth) {
+                             case 1:
+                                 bPixels[col + rowOffset] =
+--- cdc-orig/src/share/basis/native/image/jpeg/lib/jmorecfg.h	2012-09-11 19:23:48.597434600 -0600
++++ cdc/src/share/basis/native/image/jpeg/lib/jmorecfg.h	2012-09-11 18:46:49.540337000 -0600
+@@ -186,7 +186,7 @@
+ /* INT32 must hold at least signed 32-bit values. */
+ 
+ #ifndef XMD_H			/* X11/xmd.h correctly defines INT32 */
+-#ifndef _LP64
++#if !defined(_LP64) && !defined(__MINGW32__)
+ typedef long INT32;
+ #else
+ typedef int INT32;
+--- cdc-orig/src/share/classes/java/net/SocketPermission.java	2012-09-11 19:23:48.909435200 -0600
++++ cdc/src/share/classes/java/net/SocketPermission.java	2012-09-11 18:46:49.696337300 -0600
+@@ -637,7 +637,7 @@
+ 	    }
+ 
+ 	    addresses = 
+-		new InetAddress[] {InetAddress.getAllByName0(host, false)[0]};
++		InetAddress.getAllByName0(host, false);
+ 
+ 	} catch (UnknownHostException uhe) {
+ 	    invalid = true;
+--- cdc-orig/src/share/classes/java/util/zip/ZipFile.java	2012-09-11 19:23:49.174635600 -0600
++++ cdc/src/share/classes/java/util/zip/ZipFile.java	2012-09-11 18:46:49.571537100 -0600
+@@ -127,7 +127,7 @@
+                                                Integer.toHexString(mode));
+         }
+ 
+-        String name = file.getPath();
++        String name = file.getCanonicalPath();
+         SecurityManager sm = System.getSecurityManager();
+         if (sm != null) {
+             sm.checkRead(name);
+--- cdc-orig/src/share/classes/sun/io/Converters.java	2012-09-11 19:23:49.221435700 -0600
++++ cdc/src/share/classes/sun/io/Converters.java	2012-09-11 18:46:49.571537100 -0600
+@@ -156,12 +156,16 @@
+ 	    /* Property is set, so take it as the true converter package */
+ 	    converterPackageName = cp;
+ 	} else {
+-	    /* Fall back to sun.io */
+-	    cp = "sun.io";
++	    cp = getDefaultConverterPackageName();
+ 	}
+ 	return cp;
+     }
+ 
++    /** Get the name of the default converter package */
++    private static String getDefaultConverterPackageName() {
++    	return "sun.io";
++    }
++
+     public static String getDefaultEncodingName() {
+ 	synchronized (lock) {
+ 	    if (defaultEncoding == null) {
+@@ -222,11 +226,25 @@
+ 	    enc = encoding;
+ 	}
+ 
+-	try {
+-	    return Class.forName(getConverterPackageName()
+-				 + "." + converterPrefix[type] + enc);
+-	} catch(ClassNotFoundException e) {
+-	    throw new UnsupportedEncodingException(enc);
++	try 
++	{
++		// first try default package
++	    return Class.forName(getDefaultConverterPackageName()
++				 + "." + converterPrefix[type] + enc);	
++	} 
++	catch(ClassNotFoundException e) 
++	{
++		// if no class found, try additional package
++		try
++		{
++		    return Class.forName(getConverterPackageName()
++					 + "." + converterPrefix[type] + enc);
++		}
++		catch(ClassNotFoundException e2) 
++		{
++			throw new UnsupportedEncodingException(getConverterPackageName()
++				 + "." + converterPrefix[type] + enc + ": " + e2.getMessage());
++		}
+ 	}
+ 
+     }
+--- cdc-orig/src/share/foundation/classes/java/net/MulticastSocket.java	2012-09-11 19:23:49.439836100 -0600
++++ cdc/src/share/foundation/classes/java/net/MulticastSocket.java	2012-09-11 19:21:26.169184400 -0600
+@@ -30,6 +30,7 @@
+ import java.io.IOException;
+ import java.io.InterruptedIOException;
+ import java.util.Enumeration;
++import java.math.BigInteger;
+ 
+ /**
+  * The multicast datagram socket class is useful for sending
+@@ -186,6 +187,8 @@
+      */
+     private InetAddress infAddress = null;
+ 
++    private NetworkInterface myNetIf = null;
++
+ 
+     /**
+      * Set the default time-to-live for multicast packets sent out
+@@ -376,6 +379,7 @@
+         }
+ 
+ 	getImpl().joinGroup(mcastaddr, netIf);
++        myNetIf = netIf;
+     }
+ 
+     /**
+@@ -672,4 +676,81 @@
+                 } // synch p
+             }  //synch ttl
+     } //method
++
++    public void receive(DatagramPacket p) throws IOException
++    {
++
++        boolean packetOK = false;
++        while(!packetOK)
++        {
++            getImpl().receive(p);
++            if (myNetIf != null)
++            {
++                // check to see if interface set in joinGroup has ip address
++                // on same network as received packet. If not drop packet 
++                if (isSameNetwork(p.getAddress(), myNetIf))
++                {
++                    packetOK = true;
++                    break;
++                }
++                     
++            }
++            else
++            {
++               // no interface set in join ,,allow this packet to pass
++               packetOK = true; 
++            } 
++        }
++
++    }
++
++    private boolean isSameNetwork(InetAddress addr, NetworkInterface nic)
++    {
++
++        // if addr null or not IPV4 ,,pass thru
++        if (!(addr instanceof Inet4Address) || (addr == null) || (addr.getHostAddress().indexOf("169.254") != -1))
++        {
++            return true;
++        }
++
++        boolean retVal = false;
++      
++        // Note: this is a partial solution since I can't currently get
++        // network mask I'm setting netmask to default for class type.
++        // ie Class A is 255.0.0.0, B is 255.255.0.0 ,C is 255.255.255.0
++        byte[] fields = addr.getAddress();
++        Integer network = new Integer((byte) fields[0] & 0xff);
++        byte[] mask = {(byte) 255, (byte) 255, (byte) 255, (byte) 255};
++        if (network.intValue() >= 0 && network.intValue() < 128)
++        {
++            mask = new byte[] {(byte) 255, 0, 0, 0};
++        }
++        if (network.intValue() >= 128 && network.intValue() < 192)
++        {
++            mask = new byte[] {(byte) 255, (byte) 255, 0, 0};
++        }
++        if (network.intValue() >= 192 && network.intValue() < 224)
++        {
++            mask = new byte[] {(byte) 255, (byte) 255, (byte) 255, 0};
++        }
++
++        int netMask = new BigInteger(mask).intValue();
++        int netAddr = new BigInteger(fields).intValue();
++        netAddr = netAddr & netMask;
++
++        for (Enumeration e = nic.getInetAddresses(); e.hasMoreElements();)
++        {
++            InetAddress nextIP = (InetAddress) e.nextElement();
++            int nextIPInt = new BigInteger(nextIP.getAddress()).intValue();
++            int nextIPNet = nextIPInt & netMask;
++            if (nextIPNet == netAddr)
++            {
++                retVal = true;
++                break;
++            }
++        }
++        return retVal;
++
++    }
++
+ }
+--- cdc-orig/src/share/javavm/jcc/JavaCodeCompact.java	2012-09-11 19:23:51.577039800 -0600
++++ cdc/src/share/javavm/jcc/JavaCodeCompact.java	2012-09-11 18:46:49.587137100 -0600
+@@ -52,6 +52,7 @@
+     ClassFileFinder  searchPath;
+     String	 firstFileName;
+     static String   outName;
++    static String   posixOutName;
+ 
+     /** If true, JCC should include class debug info in generated class data.
+      *  This includes line number tables, local var info, etc. */
+@@ -205,6 +206,8 @@
+ 		continue;
+ 	    } else if ( clist[i].equals(/*NOI18N*/"-o")  ){
+ 		outName =  clist[ ++i ];
++	    } else if ( clist[i].equals(/*NOI18N*/"-po")  ){
++		posixOutName =  clist[ ++i ];
+ 	    } else if ( clist[i].equals(/*NOI18N*/"-classpath")  ){
+ 		if ( searchPath == null ) {
+ 		    searchPath = new ClassFileFinder();
+@@ -488,7 +491,7 @@
+ 	    makeOutfileName();
+ 	}
+ 
+-	good = writeROMFile( outName, c, romAttributes, doWrite );
++	good = writeROMFile( outName, posixOutName, c, romAttributes, doWrite );
+ 
+         /* Don't destroy class vector. The JavaAPILister
+          * needs to access class typeids, which come
+@@ -775,6 +778,7 @@
+     private boolean
+     writeROMFile(
+ 	String outName,
++	String posixOutName,
+ 	ClassInfo classTable[],
+ 	Vector attributes,
+ 	boolean doWrite) throws Exception
+@@ -818,7 +822,7 @@
+ 	    }
+ 	}
+ 
+-	if (doWrite && ! w.open(outName)){
++	if (doWrite && ! w.open(outName, posixOutName)){
+ 	    w.printError(System.out);
+ 	    return false;
+ 	} else {
+--- cdc-orig/src/share/javavm/jcc/runtime/CoreImageWriter.java	2012-09-11 19:23:51.577039800 -0600
++++ cdc/src/share/javavm/jcc/runtime/CoreImageWriter.java	2012-09-11 18:46:49.587137100 -0600
+@@ -56,7 +56,7 @@
+ 	 *		 true:  flag recognized and well-formed.
+ 	 */
+ 
+-    boolean open( String filename );
++    boolean open( String filename, String posixOutName );
+ 
+ 	/*
+ 	 * Write class and other data structures to output file.
+--- cdc-orig/src/share/javavm/jcc/runtime/CVMWriter.java	2012-09-11 19:23:51.592639900 -0600
++++ cdc/src/share/javavm/jcc/runtime/CVMWriter.java	2012-09-11 18:46:49.602737100 -0600
+@@ -56,10 +56,12 @@
+     protected OutputStream        zzz;
+ 
+     protected String 		  headerFileName = null;
++    protected String 		  posixHeaderFileName = null;
+     protected CCodeWriter 	  headerOut;
+     protected OutputStream         yyy;
+ 
+     protected String		  globalHeaderFileName = null;
++    protected String		  posixGlobalHeaderFileName = null;
+     protected CCodeWriter	  globalHeaderOut;
+     protected OutputStream	  www;
+     /*
+@@ -247,14 +249,14 @@
+      *                             related data, whole classes, and a max of
+      *                             this.maxClasses of them apiece.
+      */
+-    public boolean open( String filename ){
++    public boolean open( String filename, String posixFilename ){
+ 	if ( classOut != null ) close();
+ 	outputFileName = filename;
+ 	if ( ! segmentedOutput ){
+ 	    /* old-fashioned, single output case */
+ 	    if ( filename == null ){
+ 		xxx = System.out;
+-		headerFileName = "jcc.output.h";
++		headerFileName = posixHeaderFileName = "jcc.output.h";
+ 	    } else {
+ 		try {
+ 		    xxx = new java.io.FileOutputStream( filename );
+@@ -262,7 +264,10 @@
+ 		    failureMode = e;
+ 		    return false;
+ 		}
+-		headerFileName = filename+".h";
++		headerFileName = posixHeaderFileName = filename+".h";
++		if ( posixFilename != null ) {
++		    posixHeaderFileName = posixFilename+".h";
++		}
+ 	    }
+ 	    try {
+ 		classOut = auxOut = new CCodeWriter( xxx );
+@@ -287,12 +292,18 @@
+ 	     */
+ 	    curClasses = 0;
+ 	    nClassfileOut = 0;
+-	    headerFileName = outputFileName+".h";
++	    headerFileName = posixHeaderFileName = outputFileName+".h";
++	    if ( posixFilename != null ) {
++	        posixHeaderFileName = posixFilename+".h";
++	    }
+ 	    try {
+ 		yyy = new java.io.FileOutputStream( headerFileName );
+ 		headerOut = new CCodeWriter( yyy );
+ 		
+-		globalHeaderFileName = outputFileName+"Globals.h";
++		globalHeaderFileName = posixGlobalHeaderFileName = outputFileName+"Globals.h";
++		if ( posixFilename != null ) {
++		    posixGlobalHeaderFileName = posixFilename+"Globals.h";
++		}
+ 		www = new java.io.FileOutputStream( globalHeaderFileName );
+ 		globalHeaderOut = new CCodeWriter ( www );
+ 		zzz = new java.io.FileOutputStream( filename+"Aux.c");
+@@ -2273,12 +2284,12 @@
+ 	o.println("/* Moved global variables to CVMROMGlobals");
+ 	o.println(" */");
+ 	o.println("");
+-	o.println("#include \"" + globalHeaderFileName + "\"");
++	o.println("#include \"" + posixGlobalHeaderFileName + "\"");
+     }
+ 
+     private void writePrologue( BufferedPrintStream o ){
+ 	if ( headerFileName != null ){
+-	    o.println("#include \""+headerFileName+"\"");
++	    o.println("#include \""+posixHeaderFileName+"\"");
+ 	}
+     }
+ 
+--- cdc-orig/src/share/javavm/runtime/interpreter.c	2012-09-11 19:23:53.277442800 -0600
++++ cdc/src/share/javavm/runtime/interpreter.c	2012-09-11 18:46:49.602737100 -0600
+@@ -2872,6 +2872,31 @@
+                 void *buffer = malloc(4);
+                 free(buffer);
+ 	    }
++
++            CVMmutexLock(&CVMglobals.syncLock.rmutex.mutex);
++            CVMmutexUnlock(&CVMglobals.syncLock.rmutex.mutex);
++
++            CVMmutexLock(&CVMglobals.heapLock.rmutex.mutex);
++            CVMmutexUnlock(&CVMglobals.heapLock.rmutex.mutex);
++
++            CVMmutexLock(&CVMglobals.classTableLock.rmutex.mutex);
++            CVMmutexUnlock(&CVMglobals.classTableLock.rmutex.mutex);
++
++            CVMmutexLock(&CVMglobals.loaderCacheLock.rmutex.mutex);
++            CVMmutexUnlock(&CVMglobals.loaderCacheLock.rmutex.mutex);
++
++            CVMmutexLock(&CVMglobals.globalRootsLock.rmutex.mutex);
++            CVMmutexUnlock(&CVMglobals.globalRootsLock.rmutex.mutex);
++
++            CVMmutexLock(&CVMglobals.weakGlobalRootsLock.rmutex.mutex);
++            CVMmutexUnlock(&CVMglobals.weakGlobalRootsLock.rmutex.mutex);
++
++            CVMmutexLock(&CVMglobals.typeidLock.rmutex.mutex);
++            CVMmutexUnlock(&CVMglobals.typeidLock.rmutex.mutex);
++
++            CVMmutexLock(&CVMglobals.internLock.rmutex.mutex);
++            CVMmutexUnlock(&CVMglobals.internLock.rmutex.mutex);
++
+             CVMmutexLock(lock);
+             /* If we get here, we're ready to go again:
+                NOTE: Though we're supposed to always get here one way or
+--- cdc-orig/src/share/javavm/runtime/jvm.c	2012-09-11 19:23:53.355443000 -0600
++++ cdc/src/share/javavm/runtime/jvm.c	2012-09-11 18:46:49.618337200 -0600
+@@ -2291,12 +2291,14 @@
+                             CVMsysMutexLock(ee, &CVMglobals.jitLock);
+ #endif
+                             CVMsysMutexLock(ee, &CVMglobals.threadLock);
+-                            CVMthreadSuspendConsistentRequest(ee);
+-                            CVMsysMicroLockAll(ee);
+ 
+                             CVMID_fieldReadLong(ee, thread,
+                                     CVMoffsetOfjava_lang_Thread_eetop,
+                                     eetopVal);
++
++                            CVMthreadSuspendConsistentRequest(ee);
++                            CVMsysMicroLockAll(ee);
++
+                             targetEE = (CVMExecEnv *)CVMlong2VoidPtr(eetopVal);
+                             if (targetEE == NULL ||
+                                 (targetEE->threadState & CVM_THREAD_SUSPENDED)){
+--- cdc-orig/src/share/javavm/runtime/jvmtiCapabilities.c	2012-09-11 19:23:53.355443000 -0600
++++ cdc/src/share/javavm/runtime/jvmtiCapabilities.c	2012-09-11 18:46:49.649537200 -0600
+@@ -63,7 +63,7 @@
+     jc->can_get_source_file_name = 1;
+     jc->can_get_line_numbers = 1;
+     /*  jc->can_get_synthetic_attribute = 1; */
+-    /*  jc->can_get_monitor_info = 1; */
++    jc->can_get_monitor_info = 1;
+     /*  jc->can_get_constant_pool = 1; */
+     jc->can_generate_monitor_events = 1;
+     jc->can_generate_garbage_collection_events = 1;
+@@ -98,7 +98,7 @@
+     /*  jc->can_get_owned_monitor_stack_depth_info = 1; */
+     jc->can_get_current_contended_monitor = 1;
+     jc->can_tag_objects = 1;
+-    /*  jc->can_get_monitor_info = 1; */
++    jc->can_get_monitor_info = 1;
+     jc->can_generate_object_free_events = 1;
+     if (CVMjvmtiIsInDebugMode()) {
+ 	/* Debugging session, turn on some capabilities */
+--- cdc-orig/src/share/native/java/lang/System.c	2012-09-11 19:23:54.416244800 -0600
++++ cdc/src/share/native/java/lang/System.c	2012-09-11 18:46:49.665137300 -0600
+@@ -301,10 +301,6 @@
+     cpchars(chars, JNI_LIB_PREFIX, prefix_len);
+     (*env)->GetStringRegion(env, libname, 0, len, chars + prefix_len);
+     len += prefix_len;
+-#ifdef CVM_DEBUG
+-    chars[len++] = '_';
+-    chars[len++] = 'g';
+-#endif
+     cpchars(chars + len, JNI_LIB_SUFFIX, suffix_len);
+     len += suffix_len;
+ 
+--- cdc-orig/src/win32/tools/jpda/transport/socket/socket_md.h	2012-09-11 19:24:00.375455300 -0600
++++ cdc/src/win32/tools/jpda/transport/socket/socket_md.h	2012-09-11 18:46:49.665137300 -0600
+@@ -37,3 +37,5 @@
+ #ifndef ECONNABORTED
+ #define ECONNABORTED WSAECONNABORTED
+ #endif
++
++#include "errno.h"
+--- cdc-orig/src/win32/tools/jvmti/hprof/jvmti_hprof_md.c	2012-09-11 19:24:00.391055300 -0600
++++ cdc/src/win32/tools/jvmti/hprof/jvmti_hprof_md.c	2012-09-11 18:46:49.680737300 -0600
+@@ -372,7 +372,7 @@
+     size_t *len;
+ 
+     GetModuleFileName(hJavaInst, libdir, FILENAME_MAX);
+-
++    
+     /* This is actually in the bin directory, so move above bin for lib */
+     lastSlash = _tcsrchr(libdir, '\\');
+     if ( lastSlash != NULL ) {
+@@ -382,9 +382,13 @@
+     if ( lastSlash != NULL ) {
+ 	*lastSlash = '\0';
+     }
++#ifdef UNICODE
+     WideCharToMultiByte(CP_ACP, 0, libdir, FILENAME_MAX+1, (LPSTR)mb_libdir,
+-			FILENAME_MAX, NULL, NULL);
++ 		FILENAME_MAX, NULL, NULL);
+     (void)md_snprintf(path, path_len, "%s\\lib\\%s", mb_libdir, filename);
++#else
++    sprintf (path, "%s\\lib\\%s", libdir, filename);
++#endif
+ }
+ 
+ int     
+--- cdc-orig/src/x86/javavm/runtime/x86_float_cpu.c	2012-09-11 19:24:00.547055600 -0600
++++ cdc/src/x86/javavm/runtime/x86_float_cpu.c	2012-09-11 18:46:49.680737300 -0600
+@@ -29,7 +29,15 @@
+ #include "javavm/include/porting/ansi/string.h"
+ 
+ #include <math.h> /* fmod */
++
++#ifdef __MINGW32__
++	static inline void bcopy (const void* src, void* dest, size_t n)
++	{
++		memcpy(dest,src,n);
++	}
++#else
+ #include <strings.h> /* bcopy */
++#endif
+ 
+ #if (!defined(JAVA_COMPLIANT_f2i) && !defined(NAN_CHECK_f2i))
+ 

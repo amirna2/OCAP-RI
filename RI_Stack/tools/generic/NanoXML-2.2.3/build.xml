@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+
+<!--
+##############################################################################
+#
+# This buildfile builds the NanoXML XML parser.
+# It can build NanoXML/Java, NanoXML/Lite, and NanoXML/SAX.
+#
+# @author Aaron Kamienski - aaronk@vidiom.com
+#
+##############################################################################
+-->
+
+<project name="NanoXML" default="build" basedir=".">
+
+  <import file="../bin/common.xml"/>
+
+  <!-- <property name="version" value="-2.2.3"/> -->
+  <property name="version" value=""/>
+
+  <property name="javac.DEBUG" value="yes"/>
+  <property name="javac.OPTIMIZE" value="no"/>
+  <property name="javac.DEPRECATION" value="yes"/>
+  <property name="javac.TARGET" value="1.1"/>
+  <property name="jar.COMPRESS" value="no"/>
+
+  <property name="gendir" value="${basedir}/gen"/>
+  <property name="gendir.lite" value="${gendir}/Lite"/>
+  <property name="gendir.java" value="${gendir}/Java"/>
+  <property name="gendir.sax" value="${gendir}/Sax"/>
+  <property name="bindir.lite" value="${basedir}/lib"/>
+  <property name="bindir.java" value="${basedir}/lib"/>
+  <property name="bindir.sax" value="${basedir}/lib"/>
+
+  <target name="build" 
+          description="Builds NanoXML/Lite, NanoXML/Java, and NanoXML/SAX"
+		  depends="init, build.lite, build.java, build.sax"/>
+
+  <target name="build.lite"
+          description="Builds NanoXML/Lite"
+		  depends="init, mkdir, jar.lite"/>
+  <target name="jar.lite" depends="javac.lite">
+    <writable file="${bindir.lite}/nanoxml-lite${version}.jar"/>
+    <jar destfile="${bindir.lite}/nanoxml-lite${version}.jar"
+         compress="${jar.COMPRESS}">
+       <fileset dir="${gendir.lite}" includes="**/*.class" />
+    </jar>
+  </target>
+  <target name="javac.lite">
+    <javac srcdir="${basedir}/Sources/Lite"
+	       destdir="${gendir.lite}"
+           includes="**/*.java"
+           debug="${javac.DEBUG}"
+           optimize="${javac.OPTIMIZE}"
+           deprecation="${javac.DEPRECATION}"
+		   target="${javac.TARGET}"
+           includeAntRuntime="no"/>
+  </target>
+
+  <target name="build.java"
+          description="Builds NanoXML/Java"
+		  depends="init, mkdir, jar.java"/>
+  <target name="jar.java" depends="javac.java">
+    <writable file="${bindir.java}/nanoxml${version}.jar"/>
+    <jar destfile="${bindir.java}/nanoxml${version}.jar"
+         compress="${jar.COMPRESS}">
+       <fileset dir="${gendir.java}" includes="**/*.class" />
+    </jar>
+  </target>
+  <target name="javac.java">
+    <javac srcdir="${basedir}/Sources/Java"
+	       destdir="${gendir.java}"
+           includes="**/*.java"
+           debug="${javac.DEBUG}"
+           optimize="${javac.OPTIMIZE}"
+           deprecation="${javac.DEPRECATION}"
+		   target="${javac.TARGET}"
+           includeAntRuntime="no"/>
+  </target>
+
+  <target name="build.sax"
+          description="Builds NanoXML/Sax"
+		  depends="init, mkdir, jar.sax"/>
+  <target name="jar.sax" depends="javac.sax">
+    <writable file="${bindir.sax}/nanoxml-sax${version}.jar"/>
+    <jar destfile="${bindir.sax}/nanoxml-sax${version}.jar"
+         compress="${jar.COMPRESS}">
+       <fileset dir="${gendir.sax}" includes="**/*.class" />
+    </jar>
+  </target>
+  <target name="javac.sax" depends="javac.java">
+    <javac srcdir="${basedir}/Sources/Sax"
+	       destdir="${gendir.sax}"
+           includes="**/*.java"
+           debug="${javac.DEBUG}"
+           optimize="${javac.OPTIMIZE}"
+           deprecation="${javac.DEPRECATION}"
+		   target="${javac.TARGET}"
+           includeAntRuntime="no">
+      <classpath>
+        <pathelement location="${basedir}/ThirdParty/SAX/sax.jar"/>
+        <pathelement location="${gendir.java}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="mkdir">
+    <mkdir dir="${gendir}"/>
+    <mkdir dir="${gendir.lite}"/>
+    <mkdir dir="${gendir.java}"/>
+    <mkdir dir="${gendir.sax}"/>
+    <mkdir dir="${bindir.lite}"/>
+    <mkdir dir="${bindir.java}"/>
+    <mkdir dir="${bindir.sax}"/>
+  </target>
+
+  <target name="init">
+    <tstamp>
+        <format property="DATE" pattern="MMMM d, yyyy"/>
+    </tstamp>
+  </target>
+
+  <target name="clean"
+          description="Cleans up intermediate files">
+    <delete dir="${gendir}" quiet="true" />
+    <delete dir="${gendir.java}" quiet="true" />
+    <delete dir="${gendir.lite}" quiet="true" />
+    <delete dir="${gendir.sax}" quiet="true" />
+  </target>
+
+  <target name="purge"
+          description="Deletes generated binary files">
+    <delete dir="${bindir.java}" quiet="true" />
+    <delete dir="${bindir.lite}" quiet="true" />
+    <delete dir="${bindir.sax}" quiet="true" />
+  </target>
+
+</project>

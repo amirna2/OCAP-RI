@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!DOCTYPE permissionrequestfile PUBLIC "-//OCAP//DTD Permission Request File 1.0//EN" "http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-1-0.dtd">
+
+<permissionrequestfile appid="0x6011" orgid="0x000000002">
+
+    <tuning />
+    <servicesel />
+    <ocap:monitorapplication 
+        name="servicemanager" value="true"/>
+    <ocap:monitorapplication 
+        name="handler.recording" value="true"/>
+    <ocap:monitorapplication
+		name="storage" value="true"/>
+
+</permissionrequestfile>

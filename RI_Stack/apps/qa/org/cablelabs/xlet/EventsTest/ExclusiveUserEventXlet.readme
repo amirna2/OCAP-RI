@@ -1,0 +1,75 @@
+ExclusiveUserEventXlet 
+-----------------------
+This xlet tests two of the methods in the EventManager class:
+
+    EventManager.addUserEventListener(UserEventListener listener, 
+                                      ResourceClient client, 
+                                      UserEventRepository userEvents)
+    EventManager.removeUserEventListener(UserEventListener listener) 
+
+
+This test xlet is to be used in conjunction with the KeyboardEventXlet.
+The KeyboardEventXlet is used to verify the keys exclusively reserved by the 
+ExclusiveUserEventXlet are only recognized by the ExclusiveUserEventXlet and 
+not the KeyboardEventXlet.
+
+By default, when the xlet starts up (startXlet()), the GUIDE key is reserved.
+
+User can press the C (Red Circle) key to remove the ExclusiveUserEventXlet 
+from receiveing all userEvents previously reserved.
+
+Press the A (Yellow Triangle) key to add CHANNEL_UP and CHANNEL_Down keys as
+keys exclusively reserved for UserEvents.
+
+Press the B (Blue Square) key to the the CHANNEL_UP and CHANNEL_DOWN keys 
+as well as the GUIDE key as keys exclusively reserved for UserEvents.
+
+The A (Yellow Triangle) and B (Blue Square) tests are used to verify 
+multiple calls to
+    EventManager.addUserEventListener(UserEventListener listener, 
+                                      ResourceClient client, 
+                                      UserEventRepository userEvents)
+method by the same application with different instances of UserEventRepository 
+will be cumulative. 
+
+
+Typical Test Step:
+1.  Start ExclusiveUserEventXlet 
+    (by default, GUIDE key is exclusively reserved).
+2.  Press MENU to get back to the Test Launcher.
+3.  Start KeyboardEventXlet.
+4.  Press various keys and notice all keys *except* the GUIDE key are
+    recognized by the KeyboardEventXlet.
+
+5.  Press MENU to get back to the Test Launcher.
+6.  Resume ExclusiveUserEventXlet.
+7.  Press C (Red Circle) key to remove all key reservations.
+8.  Press MENU to get back to the Test Launcher.
+9.  Start KeyboardEventXlet.
+10. Press various keys and notice all keys *including* GUIDE key are
+    recognized by the KeyboardEventXlet.
+
+11. Press MENU to get back to the Test Launcher.
+12. Resume ExclusiveUserEventXlet.
+    (by default, GUIDE key is exclusively reserved).
+13. Press A (Yellow Triangle) key to exclusively reserve CHANNEL_UP and 
+    CHANNEL_DOWN keys. 
+14. Press MENU to get back to the Test Launcher.
+15. Start KeyboardEventXlet.
+16. Press various keys and notice all keys *except* for GUIDE, CHANNEL_UP, and
+    CHANNEL_DOWN keys are recognized by the KeyboardEventXlet.
+
+17. Press MENU to get back to the Test Launcher.
+18. Resume ExclusiveUserEventXlet.
+19. Press C (Red Circle) key to remove all key reservations.
+20. Press MENU to get back to the Test Launcher.
+21. Start KeyboardEventXlet.
+22. Press various keys  and notice all keys *including* GUIDE, CHANNEL_UP, and
+    CHANNEL_DOWN recognized by the KeyboardEventXlet.
+
+23. Press MENU to get back to the Test Launcher.
+24. Resume ExclusiveUserEventXlet .
+    (by default, GUIDE key is exclusively reserved).
+25. Press B (Blue Square) key to exclusively reserve CHANNEL_UP and 
+    CHANNEL_DOWN *and* the default GUIDE key.
+26. repeat steps 16-24.

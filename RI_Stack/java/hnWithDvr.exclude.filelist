@@ -1,0 +1,3 @@
+# files to exclude when building hn (with DVR supposrt)
+org/ocap/shared/media/BeginningOfContentEvent.java
+org/ocap/shared/media/EndOfContentEvent.java

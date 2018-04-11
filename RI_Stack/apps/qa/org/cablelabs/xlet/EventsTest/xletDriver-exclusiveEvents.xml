@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+    
+
+
+    <!-- Exclusive Events Test -->
+    <Xlet name="ExclusiveEventTestRunner" orgID="0x1" appID="0x4622" pauseAfterL
+ast="7000" startupTimeout="180000">
+
+      <RCEvent name="start_ExclusiveEventNoRelease_Xlet" pauseBeforeNext="30000">VK_PLAY</RCEvent>
+          <RCEvent name="reserveUserEvent_Guide" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+          <RCEvent name="reserveUserEvent_Guide" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_ChUp" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+          <RCEvent name="reserveAWTEvent_ChUp" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+      <RCEvent name="pause_ExclusiveEventNoRelease_Xlet" pauseBeforeNext="3000">VK_PAUSE</RCEvent>
+
+
+
+      <RCEvent name="select_ExclusiveEventLowerPriority_Xlet" pauseBeforeNext="1000">VK_DOWN</RCEvent>
+      <RCEvent name="start_ExclusiveEventLowerPriority_Xlet" pauseBeforeNext="30000">VK_PLAY</RCEvent>
+
+          <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+          <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+          <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+          <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+          <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+          <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+          <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+          <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+          <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+          <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+      <RCEvent name="pause_ExclusiveEventLowerPriority_Xlet" pauseBeforeNext="3000">VK_PAUSE</RCEvent>
+    
+
+
+      <RCEvent name="select_ExclusiveEventHigherPriority_Xlet" pauseBeforeNext="1000">VK_DOWN</RCEvent>
+      <RCEvent name="start_ExclusiveEventHigherPriority_Xlet" pauseBeforeNext="30000">VK_PLAY</RCEvent>
+
+          <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+          <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+          <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+          <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+          <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+          <RCEvent name="removeUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+          <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+          <RCEvent name="removeUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+          <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+      <RCEvent name="pause_ExclusiveEventHigherPriority_Xlet" pauseBeforeNext="3000">VK_PAUSE</RCEvent>
+
+
+
+      <RCEvent name="select_ExclusiveEventRelease_Xlet" pauseBeforeNext="1000">VK_DOWN</RCEvent>
+      <RCEvent name="start_ExclusiveEventRelease_Xlet" pauseBeforeNext="30000">VK_PLAY</RCEvent>
+
+          <RCEvent name="reserveUserEvent_Guide" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+          <RCEvent name="reserveUserEvent_Guide" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_ChUp" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+          <RCEvent name="reserveAWTEvent_ChUp" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+   
+      <RCEvent name="pause_ExclusiveEventRelease_Xlet" pauseBeforeNext="3000">VK_PAUSE</RCEvent>
+
+
+
+      <RCEvent name="select_ExclusiveEventLowerPriority_Xlet_1" pauseBeforeNext="1000">VK_UP</RCEvent>
+      <RCEvent name="select_ExclusiveEventLowerPriority_Xlet_2" pauseBeforeNext="1000">VK_UP</RCEvent>
+      <RCEvent name="resume_ExclusiveEventLowerPriority_Xlet" pauseBeforeNext="10000">VK_PLAY</RCEvent>
+    
+          <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+          <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+          <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+          <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+          <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+          <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+          <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+          <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+          <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+          <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+
+      <RCEvent name="pause_ExclusiveEventLowerPriority_Xlet" pauseBeforeNext="3000">VK_PAUSE</RCEvent>
+    
+
+
+      <RCEvent name="select_ExclusiveEventHigherPriority_Xlet" pauseBeforeNext="1000">VK_DOWN</RCEvent>
+      <RCEvent name="resume_ExclusiveEventHigherPriority_Xlet" pauseBeforeNext="10000">VK_PLAY</RCEvent>
+    
+          <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+          <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+          <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+          <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+          <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+          <RCEvent name="removeUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+
+          <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+          <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+          <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+          <RCEvent name="removeUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+          <RCEvent name="removeUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_CHANNEL_DOWN</RCEvent>
+ 
+          <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+          <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_VOLUME_UP</RCEvent>
+          <RCEvent name="removeAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_VOLUME_DOWN</RCEvent>
+
+    </Xlet>
+
+
+</AutoXlet>

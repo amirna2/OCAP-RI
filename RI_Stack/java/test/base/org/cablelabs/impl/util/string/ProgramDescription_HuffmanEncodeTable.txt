@@ -1,0 +1,832 @@
+Prior Symbol:   0  Symbol:  27   Code: 1110000
+Prior Symbol:   0  Symbol: '"'   Code: 111001
+Prior Symbol:   0  Symbol: 'A'   Code: 010
+Prior Symbol:   0  Symbol: 'B'   Code: 0011
+Prior Symbol:   0  Symbol: 'C'   Code: 0111
+Prior Symbol:   0  Symbol: 'D'   Code: 11101
+Prior Symbol:   0  Symbol: 'E'   Code: 10010
+Prior Symbol:   0  Symbol: 'F'   Code: 10110
+Prior Symbol:   0  Symbol: 'G'   Code: 011011
+Prior Symbol:   0  Symbol: 'H'   Code: 10111
+Prior Symbol:   0  Symbol: 'I'   Code: 011000
+Prior Symbol:   0  Symbol: 'J'   Code: 1100
+Prior Symbol:   0  Symbol: 'K'   Code: 00101
+Prior Symbol:   0  Symbol: 'L'   Code: 10011
+Prior Symbol:   0  Symbol: 'M'   Code: 1111
+Prior Symbol:   0  Symbol: 'N'   Code: 00100
+Prior Symbol:   0  Symbol: 'O'   Code: 011001
+Prior Symbol:   0  Symbol: 'P'   Code: 000
+Prior Symbol:   0  Symbol: 'R'   Code: 1000
+Prior Symbol:   0  Symbol: 'S'   Code: 1010
+Prior Symbol:   0  Symbol: 'T'   Code: 1101
+Prior Symbol:   0  Symbol: 'V'   Code: 1110001
+Prior Symbol:   0  Symbol: 'W'   Code: 011010
+Prior Symbol:   1  Symbol:  27   Code: 1
+Prior Symbol:   2  Symbol:  27   Code: 1
+Prior Symbol:   3  Symbol:  27   Code: 1
+Prior Symbol:   4  Symbol:  27   Code: 1
+Prior Symbol:   5  Symbol:  27   Code: 1
+Prior Symbol:   6  Symbol:  27   Code: 1
+Prior Symbol:   7  Symbol:  27   Code: 1
+Prior Symbol:   8  Symbol:  27   Code: 1
+Prior Symbol:   9  Symbol:  27   Code: 1
+Prior Symbol:  10  Symbol:  27   Code: 1
+Prior Symbol:  11  Symbol:  27   Code: 1
+Prior Symbol:  12  Symbol:  27   Code: 1
+Prior Symbol:  13  Symbol:  27   Code: 1
+Prior Symbol:  14  Symbol:  27   Code: 1
+Prior Symbol:  15  Symbol:  27   Code: 1
+Prior Symbol:  16  Symbol:  27   Code: 1
+Prior Symbol:  17  Symbol:  27   Code: 1
+Prior Symbol:  18  Symbol:  27   Code: 1
+Prior Symbol:  19  Symbol:  27   Code: 1
+Prior Symbol:  20  Symbol:  27   Code: 1
+Prior Symbol:  21  Symbol:  27   Code: 1
+Prior Symbol:  22  Symbol:  27   Code: 1
+Prior Symbol:  23  Symbol:  27   Code: 1
+Prior Symbol:  24  Symbol:  27   Code: 1
+Prior Symbol:  25  Symbol:  27   Code: 1
+Prior Symbol:  26  Symbol:  27   Code: 1
+Prior Symbol:  27  Symbol:  27   Code: 1
+Prior Symbol:  28  Symbol:  27   Code: 1
+Prior Symbol:  29  Symbol:  27   Code: 1
+Prior Symbol:  30  Symbol:  27   Code: 1
+Prior Symbol:  31  Symbol:  27   Code: 1
+Prior Symbol: ' '  Symbol:  27   Code: 101000001
+Prior Symbol: ' '  Symbol: '"'   Code: 111111010
+Prior Symbol: ' '  Symbol: '('   Code: 1111111100
+Prior Symbol: ' '  Symbol: '-'   Code: 11111111110
+Prior Symbol: ' '  Symbol: '/'   Code: 11111111111
+Prior Symbol: ' '  Symbol: '1'   Code: 0101011
+Prior Symbol: ' '  Symbol: '2'   Code: 0100010
+Prior Symbol: ' '  Symbol: '3'   Code: 1111111101
+Prior Symbol: ' '  Symbol: '4'   Code: 110010100
+Prior Symbol: ' '  Symbol: '5'   Code: 1111111110
+Prior Symbol: ' '  Symbol: '7'   Code: 1010000000
+Prior Symbol: ' '  Symbol: 'A'   Code: 10010
+Prior Symbol: ' '  Symbol: 'B'   Code: 010100
+Prior Symbol: ' '  Symbol: 'C'   Code: 111100
+Prior Symbol: ' '  Symbol: 'D'   Code: 1111010
+Prior Symbol: ' '  Symbol: 'E'   Code: 0100011
+Prior Symbol: ' '  Symbol: 'F'   Code: 0101010
+Prior Symbol: ' '  Symbol: 'G'   Code: 000010
+Prior Symbol: ' '  Symbol: 'H'   Code: 1111011
+Prior Symbol: ' '  Symbol: 'I'   Code: 11001011
+Prior Symbol: ' '  Symbol: 'J'   Code: 000011
+Prior Symbol: ' '  Symbol: 'K'   Code: 1100100
+Prior Symbol: ' '  Symbol: 'L'   Code: 010110
+Prior Symbol: ' '  Symbol: 'M'   Code: 101001
+Prior Symbol: ' '  Symbol: 'N'   Code: 001100
+Prior Symbol: ' '  Symbol: 'O'   Code: 10100001
+Prior Symbol: ' '  Symbol: 'P'   Code: 001101
+Prior Symbol: ' '  Symbol: 'R'   Code: 1111100
+Prior Symbol: ' '  Symbol: 'S'   Code: 01001
+Prior Symbol: ' '  Symbol: 'T'   Code: 1100110
+Prior Symbol: ' '  Symbol: 'U'   Code: 111111011
+Prior Symbol: ' '  Symbol: 'V'   Code: 111111100
+Prior Symbol: ' '  Symbol: 'W'   Code: 010000
+Prior Symbol: ' '  Symbol: 'Y'   Code: 111111101
+Prior Symbol: ' '  Symbol: 'Z'   Code: 1010000001
+Prior Symbol: ' '  Symbol: 'a'   Code: 011
+Prior Symbol: ' '  Symbol: 'b'   Code: 10111
+Prior Symbol: ' '  Symbol: 'c'   Code: 10011
+Prior Symbol: ' '  Symbol: 'd'   Code: 10000
+Prior Symbol: ' '  Symbol: 'e'   Code: 100010
+Prior Symbol: ' '  Symbol: 'f'   Code: 11101
+Prior Symbol: ' '  Symbol: 'g'   Code: 100011
+Prior Symbol: ' '  Symbol: 'h'   Code: 0001
+Prior Symbol: ' '  Symbol: 'i'   Code: 10101
+Prior Symbol: ' '  Symbol: 'j'   Code: 11001111
+Prior Symbol: ' '  Symbol: 'k'   Code: 11111010
+Prior Symbol: ' '  Symbol: 'l'   Code: 010111
+Prior Symbol: ' '  Symbol: 'm'   Code: 00000
+Prior Symbol: ' '  Symbol: 'n'   Code: 1010001
+Prior Symbol: ' '  Symbol: 'o'   Code: 0010
+Prior Symbol: ' '  Symbol: 'p'   Code: 10110
+Prior Symbol: ' '  Symbol: 'q'   Code: 110010101
+Prior Symbol: ' '  Symbol: 'r'   Code: 00111
+Prior Symbol: ' '  Symbol: 's'   Code: 11100
+Prior Symbol: ' '  Symbol: 't'   Code: 1101
+Prior Symbol: ' '  Symbol: 'u'   Code: 11111011
+Prior Symbol: ' '  Symbol: 'v'   Code: 11111100
+Prior Symbol: ' '  Symbol: 'w'   Code: 11000
+Prior Symbol: ' '  Symbol: 'y'   Code: 11001110
+Prior Symbol: '!'  Symbol:  27   Code: 1
+Prior Symbol: '"'  Symbol:   0   Code: 000
+Prior Symbol: '"'  Symbol:  27   Code: 10
+Prior Symbol: '"'  Symbol: ' '   Code: 11
+Prior Symbol: '"'  Symbol: '.'   Code: 001
+Prior Symbol: '"'  Symbol: 'H'   Code: 010
+Prior Symbol: '"'  Symbol: 'T'   Code: 011
+Prior Symbol: '#'  Symbol:  27   Code: 1
+Prior Symbol: '$'  Symbol:  27   Code: 1
+Prior Symbol: '%'  Symbol:  27   Code: 1
+Prior Symbol: '&'  Symbol:  27   Code: 1
+Prior Symbol: '''  Symbol:  27   Code: 00
+Prior Symbol: '''  Symbol: ' '   Code: 010
+Prior Symbol: '''  Symbol: 's'   Code: 1
+Prior Symbol: '''  Symbol: 't'   Code: 011
+Prior Symbol: '('  Symbol:  27   Code: 1
+Prior Symbol: ')'  Symbol:  27   Code: 1
+Prior Symbol: ')'  Symbol: ','   Code: 0
+Prior Symbol: '*'  Symbol:  27   Code: 1
+Prior Symbol: '+'  Symbol:  27   Code: 1
+Prior Symbol: ','  Symbol:  27   Code: 00
+Prior Symbol: ','  Symbol: ' '   Code: 1
+Prior Symbol: ','  Symbol: '"'   Code: 01
+Prior Symbol: '-'  Symbol:  27   Code: 10
+Prior Symbol: '-'  Symbol: ' '   Code: 1110
+Prior Symbol: '-'  Symbol: 'a'   Code: 000
+Prior Symbol: '-'  Symbol: 'b'   Code: 0010
+Prior Symbol: '-'  Symbol: 'c'   Code: 110
+Prior Symbol: '-'  Symbol: 'd'   Code: 0011
+Prior Symbol: '-'  Symbol: 'e'   Code: 0100
+Prior Symbol: '-'  Symbol: 'f'   Code: 0101
+Prior Symbol: '-'  Symbol: 'r'   Code: 1111
+Prior Symbol: '-'  Symbol: 's'   Code: 011
+Prior Symbol: '.'  Symbol:   0   Code: 1
+Prior Symbol: '.'  Symbol:  27   Code: 000
+Prior Symbol: '.'  Symbol: ' '   Code: 01
+Prior Symbol: '.'  Symbol: '"'   Code: 0010
+Prior Symbol: '.'  Symbol: 'J'   Code: 00110
+Prior Symbol: '.'  Symbol: 'S'   Code: 00111
+Prior Symbol: '/'  Symbol:  27   Code: 0
+Prior Symbol: '/'  Symbol: ' '   Code: 1
+Prior Symbol: '0'  Symbol:  27   Code: 100
+Prior Symbol: '0'  Symbol: ' '   Code: 111
+Prior Symbol: '0'  Symbol: '0'   Code: 00
+Prior Symbol: '0'  Symbol: '7'   Code: 101
+Prior Symbol: '0'  Symbol: 's'   Code: 01
+Prior Symbol: '0'  Symbol: 't'   Code: 110
+Prior Symbol: '1'  Symbol:  27   Code: 111
+Prior Symbol: '1'  Symbol: ' '   Code: 10
+Prior Symbol: '1'  Symbol: '8'   Code: 110
+Prior Symbol: '1'  Symbol: '9'   Code: 0
+Prior Symbol: '2'  Symbol:  27   Code: 101
+Prior Symbol: '2'  Symbol: ' '   Code: 11
+Prior Symbol: '2'  Symbol: '.'   Code: 0
+Prior Symbol: '2'  Symbol: '6'   Code: 100
+Prior Symbol: '3'  Symbol:  27   Code: 10
+Prior Symbol: '3'  Symbol: ' '   Code: 0
+Prior Symbol: '3'  Symbol: '0'   Code: 11
+Prior Symbol: '4'  Symbol:  27   Code: 10
+Prior Symbol: '4'  Symbol: ' '   Code: 11
+Prior Symbol: '4'  Symbol: '.'   Code: 0
+Prior Symbol: '5'  Symbol:  27   Code: 11
+Prior Symbol: '5'  Symbol: ' '   Code: 10
+Prior Symbol: '5'  Symbol: '.'   Code: 0
+Prior Symbol: '6'  Symbol:  27   Code: 1
+Prior Symbol: '7'  Symbol:  27   Code: 0
+Prior Symbol: '7'  Symbol: ','   Code: 10
+Prior Symbol: '7'  Symbol: '.'   Code: 11
+Prior Symbol: '8'  Symbol:  27   Code: 1
+Prior Symbol: '9'  Symbol:  27   Code: 110
+Prior Symbol: '9'  Symbol: ' '   Code: 111
+Prior Symbol: '9'  Symbol: '5'   Code: 00
+Prior Symbol: '9'  Symbol: '6'   Code: 01
+Prior Symbol: '9'  Symbol: '8'   Code: 10
+Prior Symbol: ':'  Symbol:  27   Code: 0
+Prior Symbol: ':'  Symbol: ' '   Code: 1
+Prior Symbol: ';'  Symbol:  27   Code: 0
+Prior Symbol: ';'  Symbol: ' '   Code: 1
+Prior Symbol: '<'  Symbol:  27   Code: 1
+Prior Symbol: '='  Symbol:  27   Code: 1
+Prior Symbol: '>'  Symbol:  27   Code: 1
+Prior Symbol: '?'  Symbol:  27   Code: 0
+Prior Symbol: '?'  Symbol: ' '   Code: 1
+Prior Symbol: '@'  Symbol:  27   Code: 1
+Prior Symbol: 'A'  Symbol:  27   Code: 10010
+Prior Symbol: 'A'  Symbol: ' '   Code: 11
+Prior Symbol: 'A'  Symbol: 'd'   Code: 10011
+Prior Symbol: 'A'  Symbol: 'f'   Code: 101000
+Prior Symbol: 'A'  Symbol: 'l'   Code: 00
+Prior Symbol: 'A'  Symbol: 'm'   Code: 10101
+Prior Symbol: 'A'  Symbol: 'n'   Code: 01
+Prior Symbol: 'A'  Symbol: 'r'   Code: 1011
+Prior Symbol: 'A'  Symbol: 's'   Code: 10000
+Prior Symbol: 'A'  Symbol: 't'   Code: 10001
+Prior Symbol: 'A'  Symbol: 'u'   Code: 101001
+Prior Symbol: 'B'  Symbol:  27   Code: 10010
+Prior Symbol: 'B'  Symbol: 'a'   Code: 101
+Prior Symbol: 'B'  Symbol: 'e'   Code: 111
+Prior Symbol: 'B'  Symbol: 'i'   Code: 00
+Prior Symbol: 'B'  Symbol: 'l'   Code: 10011
+Prior Symbol: 'B'  Symbol: 'o'   Code: 110
+Prior Symbol: 'B'  Symbol: 'r'   Code: 01
+Prior Symbol: 'B'  Symbol: 'u'   Code: 1000
+Prior Symbol: 'C'  Symbol:  27   Code: 01110
+Prior Symbol: 'C'  Symbol: 'a'   Code: 00
+Prior Symbol: 'C'  Symbol: 'h'   Code: 10
+Prior Symbol: 'C'  Symbol: 'i'   Code: 01111
+Prior Symbol: 'C'  Symbol: 'l'   Code: 110
+Prior Symbol: 'C'  Symbol: 'o'   Code: 111
+Prior Symbol: 'C'  Symbol: 'r'   Code: 0101
+Prior Symbol: 'C'  Symbol: 'u'   Code: 0110
+Prior Symbol: 'C'  Symbol: 'y'   Code: 0100
+Prior Symbol: 'D'  Symbol:  27   Code: 1111
+Prior Symbol: 'D'  Symbol: 'a'   Code: 01
+Prior Symbol: 'D'  Symbol: 'e'   Code: 100
+Prior Symbol: 'D'  Symbol: 'i'   Code: 00
+Prior Symbol: 'D'  Symbol: 'o'   Code: 101
+Prior Symbol: 'D'  Symbol: 'r'   Code: 1101
+Prior Symbol: 'D'  Symbol: 'u'   Code: 1110
+Prior Symbol: 'D'  Symbol: 'y'   Code: 1100
+Prior Symbol: 'E'  Symbol:  27   Code: 10
+Prior Symbol: 'E'  Symbol: 'a'   Code: 0110
+Prior Symbol: 'E'  Symbol: 'd'   Code: 000
+Prior Symbol: 'E'  Symbol: 'i'   Code: 0111
+Prior Symbol: 'E'  Symbol: 'l'   Code: 001
+Prior Symbol: 'E'  Symbol: 'n'   Code: 1100
+Prior Symbol: 'E'  Symbol: 'r'   Code: 111
+Prior Symbol: 'E'  Symbol: 's'   Code: 010
+Prior Symbol: 'E'  Symbol: 'v'   Code: 1101
+Prior Symbol: 'F'  Symbol:  27   Code: 00
+Prior Symbol: 'F'  Symbol: 'e'   Code: 100
+Prior Symbol: 'F'  Symbol: 'l'   Code: 101
+Prior Symbol: 'F'  Symbol: 'o'   Code: 01
+Prior Symbol: 'F'  Symbol: 'r'   Code: 11
+Prior Symbol: 'G'  Symbol:  27   Code: 000
+Prior Symbol: 'G'  Symbol: 'a'   Code: 110
+Prior Symbol: 'G'  Symbol: 'e'   Code: 01
+Prior Symbol: 'G'  Symbol: 'i'   Code: 100
+Prior Symbol: 'G'  Symbol: 'l'   Code: 001
+Prior Symbol: 'G'  Symbol: 'o'   Code: 1011
+Prior Symbol: 'G'  Symbol: 'r'   Code: 111
+Prior Symbol: 'G'  Symbol: 'u'   Code: 1010
+Prior Symbol: 'H'  Symbol:  27   Code: 010
+Prior Symbol: 'H'  Symbol: 'a'   Code: 00
+Prior Symbol: 'H'  Symbol: 'e'   Code: 011
+Prior Symbol: 'H'  Symbol: 'i'   Code: 110
+Prior Symbol: 'H'  Symbol: 'o'   Code: 10
+Prior Symbol: 'H'  Symbol: 'u'   Code: 111
+Prior Symbol: 'I'  Symbol:  27   Code: 011
+Prior Symbol: 'I'  Symbol: ' '   Code: 000
+Prior Symbol: 'I'  Symbol: '.'   Code: 100
+Prior Symbol: 'I'  Symbol: 'I'   Code: 001
+Prior Symbol: 'I'  Symbol: 'n'   Code: 11
+Prior Symbol: 'I'  Symbol: 'r'   Code: 101
+Prior Symbol: 'I'  Symbol: 's'   Code: 010
+Prior Symbol: 'J'  Symbol:  27   Code: 1000
+Prior Symbol: 'J'  Symbol: '.'   Code: 1001
+Prior Symbol: 'J'  Symbol: 'a'   Code: 111
+Prior Symbol: 'J'  Symbol: 'e'   Code: 1101
+Prior Symbol: 'J'  Symbol: 'i'   Code: 1100
+Prior Symbol: 'J'  Symbol: 'o'   Code: 0
+Prior Symbol: 'J'  Symbol: 'u'   Code: 101
+Prior Symbol: 'K'  Symbol:  27   Code: 111
+Prior Symbol: 'K'  Symbol: 'a'   Code: 100
+Prior Symbol: 'K'  Symbol: 'e'   Code: 0
+Prior Symbol: 'K'  Symbol: 'i'   Code: 101
+Prior Symbol: 'K'  Symbol: 'r'   Code: 110
+Prior Symbol: 'L'  Symbol:  27   Code: 0110
+Prior Symbol: 'L'  Symbol: 'a'   Code: 11
+Prior Symbol: 'L'  Symbol: 'e'   Code: 00
+Prior Symbol: 'L'  Symbol: 'i'   Code: 0111
+Prior Symbol: 'L'  Symbol: 'o'   Code: 10
+Prior Symbol: 'L'  Symbol: 'u'   Code: 010
+Prior Symbol: 'M'  Symbol:  27   Code: 11010
+Prior Symbol: 'M'  Symbol: 'a'   Code: 0
+Prior Symbol: 'M'  Symbol: 'c'   Code: 11011
+Prior Symbol: 'M'  Symbol: 'e'   Code: 1111
+Prior Symbol: 'M'  Symbol: 'i'   Code: 10
+Prior Symbol: 'M'  Symbol: 'o'   Code: 1100
+Prior Symbol: 'M'  Symbol: 'u'   Code: 1110
+Prior Symbol: 'N'  Symbol:  27   Code: 1100
+Prior Symbol: 'N'  Symbol: 'a'   Code: 111
+Prior Symbol: 'N'  Symbol: 'e'   Code: 0
+Prior Symbol: 'N'  Symbol: 'i'   Code: 1101
+Prior Symbol: 'N'  Symbol: 'o'   Code: 10
+Prior Symbol: 'O'  Symbol:  27   Code: 10
+Prior Symbol: 'O'  Symbol: '''   Code: 010
+Prior Symbol: 'O'  Symbol: 'l'   Code: 110
+Prior Symbol: 'O'  Symbol: 'n'   Code: 011
+Prior Symbol: 'O'  Symbol: 'r'   Code: 111
+Prior Symbol: 'O'  Symbol: 's'   Code: 00
+Prior Symbol: 'P'  Symbol:  27   Code: 10010
+Prior Symbol: 'P'  Symbol: 'a'   Code: 0
+Prior Symbol: 'P'  Symbol: 'e'   Code: 111
+Prior Symbol: 'P'  Symbol: 'h'   Code: 10011
+Prior Symbol: 'P'  Symbol: 'i'   Code: 1000
+Prior Symbol: 'P'  Symbol: 'l'   Code: 1101
+Prior Symbol: 'P'  Symbol: 'o'   Code: 101
+Prior Symbol: 'P'  Symbol: 'r'   Code: 1100
+Prior Symbol: 'Q'  Symbol:  27   Code: 1
+Prior Symbol: 'R'  Symbol:  27   Code: 0000
+Prior Symbol: 'R'  Symbol: '.'   Code: 0001
+Prior Symbol: 'R'  Symbol: 'a'   Code: 01
+Prior Symbol: 'R'  Symbol: 'e'   Code: 10
+Prior Symbol: 'R'  Symbol: 'i'   Code: 001
+Prior Symbol: 'R'  Symbol: 'o'   Code: 11
+Prior Symbol: 'S'  Symbol:  27   Code: 1011
+Prior Symbol: 'S'  Symbol: '.'   Code: 0001
+Prior Symbol: 'S'  Symbol: 'a'   Code: 100
+Prior Symbol: 'S'  Symbol: 'c'   Code: 0010
+Prior Symbol: 'S'  Symbol: 'e'   Code: 1110
+Prior Symbol: 'S'  Symbol: 'h'   Code: 110
+Prior Symbol: 'S'  Symbol: 'i'   Code: 0011
+Prior Symbol: 'S'  Symbol: 'o'   Code: 1111
+Prior Symbol: 'S'  Symbol: 't'   Code: 01
+Prior Symbol: 'S'  Symbol: 'u'   Code: 1010
+Prior Symbol: 'S'  Symbol: 'v'   Code: 00000
+Prior Symbol: 'S'  Symbol: 'y'   Code: 00001
+Prior Symbol: 'T'  Symbol:  27   Code: 1010
+Prior Symbol: 'T'  Symbol: 'V'   Code: 1000
+Prior Symbol: 'T'  Symbol: 'a'   Code: 1001
+Prior Symbol: 'T'  Symbol: 'e'   Code: 11010
+Prior Symbol: 'T'  Symbol: 'h'   Code: 0
+Prior Symbol: 'T'  Symbol: 'i'   Code: 1011
+Prior Symbol: 'T'  Symbol: 'o'   Code: 111
+Prior Symbol: 'T'  Symbol: 'r'   Code: 1100
+Prior Symbol: 'T'  Symbol: 'w'   Code: 11011
+Prior Symbol: 'U'  Symbol:  27   Code: 10
+Prior Symbol: 'U'  Symbol: '.'   Code: 0
+Prior Symbol: 'U'  Symbol: 'n'   Code: 11
+Prior Symbol: 'V'  Symbol:  27   Code: 111
+Prior Symbol: 'V'  Symbol: ' '   Code: 10
+Prior Symbol: 'V'  Symbol: 'e'   Code: 110
+Prior Symbol: 'V'  Symbol: 'i'   Code: 0
+Prior Symbol: 'W'  Symbol:  27   Code: 010
+Prior Symbol: 'W'  Symbol: 'a'   Code: 111
+Prior Symbol: 'W'  Symbol: 'e'   Code: 110
+Prior Symbol: 'W'  Symbol: 'h'   Code: 011
+Prior Symbol: 'W'  Symbol: 'i'   Code: 10
+Prior Symbol: 'W'  Symbol: 'o'   Code: 00
+Prior Symbol: 'X'  Symbol:  27   Code: 1
+Prior Symbol: 'Y'  Symbol:  27   Code: 0
+Prior Symbol: 'Y'  Symbol: 'o'   Code: 1
+Prior Symbol: 'Z'  Symbol:  27   Code: 1
+Prior Symbol: '['  Symbol:  27   Code: 1
+Prior Symbol: '\'  Symbol:  27   Code: 1
+Prior Symbol: ']'  Symbol:  27   Code: 1
+Prior Symbol: '^'  Symbol:  27   Code: 1
+Prior Symbol: '_'  Symbol:  27   Code: 1
+Prior Symbol: '`'  Symbol:  27   Code: 1
+Prior Symbol: 'a'  Symbol:  27   Code: 111001101
+Prior Symbol: 'a'  Symbol: ' '   Code: 101
+Prior Symbol: 'a'  Symbol: '''   Code: 111001110
+Prior Symbol: 'a'  Symbol: '.'   Code: 1110010
+Prior Symbol: 'a'  Symbol: 'b'   Code: 001011
+Prior Symbol: 'a'  Symbol: 'c'   Code: 11001
+Prior Symbol: 'a'  Symbol: 'd'   Code: 00111
+Prior Symbol: 'a'  Symbol: 'e'   Code: 0011001
+Prior Symbol: 'a'  Symbol: 'f'   Code: 001010
+Prior Symbol: 'a'  Symbol: 'g'   Code: 00100
+Prior Symbol: 'a'  Symbol: 'h'   Code: 001100010
+Prior Symbol: 'a'  Symbol: 'i'   Code: 111000
+Prior Symbol: 'a'  Symbol: 'k'   Code: 110000
+Prior Symbol: 'a'  Symbol: 'l'   Code: 1101
+Prior Symbol: 'a'  Symbol: 'm'   Code: 11101
+Prior Symbol: 'a'  Symbol: 'n'   Code: 01
+Prior Symbol: 'a'  Symbol: 'o'   Code: 001100011
+Prior Symbol: 'a'  Symbol: 'p'   Code: 00000
+Prior Symbol: 'a'  Symbol: 'r'   Code: 100
+Prior Symbol: 'a'  Symbol: 's'   Code: 0001
+Prior Symbol: 'a'  Symbol: 't'   Code: 1111
+Prior Symbol: 'a'  Symbol: 'u'   Code: 110001
+Prior Symbol: 'a'  Symbol: 'v'   Code: 001101
+Prior Symbol: 'a'  Symbol: 'w'   Code: 111001111
+Prior Symbol: 'a'  Symbol: 'x'   Code: 111001100
+Prior Symbol: 'a'  Symbol: 'y'   Code: 00001
+Prior Symbol: 'a'  Symbol: 'z'   Code: 00110000
+Prior Symbol: 'b'  Symbol:  27   Code: 101000
+Prior Symbol: 'b'  Symbol: ' '   Code: 0101
+Prior Symbol: 'b'  Symbol: '.'   Code: 101001
+Prior Symbol: 'b'  Symbol: 'a'   Code: 100
+Prior Symbol: 'b'  Symbol: 'b'   Code: 101010
+Prior Symbol: 'b'  Symbol: 'd'   Code: 1010110
+Prior Symbol: 'b'  Symbol: 'e'   Code: 00
+Prior Symbol: 'b'  Symbol: 'i'   Code: 1011
+Prior Symbol: 'b'  Symbol: 'l'   Code: 0100
+Prior Symbol: 'b'  Symbol: 'o'   Code: 110
+Prior Symbol: 'b'  Symbol: 'r'   Code: 1110
+Prior Symbol: 'b'  Symbol: 's'   Code: 1010111
+Prior Symbol: 'b'  Symbol: 'u'   Code: 1111
+Prior Symbol: 'b'  Symbol: 'y'   Code: 011
+Prior Symbol: 'c'  Symbol:  27   Code: 00010
+Prior Symbol: 'c'  Symbol: ' '   Code: 10000
+Prior Symbol: 'c'  Symbol: ','   Code: 010000
+Prior Symbol: 'c'  Symbol: '.'   Code: 0100011
+Prior Symbol: 'c'  Symbol: 'D'   Code: 0100110
+Prior Symbol: 'c'  Symbol: 'a'   Code: 110
+Prior Symbol: 'c'  Symbol: 'c'   Code: 010010
+Prior Symbol: 'c'  Symbol: 'e'   Code: 011
+Prior Symbol: 'c'  Symbol: 'h'   Code: 111
+Prior Symbol: 'c'  Symbol: 'i'   Code: 0101
+Prior Symbol: 'c'  Symbol: 'k'   Code: 1001
+Prior Symbol: 'c'  Symbol: 'l'   Code: 10001
+Prior Symbol: 'c'  Symbol: 'o'   Code: 101
+Prior Symbol: 'c'  Symbol: 'q'   Code: 0100010
+Prior Symbol: 'c'  Symbol: 'r'   Code: 00011
+Prior Symbol: 'c'  Symbol: 't'   Code: 001
+Prior Symbol: 'c'  Symbol: 'u'   Code: 0000
+Prior Symbol: 'c'  Symbol: 'y'   Code: 0100111
+Prior Symbol: 'd'  Symbol:  27   Code: 1010001
+Prior Symbol: 'd'  Symbol: ' '   Code: 11
+Prior Symbol: 'd'  Symbol: '''   Code: 01111010
+Prior Symbol: 'd'  Symbol: ','   Code: 101011
+Prior Symbol: 'd'  Symbol: '.'   Code: 0100
+Prior Symbol: 'd'  Symbol: ';'   Code: 01111011
+Prior Symbol: 'd'  Symbol: 'a'   Code: 1000
+Prior Symbol: 'd'  Symbol: 'd'   Code: 01010
+Prior Symbol: 'd'  Symbol: 'e'   Code: 00
+Prior Symbol: 'd'  Symbol: 'f'   Code: 10100000
+Prior Symbol: 'd'  Symbol: 'g'   Code: 10101011
+Prior Symbol: 'd'  Symbol: 'i'   Code: 1011
+Prior Symbol: 'd'  Symbol: 'l'   Code: 011111
+Prior Symbol: 'd'  Symbol: 'm'   Code: 10100001
+Prior Symbol: 'd'  Symbol: 'n'   Code: 1010100
+Prior Symbol: 'd'  Symbol: 'o'   Code: 0110
+Prior Symbol: 'd'  Symbol: 'r'   Code: 01110
+Prior Symbol: 'd'  Symbol: 's'   Code: 1001
+Prior Symbol: 'd'  Symbol: 'u'   Code: 101001
+Prior Symbol: 'd'  Symbol: 'v'   Code: 0111100
+Prior Symbol: 'd'  Symbol: 'w'   Code: 10101010
+Prior Symbol: 'd'  Symbol: 'y'   Code: 01011
+Prior Symbol: 'e'  Symbol:  27   Code: 101110011
+Prior Symbol: 'e'  Symbol: ' '   Code: 111
+Prior Symbol: 'e'  Symbol: '''   Code: 10111010
+Prior Symbol: 'e'  Symbol: ')'   Code: 100110000
+Prior Symbol: 'e'  Symbol: ','   Code: 000111
+Prior Symbol: 'e'  Symbol: '-'   Code: 10011001
+Prior Symbol: 'e'  Symbol: '.'   Code: 00110
+Prior Symbol: 'e'  Symbol: ';'   Code: 10011010
+Prior Symbol: 'e'  Symbol: 'a'   Code: 1000
+Prior Symbol: 'e'  Symbol: 'b'   Code: 0001100
+Prior Symbol: 'e'  Symbol: 'c'   Code: 10010
+Prior Symbol: 'e'  Symbol: 'd'   Code: 0000
+Prior Symbol: 'e'  Symbol: 'e'   Code: 10100
+Prior Symbol: 'e'  Symbol: 'f'   Code: 10111011
+Prior Symbol: 'e'  Symbol: 'g'   Code: 0001101
+Prior Symbol: 'e'  Symbol: 'h'   Code: 100110001
+Prior Symbol: 'e'  Symbol: 'i'   Code: 000100
+Prior Symbol: 'e'  Symbol: 'k'   Code: 10011011
+Prior Symbol: 'e'  Symbol: 'l'   Code: 0010
+Prior Symbol: 'e'  Symbol: 'm'   Code: 100111
+Prior Symbol: 'e'  Symbol: 'n'   Code: 010
+Prior Symbol: 'e'  Symbol: 'o'   Code: 001110
+Prior Symbol: 'e'  Symbol: 'p'   Code: 001111
+Prior Symbol: 'e'  Symbol: 'r'   Code: 110
+Prior Symbol: 'e'  Symbol: 's'   Code: 011
+Prior Symbol: 'e'  Symbol: 't'   Code: 10101
+Prior Symbol: 'e'  Symbol: 'u'   Code: 101110010
+Prior Symbol: 'e'  Symbol: 'v'   Code: 101100
+Prior Symbol: 'e'  Symbol: 'w'   Code: 101111
+Prior Symbol: 'e'  Symbol: 'x'   Code: 000101
+Prior Symbol: 'e'  Symbol: 'y'   Code: 101101
+Prior Symbol: 'e'  Symbol: 'z'   Code: 10111000
+Prior Symbol: 'f'  Symbol:  27   Code: 1110111
+Prior Symbol: 'f'  Symbol: ' '   Code: 10
+Prior Symbol: 'f'  Symbol: '.'   Code: 1110110
+Prior Symbol: 'f'  Symbol: 'a'   Code: 1111
+Prior Symbol: 'f'  Symbol: 'e'   Code: 000
+Prior Symbol: 'f'  Symbol: 'f'   Code: 0101
+Prior Symbol: 'f'  Symbol: 'i'   Code: 001
+Prior Symbol: 'f'  Symbol: 'l'   Code: 111010
+Prior Symbol: 'f'  Symbol: 'o'   Code: 110
+Prior Symbol: 'f'  Symbol: 'r'   Code: 011
+Prior Symbol: 'f'  Symbol: 't'   Code: 0100
+Prior Symbol: 'f'  Symbol: 'u'   Code: 11100
+Prior Symbol: 'g'  Symbol:  27   Code: 1111010
+Prior Symbol: 'g'  Symbol: ' '   Code: 10
+Prior Symbol: 'g'  Symbol: '''   Code: 1111011
+Prior Symbol: 'g'  Symbol: ','   Code: 111110
+Prior Symbol: 'g'  Symbol: '-'   Code: 0101010
+Prior Symbol: 'g'  Symbol: '.'   Code: 01011
+Prior Symbol: 'g'  Symbol: 'a'   Code: 1110
+Prior Symbol: 'g'  Symbol: 'e'   Code: 00
+Prior Symbol: 'g'  Symbol: 'g'   Code: 0101011
+Prior Symbol: 'g'  Symbol: 'h'   Code: 011
+Prior Symbol: 'g'  Symbol: 'i'   Code: 1101
+Prior Symbol: 'g'  Symbol: 'l'   Code: 111100
+Prior Symbol: 'g'  Symbol: 'o'   Code: 0100
+Prior Symbol: 'g'  Symbol: 'r'   Code: 111111
+Prior Symbol: 'g'  Symbol: 's'   Code: 11000
+Prior Symbol: 'g'  Symbol: 'u'   Code: 11001
+Prior Symbol: 'g'  Symbol: 'y'   Code: 010100
+Prior Symbol: 'h'  Symbol:  27   Code: 1011100
+Prior Symbol: 'h'  Symbol: ' '   Code: 100
+Prior Symbol: 'h'  Symbol: '''   Code: 10101000
+Prior Symbol: 'h'  Symbol: ','   Code: 10101001
+Prior Symbol: 'h'  Symbol: '-'   Code: 10101011
+Prior Symbol: 'h'  Symbol: '.'   Code: 101001
+Prior Symbol: 'h'  Symbol: 'a'   Code: 011
+Prior Symbol: 'h'  Symbol: 'e'   Code: 11
+Prior Symbol: 'h'  Symbol: 'i'   Code: 00
+Prior Symbol: 'h'  Symbol: 'n'   Code: 101011
+Prior Symbol: 'h'  Symbol: 'o'   Code: 010
+Prior Symbol: 'h'  Symbol: 'r'   Code: 101111
+Prior Symbol: 'h'  Symbol: 's'   Code: 10101010
+Prior Symbol: 'h'  Symbol: 't'   Code: 10110
+Prior Symbol: 'h'  Symbol: 'u'   Code: 101000
+Prior Symbol: 'h'  Symbol: 'y'   Code: 1011101
+Prior Symbol: 'i'  Symbol:  27   Code: 00011101
+Prior Symbol: 'i'  Symbol: ' '   Code: 0001111
+Prior Symbol: 'i'  Symbol: ','   Code: 100110100
+Prior Symbol: 'i'  Symbol: '.'   Code: 10011000
+Prior Symbol: 'i'  Symbol: 'a'   Code: 11010
+Prior Symbol: 'i'  Symbol: 'b'   Code: 100110101
+Prior Symbol: 'i'  Symbol: 'c'   Code: 1111
+Prior Symbol: 'i'  Symbol: 'd'   Code: 10000
+Prior Symbol: 'i'  Symbol: 'e'   Code: 1110
+Prior Symbol: 'i'  Symbol: 'f'   Code: 100111
+Prior Symbol: 'i'  Symbol: 'g'   Code: 10010
+Prior Symbol: 'i'  Symbol: 'k'   Code: 10011011
+Prior Symbol: 'i'  Symbol: 'l'   Code: 1100
+Prior Symbol: 'i'  Symbol: 'm'   Code: 10001
+Prior Symbol: 'i'  Symbol: 'n'   Code: 01
+Prior Symbol: 'i'  Symbol: 'o'   Code: 11011
+Prior Symbol: 'i'  Symbol: 'p'   Code: 000110
+Prior Symbol: 'i'  Symbol: 'r'   Code: 0000
+Prior Symbol: 'i'  Symbol: 's'   Code: 101
+Prior Symbol: 'i'  Symbol: 't'   Code: 001
+Prior Symbol: 'i'  Symbol: 'v'   Code: 00010
+Prior Symbol: 'i'  Symbol: 'x'   Code: 00011100
+Prior Symbol: 'i'  Symbol: 'z'   Code: 10011001
+Prior Symbol: 'j'  Symbol:  27   Code: 000
+Prior Symbol: 'j'  Symbol: 'a'   Code: 001
+Prior Symbol: 'j'  Symbol: 'e'   Code: 010
+Prior Symbol: 'j'  Symbol: 'o'   Code: 1
+Prior Symbol: 'j'  Symbol: 'u'   Code: 011
+Prior Symbol: 'k'  Symbol:  27   Code: 0000
+Prior Symbol: 'k'  Symbol: ' '   Code: 01
+Prior Symbol: 'k'  Symbol: '''   Code: 10000
+Prior Symbol: 'k'  Symbol: ','   Code: 10011
+Prior Symbol: 'k'  Symbol: '.'   Code: 0001
+Prior Symbol: 'k'  Symbol: 'e'   Code: 11
+Prior Symbol: 'k'  Symbol: 'i'   Code: 101
+Prior Symbol: 'k'  Symbol: 'l'   Code: 100100
+Prior Symbol: 'k'  Symbol: 'n'   Code: 10001
+Prior Symbol: 'k'  Symbol: 's'   Code: 001
+Prior Symbol: 'k'  Symbol: 'y'   Code: 100101
+Prior Symbol: 'l'  Symbol:  27   Code: 0011100
+Prior Symbol: 'l'  Symbol: ' '   Code: 110
+Prior Symbol: 'l'  Symbol: '''   Code: 00111100
+Prior Symbol: 'l'  Symbol: ','   Code: 001101
+Prior Symbol: 'l'  Symbol: '-'   Code: 00111101
+Prior Symbol: 'l'  Symbol: '.'   Code: 00100
+Prior Symbol: 'l'  Symbol: 'a'   Code: 000
+Prior Symbol: 'l'  Symbol: 'b'   Code: 0011101
+Prior Symbol: 'l'  Symbol: 'c'   Code: 00111111
+Prior Symbol: 'l'  Symbol: 'd'   Code: 10111
+Prior Symbol: 'l'  Symbol: 'e'   Code: 111
+Prior Symbol: 'l'  Symbol: 'f'   Code: 010110
+Prior Symbol: 'l'  Symbol: 'i'   Code: 011
+Prior Symbol: 'l'  Symbol: 'k'   Code: 10110110
+Prior Symbol: 'l'  Symbol: 'l'   Code: 100
+Prior Symbol: 'l'  Symbol: 'm'   Code: 010111
+Prior Symbol: 'l'  Symbol: 'n'   Code: 00111110
+Prior Symbol: 'l'  Symbol: 'o'   Code: 1010
+Prior Symbol: 'l'  Symbol: 'p'   Code: 00101
+Prior Symbol: 'l'  Symbol: 'r'   Code: 10110111
+Prior Symbol: 'l'  Symbol: 's'   Code: 01010
+Prior Symbol: 'l'  Symbol: 't'   Code: 001100
+Prior Symbol: 'l'  Symbol: 'u'   Code: 1011010
+Prior Symbol: 'l'  Symbol: 'v'   Code: 101100
+Prior Symbol: 'l'  Symbol: 'y'   Code: 0100
+Prior Symbol: 'm'  Symbol:  27   Code: 101010
+Prior Symbol: 'm'  Symbol: ' '   Code: 111
+Prior Symbol: 'm'  Symbol: '''   Code: 1010110
+Prior Symbol: 'm'  Symbol: '.'   Code: 110101
+Prior Symbol: 'm'  Symbol: ';'   Code: 1010111
+Prior Symbol: 'm'  Symbol: 'a'   Code: 00
+Prior Symbol: 'm'  Symbol: 'b'   Code: 10100
+Prior Symbol: 'm'  Symbol: 'e'   Code: 01
+Prior Symbol: 'm'  Symbol: 'i'   Code: 1100
+Prior Symbol: 'm'  Symbol: 'm'   Code: 10110
+Prior Symbol: 'm'  Symbol: 'o'   Code: 1000
+Prior Symbol: 'm'  Symbol: 'p'   Code: 1001
+Prior Symbol: 'm'  Symbol: 's'   Code: 10111
+Prior Symbol: 'm'  Symbol: 'u'   Code: 11011
+Prior Symbol: 'm'  Symbol: 'y'   Code: 110100
+Prior Symbol: 'n'  Symbol:  27   Code: 0100000
+Prior Symbol: 'n'  Symbol: ' '   Code: 10
+Prior Symbol: 'n'  Symbol: '''   Code: 0100011
+Prior Symbol: 'n'  Symbol: ','   Code: 111100
+Prior Symbol: 'n'  Symbol: '-'   Code: 011011010
+Prior Symbol: 'n'  Symbol: '.'   Code: 01100
+Prior Symbol: 'n'  Symbol: ';'   Code: 011011011
+Prior Symbol: 'n'  Symbol: 'a'   Code: 11111
+Prior Symbol: 'n'  Symbol: 'b'   Code: 011011100
+Prior Symbol: 'n'  Symbol: 'c'   Code: 01001
+Prior Symbol: 'n'  Symbol: 'd'   Code: 110
+Prior Symbol: 'n'  Symbol: 'e'   Code: 001
+Prior Symbol: 'n'  Symbol: 'f'   Code: 01000101
+Prior Symbol: 'n'  Symbol: 'g'   Code: 000
+Prior Symbol: 'n'  Symbol: 'i'   Code: 01111
+Prior Symbol: 'n'  Symbol: 'j'   Code: 011011101
+Prior Symbol: 'n'  Symbol: 'k'   Code: 1111010
+Prior Symbol: 'n'  Symbol: 'l'   Code: 01101100
+Prior Symbol: 'n'  Symbol: 'm'   Code: 011011110
+Prior Symbol: 'n'  Symbol: 'n'   Code: 01110
+Prior Symbol: 'n'  Symbol: 'o'   Code: 1111011
+Prior Symbol: 'n'  Symbol: 'r'   Code: 011011111
+Prior Symbol: 'n'  Symbol: 's'   Code: 0101
+Prior Symbol: 'n'  Symbol: 't'   Code: 1110
+Prior Symbol: 'n'  Symbol: 'u'   Code: 0100001
+Prior Symbol: 'n'  Symbol: 'v'   Code: 0110100
+Prior Symbol: 'n'  Symbol: 'y'   Code: 0110101
+Prior Symbol: 'n'  Symbol: 'z'   Code: 01000100
+Prior Symbol: 'o'  Symbol:  27   Code: 101010011
+Prior Symbol: 'o'  Symbol: ' '   Code: 001
+Prior Symbol: 'o'  Symbol: ','   Code: 01001111
+Prior Symbol: 'o'  Symbol: '-'   Code: 01001110
+Prior Symbol: 'o'  Symbol: '.'   Code: 0100110
+Prior Symbol: 'o'  Symbol: 'B'   Code: 101010010
+Prior Symbol: 'o'  Symbol: 'a'   Code: 100001
+Prior Symbol: 'o'  Symbol: 'b'   Code: 110111
+Prior Symbol: 'o'  Symbol: 'c'   Code: 100000
+Prior Symbol: 'o'  Symbol: 'd'   Code: 110101
+Prior Symbol: 'o'  Symbol: 'e'   Code: 1010101
+Prior Symbol: 'o'  Symbol: 'f'   Code: 000
+Prior Symbol: 'o'  Symbol: 'g'   Code: 1101000
+Prior Symbol: 'o'  Symbol: 'h'   Code: 1101001
+Prior Symbol: 'o'  Symbol: 'i'   Code: 1101101
+Prior Symbol: 'o'  Symbol: 'k'   Code: 010010
+Prior Symbol: 'o'  Symbol: 'l'   Code: 0101
+Prior Symbol: 'o'  Symbol: 'm'   Code: 1100
+Prior Symbol: 'o'  Symbol: 'n'   Code: 111
+Prior Symbol: 'o'  Symbol: 'o'   Code: 10100
+Prior Symbol: 'o'  Symbol: 'p'   Code: 01000
+Prior Symbol: 'o'  Symbol: 'r'   Code: 011
+Prior Symbol: 'o'  Symbol: 's'   Code: 10001
+Prior Symbol: 'o'  Symbol: 't'   Code: 10010
+Prior Symbol: 'o'  Symbol: 'u'   Code: 1011
+Prior Symbol: 'o'  Symbol: 'v'   Code: 101011
+Prior Symbol: 'o'  Symbol: 'w'   Code: 10011
+Prior Symbol: 'o'  Symbol: 'x'   Code: 10101000
+Prior Symbol: 'o'  Symbol: 'y'   Code: 1101100
+Prior Symbol: 'p'  Symbol:  27   Code: 011011
+Prior Symbol: 'p'  Symbol: ' '   Code: 000
+Prior Symbol: 'p'  Symbol: '-'   Code: 1010010
+Prior Symbol: 'p'  Symbol: '.'   Code: 101000
+Prior Symbol: 'p'  Symbol: 'a'   Code: 001
+Prior Symbol: 'p'  Symbol: 'e'   Code: 110
+Prior Symbol: 'p'  Symbol: 'h'   Code: 1111
+Prior Symbol: 'p'  Symbol: 'i'   Code: 1011
+Prior Symbol: 'p'  Symbol: 'l'   Code: 010
+Prior Symbol: 'p'  Symbol: 'm'   Code: 1010011
+Prior Symbol: 'p'  Symbol: 'o'   Code: 0111
+Prior Symbol: 'p'  Symbol: 'p'   Code: 11101
+Prior Symbol: 'p'  Symbol: 'r'   Code: 100
+Prior Symbol: 'p'  Symbol: 's'   Code: 01100
+Prior Symbol: 'p'  Symbol: 't'   Code: 11100
+Prior Symbol: 'p'  Symbol: 'u'   Code: 10101
+Prior Symbol: 'p'  Symbol: 'y'   Code: 011010
+Prior Symbol: 'q'  Symbol:  27   Code: 0
+Prior Symbol: 'q'  Symbol: 'u'   Code: 1
+Prior Symbol: 'r'  Symbol:  27   Code: 10011111
+Prior Symbol: 'r'  Symbol: ' '   Code: 111
+Prior Symbol: 'r'  Symbol: '''   Code: 1001110
+Prior Symbol: 'r'  Symbol: ')'   Code: 100111100
+Prior Symbol: 'r'  Symbol: ','   Code: 100100
+Prior Symbol: 'r'  Symbol: '-'   Code: 11001100
+Prior Symbol: 'r'  Symbol: '.'   Code: 10001
+Prior Symbol: 'r'  Symbol: ';'   Code: 100111101
+Prior Symbol: 'r'  Symbol: 'a'   Code: 1101
+Prior Symbol: 'r'  Symbol: 'b'   Code: 11001101
+Prior Symbol: 'r'  Symbol: 'c'   Code: 100001
+Prior Symbol: 'r'  Symbol: 'd'   Code: 11000
+Prior Symbol: 'r'  Symbol: 'e'   Code: 101
+Prior Symbol: 'r'  Symbol: 'f'   Code: 110011111
+Prior Symbol: 'r'  Symbol: 'g'   Code: 100101
+Prior Symbol: 'r'  Symbol: 'i'   Code: 010
+Prior Symbol: 'r'  Symbol: 'k'   Code: 110010
+Prior Symbol: 'r'  Symbol: 'l'   Code: 00100
+Prior Symbol: 'r'  Symbol: 'm'   Code: 00101
+Prior Symbol: 'r'  Symbol: 'n'   Code: 01100
+Prior Symbol: 'r'  Symbol: 'o'   Code: 000
+Prior Symbol: 'r'  Symbol: 'p'   Code: 11001110
+Prior Symbol: 'r'  Symbol: 'r'   Code: 100110
+Prior Symbol: 'r'  Symbol: 's'   Code: 0111
+Prior Symbol: 'r'  Symbol: 't'   Code: 0011
+Prior Symbol: 'r'  Symbol: 'u'   Code: 100000
+Prior Symbol: 'r'  Symbol: 'v'   Code: 110011110
+Prior Symbol: 'r'  Symbol: 'y'   Code: 01101
+Prior Symbol: 's'  Symbol:  27   Code: 10011100
+Prior Symbol: 's'  Symbol: ' '   Code: 0
+Prior Symbol: 's'  Symbol: '"'   Code: 100111100
+Prior Symbol: 's'  Symbol: '''   Code: 100111101
+Prior Symbol: 's'  Symbol: ','   Code: 111011
+Prior Symbol: 's'  Symbol: '.'   Code: 1000
+Prior Symbol: 's'  Symbol: ';'   Code: 11101011
+Prior Symbol: 's'  Symbol: 'a'   Code: 110011
+Prior Symbol: 's'  Symbol: 'b'   Code: 100111110
+Prior Symbol: 's'  Symbol: 'c'   Code: 10010
+Prior Symbol: 's'  Symbol: 'e'   Code: 1101
+Prior Symbol: 's'  Symbol: 'h'   Code: 11000
+Prior Symbol: 's'  Symbol: 'i'   Code: 11100
+Prior Symbol: 's'  Symbol: 'k'   Code: 100111111
+Prior Symbol: 's'  Symbol: 'l'   Code: 1110100
+Prior Symbol: 's'  Symbol: 'm'   Code: 111010100
+Prior Symbol: 's'  Symbol: 'n'   Code: 111010101
+Prior Symbol: 's'  Symbol: 'o'   Code: 11110
+Prior Symbol: 's'  Symbol: 'p'   Code: 1001101
+Prior Symbol: 's'  Symbol: 's'   Code: 11111
+Prior Symbol: 's'  Symbol: 't'   Code: 101
+Prior Symbol: 's'  Symbol: 'u'   Code: 110010
+Prior Symbol: 's'  Symbol: 'w'   Code: 10011101
+Prior Symbol: 's'  Symbol: 'y'   Code: 1001100
+Prior Symbol: 't'  Symbol:  27   Code: 11000011
+Prior Symbol: 't'  Symbol: ' '   Code: 111
+Prior Symbol: 't'  Symbol: '''   Code: 11000100
+Prior Symbol: 't'  Symbol: ','   Code: 0111100
+Prior Symbol: 't'  Symbol: '-'   Code: 01111110
+Prior Symbol: 't'  Symbol: '.'   Code: 01101
+Prior Symbol: 't'  Symbol: ';'   Code: 110000100
+Prior Symbol: 't'  Symbol: 'a'   Code: 0100
+Prior Symbol: 't'  Symbol: 'b'   Code: 110000101
+Prior Symbol: 't'  Symbol: 'c'   Code: 11000101
+Prior Symbol: 't'  Symbol: 'e'   Code: 101
+Prior Symbol: 't'  Symbol: 'h'   Code: 00
+Prior Symbol: 't'  Symbol: 'i'   Code: 1101
+Prior Symbol: 't'  Symbol: 'l'   Code: 0111101
+Prior Symbol: 't'  Symbol: 'm'   Code: 01111111
+Prior Symbol: 't'  Symbol: 'n'   Code: 0111110
+Prior Symbol: 't'  Symbol: 'o'   Code: 100
+Prior Symbol: 't'  Symbol: 'r'   Code: 11001
+Prior Symbol: 't'  Symbol: 's'   Code: 0101
+Prior Symbol: 't'  Symbol: 't'   Code: 01100
+Prior Symbol: 't'  Symbol: 'u'   Code: 01110
+Prior Symbol: 't'  Symbol: 'w'   Code: 1100000
+Prior Symbol: 't'  Symbol: 'y'   Code: 1100011
+Prior Symbol: 'u'  Symbol:  27   Code: 1001100
+Prior Symbol: 'u'  Symbol: ' '   Code: 100000
+Prior Symbol: 'u'  Symbol: 'a'   Code: 100111
+Prior Symbol: 'u'  Symbol: 'b'   Code: 100001
+Prior Symbol: 'u'  Symbol: 'c'   Code: 10001
+Prior Symbol: 'u'  Symbol: 'd'   Code: 11100
+Prior Symbol: 'u'  Symbol: 'e'   Code: 11101
+Prior Symbol: 'u'  Symbol: 'g'   Code: 11110
+Prior Symbol: 'u'  Symbol: 'i'   Code: 10010
+Prior Symbol: 'u'  Symbol: 'k'   Code: 1001101
+Prior Symbol: 'u'  Symbol: 'l'   Code: 0100
+Prior Symbol: 'u'  Symbol: 'm'   Code: 111111
+Prior Symbol: 'u'  Symbol: 'n'   Code: 110
+Prior Symbol: 'u'  Symbol: 'o'   Code: 11111010
+Prior Symbol: 'u'  Symbol: 'p'   Code: 0101
+Prior Symbol: 'u'  Symbol: 'r'   Code: 00
+Prior Symbol: 'u'  Symbol: 's'   Code: 011
+Prior Symbol: 'u'  Symbol: 't'   Code: 101
+Prior Symbol: 'u'  Symbol: 'v'   Code: 11111011
+Prior Symbol: 'u'  Symbol: 'y'   Code: 1111100
+Prior Symbol: 'v'  Symbol:  27   Code: 00010
+Prior Symbol: 'v'  Symbol: 'a'   Code: 001
+Prior Symbol: 'v'  Symbol: 'e'   Code: 1
+Prior Symbol: 'v'  Symbol: 'i'   Code: 01
+Prior Symbol: 'v'  Symbol: 'o'   Code: 0000
+Prior Symbol: 'v'  Symbol: 's'   Code: 000110
+Prior Symbol: 'v'  Symbol: 'y'   Code: 000111
+Prior Symbol: 'w'  Symbol:  27   Code: 011101
+Prior Symbol: 'w'  Symbol: ' '   Code: 001
+Prior Symbol: 'w'  Symbol: '.'   Code: 011100
+Prior Symbol: 'w'  Symbol: 'a'   Code: 010
+Prior Symbol: 'w'  Symbol: 'e'   Code: 1110
+Prior Symbol: 'w'  Symbol: 'h'   Code: 000
+Prior Symbol: 'w'  Symbol: 'i'   Code: 10
+Prior Symbol: 'w'  Symbol: 'l'   Code: 011110
+Prior Symbol: 'w'  Symbol: 'm'   Code: 011111
+Prior Symbol: 'w'  Symbol: 'n'   Code: 11111
+Prior Symbol: 'w'  Symbol: 'o'   Code: 110
+Prior Symbol: 'w'  Symbol: 'r'   Code: 0110
+Prior Symbol: 'w'  Symbol: 's'   Code: 11110
+Prior Symbol: 'x'  Symbol:  27   Code: 10
+Prior Symbol: 'x'  Symbol: ' '   Code: 0110
+Prior Symbol: 'x'  Symbol: ','   Code: 0111
+Prior Symbol: 'x'  Symbol: '-'   Code: 1100
+Prior Symbol: 'x'  Symbol: 'a'   Code: 111
+Prior Symbol: 'x'  Symbol: 'e'   Code: 00
+Prior Symbol: 'x'  Symbol: 'i'   Code: 010
+Prior Symbol: 'x'  Symbol: 't'   Code: 1101
+Prior Symbol: 'y'  Symbol:  27   Code: 01010
+Prior Symbol: 'y'  Symbol: ' '   Code: 1
+Prior Symbol: 'y'  Symbol: '''   Code: 010010
+Prior Symbol: 'y'  Symbol: ','   Code: 0001
+Prior Symbol: 'y'  Symbol: '.'   Code: 0111
+Prior Symbol: 'y'  Symbol: ';'   Code: 011001
+Prior Symbol: 'y'  Symbol: '?'   Code: 0100110
+Prior Symbol: 'y'  Symbol: 'a'   Code: 0100111
+Prior Symbol: 'y'  Symbol: 'b'   Code: 0110000
+Prior Symbol: 'y'  Symbol: 'd'   Code: 000001
+Prior Symbol: 'y'  Symbol: 'e'   Code: 0010
+Prior Symbol: 'y'  Symbol: 'f'   Code: 0110001
+Prior Symbol: 'y'  Symbol: 'i'   Code: 000010
+Prior Symbol: 'y'  Symbol: 'l'   Code: 01000
+Prior Symbol: 'y'  Symbol: 'm'   Code: 000000
+Prior Symbol: 'y'  Symbol: 'n'   Code: 01011
+Prior Symbol: 'y'  Symbol: 'o'   Code: 01101
+Prior Symbol: 'y'  Symbol: 's'   Code: 0011
+Prior Symbol: 'y'  Symbol: 'w'   Code: 000011
+Prior Symbol: 'z'  Symbol:  27   Code: 100
+Prior Symbol: 'z'  Symbol: ' '   Code: 1110
+Prior Symbol: 'z'  Symbol: '.'   Code: 1111
+Prior Symbol: 'z'  Symbol: 'a'   Code: 000
+Prior Symbol: 'z'  Symbol: 'e'   Code: 001
+Prior Symbol: 'z'  Symbol: 'i'   Code: 110
+Prior Symbol: 'z'  Symbol: 'l'   Code: 010
+Prior Symbol: 'z'  Symbol: 'o'   Code: 101
+Prior Symbol: 'z'  Symbol: 'z'   Code: 011
+Prior Symbol: '{'  Symbol:  27   Code: 1
+Prior Symbol: '|'  Symbol:  27   Code: 1
+Prior Symbol: '}'  Symbol:  27   Code: 1
+Prior Symbol: '~'  Symbol:  27   Code: 1
+Prior Symbol: 127  Symbol:  27   Code: 1

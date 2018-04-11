@@ -1,0 +1,152 @@
+--- gst-plugins-base-0.10.35/gst-libs/gst/app/gstappsink-orig.c	2012-12-20 10:18:54.817888539 -0700
++++ gst-plugins-base-0.10.35/gst-libs/gst/app/gstappsink.c	2012-12-20 10:39:48.465842015 -0700
+@@ -98,6 +98,7 @@
+   gboolean emit_signals;
+   guint max_buffers;
+   gboolean drop;
++  gboolean log_drop;
+ 
+   GCond *cond;
+   GMutex *mutex;
+@@ -147,6 +148,7 @@
+   PROP_EMIT_SIGNALS,
+   PROP_MAX_BUFFERS,
+   PROP_DROP,
++  PROP_LOG_DROP,
+   PROP_LAST
+ };
+ 
+@@ -288,6 +290,11 @@
+           "Drop old buffers when the buffer queue is filled", DEFAULT_PROP_DROP,
+           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+ 
++  g_object_class_install_property (gobject_class, PROP_LOG_DROP,
++      g_param_spec_boolean ("log-drop", "Log Drop",
++          "Log dropping of old buffers when the buffer queue is filled", DEFAULT_PROP_DROP,
++          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
++
+   /**
+    * GstAppSink::eos:
+    * @appsink: the appsink element that emited the signal
+@@ -540,6 +547,9 @@
+     case PROP_DROP:
+       gst_app_sink_set_drop (appsink, g_value_get_boolean (value));
+       break;
++    case PROP_LOG_DROP:
++      gst_app_sink_set_log_drop (appsink, g_value_get_boolean (value));
++      break;
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -575,6 +585,9 @@
+     case PROP_DROP:
+       g_value_set_boolean (value, gst_app_sink_get_drop (appsink));
+       break;
++    case PROP_LOG_DROP:
++      g_value_set_boolean (value, gst_app_sink_get_log_drop (appsink));
++      break;
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -769,7 +782,9 @@
+ 
+       /* we need to drop the oldest buffer/list and try again */
+       obj = g_queue_pop_head (priv->queue);
+-      GST_DEBUG_OBJECT (appsink, "dropping old buffer/list %p", obj);
++      if (priv->log_drop) {
++        GST_INFO_OBJECT (appsink, "dropping old buffer/list %p", obj);
++      }
+       gst_mini_object_unref (obj);
+     } else {
+       GST_DEBUG_OBJECT (appsink, "waiting for free space, length %d >= %d",
+@@ -812,13 +827,13 @@
+ 
+ flushing:
+   {
+-    GST_DEBUG_OBJECT (appsink, "we are flushing");
++    GST_INFO_OBJECT (appsink, "we are flushing");
+     g_mutex_unlock (priv->mutex);
+     return GST_FLOW_WRONG_STATE;
+   }
+ stopping:
+   {
+-    GST_DEBUG_OBJECT (appsink, "we are stopping");
++    GST_INFO_OBJECT (appsink, "we are stopping");
+     return ret;
+   }
+ }
+@@ -1215,6 +1230,63 @@
+   g_mutex_unlock (priv->mutex);
+ 
+   return result;
++}
++
++/**
++ * gst_app_sink_set_log_drop:
++ * @appsink: a #GstAppSink
++ * @drop: the new state
++ *
++ * Instruct @appsink to log_drop old buffers when the maximum amount of queued
++ * buffers is reached.
++ *
++ * Since: 0.10.22
++ */
++void
++gst_app_sink_set_log_drop (GstAppSink * appsink, gboolean log_drop)
++{
++  GstAppSinkPrivate *priv;
++
++  g_return_if_fail (GST_IS_APP_SINK (appsink));
++
++  priv = appsink->priv;
++
++  g_mutex_lock (priv->mutex);
++  if (priv->log_drop != log_drop) {
++    priv->log_drop = log_drop;
++    /* signal the change */
++    g_cond_signal (priv->cond);
++  }
++  g_mutex_unlock (priv->mutex);
++}
++
++/**
++ * gst_app_sink_get_log_drop:
++ * @appsink: a #GstAppSink
++ *
++ * Check if @appsink will log_drop old buffers when the maximum amount of queued
++ * buffers is reached.
++ *
++ * Returns: %TRUE if @appsink is log_dropping old buffers when the queue is
++ * filled.
++ *
++ * Since: 0.10.22
++ */
++gboolean
++gst_app_sink_get_log_drop (GstAppSink * appsink)
++{
++  gboolean result;
++  GstAppSinkPrivate *priv;
++
++  g_return_val_if_fail (GST_IS_APP_SINK (appsink), FALSE);
++
++  priv = appsink->priv;
++
++  g_mutex_lock (priv->mutex);
++  result = priv->log_drop;
++  g_mutex_unlock (priv->mutex);
++
++  return result;
+ }
+ 
+ /**
+--- gst-plugins-base-0.10.35/gst-libs/gst/app/gstappsink-orig.h	2012-12-20 10:26:28.385872173 -0700
++++ gst-plugins-base-0.10.35/gst-libs/gst/app/gstappsink.h	2012-12-20 10:35:54.657850969 -0700
+@@ -125,6 +125,8 @@
+ 
+ void            gst_app_sink_set_drop         (GstAppSink *appsink, gboolean drop);
+ gboolean        gst_app_sink_get_drop         (GstAppSink *appsink);
++void            gst_app_sink_set_log_drop     (GstAppSink *appsink, gboolean log_drop);
++gboolean        gst_app_sink_get_log_drop     (GstAppSink *appsink);
+ 
+ GstBuffer *     gst_app_sink_pull_preroll     (GstAppSink *appsink);
+ GstBuffer *     gst_app_sink_pull_buffer      (GstAppSink *appsink);

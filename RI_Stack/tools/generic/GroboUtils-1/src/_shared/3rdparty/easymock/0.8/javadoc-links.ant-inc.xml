@@ -1,0 +1,9 @@
+<!-- Javadoc links for this version
+    To be included in a <javadoc> tag.
+-->
+    
+    <link offline="true"
+        href="${javadoc.url.easymock.0_8}"
+        packagelistLoc="${javadoc.package-list.easymock.0_8}"
+    />
+

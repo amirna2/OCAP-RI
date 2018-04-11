@@ -1,0 +1,51 @@
+<!-- Common properties/tasks that are shared by all projects
+
+However, for possible overrides, these are all prefixed by
+"_shared.common."
+
+ -->
+    
+    <target name="_shared.common.deploy"
+            depends="_shared.common.deploy-setup,
+                javac,jar,test-all,doc,java-doc" >
+        <!-- deploy structure was setup in jar task -->
+
+        <zip zipfile="${output.doc-zip}" basedir="${dirs.deploy.docs}"
+            compress="true" whenempty="skip" />
+            
+        <zip zipfile="${output.src-zip}"
+            basedir="${basedir}"
+            compress="true" whenempty="fail" >
+            <include name="sources/**" />
+            <include name="build.xml" />
+            <exclude name="**/CVS/**" />
+        </zip>
+        <copy file="${basedir}/CHANGES.TXT" todir="${dirs.deploy}" />
+        <copy file="${output.src-zip}" tofile="${dirs.deploy}/src.zip" />
+        <copy file="${_shared.license}" todir="${dirs.deploy}" />
+
+        <!-- create the deployment zip file -->
+        <zip zipfile="${output.deploy-zip}"
+            basedir="${dirs.deploy-base}"
+            compress="true" whenempty="fail" >
+            <include name="${product}-${version}/**" />
+        </zip>
+        <tar tarfile="${output.deploy-tar}"
+            basedir="${dirs.deploy-base}"
+            longfile="gnu" >
+            <include name="${product}-${version}/**" />
+        </tar>
+        <gzip zipfile="${output.deploy-tgz}" src="${output.deploy-tar}" />
+        <!-- no need to keep the tar file around -->
+        <delete file="${output.deploy-tar}" />
+    </target>
+    
+    
+    <target name="_shared.common.deploy-setup">
+        <mkdir dir="${dirs.deploy-base}" />
+        <mkdir dir="${dirs.deploy}" />
+        <mkdir dir="${dirs.deploy.lib}" />
+        <mkdir dir="${dirs.deploy.docs}" />
+        <mkdir dir="${dirs.deploy.api-docs}" />
+    </target>
+

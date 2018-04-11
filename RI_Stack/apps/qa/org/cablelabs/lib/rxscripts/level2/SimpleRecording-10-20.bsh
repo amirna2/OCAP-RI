@@ -1,0 +1,197 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Test cases covered: Simple Recording 10 / 20
+// Purse: This level 2 script performs the completed non-segmented recording
+// scenario which is as follows:
+// Test Setup:
+// a. Create a recording
+// b. Publish to CDS
+// c. Start RemoteService playback
+//
+// Test Steps:
+// 1. Test setup:
+//    i.  create a 30 second recording.
+//    ii. publish recording in CDS.
+// 2. Get local media server.
+// 3. Begin playback till EOS.
+// 4. Stop playback.
+// 
+// SimpleRecording-10 uses a remote service playback while 
+// SimpleRecording-20 uses JMF player for playback
+///////////////////////////////////////////////////////////////////////////////
+ 
+// List of scripts used by this script
+//
+this.interpreter.source ("scripts/level2/utils/RecordingTestSetup.bsh");
+this.interpreter.source ("scripts/level1/PlaybackRecording.bsh");
+this.interpreter.source ("scripts/level1/FindMediaServer.bsh");
+
+/**
+ * Main method to perform completed non-segmented recording scenario.
+ *
+ * @return  null string if no problems encountered, 
+ *          failure reason if problems encountered 
+ */
+String simpleRecording1020(String testName, boolean useExistingRecs, boolean useRemotePlayer)
+{
+    return simpleRecording1020(testName, useExistingRecs, useRemotePlayer, false);
+}
+String simpleRecording1020(String testName, boolean useExistingRecs, boolean useRemoteService, boolean backgroundRec)
+{
+    String failureReason = null;
+    
+    //
+    // Step 1: test setup: create a recording, publish to CDS
+    //
+    int recLengthSecs = 30;
+    String results = performRecordingTestSetup(testName, useExistingRecs, recLengthSecs, WAIT_FOR_RECORDING_STATE_SECS,
+                        false, rxDriverDVR.COMPLETED_STATE, backgroundRec);
+    if (results != null)
+    {
+        // Problems setting up for test
+        failureReason = "Problems during test setup: " + results;
+        rxLog.callTrace ("Failure performing recording setup : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName +  " - Completed Test setup for playback");
+    
+    
+    //
+    // Step 2: get local media server
+    //
+    // Find the index of the local media server
+    int mediaServerIndex = findLocalMediaServer();
+    if(mediaServerIndex == -1)
+    {
+        failureReason = "Problems getting local media server";
+        rxLog.callTrace ("Failure getting media server : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName +  " - Found local media server");
+    
+    // Get the content item index of first and only recording
+    int recContentItem = getContentItemIndexOfFirstRecording(mediaServerIndex);
+    if (recContentItem == -1)
+    {
+        failureReason = "Problems getting recording content item";
+        rxLog.callTrace ("Failure getting recording content item : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Found recording content item to playback");
+    
+    // Stop broadcast service selection so video device is available for playback
+    tuneToServiceStop();
+    
+    //
+    // Step 3. Begin playback till EOS.
+    // 
+    // Create and start HNPlayer to play the recording created during setup
+    if (!startHNPlayback(useRemoteService,mediaServerIndex,recContentItem))
+    {
+        failureReason = "Problems setting up player for content";
+        rxLog.callTrace ("Failure setting up player : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Created and started player");
+    
+    
+    //Determine EOS wait time 
+    // *TODO* - workaround for OCORI-4378 - incorrect duration for JMF playback
+    double recLength = recLengthSecs;
+    if (useRemoteService)
+    {
+        recLength = getPlaybackDurationSecs();        
+        rxLog.info(testName +  " - recLength as returned by OcapAppDriverCore.getPlaybackDurationSecs() is " +recLength+" secs");
+    }
+    else
+    {
+        rxLog.info(testName +  " - recLength workaround for JMF playback is " +recLength+" secs");        
+    }
+    int currentTime = getMediaTimeSecs();
+    int eosWaitTime = recLength - currentTime + TOLERANCE_SECS;
+    rxLog.info(testName +  " - waiting " +eosWaitTime +" secs for EOS event");
+    // wait for EOS of current playback
+    if(!waitForEOS(eosWaitTime))
+    {
+        failureReason = "Failed to receive playback event: PLAYER_CONTROLLER_END_OF_CONTENT";
+        rxLog.callTrace ("Failure - Did not receive PLAYER_CONTROLLER_END_OF_CONTENT:", this.callstack);
+        stopPlayback();
+        return failureReason;
+    }
+    rxLog.info(testName + " - played recording back till EOS");
+
+    // Verify media time is within EOS range 
+    int max = recLength + TOLERANCE_SECS;
+    int min = recLength - TOLERANCE_SECS;
+    if (min < 0)
+    {
+        min = 0;
+    }
+    if (useRemoteService)
+    {
+        if (!checkPlaybackPosition(min, max))
+        {
+            failureReason = "EOS at unexpected media time";
+            rxLog.callTrace ("Failure - EOS at unexpected media time of " +getMediaTimeSecs() +
+                    ".  Expected it to be between " +min + " and " +max, this.callstack);
+            stopPlayback();
+            return failureReason;
+        }
+    }
+    rxLog.info(testName + " - Completed playback and EOS media time is correct");
+    stopPlayback();
+    return failureReason;
+}

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:05 $
+-->
+
+<list>
+    <category name="Testing">
+        <project>
+            <name>testing-junit</name>
+            <part>JUnit helpers and extentions</part>
+            <package>net.sourceforge.groboutils.junit.v1</package>
+            <description>
+            JUnit extentions for easing test making.
+            </description>
+            <class>
+                <name>AssertConstructor</name>
+                <description>
+                Similar to the Assert class in JUnit, but allows for testing
+                objects and classes for the existence of different
+                constructors.
+                </description>
+            </class>
+            <class>
+                <name>AssertTestFactory</name>
+                <description>
+                Creates Test objects that execute a single assert.  Used to
+                create 'soft' (sub) tests during integration testing.
+                </description>
+            </class>
+            <class>
+                <name>SubTestTestCase</name>
+                <description>
+                Subclass of TestCase that allows for a test to dynamically
+                register a sub-test, which will be run after the owning test
+                finishes, and in new tests.
+                </description>
+            </class>
+            <class>
+                <name>IntegrationTestCase</name>
+                <description>
+                Subclass of TestCase designed for integration tests, which
+                generally need 'soft' failures - a failure which does not need
+                to stop the execution of the test.
+                </description>
+            </class>
+            <class>
+                <name>MultiThreadedTestRunner</name>
+                <description>
+                A utility class which executes a collection of small test
+                methods in parallel. Capable of specifying a maximum run time
+                to prevent dead-locks or infinite loops from hanging the test
+                execution. Propigates all errors to the owning class.
+                </description>
+            </class>
+            <status>
+            10-Dec-2002:
+            Need to finish up tests for the final release.
+            </status>
+        </project>
+        <project>
+            <name>testing-junit</name>
+            <part>Test Class Parsing</part>
+            <package>net.sourceforge.groboutils.junit.v1.parser</package>
+            <description>
+            Extracted the functionality used by
+            <tt>junit.framework.TestSuite</tt> to parse the Test classes, and
+            enabled it for easy exension to support different construction
+            mechanisms.
+            </description>
+            <status>
+            10-Dec-2002:
+            Tests need to be buffed for better support.
+            </status>
+        </project>
+        <project>
+            <name>testing-junit</name>
+            <part>Hierarchial Unit Tests</part>
+            <package>net.sourceforge.groboutils.junit.v1.iftc</package>
+            <description>
+             JUnit extention for helping in the creation of hierarchial test
+             cases, also known as 'contract' or 'interface' test-cases.
+            </description>
+            <status>
+            10-Dec-2002:
+            Need to finish up tests for the final release.
+            </status>
+        </project>
+    </category>
+</list>
+

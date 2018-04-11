@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:04 $
+-->
+
+
+<document>
+<head>
+    <name>JUnit Tests for Class Hierarchies</name>
+</head>
+<body>
+    <i>An article by Matt Albrecht</i>
+
+<H3>The Problem Of Interfaces</H3>
+<P>
+The Sun Java Tutorial indicates that classes which implement an interface
+"[sign] a contract" <ref name="SUN" />.  In some cases, the contract specifies
+terms for the contract beyond the API declared in the interface source-code,
+such as "must never return null", usually declared in the JavaDoc.  Hence,
+the logic has moved from the code itself to the structure of the code
+<ref name="BG99" />.
+</P>
+<P>
+The JUnit testing framework's design encourages good testing habits by
+moving much of the menial bookkeeping to the automated system, but it
+falls short in helping developers test situations such as the interface
+problem above.  A common solution involves a manual cut-n-paste effort
+that relies more on the developer's memory than on automation.
+</P>
+
+<H3>The Problem of Antidecomposition</H3>
+<P>
+D.E. Perry and G.E. Kaiser <ref name="PK90" /> state in their not-so-obvious
+axiom of Antidecomposition that even if super-class methods are completely
+tested in the super-class, they still need to be retested in any subclasses,
+since the inherited methods exist in a different context.
+</P>
+<P>
+Again, JUnit encourages the use of cut-n-paste code for testing subclasses,
+or the tests are simply overlooked <ref name="BMMM98" />.  Some developers
+attempt to subclass one test from another, but that solution does not scale
+when interfaces need tests as well.  To develop robust tests, it seems the
+tests need a design just as much as the core software.
+</P>
+
+<H3>A Solution</H3>
+<P>
+This JUnit extension contains the
+<tt>net.sourceforge.groboutils.junit.iftc</tt> package which has
+the explicit purpose to help developers write tests for such
+inherited logic (the GJE).
+It also helps reflect the source structure in the tests: if a class
+extends a class and/or implements an interface, then so do its test suites.
+</P>
+
+         
+<reflist>
+    <refitem id="BG99">
+    Imran Bashir and Amrit L. Goel.  <i>Testing Object-Oriented Software:
+    Life Cycle Solutions.</i>  Springer, 1999.
+    </refitem>
+    <refitem id="BMMM98">
+    William J. Brown, Raphael C. Malveau, Hays W. "Skip" McCormick III,
+    and Thomas J. Mowbray.  <i>AntiPatterns.</i>  John Wiley &amp; Sons, Inc,
+    1998.
+    </refitem>
+    <refitem id="PK90">
+    D.E. Perry and G.E. Kaiser.  Adequate Testing and Object-Oriented
+    programming.  <i>Journal of Object-Oriented Programming</i>, 2:13-19,
+    Jan. / Feb. 1990.
+    </refitem>
+    <refitem id="SUN">
+    Sun Microsystems, Inc.  "Using Interfaces," on the Sun Java
+    Tutorial web site, <a href=
+    "http://java.sun.com/docs/books/tutorial/java/interpack/usinginterface.html"
+    >http://java.sun.com/docs/books/tutorial/java/interpack/usinginterface.html
+    </a>
+    </refitem>
+</reflist>
+
+</body>
+</document>
+

@@ -1,0 +1,172 @@
+<!-- Common properties/tasks that are shared by all projects
+
+However, for possible overrides, these are all prefixed by
+"_shared.common."
+
+ -->
+    <!-- project-specific properties overrides -->
+    <property file="build.properties" />
+    
+    <!-- GroboUtils-specific properties -->
+    <property file="../build.properties" />
+    
+    <!-- user-specific properties -->
+    <property file="${user.home}/build.properties" />
+ 
+
+    <!-- Directory Structure -->
+    <property name="_shared.common.dirs.sources" value="${basedir}/sources" />
+    <property name="_shared.common.dirs.sources.dev"
+        value="${basedir}/sources/dev" />
+    <property name="_shared.common.dirs.sources.eut" value="${basedir}/sources/eut" />
+    <property name="_shared.common.dirs.sources.ut" value="${basedir}/sources/ut" />
+    <property name="_shared.common.dirs.sources.iut" value="${basedir}/sources/iut" />
+    <property name="_shared.common.dirs.sources.ait" value="${basedir}/sources/ait" />
+    
+    <property name="_shared.common.dirs.classes" value="${basedir}/classes" />
+    <property name="_shared.common.dirs.classes.dev"
+        value="${_shared.common.dirs.classes}/dev" />
+    <property name="_shared.common.dirs.classes.eut"
+        value="${_shared.common.dirs.classes}/eut" />
+    <property name="_shared.common.dirs.classes.ut"
+        value="${_shared.common.dirs.classes}/ut" />
+    <property name="_shared.common.dirs.classes.iut"
+        value="${_shared.common.dirs.classes}/iut" />
+    <property name="_shared.common.dirs.classes.ait"
+        value="${_shared.common.dirs.classes}/ait" />
+    
+    <property name="_shared.common.dirs.xdocs" value="${basedir}/xdocs" />
+    
+    <property name="_shared.common.dirs.test-output" value="${basedir}/test-out" />
+
+    <property name="_shared.common.dirs.manifests" value="${basedir}/packages" />
+    
+    <property name="_shared.common.dirs.deploy-base" value="${basedir}/deploy" />
+    <property name="_shared.common.dirs.deploy"
+        value="${_shared.common.dirs.deploy-base}/${product}-${version}" />
+    <property name="_shared.common.dirs.deploy.lib"
+        value="${_shared.common.dirs.deploy}/lib" />
+    <property name="_shared.common.dirs.deploy.docs"
+        value="${_shared.common.dirs.deploy}/docs" />
+    <property name="_shared.common.dirs.deploy.api-docs"
+        value="${_shared.common.dirs.deploy.docs}/api" />
+
+    
+    
+    
+    <!-- output files -->
+    <property name="_shared.common.output.jar-name.dev.root"
+        value="${basedir}/${product}-${version}-core.jar" />
+    <property name="_shared.common.output.jar-name.dev"
+        value="${_shared.common.dirs.deploy.lib}/${product}-${version}-core.jar" />
+    <property name="_shared.common.output.jar-name.eut"
+        value="${_shared.common.dirs.deploy.lib}/${product}-${version}-eutests.jar" />
+    <property name="_shared.common.output.jar-name.ut"
+        value="${_shared.common.dirs.deploy.lib}/${product}-${version}-utests.jar" />
+    <property name="_shared.common.output.jar-name.iut"
+        value="${_shared.common.dirs.deploy.lib}/${product}-${version}-iutests.jar" />
+    <property name="_shared.common.output.jar-name.ait"
+        value="${_shared.common.dirs.deploy.lib}/${product}-${version}-aitests.jar" />
+    
+    <property name="_shared.common.output.doc-zip"
+        value="${_shared.common.dirs.deploy-base}/${product}-${version}-doc.zip" />
+    <property name="_shared.common.output.src-zip"
+        value="${_shared.common.dirs.deploy-base}/${product}-${version}-src.zip" />
+    <property name="_shared.common.output.deploy-zip"
+        value="${_shared.common.dirs.deploy-base}/${product}-${version}.zip" />
+    <property name="_shared.common.output.deploy-tgz"
+        value="${_shared.common.dirs.deploy-base}/${product}-${version}.tar.gz" />
+    <property name="_shared.common.output.deploy-tbz2"
+        value="${_shared.common.dirs.deploy-base}/${product}-${version}.tar.bz2" />
+    <property name="_shared.common.output.deploy-tar"
+        value="${_shared.common.dirs.deploy-base}/${product}-${version}.tar" />
+
+        
+    
+    <!-- Pattern sets -->
+    <patternset id="testset.onlinetests">
+        <exclude name="**/*Online*Test.java" if="global.offline" />
+        <exclude name="**/*Online*Test.class" if="global.offline" />
+    </patternset>
+    
+    
+    <!-- used for JDK1.2 mixed packages - it requires JDK 1.2 -->
+    <patternset id="testset.jdk12tests">
+        <exclude name="**/*JDK12*Test.java"
+            unless="_shared.common.depend.has-jdk12" />
+        <exclude name="**/*JDK12*Test.class"
+            unless="_shared.common.depend.has-jdk12" />
+    </patternset>
+    
+    
+    <!-- used for EasyMock support detection - it requires JDK 1.3 -->
+    <patternset id="testset.jdk13tests">
+        <exclude name="**/*JDK13*Test.java"
+            unless="_shared.common.depend.has-jdk13" />
+        <exclude name="**/*JDK13*Test.class"
+            unless="_shared.common.depend.has-jdk13" />
+    </patternset>
+    
+    
+    <!-- used for JDK 1.4 mixed packages - it requires JDK 1.4 -->
+    <patternset id="testset.jdk14tests">
+        <exclude name="**/*JDK14*Test.java"
+            unless="_shared.common.depend.has-jdk14" />
+        <exclude name="**/*JDK14*Test.class"
+            unless="_shared.common.depend.has-jdk14" />
+    </patternset>
+    
+    
+    <!-- used for JDK1.2 mixed packages - it requires JDK 1.2 -->
+    <patternset id="codeset.jdk12">
+        <exclude name="**/*JDK12*.java"
+            unless="_shared.common.depend.has-jdk12" />
+        <exclude name="**/*JDK12*.class"
+            unless="_shared.common.depend.has-jdk12" />
+    </patternset>
+    
+    
+    <!-- used for EasyMock support detection - it requires JDK 1.3 -->
+    <patternset id="codeset.jdk13">
+        <exclude name="**/*JDK13*.java"
+            unless="_shared.common.depend.has-jdk13" />
+        <exclude name="**/*JDK13*.class"
+            unless="_shared.common.depend.has-jdk13" />
+    </patternset>
+    
+    
+    <!-- used for JDK 1.4 mixed packages - it requires JDK 1.4 -->
+    <patternset id="codeset.jdk14">
+        <exclude name="**/*JDK14*.java"
+            unless="_shared.common.depend.has-jdk14" />
+        <exclude name="**/*JDK14*.class"
+            unless="_shared.common.depend.has-jdk14" />
+    </patternset>
+    
+    
+    <!-- code coverage test task
+    <path id="_shared.classpath.hansel">
+        <pathelement location="${_shared.dirs.3rdparty}/hansel/0.93/hansel.jar" />
+        <pathelement location="${_shared.dirs.3rdparty}/bcel/5.0/bcel.jar" />
+        <pathelement location="${_shared.dirs.3rdparty}/junit/3.8.1/junit.jar" />
+    </path>
+    <taskdef name="hansel.coverage" classname="org.hansel.AntCoverageTask">
+        <classpath><path refid="_shared.classpath.hansel" /></classpath>
+    </taskdef>
+    -->
+    
+    <!--
+    <path id="_shared.classpath.quilt">
+        <pathelement location="${_shared.dirs.3rdparty}/quilt/0.4/quilt-0.4a.jar" />
+        <pathelement location="${_shared.dirs.3rdparty}/bcel/5.0/bcel.jar" />
+        <pathelement location="${_shared.dirs.3rdparty}/junit/3.8.1/junit.jar" />
+        <pathelement location="${_shared.dirs.3rdparty}/quilt/0.4/commons-cli.jar" />
+        <pathelement location="${_shared.dirs.3rdparty}/quilt/0.4/commons-collections.jar" />
+        <pathelement location="${_shared.dirs.3rdparty}/quilt/0.4/graph.jar" />
+        <pathelement location="${_shared.dirs.3rdparty}/quilt/0.4/colt.jar" />
+    </path>
+    <taskdef name="quilt"
+         classname="junit.quilt.ant.AntQuiltRunner"
+         classpathref="_shared.classpath.quilt" />
+    -->
+    

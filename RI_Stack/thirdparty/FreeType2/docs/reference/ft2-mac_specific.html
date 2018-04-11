@@ -1,0 +1,117 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+Mac-Specific Interface
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FT_New_Face_From_FOND">FT_New_Face_From_FOND</a></td><td></td><td><a href="#FT_GetFile_From_Mac_Name">FT_GetFile_From_Mac_Name</a></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>The following definitions are only available if FreeType is compiled on a Macintosh.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FT_New_Face_From_FOND">
+<h4>FT_New_Face_From_FOND</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_New_Face_From_FOND</b>( <a href="ft2-base_interface.html#FT_Library">FT_Library</a>  library,
+                         Handle      fond,
+                         <a href="ft2-basic_types.html#FT_Long">FT_Long</a>     face_index,
+                         <a href="ft2-base_interface.html#FT_Face">FT_Face</a>    *aface );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Creates a new face object from an FOND resource.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>inout</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>library</b></td><td>
+<p>A handle to the library resource.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>fond</b></td><td>
+<p>An FOND resource.</p>
+</td></tr>
+<tr valign=top><td><b>face_index</b></td><td>
+<p>Only supported for the -1 `sanity check' special case.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>aface</b></td><td>
+<p>A handle to a new face object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>notes</b></em></td></tr><tr><td>
+<p>This function can be used to create FT_Face abjects from fonts that are installed in the system like so:</p>
+<font color=blue><pre>
+  fond = GetResource( 'FOND', fontName );                          
+  error = FT_New_Face_From_FOND( library, fond, 0, &amp;face );        
+</pre></font>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_GetFile_From_Mac_Name">
+<h4>FT_GetFile_From_Mac_Name</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT_DEF( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_GetFile_From_Mac_Name</b>( <font color="darkblue">char</font>*     fontName, 
+                            FSSpec*   pathSpec,
+                            <a href="ft2-basic_types.html#FT_Long">FT_Long</a>*  face_index );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Returns an FSSpec for the disk file containing the named font.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>fontName</b></td><td>
+<p>Mac OS name of the font (eg. Times New Roman Bold).</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>pathSpec</b></td><td>
+<p>FSSpec to the file. For passing to <a href="ft2-base_interface.html#FT_New_Face">FT_New_Face</a></p>
+</td></tr>
+<tr valign=top><td><b>face_index</b></td><td>
+<p>Index of the face. For passing to <a href="ft2-base_interface.html#FT_New_Face">FT_New_Face</a></p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

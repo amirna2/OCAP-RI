@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent+)>
+	<!ATTLIST Xlet 
+	name CDATA #REQUIRED
+	orgID CDATA #REQUIRED
+	appID CDATA #REQUIRED
+	pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+	<!ATTLIST RCEvent 
+	name CDATA #IMPLIED
+	pauseBeforeNext CDATA #IMPLIED
+	monitorTimeout CDATA #IMPLIED
+	getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+
+    <Xlet name="PropertiesTest" orgID="0x1" appID="0x7231" pauseAfterLast="5000">
+    </Xlet>
+ 
+	<Xlet name="TuneTest" orgID="0x1" appID="0x5204" pauseAfterLast="7000">
+
+		<Repeat count="2">
+			<RCEvent name="Channel Up" pauseBeforeNext="1000" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+		</Repeat>
+		<RCEvent name="Channel Up" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+
+		<Repeat count="2">
+			<RCEvent name="Channel Down" pauseBeforeNext="1000" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+		</Repeat>
+		<RCEvent name="Channel Down" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_CHANNEL_DOWN</RCEvent>
+
+		<RCEvent name="Repeat Tune (Static Timing)" pauseBeforeNext="120000" getResultsAfter="true">VK_3</RCEvent>
+
+		<RCEvent name="Channel Up" pauseBeforeNext="1000" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+		<RCEvent name="Channel Up" pauseBeforeNext="1000" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+
+		<RCEvent name="Channel Down" pauseBeforeNext="1000" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+		<RCEvent name="Channel Down" pauseBeforeNext="1000" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+
+		<RCEvent name="Repeat Tune (Dynamic Timing)" pauseBeforeNext="120000" getResultsAfter="true">VK_2</RCEvent>
+
+	</Xlet>
+
+
+</AutoXlet>

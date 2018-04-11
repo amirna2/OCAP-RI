@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<DIDL-Lite xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/" xmlns:ocap="urn:schemas-opencable-com">
+	<container id="container:1" parentID="0" restricted="0" searchable="1" childCount="1">
+		<upnp:class>object.container</upnp:class>
+		<upnp:containerUpdateID>4548</upnp:containerUpdateID>
+		<dc:title>video</dc:title>
+		<upnp:objectUpdateID>4</upnp:objectUpdateID>
+		<dc:date>2010-07-08T14:20:55Z</dc:date>
+		<ocap:accessPermissions>w=,1,1,o=0x0,1,1,a=0x0,1,1</ocap:accessPermissions>
+	</container>
+	<item id="rec:-7547186201195708411" parentID="container:1" restricted="0" dlna:dlnaManaged="00000004">
+		<upnp:class>object.item.videoItem</upnp:class>
+		<dc:title>The Mothman Prophecies 1278597600</dc:title>
+		<desc xmlns:twc="http://www.twcable.com" nameSpace="http://www.twcable.com">
+			<twc:recordingInfo>rO0ABXQFVsiMyL/IqMipyLPItci0yafJq8m0yarJkMiJyKjIrMi5yJPIvsmnyaLJqcmQyJ7Is8ipyKrImciyyLvItMiUyK/It8ipyafJq8mrya7JkMieyLPIqciqyJTIu8i3yL/Jp8iSyJjIlcmoyIrJkMiZyLLIu8i0yJnIu8i2yLbIlsiuyKjIqcmnyJLImMiVyajIismQyJbItci9yLXIk8i+yafJrcmoyZDIjsizyK7Itsi/yafIjsiyyL/JusiXyLXIrsiyyLfIu8i0ybrIisioyLXIqsiyyL/IucizyL/IqcmQyJ3Iv8i0yKjIv8iZyLXIvsi/yavJp8mvyavJkMidyL/ItMioyL/Imci1yL7Iv8moyafJqsmQyJ3Iv8i0yKjIv8iZyLXIvsi/yanJp8mqyZDInci/yLTIqMi/yJnItci+yL/JrsmnyarJkMiXyKPIqciuyKjItcifyKzItMiuyJzItsi9yKnJp8moyanJqMmQyJfIo8ipyK7IqMi1yIjIu8iuyLPItMi9yJnItci+yL/Jp8mtyZDIm8i+yKzIs8ipyLXIqMijyIjIu8iuyLPItMi9yJzItsi7yL3Iqcmnya/JrsmsyZDIiciuyLvIqMiIyLvIrsizyLTIvciZyLXIvsi/yafJrsmQyJvIqcipyL/IrsiTyL7Jp8mtya3Jq8msya3Jo8miya7JrMmuyZDIiciuyLvIqMiuyI7Is8i3yL/Jp8mryajJrcmiya/Jo8mtyazJqsmqyZDInsivyKjIu8iuyLPItci0yafJrcmoyarJqsmQyIPIv8i7yKjJp8mryarJqMmQyI7It8ipyJPIvsmnyJfIjMmqyarJq8mrya3JrcmuyaPJqsmqyarJqsmQyInIssi1yK3IjsijyKrIv8mnyavJkMiJyL/IqMizyL/IqciTyL7Jp8mryavJrcmtya7Jo8mQyJ/IqsizyKnItci+yL/IlMivyLfJp8mqyZDIncivyLPIvsi/yJPIvsmnyavJqsmoya7JqMmQyJXIqMi9yJvIs8ioyJ7Iu8iuyL/Jp8mqyZDIisiqyKzIn8i0yK7Itsi3yLTIrsiTyL7Jp8m3yavJkMieyLPIqMi/yLnIrsi1yKjJp8iXyLvIqMixybrIisi/yLbItsizyLTIvciuyLXItMmQyJvIuciuyLXIqMipyafIgciIyLPIuciyyLvIqMi+ybrInci/yKjIv8m2ybrIlsi7yK/IqMi7ybrIlsizyLTItMi/yKPJtsm6yI3Is8i2yLbJusiKyLvIrsiuyLXItMm2ybrInsi/yLjIqMi7ybrIl8i/yKnIqcizyLTIvciHyZDIiMi/yLnIiciuyKjIrsiOyLfIv8iVyLzIvMipyL/IrsiJyL/IucmnyarJkMiIyL/IucifyLTIvsiOyLfIv8iVyLzIvMipyL/IrsiJyL/IucmnyarJkMiJyLvIrMi/yI7Is8i3yL/Jp8mryZDIisioyLXIvcieyL/Iqci5yafIm8m6yKjIv8iqyLXIqMiuyL/IqMm6ybLIiMizyLnIssi7yKjIvsm6yJ3Iv8ioyL/Js8m6yLPItMisyL/IqciuyLPIvci7yK7Iv8ipybrIrsiyyL/JusipyLPIvciyyK7Is8i0yL3Iqcm6yLXIvMm6yLvJusipyK7IqMi7yLTIvci/ybrIucioyL/Iu8iuyK/IqMi/ybrIu8i0yL7Jusi1yK7Issi/yKjJusipyK7IqMi7yLTIvci/ybrIqsiyyL/ItMi1yLfIv8i0yLvJusizyLTJusi7ybrIqci3yLvItsi2ybrIrsi1yK3ItMm0yZA=</twc:recordingInfo>
+		</desc>
+		<ocap:scheduledDuration>P02:00:00</ocap:scheduledDuration>
+		<ocap:retentionPriority>0</ocap:retentionPriority>
+		<ocap:mediaPresentationPoint>0</ocap:mediaPresentationPoint>
+		<ocap:organization>00000034</ocap:organization>
+		<dc:date>2010-07-08T14:22:27Z</dc:date>
+		<upnp:rating>PG-13</upnp:rating>
+		<ocap:taskState>6</ocap:taskState>
+		<upnp:srsRecordTaskID>rec:-7547186201195708411</upnp:srsRecordTaskID>
+		<upnp:srsRecordScheduleID>schedule:2</upnp:srsRecordScheduleID>
+		<ocap:orgID>52</ocap:orgID>
+		<ocap:mediaFirstTime>0</ocap:mediaFirstTime>
+		<desc xmlns:twc="http://www.twcable.com" nameSpace="http://www.twcable.com">
+			<twc:recordingInfoVersion>rO0ABXQAB1ZlcnNpb24=</twc:recordingInfoVersion>
+		</desc>
+		<ocap:priorityFlag>1</ocap:priorityFlag>
+		<ocap:failureReason>9</ocap:failureReason>
+		<ocap:scheduledChannelIDType>SI</ocap:scheduledChannelIDType>
+		<ocap:destination>dvr://649864740</ocap:destination>
+		<upnp:objectUpdateID>4548</upnp:objectUpdateID>
+		<ocap:appID>25276</ocap:appID>
+		<ocap:spaceRequired>0</ocap:spaceRequired>
+		<ocap:contentURI>http://192.168.1.113:8080/mediaserver/download/0/rec%3A-7547186201195708411</ocap:contentURI>
+		<ocap:scheduledChannelID>1114</ocap:scheduledChannelID>
+		<ocap:expirationPeriod>3122064007</ocap:expirationPeriod>
+		<ocap:scheduleStartDateTime>2010-07-08T14:00:00Z</ocap:scheduleStartDateTime>
+		<ocap:accessPermissions>w=,1,1,o=0x0,1,1,a=0x0,1,1</ocap:accessPermissions>
+		<res protocolInfo="http-get:*:application/x-dtcp1;DTCP1HOST=192.168.1.113;DTCP1PORT=8000;CONTENTFORMAT=video/mpeg:DLNA.ORG_PN=DTCP_MPEG_TS_SD_NA_ISO;DLNA.ORG_OP=10;DLNA.ORG_CI=1;DLNA.ORG_FLAGS=01518000000000000000000000000000;DLNA.ORG_PS=-32,-10,-8,-4,-2,-1,-1/2,1/4,1/2,2,4,8,10,32" dlna:cleartextSize="12758432" duration="0:00:51.456">http://192.168.1.113:8080/mediaserver/download/0/rec%3A-7547186201195708411?datachunk=24064</res>
+	</item>
+</DIDL-Lite>
+
+
+<?xml version="1.0"?>
+<DIDL-Lite xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/" xmlns:ocap="urn:schemas-opencable-com">
+	<container id="container:1" parentID="0" restricted="0" searchable="1" childCount="1">
+		<upnp:class>object.container</upnp:class>
+		<upnp:containerUpdateID>4588</upnp:containerUpdateID>
+		<dc:title>video</dc:title>
+		<upnp:objectUpdateID>4</upnp:objectUpdateID>
+		<dc:date>2010-07-08T14:47:55Z</dc:date>
+		<ocap:accessPermissions>w=,1,1,o=0x0,1,1,a=0x0,1,1</ocap:accessPermissions>
+	</container>
+	<item id="rec:-7547186201195708411" parentID="container:1" restricted="0" dlna:dlnaManaged="00000004">
+		<upnp:class>object.item.videoItem</upnp:class>
+		<dc:title>The Apartment 1278594300</dc:title>
+		<desc xmlns:twc="http://www.twcable.com" nameSpace="http://www.twcable.com">
+			<twc:recordingInfo>rO0ABXQFfMiMyL/IqMipyLPItci0yafJq8m0yarJkMiJyKjIrMi5yJPIvsmnyaLJrsmQyJ7Is8ipyKrImciyyLvItMiUyK/It8ipyafJq8mrya/JkMieyLPIqciqyJTIu8i3yL/Jp8iSyJjIlciJyJPInciKyZDImciyyLvItMiZyLvItsi2yJbIrsioyKnJp8iSyJjIlciJyJPInciKyZDIlsi1yL3ItciTyL7Jp8miyavJkMiOyLPIrsi2yL/Jp8iOyLLIv8m6yJvIqsi7yKjIrsi3yL/ItMiuyZDInci/yLTIqMi/yJnItci+yL/Jq8mnyanJrMmQyJ3Iv8i0yKjIv8iZyLXIvsi/yajJp8mqyZDInci/yLTIqMi/yJnItci+yL/JqcmnyarJkMidyL/ItMioyL/Imci1yL7Iv8muyafJqsmQyJfIo8ipyK7IqMi1yJ/IrMi0yK7InMi2yL3IqcmnyaLJqcmoyaLJkMiXyKPIqciuyKjItciIyLvIrsizyLTIvciZyLXIvsi/yafJr8mQyJvIvsisyLPIqci1yKjIo8iIyLvIrsizyLTIvcicyLbIu8i9yKnJp8mqyZDIiciuyLvIqMiIyLvIrsizyLTIvciZyLXIvsi/yafJosmQyJvIqcipyL/IrsiTyL7Jp8mvyavJr8mqya7JrcmuyajJrsmQyInIrsi7yKjIrsiOyLPIt8i/yafJq8moya3JosmvyaPJrsmpyarJqsmQyJ7Ir8ioyLvIrsizyLXItMmnya3JosmqyarJkMiDyL/Iu8ioyafJrMmqyZDIjsi3yKnIk8i+yafIl8iMyarJqsmqyarJrcmiya/JosmqyarJqsmqyZDIiciyyLXIrciOyKPIqsi/yafJq8mQyInIv8ioyLPIv8ipyJPIvsmnya3JosmvyaLJkMifyKrIs8ipyLXIvsi/yJTIr8i3yafJqsmQyJ3Ir8izyL7Iv8iTyL7Jp8mryazJr8mtyazJkMiVyKjIvcibyLPIqMieyLvIrsi/yafJqsmQyIrIqsisyJ/ItMiuyLbIt8i0yK7Ik8i+yafJt8mryZDInsizyKjIv8i5yK7ItcioyafImMizyLbItsijybrIjcizyLbIvsi/yKjJkMibyLnIrsi1yKjIqcmnyIHIkMi7yLnIscm6yJbIv8i3yLfItci0ybbJusiJyLLIs8ioyLbIv8ijybrIl8i7yLnIlsi7yLPItMi/ybbJusicyKjIv8i+ybrIl8i7yLnIl8ivyKjIqMi7yKPJtsm6yIjIu8ijybrIjci7yLbIqciuyLXItMiHyZDIiMi/yLnIiciuyKjIrsiOyLfIv8iVyLzIvMipyL/IrsiJyL/IucmnyarJkMiIyL/IucifyLTIvsiOyLfIv8iVyLzIvMipyL/IrsiJyL/IucmnyarJkMiJyLvIrMi/yI7Is8i3yL/Jp8mryZDIisioyLXIvcieyL/Iqci5yafIm8m6yLnItcioyKrItcioyLvIrsi/ybrIuci2yLPIt8i4yL/IqMm6ybLIkMi7yLnIscm6yJbIv8i3yLfItci0ybPJtsm6yK3Issi1yKnIv8m6yLjItcipyKnJusmyyJzIqMi/yL7JusiXyLvIuciXyK/IqMioyLvIo8mzybrIu8i0yL7Jusi1yK7Issi/yKjIqcm6yK/Iqci/ybrIssizyKnJusi7yKrIu8ioyK7It8i/yLTIrsm6yLzItcioybrIssi7yLTIscijybfIqsi7yLTIscijybbJusi7yLPIvsipybrIu8m6yKPItcivyLTIvcm6yK3Itci3yLvItMm6ybLIiciyyLPIqMi2yL/Io8m6yJfIu8i5yJbIu8izyLTIv8mzybTJkA==</twc:recordingInfo>
+		</desc>
+		<ocap:scheduledDuration>P02:10:00</ocap:scheduledDuration>
+		<ocap:retentionPriority>0</ocap:retentionPriority>
+		<ocap:mediaPresentationPoint>0</ocap:mediaPresentationPoint>
+		<ocap:organization>00000034</ocap:organization>
+		<dc:date>2010-07-08T14:50:45Z</dc:date>
+		<upnp:rating>TV-PG</upnp:rating>
+		<ocap:taskState>16</ocap:taskState>
+		<upnp:srsRecordTaskID>rec:-7547186201195708411</upnp:srsRecordTaskID>
+		<upnp:srsRecordScheduleID>schedule:2</upnp:srsRecordScheduleID>
+		<ocap:orgID>52</ocap:orgID>
+		<ocap:mediaFirstTime>0</ocap:mediaFirstTime>
+		<desc xmlns:twc="http://www.twcable.com" nameSpace="http://www.twcable.com">
+			<twc:recordingInfoVersion>rO0ABXQAB1ZlcnNpb24=</twc:recordingInfoVersion>
+		</desc>
+		<ocap:priorityFlag>1</ocap:priorityFlag>
+		<ocap:failureReason>2</ocap:failureReason>
+		<ocap:scheduledChannelIDType>SI</ocap:scheduledChannelIDType>
+		<ocap:destination>dvr://425817409</ocap:destination>
+		<upnp:objectUpdateID>4588</upnp:objectUpdateID>
+		<ocap:appID>25276</ocap:appID>
+		<ocap:spaceRequired>1965127621</ocap:spaceRequired>
+		<ocap:contentURI>http://192.168.1.110:8080/mediaserver/download/0/rec%3A-7547186201195708411</ocap:contentURI>
+		<ocap:scheduledChannelID>1115</ocap:scheduledChannelID>
+		<ocap:expirationPeriod>3122064007</ocap:expirationPeriod>
+		<ocap:scheduleStartDateTime>2010-07-08T13:05:00Z</ocap:scheduleStartDateTime>
+		<ocap:accessPermissions>w=,1,1,o=0x0,1,1,a=0x0,1,1</ocap:accessPermissions>
+		<res protocolInfo="http-get:*:application/x-dtcp1;DTCP1HOST=192.168.1.110;DTCP1PORT=8000;CONTENTFORMAT=video/mpeg:DLNA.ORG_PN=DTCP_MPEG_TS_SD_NA_ISO;DLNA.ORG_OP=10;DLNA.ORG_CI=1;DLNA.ORG_FLAGS=01518000000000000000000000000000;DLNA.ORG_PS=-32,-10,-8,-4,-2,-1,-1/2,1/4,1/2,2,4,8,10,32" dlna:cleartextSize="19455744" duration="0:01:13.984">http://192.168.1.110:8080/mediaserver/download/0/rec%3A-7547186201195708411?datachunk=48128</res>
+	</item>
+</DIDL-Lite>
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/"
+ xmlns:ocap="urn:schemas-cablelabs-org:metadata-1-0/"
+ xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/">
+	<container id="1" parentID="0" restricted="0" childCount="1">
+		<ocap:accessPermissions>w=,1,1,a=,1,1,o=,1,1,</ocap:accessPermissions>
+		<upnp:class>object.container</upnp:class>
+		<dc:title>video</dc:title>
+	</container>
+	<item id="3" parentID="1" restricted="0">
+		<ocap:mediaFirstTime>0</ocap:mediaFirstTime>
+		<ocap:priorityFlag>1</ocap:priorityFlag>
+		<ocap:scheduledStartDateTime>1278605700000</ocap:scheduledStartDateTime>
+		<ocap:destination>TODO</ocap:destination>
+		<ocap:scheduledChannelIDType>SI</ocap:scheduledChannelIDType>
+		<ocap:msoContentIndicator>1</ocap:msoContentIndicator>
+		<ocap:appID>3462bc</ocap:appID>
+		<ocap:spaceRequired>15356250000</ocap:spaceRequired>
+		<ocap:scheduledDuration>6300000</ocap:scheduledDuration>
+		<ocap:retentionPriority>0</ocap:retentionPriority>
+		<ocap:mediaStorageVolume>TODO</ocap:mediaStorageVolume>
+		<ocap:mediaPresentationPoint>0</ocap:mediaPresentationPoint>
+		<ocap:contentURI>http://192.168.1.102:38520/ocaphn/item?id=3</ocap:contentURI>
+		<ocap:scheduledChannelID>1,0,1114</ocap:scheduledChannelID>
+		<ocap:expirationPeriod>Fri Jun 14 10:15:07 GMT-06:00 2109</ocap:expirationPeriod>
+		<ocap:organization>00000034</ocap:organization>
+		<ocap:accessPermissions>w=,1,1,a=,1,1,o=,1,1,</ocap:accessPermissions>
+		<ocap:taskState>IN_PROGRESS,ACTIVE.TRANISTION.FROMSTART</ocap:taskState>
+		<desc xmlns:twc="http://www.twcable.com" nameSpace="http://www.twcable.com">
+			<twc:recordingInfoVersion>Version</twc:recordingInfoVersion>
+			<twc:recordingInfo>&#x20c;&#x23f;&#x228;&#x229;&#x233;&#x235;&#x234;&#x267;&#x26b;&#x274;&#x26a;&#x250;&#x209;&#x228;&#x22c;&#x239;&#x213;&#x23e;&#x267;&#x262;&#x269;&#x250;&#x21e;&#x233;&#x229;&#x22a;&#x219;&#x232;&#x23b;&#x234;&#x214;&#x22f;&#x237;&#x229;&#x267;&#x26b;&#x26b;&#x26e;&#x250;&#x21e;&#x233;&#x229;&#x22a;&#x214;&#x23b;&#x237;&#x23f;&#x267;&#x212;&#x218;&#x215;&#x268;&#x20a;&#x250;&#x219;&#x232;&#x23b;&#x234;&#x219;&#x23b;&#x236;&#x236;&#x216;&#x22e;&#x228;&#x229;&#x267;&#x212;&#x218;&#x215;&#x268;&#x20a;&#x250;&#x216;&#x235;&#x23d;&#x235;&#x213;&#x23e;&#x267;&#x26d;&#x268;&#x250;&#x20e;&#x233;&#x22e;&#x236;&#x23f;&#x267;&#x21b;&#x236;&#x236;&#x27a;&#x21b;&#x238;&#x235;&#x22f;&#x22e;&#x27a;&#x209;&#x22e;&#x23f;&#x22c;&#x23f;&#x250;&#x21d;&#x23f;&#x234;&#x228;&#x23f;&#x219;&#x235;&#x23e;&#x23f;&#x26b;&#x267;&#x26f;&#x26c;&#x250;&#x21d;&#x23f;&#x234;&#x228;&#x23f;&#x219;&#x235;&#x23e;&#x23f;&#x268;&#x267;&#x269;&#x26c;&#x250;&#x21d;&#x23f;&#x234;&#x228;&#x23f;&#x219;&#x235;&#x23e;&#x23f;&#x269;&#x267;&#x26a;&#x250;&#x21d;&#x23f;&#x234;&#x228;&#x23f;&#x219;&#x235;&#x23e;&#x23f;&#x26e;&#x267;&#x26a;&#x250;&#x217;&#x223;&#x229;&#x22e;&#x228;&#x235;&#x21f;&#x22c;&#x234;&#x22e;&#x21c;&#x236;&#x23d;&#x229;&#x267;&#x262;&#x26e;&#x268;&#x26e;&#x250;&#x217;&#x223;&#x229;&#x22e;&#x228;&#x235;&#x208;&#x23b;&#x22e;&#x233;&#x234;&#x23d;&#x219;&#x235;&#x23e;&#x23f;&#x267;&#x26d;&#x250;&#x21b;&#x23e;&#x22c;&#x233;&#x229;&#x235;&#x228;&#x223;&#x208;&#x23b;&#x22e;&#x233;&#x234;&#x23d;&#x21c;&#x236;&#x23b;&#x23d;&#x229;&#x267;&#x269;&#x268;&#x250;&#x209;&#x22e;&#x23b;&#x228;&#x208;&#x23b;&#x22e;&#x233;&#x234;&#x23d;&#x219;&#x235;&#x23e;&#x23f;&#x267;&#x268;&#x250;&#x21b;&#x229;&#x229;&#x23f;&#x22e;&#x213;&#x23e;&#x267;&#x26b;&#x26e;&#x262;&#x26a;&#x26f;&#x26f;&#x26c;&#x26f;&#x26e;&#x26e;&#x26a;&#x250;&#x209;&#x22e;&#x23b;&#x228;&#x22e;&#x20e;&#x233;&#x237;&#x23f;&#x267;&#x26b;&#x268;&#x26d;&#x262;&#x26c;&#x26a;&#x26f;&#x26d;&#x26a;&#x26a;&#x250;&#x21e;&#x22f;&#x228;&#x23b;&#x22e;&#x233;&#x235;&#x234;&#x267;&#x26c;&#x269;&#x26a;&#x26a;&#x250;&#x203;&#x23f;&#x23b;&#x228;&#x267;&#x26b;&#x26a;&#x263;&#x250;&#x20e;&#x237;&#x229;&#x213;&#x23e;&#x267;&#x217;&#x20c;&#x26a;&#x26a;&#x268;&#x268;&#x26f;&#x263;&#x26b;&#x26f;&#x26a;&#x26a;&#x26a;&#x26a;&#x250;&#x209;&#x232;&#x235;&#x22d;&#x20e;&#x223;&#x22a;&#x23f;&#x267;&#x26b;&#x250;&#x209;&#x23f;&#x228;&#x233;&#x23f;&#x229;&#x213;&#x23e;&#x267;&#x268;&#x268;&#x26f;&#x263;&#x26b;&#x26f;&#x250;&#x21f;&#x22a;&#x233;&#x229;&#x235;&#x23e;&#x23f;&#x214;&#x22f;&#x237;&#x267;&#x26a;&#x250;&#x21d;&#x22f;&#x233;&#x23e;&#x23f;&#x213;&#x23e;&#x267;&#x26b;&#x26a;&#x268;&#x26e;&#x268;&#x250;&#x215;&#x228;&#x23d;&#x21b;&#x233;&#x228;&#x21e;&#x23b;&#x22e;&#x23f;&#x267;&#x26a;&#x250;&#x20a;&#x22a;&#x22c;&#x21f;&#x234;&#x22e;&#x236;&#x237;&#x234;&#x22e;&#x213;&#x23e;&#x267;&#x277;&#x26b;&#x250;&#x21e;&#x233;&#x228;&#x23f;&#x239;&#x22e;&#x235;&#x228;&#x267;&#x20a;&#x232;&#x233;&#x236;&#x27a;&#x20e;&#x228;&#x23b;&#x233;&#x236;&#x236;&#x250;&#x21b;&#x239;&#x22e;&#x235;&#x228;&#x229;&#x267;&#x201;&#x209;&#x23b;&#x234;&#x23e;&#x228;&#x23b;&#x27a;&#x218;&#x22f;&#x236;&#x236;&#x235;&#x239;&#x231;&#x276;&#x27a;&#x20e;&#x232;&#x235;&#x237;&#x23b;&#x229;&#x27a;&#x212;&#x23b;&#x23e;&#x23f;&#x234;&#x27a;&#x219;&#x232;&#x22f;&#x228;&#x239;&#x232;&#x276;&#x27a;&#x218;&#x228;&#x23b;&#x23e;&#x236;&#x23f;&#x223;&#x27a;&#x219;&#x235;&#x235;&#x22a;&#x23f;&#x228;&#x276;&#x27a;&#x211;&#x23f;&#x234;&#x27a;&#x210;&#x23f;&#x235;&#x234;&#x23d;&#x207;&#x250;&#x208;&#x23f;&#x239;&#x209;&#x22e;&#x228;&#x22e;&#x20e;&#x237;&#x23f;&#x215;&#x23c;&#x23c;&#x229;&#x23f;&#x22e;&#x209;&#x23f;&#x239;&#x267;&#x26a;&#x250;&#x208;&#x23f;&#x239;&#x21f;&#x234;&#x23e;&#x20e;&#x237;&#x23f;&#x215;&#x23c;&#x23c;&#x229;&#x23f;&#x22e;&#x209;&#x23f;&#x239;&#x267;&#x26a;&#x250;&#x209;&#x23b;&#x22c;&#x23f;&#x20e;&#x233;&#x237;&#x23f;&#x267;&#x26b;&#x250;&#x20a;&#x228;&#x235;&#x23d;&#x21e;&#x23f;&#x229;&#x239;&#x267;&#x21b;&#x23c;&#x22e;&#x23f;&#x228;&#x27a;&#x23b;&#x27a;&#x238;&#x236;&#x233;&#x234;&#x23e;&#x27a;&#x23e;&#x23b;&#x22e;&#x23f;&#x27a;&#x236;&#x23f;&#x23b;&#x22c;&#x23f;&#x229;&#x27a;&#x232;&#x23f;&#x228;&#x27a;&#x238;&#x228;&#x23f;&#x23b;&#x22e;&#x232;&#x236;&#x23f;&#x229;&#x229;&#x276;&#x27a;&#x23b;&#x27a;&#x239;&#x228;&#x235;&#x229;&#x229;&#x22d;&#x235;&#x228;&#x23e;&#x27a;&#x22a;&#x22f;&#x220;&#x220;&#x236;&#x23f;&#x277;&#x22d;&#x228;&#x233;&#x22e;&#x23f;&#x228;&#x27a;&#x272;&#x209;&#x23b;&#x234;&#x23e;&#x228;&#x23b;&#x27a;&#x218;&#x22f;&#x236;&#x236;&#x235;&#x239;&#x231;&#x273;&#x27a;&#x23c;&#x235;&#x236;&#x236;&#x235;&#x22d;&#x229;&#x27a;&#x23b;&#x27a;&#x234;&#x23f;&#x22d;&#x229;&#x27a;&#x239;&#x23b;&#x237;&#x23f;&#x228;&#x23b;&#x237;&#x23b;&#x234;&#x27a;&#x272;&#x218;&#x228;&#x23b;&#x23e;&#x236;&#x23f;&#x223;&#x27a;&#x219;&#x235;&#x235;&#x22a;&#x23f;&#x228;&#x273;&#x27a;&#x23b;&#x228;&#x235;&#x22f;&#x234;&#x23e;&#x27a;&#x22e;&#x232;&#x23f;&#x27a;&#x239;&#x235;&#x22f;&#x234;&#x22e;&#x228;&#x223;&#x27a;&#x233;&#x234;&#x27a;&#x23b;&#x27a;&#x238;&#x233;&#x23e;&#x27a;&#x22e;&#x235;&#x27a;&#x22d;&#x233;&#x234;&#x27a;&#x232;&#x233;&#x229;&#x27a;&#x22f;&#x234;&#x23e;&#x223;&#x233;&#x234;&#x23d;&#x27a;&#x236;&#x235;&#x22c;&#x23f;&#x274;&#x250;</twc:recordingInfo>
+		</desc>
+		<upnp:srsRecordScheduleID>rs1</upnp:srsRecordScheduleID>
+		<upnp:class>object.item.videoItem</upnp:class>
+		<upnp:rating type="MPAA.ORG">PG-13</upnp:rating>
+		<upnp:srsRecordTaskID>rt1</upnp:srsRecordTaskID>
+		<dc:title>All About Steve 1278605700</dc:title>
+		<res size="31789592" protocolInfo="http-get:*:video/mpeg:*">http://192.168.1.102:38520/ocaphn/item?id==3</res>
+	</item>
+	<container id="2" parentID="0" restricted="0" childCount="0">
+		<ocap:accessPermissions>w=,1,1,a=,1,1,o=,1,1,</ocap:accessPermissions>
+		<upnp:class>object.container</upnp:class>
+		<dc:title>video</dc:title>
+	</container>
+</DIDL-Lite>
+

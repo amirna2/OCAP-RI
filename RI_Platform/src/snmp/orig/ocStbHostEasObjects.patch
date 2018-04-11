@@ -1,0 +1,46 @@
+--- orig/ocStbHostEasObjects.c	2011-04-11 15:35:53.457080002 -0600
++++ ocStbHostEasObjects.c	2011-04-12 08:54:52.417080002 -0600
+@@ -9,6 +9,10 @@
+ #include "ocStbHostEasObjects.h"
+ 
+ /** Initializes the ocStbHostEasObjects module */
++static unsigned long ocStbEasMessageStateCode;
++static unsigned long ocStbEasMessageCountyCode;
++static unsigned long ocStbEasMessageCountySubdivisionCode;
++
+ void
+ init_ocStbHostEasObjects(void)
+ {
+@@ -51,8 +55,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbEasMessageStateCode,
++                                     sizeof(ocStbEasMessageStateCode));
+             break;
+ 
+ 
+@@ -80,8 +84,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbEasMessageCountyCode,
++                                     sizeof(ocStbEasMessageCountyCode));
+             break;
+ 
+ 
+@@ -109,8 +113,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbEasMessageCountySubdivisionCode,
++			     sizeof(ocStbEasMessageCountySubdivisionCode));
+             break;
+ 
+ 

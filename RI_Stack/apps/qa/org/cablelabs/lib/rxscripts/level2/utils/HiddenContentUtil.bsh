@@ -1,0 +1,143 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+this.interpreter.source("scripts/level1/CreateContentContainer.bsh");
+this.interpreter.source("scripts/level1/OcapAppDriverHNContentServer.bsh");
+
+// This setup will create one container with World read and one without.
+// Both the containers have two items. One with Worldread and one without.
+String STRING_NOT_FOUND = "not found";
+
+String performHiddenContentSetup()
+{
+    String failureReason = null;
+ 
+    // Visible content container with world read true.
+    if(!createContentContainer(true, false, false, false,true, true, null, null,"WorldReadContainer"))
+    {
+        failureReason = "Problems creating worldread container";
+        rxLog.callTrace ("Failure creating worldread container : ", this.callstack);
+        return failureReason;
+    }
+
+    // Hidden content container with only same App can read and write
+    if(!createContentContainer(false, false, false, false,true, true, null, null,"NoWorldReadContainer"))
+    {
+        failureReason = "Problems creating noworldread container";
+        rxLog.callTrace ("Failure creating noworldread container : ", this.callstack);
+        return failureReason;
+    }
+    int getNumContainers = getNumHiddenContainer();
+    if (getNumContainers < 0)
+    {
+        failureReason = "Problems during getNumHiddenContainer()";
+        rxLog.callTrace ("Failure getting index for worldread container : ", this.callstack);
+        return failureReason;
+    }
+
+    int visibleIndex = getHiddenContainerIndex("WorldReadContainer");
+    if(visibleIndex == -1)
+    {
+        failureReason = "Problems getting index for worldread container";
+        rxLog.callTrace ("Failure getting index for worldread container : ", this.callstack);
+        return failureReason;
+    }
+    // Creating visible content
+    if(!createItemsForContainer(1,visibleIndex,"WorldReadItemVC",true, true, true, true, true, true, null, null))
+    {
+        failureReason = "Problems creating worldread item in visible container ";
+        rxLog.callTrace ("Failure creating worldread item in visible container : ", this.callstack);
+        return failureReason;
+    }
+    // Creating hidden content
+    if(!createItemsForContainer(1,visibleIndex,"NoWorldReadItemVC",false, false, false, false, true, true, null, null))
+    {
+        failureReason = "Problems creating noworldread item in visible container ";
+        rxLog.callTrace ("Failure creating noworldread item  in visible container : ", this.callstack);
+        return failureReason;
+    }
+
+    int hiddenIndex = getHiddenContainerIndex("NoWorldReadContainer");
+    if(hiddenIndex == -1)
+    {
+        failureReason = "Problems getting index for noworldread container";
+        rxLog.callTrace ("Failure getting index for noworldread container : ", this.callstack);
+        return failureReason;
+    }
+    // Creating visible content
+    if(!createItemsForContainer(1,hiddenIndex,"WorldReadItemHC",true, true, true, true, true, true, null, null))
+    {
+        failureReason = "Problems creating worldread item in hidden container ";
+        rxLog.callTrace ("Failure creating worldread item : ", this.callstack);
+        return failureReason;
+    }
+    // Creating hidden content
+    if(!createItemsForContainer(1,hiddenIndex,"NoWorldReadItemHC",false, false, false, false, true, true, null, null))
+    {
+        failureReason = "Problems creating noworldread item in hidden container ";
+        rxLog.callTrace ("Failure creating noworldread item : ", this.callstack);
+        return failureReason;
+    }
+    return failureReason;
+}
+
+// This method will search for the content and return true if it is found else false.
+boolean searchContentInfo(int mediaServerIndex,String contentName)
+{
+    String contentInfo = getServerContentItemInfo(mediaServerIndex,contentName);
+    if(contentInfo.indexOf(STRING_NOT_FOUND) != -1)
+    {
+        return false;
+    }
+    return true;
+}

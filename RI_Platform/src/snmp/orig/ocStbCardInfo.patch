@@ -1,0 +1,319 @@
+--- orig/ocStbCardInfo.c	2011-04-11 15:35:51.869080002 -0600
++++ ocStbCardInfo.c	2011-04-11 16:20:40.113080001 -0600
+@@ -9,6 +9,29 @@
+ #include "ocStbCardInfo.h"
+ 
+ /** Initializes the ocStbCardInfo module */
++static unsigned char ocStbHostCardMacAddress[6];
++static int ocStbHostCardIpAddressType;
++static unsigned char ocStbHostCardIpAddress[4];
++static unsigned char ocStbHostCardMfgId[2];
++static unsigned char ocStbHostCardVersion[2];
++static unsigned short ocStbHostCardRootOid[64];
++static unsigned char ocStbHostCardSerialNumber[32];
++static int ocStbHostCardSnmpAccessControl;
++static unsigned char ocStbHostCardId[32];
++static int ocStbHostCardBindingStatus;
++static unsigned char ocStbHostCardOpenedGenericResource[4];
++static int ocStbHostCardTimeZoneOffset;
++static unsigned char ocStbHostCardDaylightSavingsTimeDelta;
++static unsigned long ocStbHostCardDaylightSavingsTimeEntry;
++static unsigned long ocStbHostCardDaylightSavingsTimeExit;
++static unsigned char ocStbHostCardEaLocationCode[4];
++static unsigned char ocStbHostCardVctId[2];
++static int ocStbHostCardCpAuthKeyStatus;
++static int ocStbHostCardCpCertificateCheck;
++static unsigned long ocStbHostCardCpCciChallengeCount;
++static unsigned long ocStbHostCardCpKeyGenerationReqCount;
++static unsigned char ocStbHostCardCpIdList[4];
++
+ void
+ init_ocStbCardInfo(void)
+ {
+@@ -165,8 +188,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardMacAddress,
++                                     sizeof(ocStbHostCardMacAddress));
+             break;
+ 
+ 
+@@ -194,8 +217,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostCardIpAddressType,
++                                     sizeof(ocStbHostCardIpAddressType));
+             break;
+ 
+ 
+@@ -223,8 +246,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardIpAddress,
++                                     sizeof(ocStbHostCardIpAddress));
+             break;
+ 
+ 
+@@ -252,8 +275,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardMfgId,
++                                     sizeof(ocStbHostCardMfgId));
+             break;
+ 
+ 
+@@ -281,8 +304,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardVersion,
++                                     sizeof(ocStbHostCardVersion));
+             break;
+ 
+ 
+@@ -310,8 +333,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OBJECT_ID,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardRootOid,
++                                     sizeof(ocStbHostCardRootOid));
+             break;
+ 
+ 
+@@ -339,8 +362,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardSerialNumber,
++                                     sizeof(ocStbHostCardSerialNumber));
+             break;
+ 
+ 
+@@ -369,8 +392,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostCardSnmpAccessControl,
++                                     sizeof(ocStbHostCardSnmpAccessControl));
+             break;
+ 
+         /*
+@@ -389,9 +412,9 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            //if (/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+-            }
++            //}
+             break;
+ 
+         case MODE_SET_FREE:
+@@ -402,25 +425,25 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
+-            }
++            //if (/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
++            //}
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            //if (/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+-            }
++            //}
+             break;
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            //if (/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+-            }
++            //}
+             break;
+ 
+         default:
+@@ -447,8 +470,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardId,
++                                     sizeof(ocStbHostCardId));
+             break;
+ 
+ 
+@@ -476,8 +499,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostCardBindingStatus,
++                                     sizeof(ocStbHostCardBindingStatus));
+             break;
+ 
+ 
+@@ -505,8 +528,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) ocStbHostCardOpenedGenericResource,
++			     sizeof(ocStbHostCardOpenedGenericResource));
+             break;
+ 
+ 
+@@ -534,8 +557,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostCardTimeZoneOffset,
++                                     sizeof(ocStbHostCardTimeZoneOffset));
+             break;
+ 
+ 
+@@ -563,8 +586,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostCardDaylightSavingsTimeDelta,
++			     sizeof(ocStbHostCardDaylightSavingsTimeDelta));
+             break;
+ 
+ 
+@@ -592,8 +615,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostCardDaylightSavingsTimeEntry,
++			     sizeof(ocStbHostCardDaylightSavingsTimeEntry));
+             break;
+ 
+ 
+@@ -621,8 +644,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostCardDaylightSavingsTimeExit,
++			     sizeof(ocStbHostCardDaylightSavingsTimeExit));
+             break;
+ 
+ 
+@@ -650,8 +673,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardEaLocationCode,
++                                     sizeof(ocStbHostCardEaLocationCode));
+             break;
+ 
+ 
+@@ -679,8 +702,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardVctId,
++                                     sizeof(ocStbHostCardVctId));
+             break;
+ 
+ 
+@@ -708,8 +731,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostCardCpAuthKeyStatus,
++                                     sizeof(ocStbHostCardCpAuthKeyStatus));
+             break;
+ 
+ 
+@@ -737,8 +760,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *)&ocStbHostCardCpCertificateCheck,
++                                     sizeof(ocStbHostCardCpCertificateCheck));
+             break;
+ 
+ 
+@@ -766,8 +789,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_COUNTER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostCardCpCciChallengeCount,
++			     sizeof(ocStbHostCardCpCciChallengeCount));
+             break;
+ 
+ 
+@@ -795,8 +818,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_COUNTER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostCardCpKeyGenerationReqCount,
++			     sizeof(ocStbHostCardCpKeyGenerationReqCount));
+             break;
+ 
+ 
+@@ -824,8 +847,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCardCpIdList,
++                                     sizeof(ocStbHostCardCpIdList));
+             break;
+ 
+ 

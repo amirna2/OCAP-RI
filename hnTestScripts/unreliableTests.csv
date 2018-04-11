@@ -1,0 +1,9 @@
+tset.builder.ocap,ch00_sigtests,OcapHn,10
+tset.builder.ocap.hn,org.ocap.hn,NetManager,30
+tset.builder.ocap.hn,org.ocap.hn.recording,RecordingContentItem,170
+tset.builder.ocap.hn,org.ocap.hn.security,NetSecurityManager,1005
+tset.builder.ocap.hn,org.ocap.hn.security,NetSecurityManager,5
+tset.builder.ocap.hnp,ch05_technicalRequirements,FrameRateInTrickMode,50
+tset.builder.upnp.cl,cds,TCOMetadata,120
+tset.builder.upnp.cl,cds,TCOMetadata,60
+tset.builder.upnp.cl,cds,TCOMetadata,70

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+
+<project name="Generation_Extensions" basedir="..">
+	<import file="build.xml" />
+	<import file="java/build.xml" />  
+
+    <property file="target/${env.OCAPTC}/buildrules.properties" />
+    <property file="hostconfig/${env.OCAPHOST}/hostrules.properties" />
+	
+    <!-- Automatically create and build the props.properties file -->
+    <target name="gen.properties.props" depends="init, mkdir">    	
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties" />          
+        <condition property="ocap.properties.module.hn" value="${build.ocap.HNEXT}">
+            <and>
+                <istrue value="${build.ocap.HN_ENABLED}"/>
+            </and>
+        </condition>
+        <condition property="ocap.properties.module.hn" value="null">
+            <and>
+                <isfalse value="${build.ocap.HN_ENABLED}"/>
+            </and>
+        </condition>
+        
+        <condition property="ocap.properties.module.dvr" value="${build.ocap.DVREXT}">
+            <and>
+                <istrue value="${build.ocap.DVR_ENABLED}"/>
+            </and>
+        </condition>
+        <condition property="ocap.properties.module.dvr" value="null">
+            <and>
+                <isfalse value="${build.ocap.DVR_ENABLED}"/>
+            </and>
+        </condition>
+        
+        <condition property="ocap.properties.module.fp" value="${build.ocap.FPEXT}">
+            <and>
+                <istrue value="${build.ocap.FP_ENABLED}"/>
+            </and>
+        </condition>
+        <condition property="ocap.properties.module.fp" value="null">
+            <and>
+                <isfalse value="${build.ocap.FP_ENABLED}"/>
+            </and>
+        </condition>
+        
+        <condition property="ocap.properties.module.ds" value="${build.ocap.DSEXT}">
+            <and>
+                <istrue value="${build.ocap.DS_ENABLED}"/>
+            </and>
+        </condition>
+        <condition property="ocap.properties.module.ds" value="null">
+            <and>
+                <isfalse value="${build.ocap.DS_ENABLED}"/>
+            </and>
+        </condition>
+
+        <mkdir dir="${gendir}/${srcdir}/${build.ocap.BASE}/org/cablelabs/impl/manager" />
+        <propertyfile file="${gendir}/${srcdir}/${build.ocap.BASE}/org/cablelabs/impl/manager/props.properties" 
+            comment="PropertiesManager module control file. Defines the list of implemented modules along with their associated precedence order.">         
+            
+            <!-- These entries should always be included in the props.properties file. -->
+            <entry key="OCAP.properties.maxModules" value="10" default="10" />                                                  
+            <entry key="OCAP.properties.module.0" value="${build.ocap.BASE}" />
+            <entry key="OCAP.properties.module.1" value="${ocap.properties.module.fp}" />
+            <entry key="OCAP.properties.module.2" value="${ocap.properties.module.ds}" />
+            <entry key="OCAP.properties.module.3" value="${ocap.properties.module.dvr}" />
+            <entry key="OCAP.properties.module.4" value="${ocap.properties.module.hn}" />           
+            
+            <!-- This entry should always be included -->           
+            <entry key="OCAP.properties.module.5" value="final" />
+        </propertyfile>
+    </target>
+
+</project>

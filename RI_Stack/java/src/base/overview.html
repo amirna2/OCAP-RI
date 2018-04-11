@@ -1,0 +1,98 @@
+<body>
+This is the specification of the OCAP 1.0 API.
+
+<h2>
+<a NAME="javatv-overview"></a><u>JavaTV Overview</u></h2>
+
+<p>The Java TV API is primarily directed at an audience of Java developers
+who are producing interactive television content or content-creation tools.&nbsp;
+Much of the functionality that is required by a television content developer
+is provided by the Java platform on the receiver. Typically, the PersonalJava
+application environment provides the Java platform for television receivers.
+The Java TV API describes those aspects of the television receiver that
+are not already addressed by some portion of the application environment.
+<p>The Java TV API is restricted as much as possible to functionality that
+is unique to a television receiver. Some APIs that are generic to consumer
+electronics devices, such as persistent storage mechanisms, are not included
+in the Java TV API. These non-television specific APIs are provided in
+new definitions for the application environment or are being developed
+in conjunction with various television standards bodies. In some cases,
+presumptions about television requirements will proscribe the use of other
+APIs available, either as part of the application environment or as an
+extension to the Java platform. These are noted in this specification where
+relevant.
+<p>The Java TV API can be deployed in environments with existing standards
+for such things as service and program information. It is important that
+those existing standards and code based on those standards are easily integrated
+within the Java TV API framework. Therefore, the Java TV API is defined
+with a relatively high level of abstraction from hardware and over-wire
+protocols.
+<p>Because the Java TV API is an extension to the Java platform this specification
+does not describe minimal or performance-related requirements.&nbsp; This
+specification is a detailed description of the API elements that comprise
+the Java TV API and is intended to be read along with the <i>Java TV API
+Technical Overview</i>.
+<br>&nbsp;
+<h3>
+<a NAME="guidelines"></a><u>General Guidelines</u></h3>
+
+<h4>
+<a NAME="guidelines-security"></a>Security Architecture</h4> The Java
+TV API requires an application environment that includes the Java 2,
+Standard Edition (J2SE) security model (i.e., the JDK 1.2 APIs for
+supporting and implementing fine-grained access control and code
+signing).  A description of Java TV's security architecture can be
+found in this <a href="doc-files/security.html">Java TV security
+document</a>.  Note that, unless otherwise specified, methods in the
+Java TV API that check security permissions do so by calling
+<tt>java.lang.SecurityManager.checkPermission(Permission p)</tt>.
+<h4>
+<a NAME="guidelines-npe"></a>Null Parameters</h4>
+If <tt>null</tt> is passed as an input parameter to a constructor or method,
+<tt>java.lang.NullPointerException</tt>
+is thrown unless otherwise noted. Exception and event classes accept null
+input parameters to their constructors without throwing exceptions, causing
+<tt>null</tt>
+to be subsequently returned by their appropriate query methods.
+<h4>
+<a NAME="guidelines-framework"></a>Scalability</h4> The Java TV API is
+designed to scale across a wide range of broadcast environments and
+receiver functionality.  The APIs defined in this specification
+comprise a framework that is populated according to the capabilities of the
+platform on which it is implemented.  Scalable behavior is noted in the
+specification where appropriate.
+<h4>
+<a NAME="guidelines-opinterfaces"></a>Optionally Implemented Interfaces</h4>
+Some interfaces in this specification are <i>optionally implemented</i>
+by the classes of objects obtainable through the Java TV API. Such interfaces
+must always be present in the Java TV API implementation, but applications
+must test for their presence on certain objects at runtime. For example,
+<tt><a href="javax/tv/service/Service.html">Service</a></tt>
+objects optionally implement the <tt><a href="javax/tv/service/ServiceNumber.html">ServiceNumber</a></tt>
+interface. If <tt>s</tt> is an instance of <tt>Service</tt>, then
+<blockquote><tt>Class.forName("javax.tv.service.ServiceNumber")</tt></blockquote>
+must not throw <tt>java.lang.ClassNotFoundException</tt>, but
+<blockquote><tt>(s instanceof javax.tv.service.ServiceNumber)</tt></blockquote>
+may or may not be true.
+<h4>
+<a NAME="guidelines-jmf"></a>Java Media Framework</h4> The Java TV API
+requires an implementation of the <a href="http://java.sun.com/products/java-media/jmf/1.0/apidocs/packages.html">Java Media Framework (JMF), version 1.0</a>.
+<h4>
+<a NAME="guidelines-callbacks"></a>Callback Threads</h4> If a method
+<em>M</em> is indicated to induce a subsequent callback operation,
+then such callbacks occur via a different thread than the thread
+used to call <em>M</em>.  Callback methods are instead invoked by
+system threads that are guaranteed to hold no locks on application
+objects.  Note that there may be a severe limit on the total number of
+available system threads; therefore applications should be aware that
+extensive processing or blocking in callback threads may delay further
+callbacks from occuring.  Please see
+<A HREF="javax/tv/carousel/CarouselFileListener.html"><CODE>CarouselFileListener</CODE></A>, 
+<A HREF="javax/tv/media/MediaSelectListener.html"><CODE>MediaSelectListener</CODE></A>, 
+<A HREF="javax/tv/service/SIChangeListener.html"><CODE>SIChangeListener</CODE></A> (and subinterfaces), 
+<A HREF="javax/tv/service/SIRequestor.html"><CODE>SIRequestor</CODE></A>, 
+<A HREF="javax/tv/service/selection/ServiceContextListener.html"><CODE>ServiceContextListener</CODE></A> 
+and 
+<A HREF="javax/tv/util/TVTimerWentOffListener.html"><CODE>TVTimerWentOffListener</CODE></A>.
+</body>
+

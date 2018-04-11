@@ -1,0 +1,9 @@
+<!-- Javadoc links for this version
+    To be included in a <javadoc> tag.
+-->
+    
+    <link offline="true"
+        href="${javadoc.url.xml4j.2_0_4}"
+        packagelistLoc="${javadoc.package-list.xml4j.2_0_4}"
+    />
+

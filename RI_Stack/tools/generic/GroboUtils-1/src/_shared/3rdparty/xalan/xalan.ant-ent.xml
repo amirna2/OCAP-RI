@@ -1,0 +1,13 @@
+<!-- ANT entity include/definition for Xalan library files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.xalan SYSTEM "xalan.ant-inc.xml">
+
+<!ENTITY inc.javadoc.xalan.2_3_1 SYSTEM "2.3.1/javadoc-links.ant-inc.xml">
+
+<!ENTITY inc.javadoc.xalan.2_4_0 SYSTEM "2.4.0/javadoc-links.ant-inc.xml">
+

@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+</head>
+<body bgcolor="white">
+
+The <code>org.cablelabs.gear.havi.decorator</code> package provides an
+extension and an alternative to the standard HAVi <code>HLook</code>-based
+classes.  The intention is to simplify the use of and customization of
+look classes by using the <i>Decorator</i> design pattern.  This package
+is a part of the overall SNAP2 GEAR for HAVi package.
+
+<h2>Package Specification</h2>
+
+The SNAP2 GEAR for HAVi decorator package is composed of abstract
+and concrete <code>HLook</code> implementations.  Some classes serve
+as functional replacement for their HAVi counterparts (e.g.,
+{@link org.cablelabs.gear.havi.decorator.GraphicDecorator} replaces
+{@link org.havi.ui.HGraphicLook}) while others provide for additional
+functionality (e.g., {@link org.cablelabs.gear.havi.decorator.FontDecorator}).
+
+<h3>Content Looks</h3>
+
+The SNAP2 GEAR for HAVi looks in this package are capable of rendering
+the major <code>HVisible</code> content types as well as the SNAP2 
+GEAR {@link org.cablelabs.gear.data data} content types.  The following
+looks are used to render content (and only content):
+
+  <ul>
+    <li> {@link org.cablelabs.gear.havi.decorator.GraphicDecorator}
+    <li> {@link org.cablelabs.gear.havi.decorator.AnimateDecorator}
+    <li> {@link org.cablelabs.gear.havi.decorator.TextDecorator}
+    <li> {@link org.cablelabs.gear.havi.decorator.GraphicDataDecorator}
+    <li> {@link org.cablelabs.gear.havi.decorator.AnimateDataDecorator}
+  </ul>
+
+<h3>Decorator Design Pattern</h3>
+
+With the default <code>HLook</code> scheme, extending existing looks
+to introduce additional behavior is tricky at best.  Excluding certain
+behavior or changing behavior is near impossible.  This is because
+the <code>HLook</code> interface is not designed to be easily
+extended.  The <code>showLook()</code> method does all of the work
+(except in the case of text) involved in drawing content, leaving
+programmers with an all or nothing dilemma when extending a given
+class.  This shortcoming is overcome by the use of the <i>Decorator</i>
+design pattern.
+
+<p>
+
+The <code>Decorator</code> design pattern is used in cases where:
+
+<ul>
+    <li>More flexibility is needed than static inheritance provides.
+    <li>It is desirable to avoid feature-laden classes high in the 
+    class hierarchy.
+</ul>
+
+Instead of adding resposibilities to a class, responsibilities are
+added to an object.  A decorator object (also known as a wrapper)
+has an interface that is identical to that of the object it
+decorates.  The decorator is composed of a component object, to
+which it forwards requests; additional actions are performed 
+before or after forwarding.
+
+<p>
+
+Usually, when a {@link org.cablelabs.gear.havi.decorator.DecoratorLook} is 
+created, a component look is specified.  
+The {@link org.cablelabs.gear.havi.decorator.DecoratorLook} forwards 
+requests to the component look, performing added actions <i>before</i>
+forwarding.  This standard order is used so that the order of
+decorators in a decorator <i>chain</i> can be counted on to 
+perform operations in a pre-determined manner.
+
+<h4>State Decorators</h4>
+
+A general form of decorator whose operation is dependent on the current 
+state of <code>HVisible</code> to be rendered is the <i>state</i> decorator.  
+State decorators will usually extend the 
+{@link org.cablelabs.gear.havi.decorator.StateDecorator} class
+because it implements the minimum support needed to maintain state-related
+information.
+
+<p>
+
+A state decorator maintains a set of states in which it operates.
+Only when the <code>HVisible</code> to be rendered is in one of the
+specified states will the state decorator do its job.
+
+<p>
+
+Examples of state decorator implementations are:
+
+<ul>
+   <li>{@link org.cablelabs.gear.havi.decorator.BGColorDecorator}
+   <li>{@link org.cablelabs.gear.havi.decorator.FGColorDecorator}
+   <li>{@link org.cablelabs.gear.havi.decorator.FontDecorator}
+   <li>{@link org.cablelabs.gear.havi.decorator.OutlineDecorator}
+   <li>{@link org.cablelabs.gear.havi.decorator.FillDecorator}
+</ul>
+
+<h4>Fill Decorator</h4>
+
+The {@link org.cablelabs.gear.havi.decorator.FillDecorator} is used to build 
+up the functionality of the standard HAVi looks.  
+One of the problems with the standard looks (in the original HAVi 
+Level 2 UI specification) is that they have <i>too</i> much functionality; 
+functionality that cannot be readily disabled.  
+This includes the painting of the background with the background color.  
+In order to have a look which does <i>not</i> paint the background, one 
+has to completely rewrite <code>showLook()</code>, removing only the part 
+that paints the background (presumably a single call to <code>Graphics.fillRect</code>).
+
+<p>
+
+The decorator-based solution is to have a separate <i>fill</i> decorator.
+The {@link org.cablelabs.gear.havi.decorator.FillDecorator} invokes the 
+<code>Graphics.fillRect</code> method such that the <code>HVisible</code>'s 
+background color fills its entire bounds.  
+
+<p>
+
+While this problem has been remedied in the latest HAVi specifications
+(using the {@link org.havi.ui.HVisible#getBackgroundMode() background mode}), 
+it remains a good example of how decorators solve a problem.  It is also
+a good example of the power of decorators: it is certainly simpler to
+add a new object that performs added functionality than to update an
+existing class and its API.  
+
+<h3>Composite Design Pattern</h3>
+
+The common decorators are those that draw a given kind of content
+(e.g., text, graphic, animation, or generic object).  These can be combined
+with state decorators or other content decorators to affect the 
+rendering of an <code>HVisible</code> component.  
+Where with the standard HAVi looks, a new non-standard look would have to
+be written to draw both text and graphic content, the graphic and text
+decorators need only be chained together.
+
+<p>
+
+The power of the decorator look chain is also a minor hindrance.  Since
+each decorator look is concerned with only one part of the rendering
+<i>pipeline</i> (and that part only), decorators cannot act in concert.
+Using a {@link org.cablelabs.gear.havi.decorator.GraphicDecorator} and a 
+{@link org.cablelabs.gear.havi.decorator.TextDecorator}
+to render both the graphic and text content of an <code>HVisible</code>
+can be quite useful; but only if having the graphic and text drawn
+irrespective of the other is the goal.
+
+<p>
+
+The {@link org.cablelabs.gear.havi.decorator.PairDecorator} fills this hole.  
+It allows the composition of two looks (which implement the 
+{@link org.cablelabs.gear.havi.decorator.ExtendedLook} interface)
+into one logical look.  This allows the content of each look to be 
+rendered with respect to the other.  
+
+<h3>Adapter Design Pattern</h3>
+
+All of the decorators in the <code>org.cablelabs.gear.havi.decorator</code>
+package extend from {@link org.cablelabs.gear.havi.decorator.DecoratorLook}.  
+As such, problems may arise when attempting to use them with standard
+HAVi components.
+The <code>HVisible.setLook()</code> methods may throw exceptions if 
+a look it not of the expected type.  For example, <code>HStaticText</code>
+objects will only accept <code>HTextLook</code> looks.
+
+To workaround this, the <code>org.cablelabs.gear.havi.decorator</code>
+package includes look adapters for the standard HAVi looks.  When
+<i>wrapped</i> around another <code>HLook</code> (e.g., a 
+{@link org.cablelabs.gear.havi.decorator.DecoratorLook}), a given HAVi component 
+will have no problems with the <code>HLook</code> not being of the right type.
+
+For example, the following:
+
+<pre>
+    HStaticText label = new HStaticText();
+    label.setBackgroundMode(HVisible.BACKGROUND_FILL);
+    ...
+    try {
+        label.setLook(new HTextLook())
+    }
+    catch(HInvalidLookException e) { }
+</pre>
+
+is essentially identical to the following:
+
+<pre>
+    HStaticText label = new HStaticText();
+    label.setBackgroundMode(HVisible.BACKGROUND_FILL);
+    ...
+    try {
+        label.setLook(new {@link org.cablelabs.gear.havi.decorator.TextLookAdapter}(new {@link org.cablelabs.gear.havi.decorator.FillDecorator}(new {@link org.cablelabs.gear.havi.decorator.TextDecorator}())));
+    }
+    catch(HInvalidLookException e) { }
+</pre>
+
+<note class=note>
+Note the use of the {@link org.cablelabs.gear.havi.decorator.FillDecorator} to 
+achieve the identical <i>look</i>.  
+</note>
+
+<h3>Wrapper</h3>
+
+<code>HLook</code> classes that implement the <i>Decorator</i>
+or <i>Adapter</i> design patterns implement the 
+{@link org.cablelabs.gear.havi.decorator.LookWrapper}
+interface.  This interface serves too purposes:
+
+<ul>
+<li> To tag classes that implement one of these patterns
+<li> Specify the API for accessing the component or <i>wrapped</i>
+look
+</ul>
+
+<h2>Related Documentation</h2>
+
+<!-- 
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+-->
+For additional information, please see:
+<ul>
+    <li><u>Design Patterns</u>, Erich Gamma et al., 
+        <i>Decorator</i>, <i>Adapter</i>, and <i>Template Method</i> patterns
+</ul>
+
+<!-- Put @see and @since tags down here. -->
+@see org.havi.ui.HLook
+@see org.havi.ui.HTextLook
+@see org.havi.ui.HGraphicLook
+@see org.havi.ui.HAnimateLook
+@see org.cablelabs.gear.havi.decorator.LookWrapper
+@see org.cablelabs.gear.havi.decorator.DecoratorLook
+@see org.cablelabs.gear.havi.decorator.TextDecorator
+@see org.cablelabs.gear.havi.decorator.GraphicDecorator
+@see org.cablelabs.gear.havi.decorator.AnimateDecorator
+@see org.cablelabs.gear.havi.decorator.GraphicDataDecorator
+@see org.cablelabs.gear.havi.decorator.AnimateDataDecorator
+
+@since Gear 1.0
+
+@author Aaron Kamienski
+@version $Revision: 1.10 $, $Date: 2002/06/03 21:32:30 $
+
+</body>
+</html>

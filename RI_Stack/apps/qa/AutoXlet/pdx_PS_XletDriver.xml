@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent+)>
+	<!ATTLIST Xlet 
+	name CDATA #REQUIRED
+	orgID CDATA #REQUIRED
+	appID CDATA #REQUIRED
+	pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+	<!ATTLIST RCEvent 
+	name CDATA #IMPLIED
+	pauseBeforeNext CDATA #IMPLIED
+	monitorTimeout CDATA #IMPLIED
+	getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+   <!-- PS Test -->
+   <Xlet name="PSTest1Xlet" orgID="0x1" appID="0x724A" pauseAfterLast="7000">
+	
+      <RCEvent name="DestroyAll" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_7</RCEvent>
+      <RCEvent name="CleanAll" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="WriteFiles" pauseBeforeNext="1000" monitorTimeout="60000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Destroy" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Gobbler" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="DestroyAll" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_7</RCEvent>
+
+   </Xlet>
+   <Xlet name="PSTest2Xlet" orgID="0x1" appID="0x724B" pauseAfterLast="7000">
+	
+      <RCEvent name="DestroyAll" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_7</RCEvent>
+      <RCEvent name="CleanAll" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="WriteFiles" pauseBeforeNext="1000" monitorTimeout="60000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Destroy" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Gobbler" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="DestroyAll" pauseBeforeNext="1000" monitorTimeout="10000" getResultsAfter="true">VK_7</RCEvent>
+
+   </Xlet>
+   <Xlet name="AutoXletDoneXlet" orgID="0x1" appID="0x4444" pauseAfterLast="30000">
+   </Xlet>
+</AutoXlet>

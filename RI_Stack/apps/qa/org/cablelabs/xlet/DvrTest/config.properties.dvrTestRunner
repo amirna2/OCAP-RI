@@ -1,0 +1,23 @@
+###############################
+#### DvrTestRunner Config #####
+###############################
+
+DVR_by_FPQ=TRUE
+DVR_sourceId_0=0x45a   
+DVR_sourceId_1=0x44c  
+DVR_sourceId_2=0x5e7 
+DVR_sourceId_3=0x5e9
+DVR_sourceId_4=0x6e4
+DVR_FPQ_0=447000000,1,8  
+DVR_FPQ_1=489000000,2,16 
+DVR_FPQ_2=599000000,2,16
+DVR_FPQ_3=651000000,1,16 
+DVR_FPQ_4=699000000,25992,16 
+# Be sure the following two definitions matches what is defined in 
+# final.properties for 
+#    OCAP.audio.minDB
+#    OCAP.audio.maxDB
+#DVR_MIN_DB=-200.0F
+#DVR_MAX_DB=200.0F
+
+

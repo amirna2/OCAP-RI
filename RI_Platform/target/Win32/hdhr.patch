@@ -1,0 +1,137 @@
+--- libhdhomerun.orig/hdhomerun_config.c	2010-09-30 12:13:28.524875000 -0600
++++ libhdhomerun/hdhomerun_config.c	2010-09-30 14:07:47.321750000 -0600
+@@ -419,9 +419,9 @@
+ 			}
+ 
+ 			/* Windows - indicate activity to suppress auto sleep mode. */
+-			#if defined(__WINDOWS__)
+-			SetThreadExecutionState(ES_SYSTEM_REQUIRED);
+-			#endif
++			//#if defined(__WINDOWS__)
++			//SetThreadExecutionState(ES_SYSTEM_REQUIRED);
++			//#endif
+ 
+ 			/* Video stats. */
+ 			hdhomerun_device_get_video_stats(hd, &stats_cur);
+--- libhdhomerun.orig/hdhomerun_os_windows.c	2010-09-30 12:13:28.587375000 -0600
++++ libhdhomerun/hdhomerun_os_windows.c	2010-09-30 12:37:25.446750000 -0600
+@@ -34,6 +34,9 @@
+ 
+ uint32_t random_get32(void)
+ {
++#if 1
++   return (uint32_t)rand();
++#else
+ 	HCRYPTPROV hProv;
+ 	if (!CryptAcquireContext(&hProv, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT)) {
+ 		return (uint32_t)rand();
+@@ -44,6 +47,7 @@
+ 
+ 	CryptReleaseContext(hProv, 0);
+ 	return Result;
++#endif
+ }
+ 
+ uint64_t getcurrenttime(void)
+--- libhdhomerun.orig/Makefile	2010-09-30 15:12:28.071750000 -0600
++++ libhdhomerun/Makefile	2010-09-30 15:12:56.228000000 -0600
+@@ -6,9 +6,17 @@
+ LIBSRCS += hdhomerun_device.c
+ LIBSRCS += hdhomerun_device_selector.c
+ LIBSRCS += hdhomerun_discover.c
++ifeq ($(OS),Windows_NT)
++LIBSRCS += hdhomerun_os_windows.c
++else
+ LIBSRCS += hdhomerun_os_posix.c
++endif
+ LIBSRCS += hdhomerun_pkt.c
++ifeq ($(OS),Windows_NT)
++LIBSRCS += hdhomerun_sock_windows.c
++else
+ LIBSRCS += hdhomerun_sock_posix.c
++endif
+ LIBSRCS += hdhomerun_video.c
+ 
+ CC    := $(CROSS_COMPILE)gcc
+@@ -21,7 +29,7 @@
+ ifeq ($(OS),Windows_NT)
+   BINEXT := .exe
+   LIBEXT := .dll
+-  LDFLAGS += -liphlpapi
++  LDFLAGS += -liphlpapi -lws2_32
+ else
+   OS := $(shell uname -s)
+   LIBEXT := .so
+@@ -45,7 +53,7 @@
+ 	$(STRIP) $@
+ 
+ libhdhomerun$(LIBEXT) : $(LIBSRCS)
+-	$(CC) $(CFLAGS) -fPIC -DDLL_EXPORT $(SHARED) $+ $(LDFLAGS) -o $@
++	$(CC) $(CFLAGS) $(SHARED) $+ $(LDFLAGS) -o $@
+ 
+ clean :
+ 	-rm -f hdhomerun_config$(BINEXT)
+--- libhdhomerun.orig/hdhomerun_sock_windows.c	2010-09-30 12:13:28.603000000 -0600
++++ libhdhomerun/hdhomerun_sock_windows.c	2010-10-01 06:53:18.759250000 -0600
+@@ -137,6 +137,9 @@
+ 
+ uint32_t hdhomerun_sock_getaddrinfo_addr(hdhomerun_sock_t sock, const char *name)
+ {
++#if defined(__CYGWIN__) || defined(WIN32)
++	return 0;
++#else
+ 	struct addrinfo hints;
+ 	memset(&hints, 0, sizeof(hints));
+ 	hints.ai_family = AF_INET;
+@@ -153,6 +156,7 @@
+ 
+ 	freeaddrinfo(sock_info);
+ 	return addr;
++#endif
+ }
+ 
+ bool_t hdhomerun_sock_bind(hdhomerun_sock_t sock, uint32_t local_addr, uint16_t local_port)
+--- libhdhomerun.orig/hdhomerun_device.c	2010-10-01 06:58:40.759250000 -0600
++++ libhdhomerun/hdhomerun_device.c	2010-10-01 06:53:40.587375000 -0600
+@@ -237,7 +237,7 @@
+ 
+ static struct hdhomerun_device_t *hdhomerun_device_create_from_str_dns(const char *device_str, struct hdhomerun_debug_t *dbg)
+ {
+-#if defined(__CYGWIN__)
++#if defined(__CYGWIN__) || defined(WIN32)
+ 	return NULL;
+ #else
+ 	struct addrinfo hints;
+--- libhdhomerun/hdhomerun_os_windows.h.orig	2011-08-02 08:00:04.003499700 -0600
++++ libhdhomerun/hdhomerun_os_windows.h	2011-08-02 08:01:46.494361800 -0600
+@@ -34,7 +34,7 @@
+ #include <windows.h>
+ #include <winsock2.h>
+ #include <ws2tcpip.h>
+-#include <wspiapi.h>
++//#include <wspiapi.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <stdarg.h>
+@@ -53,6 +53,7 @@
+ #endif
+ 
+ typedef int bool_t;
++#ifndef RI_HAVE_STDINT_H
+ typedef signed __int8 int8_t;
+ typedef signed __int16 int16_t;
+ typedef signed __int32 int32_t;
+@@ -61,11 +62,12 @@
+ typedef unsigned __int16 uint16_t;
+ typedef unsigned __int32 uint32_t;
+ typedef unsigned __int64 uint64_t;
++#endif
+ typedef void (*sig_t)(int);
+ typedef HANDLE pthread_t;
+ typedef HANDLE pthread_mutex_t;
+ 
+-#define va_copy(x, y) x = y
++//#define va_copy(x, y) x = y
+ #define atoll _atoi64
+ #define strdup _strdup
+ #define strcasecmp _stricmp

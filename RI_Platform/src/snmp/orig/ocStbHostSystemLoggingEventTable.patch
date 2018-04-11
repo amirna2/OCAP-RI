@@ -1,0 +1,353 @@
+--- orig/ocStbHostSystemLoggingEventTable.c	2012-08-21 14:19:42.891054292 -0600
++++ ocStbHostSystemLoggingEventTable.c	2013-03-14 12:46:23.313613905 -0600
+@@ -6,14 +6,233 @@
+ #include <net-snmp/net-snmp-config.h>
+ #include <net-snmp/net-snmp-includes.h>
+ #include <net-snmp/agent/net-snmp-agent-includes.h>
++#include <ctype.h>
++#include <glib.h>
+ #include "ocStbHostSystemLoggingEventTable.h"
+ 
++#define LogTimestampSize   8
++#define LogMessageSize     256
++
++#define ocStbHostSystemLoggingControlResetDefault 3
++
++extern int ocStbHostSystemLoggingControlReset;
++extern int ocStbHostSystemLoggingSize;
++extern int ocStbHostSystemLoggingLevelControl;
++extern char ocStbHostSystemLoggingGroupControl[32];
++
++typedef struct logRow
++{
++    struct logRow *next;
++    uint32_t index;
++    char timeStamp[LogTimestampSize];
++    char message[LogMessageSize];
++} LogRow;
++
++GStaticMutex s_LogTableMutex;
++static LogRow *s_LogTableHeadPtr = NULL;
++static LogRow *s_LogTableTailPtr = NULL;
++static uint32_t s_LogTableIndex = 0;
++
++/* Reset functions */
++void ocStbHostSystemLoggingResetSize(int newSize)
++{
++    if (newSize < ocStbHostSystemLoggingSize)
++    {
++        g_static_mutex_lock(&s_LogTableMutex);
++        // A larger newSize requires no real action, i.e. the table will
++        // simply grow...
++        //
++        // A smaller number requires dumping table entries until we meet
++        // the new size (0 means dump them all).
++        //
++        if ((NULL != s_LogTableHeadPtr) && (NULL != s_LogTableTailPtr))
++        {
++            snmp_log(LOG_INFO, "%s acting on newSize(%d)\n", __func__, newSize);
++
++            while ((s_LogTableHeadPtr->index - s_LogTableTailPtr->index) > 
++                 newSize)
++            {
++                LogRow *pDeleteTableRow = s_LogTableTailPtr;
++                s_LogTableTailPtr = s_LogTableTailPtr->next;
++                free(pDeleteTableRow);
++
++                if(s_LogTableTailPtr == s_LogTableHeadPtr)
++                {
++                    free(s_LogTableHeadPtr);
++                    s_LogTableTailPtr = s_LogTableHeadPtr = NULL;
++                    break;
++                }
++            }
++        }
++
++        g_static_mutex_unlock(&s_LogTableMutex);
++    }
++}
++
++static int isStrDigits(char *str)
++{
++    int i = 0;
++    int len = 0;
++
++    if (NULL != str)
++    {
++        len = strlen(str);
++
++        for (i = 0; i < len; i++)
++        {
++            if (!isdigit(str[i]))
++                return FALSE;
++        }
++
++        return TRUE;
++    }
++
++    return FALSE;
++}
++
++int ocStbHostSystemLoggingAddTableRow(char *oid, char *timeStamp, char *message)
++{
++    static char ocStbHostSystemLoggingEventTable_oid[] =
++                    "1.3.6.1.4.1.4491.2.3.1.1.4.3.5.5";
++
++    // can we log?
++    //
++    // the caller must have given us the proper OID to log against,
++    // the caller must also have given us a timestamp string of digits,
++    // and we must be in the proper ControlReset logging state (i.e. not
++    // PAUSE, RESET, or DEFAULT)
++    //
++    if (0 == strncmp(ocStbHostSystemLoggingEventTable_oid, oid,
++              sizeof(ocStbHostSystemLoggingEventTable_oid)))
++    {
++        if (!isStrDigits(timeStamp))
++        {
++            snmp_log(LOG_ERR, "%s() timeStamp isdigit failure!\n", __func__);
++        }
++        else if (ocStbHostSystemLoggingControlReset ==
++                 ocStbHostSystemLoggingControlResetDefault)
++        {
++            LogRow *pTableRow = g_malloc0(sizeof(LogRow));
++
++            if (NULL != pTableRow)
++            {
++                int i;
++                long long ts = atoll(timeStamp);
++
++                g_static_mutex_lock(&s_LogTableMutex);
++                pTableRow->next = NULL;
++                pTableRow->index = ++s_LogTableIndex;
++
++                for (i = 0; i < LogTimestampSize; i++)
++                {
++                    pTableRow->timeStamp[i] =
++                    (ts >> LogTimestampSize * (LogTimestampSize-(1+i))) & 0xFF;
++                }
++
++                strncpy(pTableRow->message, message, LogMessageSize);
++                pTableRow->message[LogMessageSize - 1] = 0;
++
++                if (NULL == s_LogTableHeadPtr)
++                {
++                    s_LogTableHeadPtr = pTableRow;
++                }
++                else
++                {
++                    s_LogTableHeadPtr->next = pTableRow;
++                    s_LogTableHeadPtr = pTableRow;
++                }
++
++                if (NULL == s_LogTableTailPtr)
++                {
++                    s_LogTableTailPtr = pTableRow;
++                }
++
++                if ((s_LogTableHeadPtr->index - s_LogTableTailPtr->index) > 
++                     ocStbHostSystemLoggingSize)
++                {
++                    LogRow *pDeleteTableRow = s_LogTableTailPtr;
++                    s_LogTableTailPtr = s_LogTableTailPtr->next;
++                    g_free(pDeleteTableRow);
++                }
++
++                snmp_log(LOG_INFO, "%s table[%u] = %u, %s, %s\n", __func__,
++                         s_LogTableHeadPtr->index - s_LogTableTailPtr->index,
++                         pTableRow->index, timeStamp, message);
++                g_static_mutex_unlock(&s_LogTableMutex);
++                return TRUE;
++            }
++            else
++            {
++                snmp_log(LOG_ERR, "%s() memory allocation failure\n", __func__);
++            }
++        }
++        else
++        {
++            snmp_log(LOG_WARNING, "%s() log is paused!\n", __func__);
++        }
++    }
++    else
++    {
++        snmp_log(LOG_ERR, "%s() bad OID (%s)\n", __func__, oid);
++    }
++
++    return FALSE;
++}
++
++netsnmp_variable_list *
++ocStbHostSystemLoggingTableGetNextDP(void **loopCtx,
++                                     void **dataCtx,
++                                     netsnmp_variable_list *put_index_data,
++                                     netsnmp_iterator_info *iinfo)
++{
++    LogRow *pTableRow = (LogRow *)*loopCtx;
++    netsnmp_variable_list *idx = put_index_data;
++
++    if(pTableRow)
++    {
++        snmp_log(LOG_DEBUG, "%s RP: %p, index: %d\n", __func__,
++                 pTableRow, pTableRow->index);
++        snmp_set_var_value(idx, &pTableRow->index, sizeof(pTableRow->index));
++        idx = idx->next_variable;
++        *dataCtx = (void *)pTableRow;
++        *loopCtx = (void *)pTableRow->next;
++        return put_index_data;
++    }
++    else
++    {
++        return NULL;
++    }
++}
++
++netsnmp_variable_list *
++ocStbHostSystemLoggingTableGetFirstDP(void **loopCtx,
++                                      void **dataCtx,
++                                      netsnmp_variable_list *put_index_data,
++                                      netsnmp_iterator_info *iinfo)
++{
++    if (NULL != s_LogTableTailPtr)
++    {
++        snmp_log(LOG_DEBUG, "%s RP: %p, index: %d\n", __func__,
++                 s_LogTableTailPtr, s_LogTableTailPtr->index);
++        *loopCtx = s_LogTableTailPtr;
++        return ocStbHostSystemLoggingTableGetNextDP(loopCtx,
++                                                    dataCtx,
++                                                    put_index_data,
++                                                    iinfo);
++    }
++    else
++    {
++        return NULL;
++    }
++}
++
+ /** Initialize the ocStbHostSystemLoggingEventTable table by defining its contents and how it's structured */
+ void
+ initialize_table_ocStbHostSystemLoggingEventTable(void)
+ {
+     static oid ocStbHostSystemLoggingEventTable_oid[] = {1,3,6,1,4,1,4491,2,3,1,1,4,3,5,5};
+     size_t ocStbHostSystemLoggingEventTable_oid_len = OID_LENGTH(ocStbHostSystemLoggingEventTable_oid);
++#if 0
+     netsnmp_table_data_set *table_set;
+ 
+     /* create the table structure itself */
+@@ -50,6 +269,34 @@
+                                                         ocStbHostSystemLoggingEventTable_oid_len,
+                                                         HANDLER_CAN_RWRITE),
+                             table_set, NULL);
++#else
++
++    g_static_mutex_init(&s_LogTableMutex);
++    netsnmp_handler_registration *reg;
++    netsnmp_iterator_info *iinfo;
++    netsnmp_table_registration_info *table_info;
++
++    reg = netsnmp_create_handler_registration(
++                    "ocStbHostSystemLoggingEventTable",
++                     ocStbHostSystemLoggingEventTable_handler,
++                     ocStbHostSystemLoggingEventTable_oid,
++                     ocStbHostSystemLoggingEventTable_oid_len,
++                     HANDLER_CAN_RWRITE);
++
++    table_info = g_malloc0(sizeof(netsnmp_table_registration_info));
++    netsnmp_table_helper_add_indexes(table_info, ASN_INTEGER, 0);
++    table_info->min_column = COLUMN_OCSTBHOSTSYSTEMLOGGINGEVENTTIMESTAMP; 
++    table_info->max_column = COLUMN_OCSTBHOSTSYSTEMLOGGINGEVENTMESSAGE;
++
++    iinfo = g_malloc0(sizeof(netsnmp_iterator_info));
++    iinfo->get_first_data_point = ocStbHostSystemLoggingTableGetFirstDP;
++    iinfo->get_next_data_point = ocStbHostSystemLoggingTableGetNextDP;
++    iinfo->table_reginfo = table_info;
++
++    netsnmp_register_table_iterator(reg, iinfo);
++    snmp_log(LOG_INFO, "iterator is registered...\n");
++
++#endif
+ }
+ 
+ /** Initializes the ocStbHostSystemLoggingEventTable module */
+@@ -72,5 +319,81 @@
+        already been processed by the master table_dataset handler, but
+        this gives you chance to act on the request in some other way
+        if need be. */
++    netsnmp_request_info* request = NULL;
++    netsnmp_table_request_info* table_info = NULL;
++    snmp_log(LOG_DEBUG, "%s\n", __func__);
++
++    switch(reqinfo->mode)
++    {
++        case MODE_GET:
++        {
++            for (request = requests; request; request = request->next)
++            {
++                snmp_log(LOG_DEBUG, "%s, request: %p\n", __func__, request);
++
++                //column and row index encoded portion
++                table_info = netsnmp_extract_table_info(request);
++                LogRow *pLogRow = (LogRow *)
++                                   netsnmp_extract_iterator_context(request);
++                if (table_info)
++                {
++                    if (pLogRow)
++                    {
++                        switch(table_info->colnum)
++                        {
++                            case 1:
++                                snmp_log(LOG_INFO, "%s, col-1 get: %d\n",
++                                        __func__, pLogRow->index);
++                                snmp_set_var_typed_value(request->requestvb,
++                                                         ASN_INTEGER,
++                                                         &pLogRow->index,
++                                                  sizeof(pLogRow->index));
++                                break;
++                            case 2:
++                                snmp_log(LOG_INFO, "%s, col-2 get: %s\n",
++                                        __func__, pLogRow->timeStamp);
++                                snmp_set_var_typed_value(request->requestvb,
++                                                         ASN_OCTET_STR,
++                                                         pLogRow->timeStamp,
++                                                  sizeof(pLogRow->timeStamp));
++                                break;
++                            case 3:
++                                snmp_log(LOG_INFO, "%s, col-3 get: %s\n",
++                                        __func__, pLogRow->message);
++                                snmp_set_var_typed_value(request->requestvb,
++                                                         ASN_OCTET_STR,
++                                                         pLogRow->message,
++                                                  sizeof(pLogRow->message));
++                                break;
++                            default:
++                                snmp_log(LOG_ERR, "bad table_info->colnum\n");
++                                netsnmp_set_request_error(reqinfo, request,
++                                                          SNMP_NOSUCHOBJECT);
++                                break;
++                        }
++                    }
++                    else
++                    {
++                        snmp_log(LOG_WARNING, "pLogRow is NULL\n");
++                        netsnmp_set_request_error(reqinfo, request,
++                                                  SNMP_NOSUCHINSTANCE);
++                    }
++                }
++                else
++                {
++                    snmp_log(LOG_ERR, "table_info is NULL\n");
++                }
++            }
++
++            break;
++        }
++        default:
++        {
++            snmp_log(LOG_ERR, "Wrong mode!\n");
++            //return SNMP_ERR_GENERR;
++        }
++    }
++
++    snmp_log(LOG_DEBUG, "%s returning SNMP_NOERR\n", __func__);
+     return SNMP_ERR_NOERROR;
+ }

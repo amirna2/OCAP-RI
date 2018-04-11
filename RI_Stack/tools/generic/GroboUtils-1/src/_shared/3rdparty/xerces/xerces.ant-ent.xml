@@ -1,0 +1,13 @@
+<!-- ANT entity include/definition for Xerces library files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.xerces SYSTEM "xerces.ant-inc.xml">
+
+<!ENTITY inc.javadoc.xerces.2_0_2 SYSTEM "2.0.2/javadoc-links.ant-inc.xml">
+
+<!ENTITY inc.javadoc.xerces.2_2_0 SYSTEM "2.2.0/javadoc-links.ant-inc.xml">
+

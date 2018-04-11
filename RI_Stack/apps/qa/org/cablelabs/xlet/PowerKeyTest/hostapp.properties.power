@@ -1,0 +1,10 @@
+###############################################
+## Xlet
+###############################################
+app.0.application_identifier=0x000000016305
+app.0.application_control_code=AUTOSTART
+app.0.visibility=VISIBLE
+app.0.priority=220
+app.0.application_name=PowerKeyTest
+app.0.base_directory=/syscwd/qa/xlet
+app.0.initial_class_name=org.cablelabs.xlet.PowerKeyTest.PowerKeyTestXlet

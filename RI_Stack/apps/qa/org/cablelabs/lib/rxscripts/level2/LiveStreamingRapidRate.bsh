@@ -1,0 +1,262 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+//
+///////////////////////////////////////////////////////////////////////////////
+ 
+// List of scripts used by this script
+//
+this.interpreter.source ("scripts/level2/utils/LiveStreamingTestSetup.bsh");
+this.interpreter.source ("scripts/level2/utils/PlayerRateChangeUtil.bsh");
+this.interpreter.source ("scripts/level1/FindMediaServer.bsh");
+this.interpreter.source ("scripts/level1/PublishLiveChannelToCDS.bsh");
+this.interpreter.source ("scripts/level1/PlaybackRecording.bsh");
+this.interpreter.source ("scripts/level1/TuneToServiceByIndex.bsh");
+
+/**
+ * Main method to perform live streaming playback scenario.
+ *
+ *
+ * @return  null string if no problems encountered, 
+ *          failure reason if problems encountered 
+ */
+String liveStreamingRapidRate(boolean useRemoteServicePlayer, int numberOfRateChanges)
+{
+    String failureReason = null;
+    String testName = "liveStreamingRapidRate";
+    
+    String results = performLiveStreamingSetup(false, GOLF_CHANNEL_IDX, false);
+    if (results != null)
+    {
+        // Problems setting up for test
+        failureReason = testName + " Problems during test setup: " + results;
+        rxLog.callTrace("Failure performing LiveStreaming setup : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed Test setup for live streaming, waiting 200 secs");
+        
+    // Find the index of the local media server
+    int mediaServerIndex = findLocalMediaServer();
+    if (mediaServerIndex == -1)
+    {
+        failureReason = "Problems getting local media server";
+        rxLog.callTrace ("Failure getting local media server", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Found media local media server");
+    
+    int channelItemIndex =  getPublishedChannelItemByName(mediaServerIndex, CHANNEL_NAME_1);
+    if (channelItemIndex == -1)
+    {
+        failureReason = "Problems getting index for the published channel item.";
+        rxLog.info("Problems getting index for the published channel item.");
+        return failureReason;
+    }
+    rxLog.info(testName + " Got Index for the published channel item: " + channelItemIndex);
+
+    // Stop broadcast service selection so video device is available for playback
+    tuneToServiceStop();
+    
+    // Create Remote Service Player to live stream
+    if (!startHNPlayback(useRemoteServicePlayer, mediaServerIndex, channelItemIndex))
+    {
+        failureReason = testName + " - Problems starting HN playback";
+        rxLog.callTrace(failureReason, this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Created and started Remote player");
+    
+    // Wait for 200 secs of the live stream
+    if (!waitForSecs(200))
+    {
+        failureReason = "Problems waiting for the playback to complete";
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;    
+    }
+    rxLog.info(testName + " - done waiting 200 secs");    
+
+    // Determine expected end time using the following:
+    // curTime + (rate * playTime) = endTime
+    int waitTime = 10;
+    // Tolerance needs to be multiplied by rate 
+    int toleranceSecs = TOLERANCE_SECS * 16;
+    int i = 0;
+    for (i = 0; i < numberOfRateChanges; i++)
+    {
+        // Repeat the rate change sequence number of specified times
+        
+        // Initiate rate change to -16x.
+        if (null != (failureReason = rateChangeHelper(testName, (float)-16.0)))
+        {
+            rxLog.info(testName + " Problems with -16x for first time");
+            // Because we are trying to fast fwd and rewind at rapidrates, there is this
+            // situation which sometimes occurs when the playback rate was requested to be
+            //  changed to 16 or-16x. The playback rate gets changed to the requested one
+            // fine, but the playback gets paused as either EOS or BOS is reached
+            // and a funtion inside rateChangePlayer() which queries the current playback 
+            // rate returns 0.0 as the playback is paused. rateChangeHelper() function exits
+            // with an error as the requested rate was 16 or-16x & the current rate is 0.0
+            // To avoid this particular situation, if the playback gets paused we try to 
+            // play back at 1x for a mere 5 seconds and then resume rapid rate changes.
+            if (null != (failureReason = rateChangeHelper(testName, (float)1.0)))
+            {
+                failureReason = testName + "- Problems with playing at 1x after rewind issues.";
+                rxLog.callTrace(failureReason, this.callstack);
+                stopPlayback();
+                return failureReason;
+            }
+            waitForSecs(5);
+            rxLog.info(testName + " Waited for 5 secs");
+            if (null != (failureReason = rateChangeHelper(testName, (float)-16.0)))
+            {
+                failureReason = testName + "- Problems with rewind rate change after trying it earlier.";
+                rxLog.callTrace(failureReason, this.callstack);
+                stopPlayback();
+                return failureReason;
+            }
+        }
+        
+        rxLog.info(testName +  " - rate change " + (i + 1) + " to -16x complete");
+        // Calculate expected media time at specified rate given wait time
+        int curTime = getMediaTimeSecs();
+        int expectedEndTime = curTime - (waitTime * 16); 
+        rxLog.info(testName + " - current media time is " + curTime + 
+            ", attempting rewind " + (i + 1) + " at -16x, expecting end time: " + expectedEndTime);
+        
+        // Wait for play of the live stream
+        if (!waitForSecs(waitTime))
+        {
+            failureReason = testName + " - Problems waiting for " + waitTime + " secs at rewind " + (i + 1);
+            rxLog.callTrace(failureReason, this.callstack);
+            stopPlayback();
+            return failureReason;    
+        }
+        
+        // Verify actual end media time is as expected
+        int actualEndTime = getMediaTimeSecs();
+        if ((actualEndTime < expectedEndTime - toleranceSecs) || (actualEndTime > expectedEndTime + toleranceSecs))
+        {
+            failureReason = testName + " - actual end media time of " + actualEndTime + 
+                " is out of range for rate -16x on attempt " + (i + 1) + ", expected was: " + 
+                expectedEndTime + ", with tolerance of " + toleranceSecs + " secs";
+            rxLog.callTrace(failureReason, this.callstack);
+            stopPlayback();
+            return failureReason;
+        }
+        else
+        {
+           rxLog.info(testName + " - actual end media time of " + actualEndTime + 
+                " is within range for rate -16x on attempt " + (i + 1) + ", expected was: " +  
+                expectedEndTime + ", with tolerance of " + toleranceSecs + " secs");
+        }
+        // Initiate rate change to +16x.
+        if (null != (failureReason = rateChangeHelper(testName, (float)16.0)))
+        {
+            rxLog.info(testName + " Problems with 16x for first time");
+            if (null != (failureReason = rateChangeHelper(testName, (float)1.0)))
+            {
+                failureReason = testName + "- Problems with playing at 1x after fastwd issues.";
+                rxLog.callTrace(failureReason, this.callstack);
+                stopPlayback();
+                return failureReason;
+            }
+            waitForSecs(5);
+            rxLog.info(testName + " Waited for 5 secs");
+            if (null != (failureReason = rateChangeHelper(testName, (float)16.0)))
+            {
+                failureReason = testName + "- Problems with fast fwd rate change after trying earlier.";
+                rxLog.callTrace(failureReason, this.callstack);
+                stopPlayback();
+                return failureReason;
+            }
+        }
+        rxLog.info(testName +  " - rate change " + (i + 1) +  " to 16x complete");
+        
+        // Calculate expected time at specified rate given wait time
+        curTime = getMediaTimeSecs();
+        expectedEndTime = curTime + (16 * waitTime); 
+        rxLog.info(testName + " - current media time is " + curTime + 
+            ", attempting first fast fwd at 16x, expecting end time: " + expectedEndTime);
+    
+        // Wait for fast fwd of the live stream
+        if (!waitForSecs(waitTime))
+        {
+            failureReason = testName +  "- Problems waiting for " + waitTime + " secs at " + (i + 1) + " fast fwd";
+            rxLog.callTrace(failureReason, this.callstack);
+            stopPlayback();
+            return failureReason;    
+        }
+    
+        // Verify media times
+        actualEndTime = getMediaTimeSecs();
+        if ((actualEndTime < expectedEndTime - toleranceSecs) || (actualEndTime > expectedEndTime + toleranceSecs))
+        {
+            failureReason = testName + " - actual end media time of " + actualEndTime + 
+                " is out of range for rate 16x on attempt " + (i + 1) + ", expected was: " + 
+                expectedEndTime + ", with tolerance of " + toleranceSecs + " secs";
+            rxLog.callTrace(failureReason, this.callstack);
+            stopPlayback();
+            return failureReason;
+        }
+        else
+        {
+            rxLog.info(testName + " - actual end media time of " + actualEndTime + 
+                " is within range for rate 16x on attempt " + (i + 1) + ", expected was: " +  
+                expectedEndTime + ", with tolerance of " + toleranceSecs + " secs");
+        }
+    }
+    
+    stopPlayback();
+    return failureReason;
+}

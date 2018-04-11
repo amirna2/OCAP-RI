@@ -1,0 +1,1413 @@
+<html>
+<head>
+<title>The FreeType Caching Sub-System</title>
+<link rel="stylesheet" href="../../freetype.css">
+<basefont face="Georgia, Arial, Helvetica, Geneva">
+<style content="text/css">
+  P { text-align=justify }
+  LI { text-align=justify }
+</style>
+</head>
+
+<body text="#000000"
+      bgcolor="#FFFFFF"
+      link="#0000EF"
+      vlink="#51188E"
+      alink="#FF0000">
+
+<table align="center" width="80%"><tr><td>
+<br><br>
+
+
+<h1><font color="red">THIS IS A DRAFT - NOT FOR DISTRIBUTION</font></h1>
+
+<h1 class="section">Introduction :</h1>
+
+<p>This document describes the caching sub-system that comes with the FreeType
+   library since release 2.0.6. As we'll see it provides a robust,
+   high-performance and flexible way to manage faces, sizes, glyph images
+   and charmaps.</p>
+
+<p>The first section presents an overview of the cache manager and its main
+   APIs. The second one explains how it's possible to extend it to support
+   caching of custom data with very little efforts, due to its
+   extensible design.</p>
+
+<br><br>
+
+
+
+<h1 class="section">I. Requirements and Design Goals:</h1>
+
+<p>When dealing with fonts, caching rapidly becomes a necessity for at least
+   the following reasons:</p>
+
+<ul>
+  <li><p>
+    opening font files is relatively slow, since it needs to load data into
+    memory, perform a minimum amount of validation on the input, as well as
+    setup certain format-dependent tables which are much too esoteric to
+    be detailed here. As a consequence, it is always a good idea to keep
+    a <tt>FT_Face</tt> object opened as long as possible.
+  </p></li>
+
+  <li><p>
+    on the other hand, each <tt>FT_Face</tt> or <tt>FT_Size</tt> object
+    can take from a few hundreds to several dozen kilobytes each, depending
+    on the font and its format. Since it's not easy to determine this footprint,
+    it's a good idea to assume that it is always large, and <em>limit the
+    number of opened faces</em> to the minimum.
+  </p></li>
+
+  <li><p>
+    similarly, each face contains hundreds, if not thousands of distinct glyph
+    images. Since typical text only uses a fraction of a face's glyphs, loading
+    all glyphs at once is nearly never a good idea. Instead, it's better to
+    only retrieve and store the ones we need more often.
+  </p></li>
+
+  <li><p>
+    finally, when all glyphs belonging to a given face are already loaded
+    in memory, the corresponding <tt>FT_Face</tt> object can be closed to
+    reduce the total memory footprint.
+  </p></li>
+</ul>
+
+<br>
+<p>The FreeType caching sub-system is nothing more than a powerful way to
+   automate all these tasks very easily.</p>
+
+<br><br>
+
+
+
+<h1 class="section">II. The Cache Manager:</h1>
+
+ <p>At the heart of the caching sub-system is a single object
+    called the <em>cache manager</em>, used to handle all kinds of data
+    within the cache. You should always begin your application by calling
+    the API
+    <a href="reference/ft2-cache_subsystem.html#FTC_Manager_New">
+    FTC_Manager_New
+    </a>
+    to create a new manager object.</p>
+
+
+
+ <br><br>
+ <h2>1. Identifying faces through <tt>FTC_FaceIDs</tt>:</h2>
+ <ul>
+
+ <p>For reasons of portability and flexibility, the cache manager has no
+    direct knowledge of which fonts are "installed" or available during program
+    execution. Instead, the application is responsible of the tasks of
+    <em>locating and identifying faces</em> and <em>opening the corresponding
+    font files</em>.</p>
+
+
+ <p>What this means is that a client application must <em>uniquely identify
+    any given available/installed face</em> with a pointer, with type
+    <a href="reference/ft2-cache_subsystem.html#FTC_FaceID">
+    FTC_FaceID
+    </a>. The meaning of such pointers is not important to the cache manager,
+    but their values must be constant throughout program lifetime, and are used
+    to associate cached data to their corresponding faces.</p>
+
+ <p>The application must also provide (during <tt>FTC_Manager_New</tt>) a
+    special callback function, named a
+    <a href="reference/ft2-cache_subsystem.html#FTC_Face_Requester">
+    FTC_Face_Requester
+    </a>
+    . The face requester is simply in charge of "translating" a given
+    <tt>FTC_FaceID</tt> into a fresh new <tt>FT_Face</tt>. This generally
+    implies calling <tt>FT_New_Face</tt> or <tt>FT_Open_Face</tt>, but
+    conveniently encapsulate any kind of font installation/listing problem
+    to the application side.</p>
+
+ <p>In most cases, a <tt>FTC_FaceID</tt> is a pointer to a structure that
+    contains a file pathname and a face index, and where the face requester
+    simply calls <tt>FT_New_Face</tt>, as illustrated by the following code:</p>
+
+ <pre class="code">
+   <i>/* define custom face identification structure */</i>
+   typedef struct MyFaceRec_
+   {
+     const char*  file_path;
+     int          face_index;
+
+   } MyFaceRec, *MyFace;
+
+
+   <i>/* our custom face requester is dead simple */</i>
+   static FT_Error
+   my_face_requester( FTC_FaceID   face_id,
+                      FT_Library   library,
+                      FT_Pointer   request_data,
+                      FT_Face     *aface )
+   {
+     MyFace  face = (MyFace) face_id;   <i>// simple typecase</i>
+
+     return FT_New_Face( library, face->file_path, face->face_index, aface );
+   }
+
+
+
+   {
+     FTC_Manager  manager;
+     ...
+     <i>/* initialize cache manager */</i>
+     error = FTC_Manager_New(
+                 library,
+                 0,  <i>/* use default */</i>
+                 0,  <i>/* use default */</i>
+                 0,  <i>/* use default */</i>
+                 & my_face_requester,  <i>/* use our requester */</i>
+                 NULL,                 <i>/* don't need this.  */</i>
+                 &manager );
+   }
+ </pre>
+
+ <p>What this code doesn't show is how the list of available/existing
+    <tt>FTC_FaceID</tt>/<tt>MyFace</tt> handle is generated, since this
+    is highly program or platform specific. For a more concrete example,
+    have a look at the file <tt>ftcommon.i</tt> in the "<tt>ft2demos</tt>"
+    package distributed by FreeType.
+    </p>
+ </ul>
+
+ <br><br>
+ <h2>2. Caching <tt>FT_Face</tt> and <tt>FT_Size</tt> objects:</h2>
+ <ul>
+
+  <p>Client applications should not open new <tt>FT_Face</tt> objects directly
+     with
+     <a href="reference/ft2-base_interface.html#FT_New_Face">
+     FT_New_Face
+     </a>
+     or
+     <a href="reference/ft2-base_interface.html#FT_Open_Face">
+     FT_Open_Face
+     </a>. Instead, they should directly query them from the cache manager
+     with a call to the
+     <a href="reference/ft2-cache_subsystem.html#FTC_Lookup_Face">
+     FTC_Lookup_Face
+     </a> API.</p>
+
+  <p>The reason for this is that the manager automatically limits the number
+     of opened <tt>FT_Face</tt> objects during program execution, according
+     to a pre-determined threshold. It does so by keeping all opened face
+     objects in a list sorted in most-recently-used (MRU) order.</p>
+
+  <p>When a new face object is requested and when the list if 'full', the
+     oldest <tt>FT_Face</tt> is automatically closed to leave room
+     for the new one. Each time you call <tt>FTC_Lookup_Face</tt>, the
+     returned face is also placed at the head of the manager's list.</p>
+
+  <p>Note that <tt>FTC_Lookup_Face</tt> takes a <tt>FTC_FaceID</tt> on input
+     and returns a valid <tt>FT_Face</tt> handle (or an error).</p>
+
+  <br>
+  <p>Similarly to <tt>FT_Face</tt> handles, the cache manager also handles
+     a list containing opened <tt>FT_Size</tt> objects, which correspond
+     to specific character pixel sizes of given <tt>FTC_FaceID</tt> handles.
+     </p>
+
+  <p>As a consequence, applications should never try to set a face's current
+     character size with
+     <a href="reference/ft2-base_interface.html#FT_Set_Char_Size">
+     FT_Set_Char_Size
+     </a>
+     or
+     <a href="reference/ft2-base_interface.html#FT_Set_Pixel_Sizes">
+     FT_Set_Pixel_Sizes
+     </a>
+     on a given <tt>FT_Face</tt>. Instead, they should use
+     <a href="reference/ft2-cache_subsystem.html#FTC_Lookup_Size">
+     FTC_Lookup_Size
+     </a>
+     .
+  </p>
+
+  <p>It's <em>very important</em> to note that <tt>FT_Face</tt> and
+     <tt>FT_Size</tt>handles returned by the cache manager should be
+     considered <em>temporary objects</em>,  as these can be flushed out
+     of the cache any time you call <em>any</em> of the caching sub-system
+     APIs, even one that do not directly deal with these types.</p>
+
+  <p>It is indeed <em>not</em> possible to "lock" one of these objects within
+     the cache to prevent them from being flushed. This is not a bug but an
+     important design feature.</p>
+
+  <p>However, we'll see in the next section that it is possible to extract
+     a variety of data from these items (like glyph images, charmaps, etc..),
+     and cache them in a more friendly and efficient way..</p>
+ </ul>
+
+
+<br><br>
+<h1>II. The Cache Pool</h1>
+
+  <p>The final purpose of the cache manager is to provide an "area", called
+     the <em>cache pool</em>, where specific font data can be cached in a
+     very efficient way. More specifically, this data is organized in
+     abstract cache "nodes".</p>
+
+
+<h2>1. Cache Nodes</h2>
+<ul>
+  <p>
+     Each cache node corresponds to a small fragment of the information
+     contained in a face that is likely to be used very often for text
+     rendering and other common operations. For examples: glyph images, bitmaps
+     or charmaps (though other types of data can be easily added as described
+     later). Cache nodes have the following properties:
+    </p>
+
+  <ul>
+    <li><p>
+      the cache manager is capable of computing the <em>exact</em> memory
+      footprint of each cache node quickly, and keeps all nodes in a MRU list
+      as well.
+    </p></li>
+
+    <li><p>
+      when the pool is "full", the manager is capable of destroying the
+      "oldest" node(s) in order to create a new one.
+    </p></li>
+
+    <li><p>
+      each node is reference-counted, with an initial count of 0. The manager
+      will <em>never</em> destroy a node whose count isn't zero, and thus
+      supports "locking" nodes in the cache.
+    </p></li>
+  </ul>
+
+  <p>This allows the manager to limit the total memory size taken by cache
+     nodes (instead of their number), thus ensuring a controlled memory
+     footprint for all cached data. This means that, independently of the
+     number of faces and sizes used, these nodes will never take more than,
+     say, 300 KB, in memory.</p>
+
+  <p>It's of course possible to use different types of cache nodes within
+     the manager's pool. Notice that the "pool size" is set when calling
+     <tt>FTC_Manager_New</tt> and doesn't change afterwards. Its exact
+     value doesn't influence the API or the code of the programs using
+     it (only their performance, eventually).</p>
+
+   <p>All of this is performed automatically, but the cache manager doesn't
+      provide APIs to actually <em>create</em> new nodes in its pool. That's
+      the task of <em>cache objects</em>.</p>
+
+  </ul>
+
+
+  <br><br>
+  <h2>2. Cache Objects</h2>
+
+  <ul>
+   <p>A <em>cache object</em> is used to managed a <em>single type</em> of
+      nodes. It thus provides:</p>
+
+   <ul>
+     <li><p>
+       a high-level API to client applications, to let them lookup nodes.
+       (this function create new nodes when they're not available yet in
+       the cache pool)
+     </p></li>
+
+     <li><p>
+       a simple description of its cache nodes to the manager,
+       (which is hidden to client apps). Basically, this means how to
+       compute a node's footprint, how to destroy a node, etc..
+     </p></li>
+
+  </ul>
+
+  <p>Several cache objects can be used concurrently in a single manager.
+     Up to 16 caches can be used in a single cache manager, but this number
+     can be changed at build time through the definition of the FTC_MAX_CACHES
+     macro. For example, the <tt>ftview</tt> demo program uses three cache
+     objects provided by the default FT2 cache sub-system:</p>
+
+  <ul>
+    <li>a
+      <a href="reference/ft2-cache_subsystem.html#FTC_SBitCache">
+      FTC_SBitCache
+      </a> to store small glyph bitmaps.
+    </li>
+
+    <li>a
+      <a href="reference/ft2-cache_subsystem.html#FTC_ImageCache">
+      FTC_ImageCache
+      </a> to store glyph outlines.
+    </li>
+
+    <li>a
+      <a href="reference/ft2-cache_subsystem.html#FTC_CMapCache">
+      FTC_CMapCache
+      </a> to store character code to glyph indices mappings
+  </ul>
+
+
+  <p>The high-level API of each cache is generally made of two important
+     functions:</p>
+
+  <ul>
+    <li><p>
+      a <b><tt>New</tt></b> function, used to create a new cache object within
+      a given manager and return its handle. This should be called only once
+      by your application, just after
+      <a href="reference/ft2-cache_subsystem.html#FTC_Manager_New">
+      FTC_Manager_New
+      </a>.
+      See
+      <a href="reference/ft2-cache_subsystem.html#FTC_ImageCache_New">
+      FTC_ImageCache_New
+      </a>
+      ,
+      <a href="reference/ft2-cache_subsystem.html#FTC_SBitsCache_New">
+      FTC_SBitsCache_New
+      </a>
+      or
+      <a href="reference/ft2-cache_subsystem.html#FTC_CMapCache_New">
+      FTC_CMapCache_New
+      </a>
+
+      for examples. Note that all caches are automatically cleared and
+      destroyed with their parent manager.
+    </p></li>
+
+    <li><p>
+      a <b><tt>Lookup</tt></b> function, used to lookup data in a given
+      cache, eventually creating new nodes when they're not available in the
+      cache and destroying old ones when the cache is full. See
+      <a href="reference/ft2-cache_subsystem.html#FTC_ImageCache_Lookup">
+      FTC_ImageCache_Lookup
+      </a>
+      ,
+      <a href="reference/ft2-cache_subsystem.html#FTC_SBitsCache_Lookup">
+      FTC_SBitsCache_Lookup
+      </a>
+      or
+      <a href="reference/ft2-cache_subsystem.html#FTC_CMapCache_Lookup">
+      FTC_CMapCache_Lookup
+      </a>
+      for examples.</p>
+  </ul>
+
+
+  <br>
+  <p>
+  Note that even though each <tt><b>Lookup</b></tt> function returns raw
+  data (like glyph images, metrics, etc..), it may also optionally return an
+  <em>opaque</em> <tt>FTC_Node</tt> handle corresponding to the cache node
+  where this data was found.
+  </p>
+
+  <p>More precisely, <em>the last parameter</em> of some <tt><b>Lookup</b></tt>
+     routines is a <tt>FTC_Node*</tt> pointer, i.e. the address of a variable
+     that will receive the cache node handle. if this address is NULL, the
+     raw data is simply returned, and the node is left unchanged (and hidden
+     to the application).</p>
+
+  <p>If this address is _not_ NULL, the cache node handle is written to it,
+     and <em>its reference-count is incremented</em> before
+     <tt><b>Lookup</b></tt> returns. It's then up to the caller to later call
+     <a href="reference/ft2-cache_subsystem.html#FTC_Node_Unref">
+     FTC_Node_Unref
+     </a>
+     to decrement it back.</p>
+
+  <p>Finally, you can also use
+     <a href="reference/ft2-cache_subsystem.html#FTC_Node_Ref">
+     FTC_Node_Ref
+     </a>
+     to manually increment the reference count of a given cache node. You
+     should however never forget to call <tt>FTC_Node_Unref</tt> when you
+     don't need it anymore, in order to ensure correct behaviour of the
+     cache manager.</p>
+
+  <p>Leaving cache nodes "locked" in the cache leads to its saturation as
+     well as further lookup failures.</p>
+
+ </ul>
+
+
+
+
+
+
+<br><br><br>
+<h1 class="section">III. Designing custom cache types</h1>
+
+<p>If you're perfectly happy and satisfied by the three cache objects
+   provided with the standard cache manager (i.e. glyph images, small bitmaps
+   and charmaps), I advise you to jump directly to this document's conclusion.
+   </p>
+
+<p>Indeed, this section details the sophisticated subject of providing
+   custom cache object types in order to extend the caching sub-system.
+   We'll see that this is not very difficult and doesn't need large
+   amounts of code. However, its requires a good understanding of the
+   sub-system's internals that will be explained here..
+   </p>
+
+
+<br><br>
+<h2>1. Internals Overview</h2>
+<ul>
+  <p>First of all, you should always include the file
+     <tt>FT_CACHE_MANAGER_H</tt> (a.k.a. <tt>&lt;freetype/cache/ftcmanag.h&gt;</tt>
+     in most installations) before your custom cache code, since it contains a bunch
+     of necessary type and functions declarations.</p>
+
+  <p>More specifically, it provides the definition of four important types
+     which will be treated as abstract object classes in the rest of this
+     section:</p>
+
+  <br>
+  <h3>a. the <tt>FTC_Node</tt> class:</h3>
+  <ul>
+    <p>Each cache node is modeled by a <tt>FTC_Node</tt> handle, which is
+       a pointer to the
+       <a href="reference/ft2-cache_subsystem.html#FTC_NodeRec">
+       FTC_NodeRec
+       </a> structure.</p>
+
+    <pre class="code">
+  typedef struct  FTC_NodeRec_
+  {
+    FTC_Node   mru_next;     <i>/* circular mru list pointer           */</i>
+    FTC_Node   mru_prev;     <i>/* circular mru list pointer           */</i>
+    FTC_Node   link;         <i>/* used for hashing..                  */</i>
+    FT_UInt32  hash;         <i>/* used for hashing too..              */</i>
+    FT_UShort  fam_index;    <i>/* index of family the node belongs to */</i>
+    FT_Short   ref_count;    <i>/* reference count for this node..     */</i>
+
+  } FTC_NodeRec;
+    </pre>
+
+    <p>It can be detailed with the following:</p>
+
+    <ul>
+    <li><p>
+       Each node is part of a MRU-ordered global list owned by the
+       cache manager, and thus contains two fields, named
+       <tt><b>mru_prev</b></tt> and <tt><b>mru_next</b></tt>, for that
+       purpose.
+     </p></li>
+
+    <li><p>
+       Each cache object implements a fast and dynamic hash table. As a
+       consequence, each node also contains a 32-bit field named
+       <tt><b>hash</b></tt> and a bucket list pointer named
+       <tt><b>link</b></tt>
+    </p></li>
+
+    <li><p>
+       Finally, each node contains a 16-bit reference count
+       (<tt><b>ref_count</b></tt>), and a 16-bit index
+       (<tt><b>fam_index</b></tt>) into a <em>global</em> list of "families"
+       (which are described below)
+    </p></li>
+    </ul>
+
+
+    <p>On a 32-bits system, the minimal size of a given cache node is thus
+       of 20 bytes.</p>
+
+    <p>You can "derive" the base <tt>FTC_Node</tt> class by defining your
+       own structures with a <tt>FTC_NodeRec</tt> as its first field, as
+       in:</p>
+
+    <pre class="code">
+      typedef struct DummyNodeRec_
+      {
+        FTC_NodeRec   node;
+
+        <i>........ my node information</i>
+
+      } DummyNodeRec, *DummyNode;
+    </pre>
+  </ul>
+
+  <br>
+  <h3>b. the <tt>FTC_Family</tt> class:</h3>
+  <ul>
+  <p> All the nodes managed by a given cache can be grouped in
+      <em>families</em>. Each family corresponds to a group of nodes sharing
+      the same runtime properties. It is modeled by a
+      <a href="reference/ft2-cache_subsystem.html#FTC_Family">
+     FTC_Family
+     </a> handle.</p>
+
+  <p>For example, both the <tt>FTC_ImageCache</tt> and
+     <tt>FTC_SBitsCache</tt> use families to group all image/bitmap nodes
+     belonging to the same face, size and format. More precisely, each
+     family object they manage contain a <tt>FTC_FaceID</tt>, character
+     pixel sizes and a glyph image format descriptor.</p>
+
+  <p>Each family belongs to a single cache object, and it has a globally
+     unique 16-bit index used to address it from a given cache node. If several
+     cache nodes belong to the same family, this allows efficient sharing of
+     information and prevent duplication of considerable amount of identical
+     data.</p>
+
+  <p>Just like <tt>FTC_Node</tt>, <tt>FTC_Family</tt> is an abstract class
+     that must be derived to create "real" types.</p>
+  </ul>
+
+
+
+
+  <br>
+  <h3>c. the <tt>FTC_Cache</tt> class:</h3>
+  <ul>
+    <p>As said previously, each <tt>FTC_Cache</tt> object implements an
+       optimized and dynamic hash table to hold all of its nodes. Additionally,
+       the cache controls a MRU list of families for its nodes.</p>
+
+    <p>A cache object's most important field is a pointer to its corresponding
+       <a href="reference/ft2-cache_subsystem.html#FTC_Cache_ClassRec">
+       FTC_Cache_ClassRec
+       </a>
+       structure, used to model its behaviour and properties:</p>
+
+    <pre class="code">
+    typedef struct  FTC_Cache_ClassRec_
+    {
+      FT_UInt                 cache_size;
+      FTC_Cache_InitFunc      cache_init;
+      FTC_Cache_ClearFunc     cache_clear;
+      FTC_Cache_DoneFunc      cache_done;
+
+      FT_UInt                 family_size;
+      FTC_Family_InitFunc     family_init;
+      FTC_Family_CompareFunc  family_compare;
+      FTC_Family_DoneFunc     family_done;
+
+      FT_UInt                 node_size;
+      FTC_Node_InitFunc       node_init;
+      FTC_Node_WeightFunc     node_weight;
+      FTC_Node_CompareFunc    node_compare;
+      FTC_Node_DoneFunc       node_done;
+
+    } FTC_Cache_ClassRec;
+    </pre>
+
+    <p>This structure is made of three sections related to the sub-classes
+       of <tt>FTC_Cache</tt>, <tt>FTC_Family</tt> and <tt>FTC_Node</tt>
+       specific to the cache. Most of its fields are function pointers
+       used to implement "methods" of these objects.</p>
+
+    <p>FreeType provides several useful defaults for these callbacks. As we'll
+       see, providing custom cache implementations is only a matter or writing
+       a few number of specific methods, as well as a custom
+       <tt>FTC_Cache_ClassRec</tt>, as detailed a bit further.</p>
+  </ul>
+
+
+  <br>
+  <h3>d. the <tt>FTC_Query</tt> class:</h3>
+  <ul>
+
+  <p>When a cache is searched, the information relevant to select or create
+     the right node is gathered in a sub-class of the class
+     <a href="reference/ft2-cache_subsystem.html#FTC_Query">
+     FTC_Query
+     </a> by the <tt><b>Lookup</b></tt> function, and then passed to the
+     internal cache lookup function (i.e. <tt>ftc_cache_lookup</tt>).</p>
+
+  <pre class="code">
+  typedef struct FTC_QueryRec_
+  {
+    FTC_Family  family;
+    FT_UFast    hash;
+
+  } FTC_QueryRec;
+  </pre>
+
+
+  <p>This routine first tries to find the family corresponding to the request.
+     it does so by comparing any family already created for the cache to the
+     request. If none is found, a new family is created.</p>
+
+  <p>When a family is matched by a request, the base fields of the query
+     (i.e. <tt>family</tt> and <tt>hash</tt>) are updated and then used to
+     lookup the corresponding node in the cache's hash table.</p>
+
+  <p>Note that _both_ the family initializer and comparator (i.e. the
+     <tt>family_init</tt> and <tt>family_compare</tt> fields of the
+     <tt>FTC_Cache_ClassRec</tt>) need to update these base fields
+     according to the request.</p>
+
+  <p>A typical sub-class of <tt>FTC_Query</tt> would add information about
+     what is looked up. Some examples are given in the new sub-sections.</p>
+  </ul>
+</ul>
+
+<br><br>
+<h2>2. Implementing a simple cache:</h2>
+<ul>
+
+  <p>Let's have a look at a real custom cache implementation. Imagine that
+     we want to cache the <em>advance widths</em> of glyphs for specific faces
+     and pixel sizes. We can do it by designing a custom  cache with the
+     following design:</p>
+
+  <p>We'll start by sub-classing <tt>FTC_Node</tt> as follows:</p>
+  <pre class="code">
+     typedef struct MyNodeRec_
+     {
+       FTC_NodeRec    node;
+       FTC_FaceID     face_id;      <i>/* face identifier              */</i>
+       FT_UInt        pix_width;    <i>/* character pixel width        */</i>
+       FT_UInt        pix_height;   <i>/* character pixel weigth       */</i>
+       FT_UInt        num_glyphs;   <i>/* number of glyphs in font     */</i>
+       FT_Fixed*      advances;     <i>/* array of 'num_glyphs' values */</i>
+
+     } MyNodeRec, *MyNode;
+  </pre>
+
+  <p>As you see, we use a <tt>FTC_NodeRec</tt> as the first field in our
+     structure, since this can be seen as a "sub-class" of
+     <tt>FTC_NodeRec</tt>.</p>
+
+  <p>Similarly, we're going to create a specific query, which sub-classes
+     <tt>FTC_Query</tt>:</p>
+  <pre class="code">
+    typedef struct MyQueryRec_
+    {
+      FTC_QueryRec  query;
+      FTC_FaceID    face_id;
+      FT_UInt       pix_width;
+      FT_UInt       pix_height;
+
+    } MyQueryRec, *MyQuery;
+  </pre>
+
+  <p>We don't need to deal with several families per cache, since everything
+     is stored in the node, so we create a dummy sub-class:</p>
+   <pre class="code">
+     typedef  struct MyFamilyRec_
+     {
+       FTC_FamilyRec  family;
+
+     } MyFamilyRec, *MyFamily;
+   </pre>
+
+  <p>Now, let's write some sub-classed methods. Let's start by the easiest
+     ones, which are used to create and compare families. Since we only really
+     need one family per cache, we'll write:</p>
+
+
+  <pre class="code">
+     <i>// update the base query fields 'family' and 'hash'</i>
+     static void
+     my_query_update( MyQuery   my_query,
+                      MyFamily  my_family )
+     {
+       FTC_Query   query  = FTC_QUERY(my_query);   <i>// simple type casts</i>
+       FTC_Family  family = FTC_FAMILY(my_family);
+
+       query->family = family;
+       query->hash   = FTC_FACE_ID_HASH(my_query->face_id) ^
+                       (my_query->pix_width << 8) ^
+                       (my_query->pix_height);
+     }
+
+
+     <i>// initialize a brand new family</i>
+     FT_Error
+     my_family_init( MyFamily   my_family,
+                     MyQuery    my_query,
+                     FTC_Cache  cache )
+     {
+       FT_Error  error;
+
+
+       <i>// call base family initialiser</i>
+       error = ftc_family_init( FTC_FAMILY( my_family ),
+                                FTC_QUERY( my_query ),
+                                cache );
+       if ( !error )
+         my_query_update( my_query, my_family );
+
+       return error;
+     }
+
+
+     <i>// since we only want to use one family per cache, always</i>
+     <i>// compare favorably, independently of the query..     </i>
+     FT_Bool
+     my_family_compare( MyFamily  my_family,
+                        MyQuery   my_query )
+     {
+       query_update( my_query, my_family );
+       return 1;
+     }
+  </pre>
+
+  <p>Notice the static function <tt>my_query_update</tt>. It is used to
+     update the <tt>family</tt> and <tt>hash</tt> field of the current query
+     whenever a family is matched or created. This is actually <em>extremely
+     important</em> for any cache sub-class.</p>
+
+  <p>Now, let's write the sub-classed node routines:</p>
+
+  <pre class="code">
+    <i>// finalize node</i>
+    void
+    my_node_done( MyNode     my_node,
+                  FTC_Cache  cache )
+    {
+      if ( my_node->advances )
+      {
+        FT_Memory  memory = cache->memory;
+
+        FREE( my_node->advances );
+        my_nodes->num_glyphs = 0;
+      }
+
+      my_node->face_id    = NULL;
+      my_node->pix_width  = 0;
+      my_node->pix_height = 0;
+
+      <i>// call base node finalizer</i>
+      ftc_node_done( FTC_NODE(my_node), cache );
+    }
+
+
+    <i>// compute node weight (size in bytes)</i>
+    FT_ULong
+    my_node_weight( MyNode     my_node,
+                    FTC_Cache  cache )
+    {
+      <i>// easy, isn't it ;-)</i>
+      return sizeof(*my_node) + my_node->num_glyphs * sizeof(FT_Fixed);
+    }
+
+
+    <i>// compare node to the current query</i>
+    FT_Bool
+    my_node_compare( MyNode   my_node,
+                     MyQuery  my_query )
+    {
+      return ( my_node->face_id    == my_query->face_id    &&
+               my_node->pix_width  == my_query->pix_width  &&
+               my_node->pix_height == my_query->pix_height );
+    }
+
+
+    <i>// create new node from current query</i>
+    FT_Error
+    my_node_init( MyNode     my_node,
+                  MyQuery    my_query,
+                  FTC_Cache  cache )
+    {
+      FT_Error  error;
+
+
+      <i>// call base node initialiser</i>
+      ftc_node_init( FTC_NODE(my_node),
+                     FTC_QUERY(my_query),
+                     cache );
+
+      <i>// load the advances table</i>
+      error = load_advances(
+                 my_query->face_id,
+                 my_query->pix_width,
+                 my_query->pix_height,
+                 cache->manager,
+                 &my_node->num_glyphs,
+                 &my_node->advances );
+
+      return error;
+    }
+  </pre>
+
+
+  <p>Except for the <tt>load_advances</tt> function, which we'll not detail
+     here, we have finished our sub-classing code. All we need now is to pack
+     everything in:</p>
+
+  <pre class="code">
+    static const FTC_Cache_ClassRec   my_cache_class =
+    {
+      sizeof( FTC_CacheRec ),      <i>// keep base FTC class</i>
+      ftc_cache_init,              <i>// and methods..</i>
+      ftc_cache_clear,
+      ftc_cache_done,
+
+      sizeof( My_FamilyRec ),
+      my_family_init,
+      my_family_compare,
+      ftc_family_done,             <i>// use base family finalizer</i>
+
+      sizeof( My_NodeRec ),
+      my_node_init,
+      my_node_compare,
+      my_node_weight,
+      my_node_done
+    };
+  </pre>
+
+  <p>which we'll directly use in:</p>
+
+  <pre class="code">
+    typedef  FTC_Cache   My_Cache;
+
+    FT_Error
+    My_Cache_New( FTC_Manager   manager,
+                  My_Cache     *acache )
+    {
+      return  FTC_Manager_Register( manager,
+                                    &my_cache_class,
+                                    (FTC_Cache*) acache );
+    }
+  </pre>
+
+  <p>Finally, all we need now is the lookup function. Here it comes:</p>
+
+  <pre class="code">
+    FT_Error
+    My_Cache_Lookup( My_Cache    my_cache,
+                     FTC_FaceID  face_id,
+                     FT_UInt     pix_width,
+                     FT_UInt     pix_height,
+
+                     FT_UInt    *anum_glyphs,   <i>// output</i>
+                     FT_Fixed*  *aadvances,     <i>// output</i>
+
+                     FTC_Node   *anode )        <i>// optional output</i>
+    {
+      FT_Error     error;
+      My_Node      node;
+      My_QueryRec  my_query;
+
+      <i>// setup query</i>
+      my_query.face_id    = face_id;
+      my_query.pix_width  = pix_width;
+      my_query.pix_height = pix_height;
+
+      *anum_glyphs = 0;
+      *aadvances   = NULL;
+
+      <i>// perform lookup</i>
+      error = ftc_cache_lookup( FTC_CACHE( my_cache ),
+                                FTC_QUERY( &my_query ),
+                                (FTC_Node*) &node );
+      if (!error)
+      {
+        <i>// return raw data</i>
+        *anum_glyphs = node->num_glyphs;
+        *aadvances   = node->advances;
+
+        <i>// eventually return cache node handle, increment ref count</i>
+        if ( anode )
+        {
+          *anode = node;
+          FTC_NODE(node)->ref_count++;
+        }
+      }
+      return error;
+    }
+  </pre>
+
+
+  <p><b>Voila !</b> We've completed a basic but working custom cache type
+     and can start using it right now in our applications.</p>
+
+</ul>
+
+<br><br>
+<h2>3. A slightly more complex case:</h2>
+<ul>
+
+  <p>The previous example was relatively simple, though it didn't use
+     families in its cache. We'll now design a cache used to store the
+     scaled and hinted outlines of individal glyphs.</p>
+
+  <p>First, let's design the node and query sub-classes, and the corresponding
+     code:</p>
+
+  <pre class="code">
+    typedef struct MyNodeRec_
+    {
+      FTC_NodeRec  node;
+      FT_Outline   outline;
+
+    } MyNodeRec, *MyNode;
+
+
+    typedef struct MyQueryRec_
+    {
+      FTC_QueryRec  query;
+      FTC_FaceID    face_id;
+      FT_UInt       pix_width;
+      FT_UInt       pix_height;
+      FT_UInt       glyph_index;
+
+    } MyQueryRec, *MyQuery;
+
+
+    FT_Error  my_node_init( MyNode     node,
+                            MyQuery    query,
+                            FTC_Cache  cache )
+    {
+      FT_Error    error;
+      FT_UInt32   hash;
+      FT_Face     face;
+      FT_Size     size;
+
+      <i>/* first, lookup face and size for the corresponding node */</i>
+      error = FTC_Manager_Lookup_Size( cache->manager,
+                                       query->face_id,
+                                       query->pix_width,
+                                       query->pix_height,
+                                       &face,
+                                       &size );
+      if (!error)
+      {
+        error = FT_Load_Glyph( face, query->glyph_index, FT_LOAD_NO_BITMAP );
+        if (!error)
+        {
+          /* copy outline into the node */
+
+        }
+      }
+      return error;
+    }
+  </pre>
+
+
+
+</ul>
+
+
+<!--
+
+
+<br><br>
+<h2>2. The abstract <tt>FTC_GlyphCache</tt> type:</h2>
+<ul>
+
+  <p>Let's suppose that we want to create a custom cache type that stores
+     one glyph image (i.e. a <tt>FT_Glyph</tt> handles) in each node. We
+     could easily modify our previous example to perform that with
+     a structure like:</p>
+
+  <pre class="code">
+     typedef struct My_GlyphNodeRec_
+     {
+       FTC_NodeRec    node;
+       FTC_FaceID     face_id;
+       FT_UInt        pix_width;
+       FT_UInt        pix_height;
+       FT_UInt        glyph_index;
+       FT_Glyph       glyph;
+
+     } My_GlyphNodeRec, *My_GlyphNode;
+  </pre>
+
+  <p>It wouldn't be difficult to create the appropriate request structure,
+     methods and cache class. However, this design wouldn't be really optimal
+     since it would require <tt>sizeof(My_GlyphNodeRec)&nbsp;==&nbsp;40</tt>
+     bytes per glyph, plus the <tt>FT_Glyph</tt> itself..</p>
+
+  <p>Considering that in most cases, the glyph present in the cache pool will
+     only belong to a few number of faces and sizes, this means that a _lot_
+     of memory would be waster by this scheme. We could like to be able to
+     squeeze more nodes in the pool of fixed size by using different
+     techniques.</p>
+
+
+  <p>Fortunatel, the caching sub-system also provides an "abstract" sub-class
+     of <tt>FTC_Cache</tt> that was designed to solve this problem elegantly.
+     You can derive it whenever you need to store glyph-specific data
+     with a one-to-one glyph <-> node mapping.</p>
+
+  <p>For example, the <tt>FTC_Image_Cache</tt> is a sub-class of
+     <tt>FTC_GlyphCache</tt> that stores <tt>FT_Glyph</tt> handles in
+     cache nodes..</p>
+
+  <p>We're now going to see how the <tt>FTC_GlyphCache</tt> type works:</p>
+
+
+  <br>
+  <h3>a. Glyph Sets:</h3>
+
+  <p>First, the glyph cache type defines the concept of a "glyph set"
+     (i.e. <tt>FTC_GlyphSet</tt>). It is used to represent a family of
+     glyphs pertaining to the same request. Glyphs from the same set are
+     <em>only</em> differentiated by glyph number.</p>
+
+  <p>In our previous example, our glyph sets would be defined by
+     a face_id, character pixel sizes, and image format (not counting
+     transformations and other interesting processing of the glyph images)</p>
+
+  <p>Each glyph set has its own hash value which is used to compute the
+     hash value of all its nodes with the formula:</p>
+
+  <pre class="code">
+     node->hash = (FT_UInt32)( (set->hash << 16) | (glyph_index & 0xFFFF) );
+  </pre>
+
+  <p>This allows us to store the glyph index within the node's hash value
+     while providing a good hash function since glyphs are very often used
+     in sequential, or semi-sequential order.</p>
+
+  <p>The node type of glyph caches is <tt>FTC_GlyphNode</tt>, which is
+     much shorter than the previous definition of <tt>My_GlyphNode</tt>
+     (24 bytes instead of 40 per glyph):</p>
+
+  <pre class="code">
+    typedef struct FTC_GlyphNodeRec_
+    {
+      FTC_NodeRec   node;
+      FTC_GlyphSet  gset;
+
+    } FTC_GlyphNodeRec, *FTC_GlyphNode;
+  </pre>
+
+  <p>Each glyph cache contains a MRU list of glyph sets. When a lookup request
+     is made, the glyph set corresponding to the request is searched in the
+     list (and moved to its front, created if necessary, discarding old ones,
+     etc..). Then, the glyph node is looked in the cache and compared to
+     it and the requested glyph index.</p>
+
+
+  <br>
+  <h3>b. Implementing <tt>FTC_Image_Cache</tt> nodes:</h3>
+
+  <p>We will now detail the implementation of the <tt>FTC_Image_Cache</tt>
+     type, since it derives from <tt>FTC_GlyphCache</tt>, first, the node
+     and request type:</p>
+
+  <pre class="code">
+    typedef struct FTC_ImageNodeRec_
+    {
+      FTC_GlyphNodeRec  gnode;  /* glyph cache node */
+      FT_Glyph          glyph;  /* glyph image      */
+
+    } FTC_ImageNodeRec, *FTC_ImageNode;
+  </pre>
+
+  <p>Now, let's define the request structure used to perform lookup. Note
+     that it contains <em>input</em> fields that come from the application,
+     and <em>output</em> fields, that are update during the lookup:</p>
+
+  <pre class="code">
+    typedef struct FTC_ImageSetRec_*   FTC_ImageSet;
+
+    typedef struct FTC_ImageRequestRec_
+    {
+      FTC_FaceID    face_id;
+      FT_UInt       pix_width;
+      FT_UInt       pix_height;
+      FT_UInt       image_format;
+
+      FTC_GlyphSet  gset;  <i>/* set during lookup */</i>
+
+    } FTC_ImageRequestRec, *FTC_ImageRequest;
+
+    #define  FTC_IMAGE_REQUEST_HASH(req)                         \
+               ((FT_UFast)( FTC_FACE_ID_HASH((req)->face_id) ^   \
+                            ((req)->pix_width << 8)          ^   \
+                            ((req->pix_height)               ^   \
+                            ((req)->image_format << 10)      )
+  </pre>
+
+  <p>Notice the hash computation macro and how it only uses the input fields.
+     We can now write the node initializer, where we assume that the request's
+     <tt>imgset</tt> field is already set..</p>
+
+  <pre class="code">
+    FT_Error
+    ftc_image_node_init( FTC_ImageNode     inode,
+                         FTC_ImageRequest  ireq )
+    {
+      FT_Error  error = 0;
+
+      /* initialize base glyph node fields */
+      ftc_glyph_node_init( &inode->gnode, ireq->gset );
+
+      /* compute hash value */
+      FTC_NODE(inode)->hash = FTC_IMAGE_REQUEST_HASH( ireq );
+
+      /* now, load the glyph image.. */
+      error = .....;
+      ....
+
+      if ( error )
+        ftc_glyph_node_done( &inode->gnode, ireq->gset );
+
+      return error;
+    }
+  </pre>
+
+  <p>There is nothing special about the weight computation and finalizer.
+     However, the node comparison can be written as:</p>
+
+  <pre class="code">
+    FT_Bool
+    ftc_image_node_compare( FTC_GlyphNode     gnode,
+                            FTC_ImageRequest  ireq )
+    {
+      FT_UInt  glyph_index = FTC_GLYPH_NODE_GINDEX(gnode);
+
+      return ( gnode->gset == ireq->gset &&
+               glyph_index == ireq->glyph_index );
+    }
+  </pre>
+
+  <p>Where we also assume that <tt>ireq->gset</tt> has been set before
+     the call. Note the macro FTC_GLYPH_NODE_GINDEX, used to retrieve
+     the node's glyph index from its hash value.</p>
+
+
+  <br>
+  <h3>c. Implementing <tt>FTC_Image_Cache</tt> sets:</h3>
+
+  <p>Now is time to implement the glyph sets for the <tt>FTC_Image_Cache</tt>
+     type. We first define:</p>
+
+  <pre class="code">
+     typedef struct FTC_ImageSetRec_
+     {
+       FTC_GlyphSetRec  gset;
+
+       FTC_FaceID       face_id;
+       FT_UInt          pix_width;
+       FT_UInt          pix_height;
+       FT_UInt          image_format;
+
+     } FTC_ImageSetRec, *FTC_ImageSet;
+  </pre>
+
+  <p>then, a comparison function:</p>
+
+  <pre class="code">
+     FT_Error
+     ftc_image_set_init( FTC_ImageSet      iset,
+                         FTC_ImageRequest  ireq,
+                         FT_Lru            lru )
+     {
+       iset->face_id      = ireq->face_id;
+       iset->pix_width    = ireq->pix_width;
+       iset->pix_height   = ireq->pix_height;
+       iset->image_format = ireq->image_format;
+
+       <i>/* compute glyph set's hash value */</i>
+       iset->gset.hash  = FTC_IMAGE_REQUEST_HASH( ireq );
+
+       ftc_glyph_set_init( FTC_GLYPH_SET(iset), ireq, lru );
+
+       <i>/* update request !! */</i>
+       ireq->gset = FTC_GLYPH_SET(iset);
+
+       return 0;
+     }
+
+
+     FT_Bool
+     ftc_image_set_compare( FTC_ImageSet      iset,
+                            FTC_ImageRequest  ireq )
+     {
+       FT_Bool  result;
+
+       result = ( iset->face_id      == ireq->face_id      &&
+                  iset->pix_width    == ireq->pix_width    &&
+                  iset->pix_height   == ireq->pix_height   &&
+                  iset->image_format == ireq->image_format );
+
+       if ( result )
+         ireq->gset = FTC_GLYPH_SET(iset);
+
+       return result;
+     }
+  </pre>
+
+  <p>Note that the glyph set initializer <em>must</em> compute the set's
+     hash value from the request that created it. Also, both the initializer
+     and the comparator <em>must</em> update the '<tt>gset</tt>' field of
+     the request when it matches it.</p>
+
+  <p>We can now describe our glyph set type. Since glyph sets are implemented
+     as LRU list nodes, this goes like:</p>
+
+  <pre class="code">
+     const FT_Lru_ClassRec   ftc_image_set_class =
+     {
+       sizeof( FT_LruRec ),
+       NULL,
+       NULL,
+
+       sizeof( FTC_ImageSetRec ),
+       (FT_LruNode_InitFunc)     ftc_image_set_init,
+       (FT_LruNode_DoneFunc)     ftc_glyph_set_done,  /* parent method */
+       (FT_LruNode_FlushFunc)    NULL,
+       (FT_LruNode_CompareFunc)  ftc_image_set_compare
+     };
+  </pre>
+</ul>
+
+
+  <br>
+  <h3>d. Putting it all together:</h3>
+
+  <p>Finally, let's implement our custom cache type. We have:</p>
+
+  <pre class="code">
+
+     typedef FTC_GlyphCache  FTC_Image_Cache;
+
+
+     FT_Error
+     ftc_image_cache_init( FTC_Image_Cache  icache )
+     {
+       return  ftc_glyph_cache_init(
+                   icache, (FT_Lru_Class) &ftc_image_set_class );
+     }
+
+
+     const FTC_Cache_ClassRec  ftc_image_cache_class =
+     {
+       sizeof( FTC_GlyphCacheRec ),
+       (FTC_Cache_InitFunc)   ftc_image_cache_init,
+       (FTC_Cache_DoneFunc)   ftc_glyph_cache_done,  /* parent method */
+
+       sizeof( FTC_GlyphNodeRec ),
+       (FTC_Node_InitFunc)    ftc_image_node_init,
+       (FTC_Node_DoneFunc)    ftc_image_node_done,
+       (FTC_Node_WeightFunc)  ftc_image_node_weight,
+       (FTC_Node_CompareFunc) ftc_image_node_compare
+     };
+
+
+     FT_Error
+     FTC_Image_Cache_New( FTC_Manager       manager,
+                          FTC_Image_Cache  *acache )
+     {
+       return  FTC_Manager_Register_Cache(
+                    manager,
+                    (FTC_Cache_Class) &ftc_image_cache_class,
+                    (FTC_Cache*) acache );
+
+     }
+  </pre>
+
+  <p>The 'acquire' method looks like:</p>
+
+  <pre class="code">
+    FT_Error
+    FTC_Image_Cache_Acquire( FTC_Image_Cache   icache,
+                             FTC_Font          font,
+                             FT_UInt           image_format,
+                             FT_UInt           glyph_index,
+                             FT_Glyph         *aglyph,
+                             FTC_Node         *anode )
+    {
+      FTC_ImageRequestRec  ireq;
+      FTC_ImageNode        node;
+
+
+      if ( !aglyph || !font )
+        return FTC_Err_Invalid_Argument;
+
+      *aglyph = NULL;
+
+      /* retrieve glyph set */
+      ireq.face_id      = font->face_id;
+      ireq.pix_width    = font->pix_width;
+      ireq.pix_height   = font->pix_height;
+      ireq.image_format = image_format;
+      ireq.glyph_index  = glyph_index;
+
+      error = ftc_glyph_cache_lookup( icache, ireq, (FTC_GlyphNode*)&node );
+      if ( !error )
+      {
+        *aglyph = node->glyph;
+        if ( anode )
+        {
+          *anode = (FTC_Node) node;
+          (*anode)->ref_count++;
+        }
+      }
+      return error;
+    }
+  </pre>
+
+  <p>The 'release' and 'lookup' method are similar to previous definitions
+     so we won't describe there here.</p>
+
+  <p><b>Voila !</b> You can now start implementing your own glyph-based
+     cache types by modifying the above example.</p>
+
+
+<br><br>
+<h2>3. The abstract <tt>FTC_ChunkCache</tt> type:</h2>
+<ul>
+
+  <p>Glyph caches are nice, but the overhead of 24-bytes per glyph can
+     be relatively important in certain cases. Consider for example the
+     case where we want to store small amounts of data for each glyph.
+     A good solution to optimize this case is to store information related
+     to several consecutive glyphs in a single cache node, and this is
+     exactly what the abstract <tt>FTC_ChunkCache</tt> provides.</p>
+
+  <p>The latter is very similar to a <tt>FTC_GlyphCache</tt>. We define
+     a "chunk" as a series of consecutive glyph indices within a face, each
+     one of these can be uniquely identified by a unique "chunk set", a
+     start glyph index, and a glyph count. We can thus define a cache
+     node type as:</p>
+
+  <pre class="code">
+
+    typedef struct FTC_ChunkNodeRec_
+    {
+      FTC_NodeRec   node;
+      FTC_ChunkSet  cset;
+      FT_Byte*      items;    <i>/* raw item bytes */</i>
+
+    } FTC_ChunkNodeRec, *FTC_ChunkNode;
+  </pre>
+
+  <p>With such a structure, if we store 16 items in a single node, the
+     node-overhead per item is only sizeof(FTC_ChunkNodeRec)/16&nbsp;==&nbsp;1.75
+     bytes, which is highly acceptable.</p>
+
+  <p>Note that the node's start index is extracted from its hash value.
+     The chunk set contains the number of items for all chunks, except the
+     trailing one (which might have less than these), as well as the total
+     number of items.</p>
+
+
+</ul>
+
+
+<br><br>
+<h1 class="section">Conclusion</h1>
+
+ <p>We have explained how to use the FT2 cache sub-system. You're invited
+    to read the <a href="reference/ft2-cache_subsystem.html">Cache Sub-System</a>
+    section of the <a href="reference/ft2-toc.html">FreeType 2 API reference</a>
+    to see what cache types are available by default in your build
+    of the library.</p>
+
+
+ <p>You can also decide to design your own cache types. To do so, read
+    on Annex A.</p>
+
+
+-->
+
+
+
+
+
+<br><br>
+</td></tr></table>
+
+</body>
+</tml>

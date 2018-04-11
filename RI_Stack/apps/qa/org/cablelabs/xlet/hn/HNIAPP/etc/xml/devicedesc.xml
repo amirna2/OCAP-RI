@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<device>
+	<deviceType>urn:schemas-upnp-org:device:light:1</deviceType>
+	<friendlyName>HNI Application</friendlyName>
+	<manufacturer>CLS</manufacturer>
+	<manufacturerURL>http://www.cablelabs.com</manufacturerURL>
+	<modelDescription>Light Device</modelDescription>
+	<modelName>linux-bcm</modelName>
+	<modelNumber>v4058_7 </modelNumber>
+	<modelURL>Model URL</modelURL>
+	<serialNumber>1111-111111-1111</serialNumber>
+	<UDN>uuid:1b62c460-1dd2-11b2-bc1a-000391d934a2</UDN>
+	<UPC>UPC123</UPC>
+	<presentationURL>/upnpdev/pres/uuid_1b62c460-1dd2-11b2-bc1a-000391d934a2/00</presentationURL>
+</device>

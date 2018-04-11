@@ -1,0 +1,173 @@
+ // COPYRIGHT_BEGIN
+ //  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+ //  
+ //  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+ //  
+ //  This software is available under multiple licenses: 
+ //  
+ //  (1) BSD 2-clause 
+ //   Redistribution and use in source and binary forms, with or without modification, are
+ //   permitted provided that the following conditions are met:
+ //        ·Redistributions of source code must retain the above copyright notice, this list 
+ //             of conditions and the following disclaimer.
+ //        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+ //             and the following disclaimer in the documentation and/or other materials provided with the 
+ //             distribution.
+ //   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ //   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ //   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ //   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ //   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ //   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ //   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ //   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ //   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ //   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ //  
+ //  (2) GPL Version 2
+ //   This program is free software; you can redistribute it and/or modify
+ //   it under the terms of the GNU General Public License as published by
+ //   the Free Software Foundation, version 2. This program is distributed
+ //   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ //   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ //   PURPOSE. See the GNU General Public License for more details.
+ //  
+ //   You should have received a copy of the GNU General Public License along
+ //   with this program.If not, see<http:www.gnu.org/licenses/>.
+ //  
+ //  (3)CableLabs License
+ //   If you or the company you represent has a separate agreement with CableLabs
+ //   concerning the use of this code, your rights and obligations with respect
+ //   to this code shall be as set forth therein. No license is granted hereunder
+ //   for any other purpose.
+ //  
+ //   Please contact CableLabs if you need additional information or 
+ //   have any questions.
+ //  
+ //       CableLabs
+ //       858 Coal Creek Cir
+ //       Louisville, CO 80027-9750
+ //       303 661-9100
+// COPYRIGHT_END
+
+///////////////////////////////////////////////////////////////////////////////
+
+// List of scripts used by this script
+this.interpreter.source ("scripts/level2/utils/LiveStreamingTestSetup.bsh");
+this.interpreter.source ("scripts/level2/utils/PlayerRateChangeUtil.bsh");
+this.interpreter.source ("scripts/level1/PlaybackRecording.bsh");
+this.interpreter.source ("scripts/level1/FindMediaServer.bsh");
+this.interpreter.source ("scripts/level1/PublishLiveChannelToCDS.bsh");
+ 
+// The purpose of this script is to test slow speed forward and slow speed
+// reverse playback with Live Streaming channels 
+ 
+ /**
+ * Main method to perform completed non-segmented live streaming scenario.
+ *
+ * @param changeChannel   if true, to change the channel after publishing the current channel using the same RI.
+ * @param channelToPlayback channel number to use when publishing from the same RI setup, else -1
+ *
+ * @param useRemotePlayer  if true, then use Remote player playback if not JMF playback
+ * @param localMediaServer if true then locally published channel will be used for playback
+ * @param remoteMediaServerName if any remote mediaserver has to be used for getting content, else "".
+ * @param channelName if remote server is used then use channelName to find the content, else "".
+ * @return  null string if no problems encountered, 
+ *          failure reason if problems encountered 
+ * NOTE: 1. changeChannel,channelToPlayback is useful only when local publish/playback occurs.
+ *       2. remoteMediaServerName, channelName is useful only when playing published content from remote media server
+ */
+String liveStreamingTrickSlow(boolean changeChannel,int channelToPlayback, boolean useRemoteService, boolean localMediaServer, 
+                            String remoteMediaServerName, String channelName, int toleranceSecs, boolean doSegment)
+{
+    String failureReason = null;
+    String testName = "liveStreamingTrickSlow";
+    
+    int mediaServerIndex = -1;
+    // If it is not a localMediaServer publish/playback then do not need any test setup.
+    if (localMediaServer)
+    { 
+        // Setup for the test by creating a recording, publishing to CDS
+        String results = performLiveStreamingSetup(changeChannel, channelToPlayback, doSegment);
+        if (results != null)
+        {
+            // Problems setting up for test
+            failureReason = "Problems during test setup: " + results;
+            rxLog.callTrace("Failure performing live streaming setup : ", this.callstack);
+            return failureReason;
+        }
+        rxLog.info(testName + " - Completed Test setup for playback");
+        // Find the index of the local media server
+        mediaServerIndex = findLocalMediaServer();
+    }
+    else
+    {
+        mediaServerIndex = findRemoteMediaServer(remoteMediaServerName);
+    }
+
+    if (mediaServerIndex == -1)
+    {
+        failureReason = "Problems getting media server";
+        rxLog.callTrace("Failure getting media server : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Found media server");
+
+    int channelItemIndex = getPublishedChannelItemByName(mediaServerIndex, channelName);
+     
+    if (channelItemIndex == -1)
+    {
+        failureReason = "Problems getting index for the published channel item.";
+        rxLog.info("Problems getting index for the published channel item.");
+        return failureReason;
+    }
+    rxLog.info(testName + " - Got Index for the published channel item" + channelItemIndex);
+    
+    if (!useRemoteService)
+    {
+        // Stop broadcast service selection so video device is available for playback
+        tuneToServiceStop();        
+    }
+    
+    // *TODO* - OCORI-4022 - need to get duration from HTTP response
+    // Guess at the value now
+    int playbackLengthSecs = 360;
+    String failureReason;
+    
+    // Create and start HNPlayer to play the 0th content created using the performSetup step
+    if (!startHNPlayback(useRemoteService, mediaServerIndex, channelItemIndex))
+    {
+        failureReason = "Problems setting up remote player for content";
+        rxLog.callTrace("Failure setting up remote player : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName = " - Created and started Remote player");
+    
+    int maxWaitTime = (playbackLengthSecs * 2) + (toleranceSecs * 2);
+    
+     // Play at slow speed forward until the time EOS could be reached. 
+    // But EOS should not be reached as playback of a livestream at 0.5 fast
+    // fwd never reached live point due to buffering.
+    if ((failureReason = fwdToEOS(testName, (float)0.5, playbackLengthSecs, toleranceSecs * 2))!= null)
+    {
+        rxLog.info(testName + "Failed to reach EOS in " + maxWaitTime + " seconds which is the correct behavior");
+    }
+    else
+    {
+        failureReason = "Reached EOS within " + maxWaitTime + " seconds which is the wrong behavior";
+        stopPlayback();
+        return failureReason;
+    }
+    
+    // Play at slow speed bsckward until BOS
+    if ((failureReason = rewindToBOS(testName, (float)-0.5, toleranceSecs * 2))!= null)
+    {
+        failureReason = "Failed to reach BOS in " + maxWaitTime + " seconds";
+        stopPlayback();
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed playing at slow speed backward until BOS");
+    
+    return failureReason;
+}

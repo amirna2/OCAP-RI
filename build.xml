@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+
+<project name="OCAP_RI" default="clean_build">
+    
+    <property environment="env"/>
+    <condition property="subhome" value="${env.SUBVERSIONHOME}">
+        <isset property="env.SUBVERSIONHOME" />
+    </condition>
+    <property name="subhome" value=""/>
+    <condition property="build.platform.twice" value="false" else="true">
+    	<os family="windows" />
+    </condition>
+    
+    <target name="-check-emma_installed">
+            <available property="emma.installed" file="RI_Stack/tools/generic/emma/emma.jar"/>
+    </target>
+    <target name="clean.logs.results">
+        <delete failonerror="false" file="smoke_test_results.txt" />
+        <delete failonerror="false" file="RI_Platform/RILog.txt" />
+    </target>
+
+    <!-- Wrappers -->
+    <target name="clean_build" description="Build all code, clean/purge prior to build">
+        <delete failonerror="false" file="RI_Platform/coverage.ec" />
+        <delete failonerror="false" file="RI_Platform/coverage.em" />
+        <delete failonerror="false" dir="coverage" />
+        <delete failonerror="false" file="RI_Stack/bin/CableLabs/simulator/Win32/debug/env/coverage.ec" />
+        <delete failonerror="false" file="RI_Stack/bin/CableLabs/simulator/Win32/debug/env/junit_test_results.log" />
+        <delete failonerror="false" file="RI_Platform/junit_test_results.log" />
+        <record name="build_log.txt" action="start" append="true"/>
+    	<antcall target="platform.linux.clean_build" />
+    	<antcall target="platform.windows.clean_build" />
+    	<antcall target="stack.linux.clean_build" />
+    	<antcall target="stack.windows.clean_build" />
+        <record name="build_log.txt" action="stop" />
+    </target>
+
+    <target name="platform.linux.clean_build" if="${build.platform.twice}">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-p" />
+            <arg value="build" />
+        </exec>
+    </target>
+    <target name="platform.windows.clean_build" unless="${build.platform.twice}">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-p" />
+            <arg value="clean" />
+            <arg value="purge" />
+            <arg value="build" />
+        </exec>
+    </target>
+    <target name="stack.linux.clean_build" if="build.platform.twice">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-s" />
+            <arg value="build" />
+        </exec>
+    </target>
+    <target name="stack.windows.clean_build" unless="build.platform.twice">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-s" />
+            <arg value="clean" />
+            <arg value="purge" />
+            <arg value="build" />
+        </exec>
+    </target>
+    <target name="build.platform" description="Build platform">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-p" />
+            <arg value="build" />
+        </exec>
+    </target>
+    <target name="clean.platform" description="Clean platform">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-p" />
+            <arg value="clean" />
+        </exec>
+    </target>
+    <target name="build.stack" description="Build stack">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-s" />
+            <arg value="build" />
+        </exec>
+    </target>
+    <target name="clean.stack" description="Clean stack">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-s" />
+            <arg value="clean" />
+        </exec>
+    </target>
+    <target name="build" description="Build all code">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-p" />
+            <arg value="build" />
+        </exec>
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-s" />
+            <arg value="build" />
+        </exec>
+    </target>
+    <target name="clean" description="Delete all temporary and intermediate files">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-p" />
+            <arg value="clean" />
+        </exec>
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-s" />
+            <arg value="clean" />
+        </exec>
+        <delete failonerror="false" file="RI_Platform/coverage.ec" />
+        <delete failonerror="false" file="RI_Platform/coverage.em" />
+        <delete failonerror="false" dir="coverage" />
+        <delete failonerror="false" file="RI_Stack/bin/CableLabs/simulator/Win32/debug/env/coverage.ec" />
+        <delete failonerror="false" file="RI_Stack/bin/CableLabs/simulator/Win32/debug/env/junit_test_results.log" />
+        <delete failonerror="false" file="RI_Platform/junit_test_results.log" />
+    </target>
+    <target name="purge" description="Purge final binaries">
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-p" />
+            <arg value="purge" />
+        </exec>
+        <exec executable="bash" failonerror="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-s" />
+            <arg value="purge" />
+        </exec>
+    </target>
+
+    <target name="dvrxtest" description="Run DvrExercisor random_tune.cmd test">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_auto_dvrx.sh" />
+            <arg value="random_tune.cmd" />
+        </exec>
+    </target>
+
+    <target name="smoketest" description="Run smoke tests (requires installation of atelite)">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite.sh" />
+            <arg value="${env.HOME}/atelite/testsuite/scenarios/smoke_test.scenario" />
+        </exec>
+    </target>
+
+    <target name="smoketest_w_retry" description="Run smoke tests (requires installation of atelite)">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite.sh" />
+            <arg value="${env.HOME}/atelite/testsuite/scenarios/smoke_test.scenario" />
+            <arg value="-retry" />
+        </exec>
+    </target>
+
+    <target name="onetest" description="Run the one_test.scenario (requires installation of atelite)">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite.sh" />
+            <arg value="ctp_scenarios/one_test.scenario" />
+        </exec>
+    </target>
+
+    <target name="branchtest" description="Run the branch_test.scenario (requires installation of atelite)">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite.sh" />
+            <arg value="ctp_scenarios/branch_test.scenario" />
+        </exec>
+    </target>
+
+    <target name="postTestFix" description="Reverts platform config and mpeenv.ini">
+        <exec executable="${subhome}svn">
+            <arg value="revert" />
+            <arg value="RI_Stack\bin\CableLabs\simulator\Win32\debug\env\mpeenv.ini" />
+            <arg value="RI_Platform\platform_win32.cfg" />
+        </exec>
+    </target>
+        <target name="findbugs" description="Runs findbugs - requires findbugs be installed and FINDBUGS_HOME be set">
+        <exec executable="bash">
+            <arg value="build_wrapper.sh" />
+            <arg value="-s" />
+            <arg value="-f build.findbugs" />
+        </exec>
+        </target>
+        <target name="findbugs.with.fail" description="Runs findbugs (will fail if warnings are found) - requires findbugs be installed and FINDBUGS_HOME be set">
+        <exec executable="bash" failOnError="true">
+            <arg value="build_wrapper.sh" />
+            <arg value="-s" />
+            <arg value="-f build.findbugs" />
+            <arg value="findbugs.with.fail" />
+        </exec>
+        </target>
+    <target name="update" description="svn update">
+        <exec executable="${subhome}svn">
+            <arg value="update" />
+        </exec>
+    </target>
+        <target name="junit" description="Executes runRI.sh with arguments necessary for junit test suites">
+        <exec executable="bash">
+            <arg value="run_ri_wrapper.sh" />
+            <arg value="-junit" />
+            <arg value="-restoreMPEENV" />
+        </exec>
+        </target>
+        <target name="emma" description="Executes runRI.sh with arguments necessary for emma coverage of junit test suites, requires RI_Stack/tools/generic/emma/emma.jar" depends="-check-emma_installed" if="emma.installed">
+        <ant target="instrument.for.emma" />
+        <exec executable="bash">
+            <arg value="run_ri_wrapper.sh" />
+            <arg value="-junit" />
+            <arg value="-restoreMPEENV" />
+            <arg value="-coverage" />
+        </exec>
+        <exec executable="java">
+            <arg value="-cp" />
+            <arg value="RI_Stack/tools/generic/emma/emma.jar" />
+            <arg value="emma" />
+            <arg value="report" />
+            <arg value="-r" />
+            <arg value="html" />
+            <arg value="-in" />
+            <arg value="RI_Platform/coverage.em,RI_Platform/coverage.ec" />
+            <arg value="-sp" />
+            <arg value="RI_Stack/java/src/base,RI_Stack/java/src/debug,RI_Stack/java/src/ds,RI_Stack/java/src/dvr,RI_Stack/java/src/fp,RI_Stack/java/src/hn,RI_Stack/java/src/msm,RI_Stack/java/src/svm" />
+        </exec>
+        <ant target="uninstrument.for.emma" />
+        </target>
+    <target name="instrument.for.emma" >
+        <replace file="RI_Stack/java/OCAP-debug.properties">
+<replacetoken><![CDATA[build.test.CLASSPATH= \]]></replacetoken>
+<replacevalue><![CDATA[build.test.CLASSPATH= tools/generic/emma/emma.jar \]]></replacevalue>
+        </replace>
+        <exec executable="bash">
+            <arg value="build_wrapper.sh" />
+            <arg value="-sj" />
+            <arg value="lib.test.3rdparty" />
+        </exec>
+    </target>
+    <target name="uninstrument.for.emma" >
+        <replace file="RI_Stack/java/OCAP-debug.properties">
+<replacetoken><![CDATA[build.test.CLASSPATH= tools/generic/emma/emma.jar \]]></replacetoken>
+<replacevalue><![CDATA[build.test.CLASSPATH= \]]></replacevalue>
+        </replace>
+        <exec executable="bash">
+            <arg value="build_wrapper.sh" />
+            <arg value="-sj" />
+        </exec>
+    </target>
+</project>

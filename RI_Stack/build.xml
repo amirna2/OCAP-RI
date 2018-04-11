@@ -1,0 +1,376 @@
+<?xml version="1.0"?>
+
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+
+<project name="OCAP" default="build">
+    <import file="extensions.xml"/>    
+    
+    <!-- Pull in target configuration properties -->
+    <property environment="env"/>
+    <property file="target/${env.OCAPTC}/buildrules.properties" />
+    <property file="hostconfig/${env.OCAPHOST}/hostrules.properties" />
+
+    <property name="bindir" location="bin/${env.OCAPTC}" />
+
+    <property name="bsedir" location="tools/generic/bse/bse-0.3.2" />
+    <property name="bse" value="bse.bat" />
+   
+    <!-- Set our MPE/OS native build flags based on which extensions are enabled -->
+    <condition property="make.flag.dvr" value="DVR_EXTENSION_ENABLED=1">
+        <istrue value="${build.ocap.DVR_ENABLED}" />
+    </condition>
+    <condition property="make.flag.dvr" value="">
+        <isfalse value="${build.ocap.DVR_ENABLED}" />
+    </condition>
+
+    <condition property="make.flag.fp" value="FP_EXTENSION_ENABLED=1">
+        <istrue value="${build.ocap.FP_ENABLED}" />
+    </condition>
+    <condition property="make.flag.fp" value="">
+        <isfalse value="${build.ocap.FP_ENABLED}" />
+    </condition>
+
+    <condition property="make.flag.ds" value="DS_EXTENSION_ENABLED=1">
+        <istrue value="${build.ocap.DS_ENABLED}" />
+    </condition>
+    <condition property="make.flag.ds" value="">
+        <isfalse value="${build.ocap.DS_ENABLED}" />
+    </condition>
+
+    <condition property="make.flag.hn" value="HN_EXTENSION_ENABLED=1">
+        <istrue value="${build.ocap.HN_ENABLED}" />
+    </condition>
+    <condition property="make.flag.hn" value="">
+        <isfalse value="${build.ocap.HN_ENABLED}" />
+    </condition>
+
+    <property name="make.flags" value="${make.flag.dvr} ${make.flag.fp} ${make.flag.ds} ${make.flag.hn}" />
+   
+    <!-- Main Build/Clean/Purge Targets -->
+    <target name="build"
+            depends="init, build.jvm, build.java, build.mpe, build.assets, build.qa"
+            description="Build all code" />
+    <target name="clean"
+            depends="init, clean.jvm, clean.java, clean.mpe, clean.assets, clean.qa"
+            description="Delete all temporary and intermediate files" >
+            <delete dir="gen" quiet="true" />
+    </target>
+    <target name="purge"
+            depends="init, purge.jvm, purge.java, purge.mpe, purge.assets, purge.qa"
+            description="Purge final binaries" />
+
+    <!-- MPE/MPEOS -->
+    <!-- Main Native Code Targets for MPE -->
+    <target name="build.mpe"
+            depends="init, build.shlib.mpe"
+            description="Build all native code libraries" />
+    <target name="clean.mpe"
+            depends="init, clean.shlib.mpe, clean.lib.mpe, clean.lib.zlib, clean.lib.mpeos, clean.lib.directfb, clean.lib.jni"
+            description="Clean all native temporary and intermediate files" />
+    <target name="purge.mpe"
+            depends="init, purge.shlib.mpe, purge.lib.mpe, purge.lib.zlib, purge.lib.mpeos, purge.lib.directfb, purge.lib.jni"
+            description="Purge final native library binaries" />
+
+    <!-- MPE Shared Lib -->
+    <available file="target/${env.OCAPTC}/Makefile" property="mpesh.build.present"/>
+    <target name="build.shlib.mpe"
+            depends="init, build.lib.mpe, build.lib.zlib, build.lib.mpeos, build.lib.directfb, build.lib.jni"
+            if="mpesh.build.present" description="Build MPE shared library" >
+        <exec executable="${build.CMD}" dir="target/${env.OCAPTC}" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make ${make.flags} build" />
+        </exec>
+    </target>
+    <target name="clean.shlib.mpe" depends="init" if="mpesh.build.present" description="Delete MPE shared library temporary and intermediate files" >
+        <exec executable="${build.CMD}" dir="target/${env.OCAPTC}" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make ${make.flags} clean" />
+        </exec>
+    </target>
+    <target name="purge.shlib.mpe" depends="init" if="mpesh.build.present" description="Purge final MPE shared library binaries" >
+        <exec executable="${build.CMD}" dir="target/${env.OCAPTC}" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make ${make.flags} purge" />
+        </exec>
+    </target>
+
+    <!-- MPE Lib -->
+    <available file="mpe/build.xml" property="mpe.build.present"/>
+    <target name="build.lib.mpe" depends="init" if="mpe.build.present" description="Build MPE code" >
+        <ant antfile="mpe/build.xml" target="build" />
+    </target>
+    <target name="clean.lib.mpe" depends="init" if="mpe.build.present" description="Delete MPE temporary and intermediate files" >
+        <ant antfile="mpe/build.xml" target="clean" />
+    </target>
+    <target name="purge.lib.mpe" depends="init" if="mpe.build.present" description="Purge final MPE binaries" >
+        <ant antfile="mpe/build.xml" target="purge" />
+    </target>
+
+    <!-- MPEOS Lib -->
+    <available file="mpe/os/${build.mpeos.BUILDOS}/Makefile" property="mpeos.build.present"/>
+    <target name="build.lib.mpeos" depends="init" if="mpeos.build.present" description="Build MPEOS code" >
+        <exec executable="${build.CMD}" dir="mpe/os/${build.mpeos.BUILDOS}" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make ${make.flags} build" />
+        </exec>
+    </target>
+    <target name="clean.lib.mpeos" depends="init" if="mpeos.build.present" description="Delete MPEOS temporary and intermediate files" >
+        <exec executable="${build.CMD}" dir="mpe/os/${build.mpeos.BUILDOS}" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make ${make.flags} clean" />
+        </exec>
+    </target>
+    <target name="purge.lib.mpeos" depends="init" if="mpeos.build.present" description="Purge final MPEOS binaries" >
+        <exec executable="${build.CMD}" dir="mpe/os/${build.mpeos.BUILDOS}" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make ${make.flags} purge" />
+        </exec>
+    </target>
+
+    <!-- JNI Lib -->
+    <available file="jni/Makefile" property="jni.build.present"/>
+    <target name="build.lib.jni" depends="init" if="jni.build.present" description="Build JNI code" >
+        <exec executable="${build.CMD}" dir="jni" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make ${make.flags} build" />
+        </exec>
+    </target>
+    <target name="clean.lib.jni" depends="init" if="jni.build.present" description="Delete JNI temporary and intermediate files" >
+        <exec executable="${build.CMD}" dir="jni" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make ${make.flags} clean" />
+        </exec>
+    </target>
+    <target name="purge.lib.jni" depends="init" if="jni.build.present" description="Purge final JNI binaries" >
+        <exec executable="${build.CMD}" dir="jni" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make ${make.flags} purge" />
+        </exec>
+    </target>
+
+    <!-- DirectFB Lib -->
+    <available file="${env.OCAPROOT}/thirdparty/DirectFB/Makefile" property="directfb.build.present"/>
+    <target name="build.lib.directfb" depends="init, build.lib.freetype" if="directfb.build.present" description="Build MPE code" >
+        <exec executable="${build.CMD}" dir="thirdparty/DirectFB" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make build"/>
+        </exec>
+    </target>
+    <target name="clean.lib.directfb" depends="init, clean.lib.freetype" if="directfb.build.present" description="Delete MPE temporary and intermediate files" >
+        <exec executable="${build.CMD}" dir="thirdparty/DirectFB" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make clean"/>
+        </exec>
+    </target>
+    <target name="purge.lib.directfb" depends="init, purge.lib.freetype" if="directfb.build.present" description="Purge final MPE binaries" >
+        <exec executable="${build.CMD}" dir="thirdparty/DirectFB" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make purge"/>
+        </exec>
+    </target>
+
+    <!-- FreeType2 Lib -->
+    <available file="${env.OCAPROOT}/thirdparty/FreeType2/Makefile" property="freetype.build.present"/>
+    <target name="build.lib.freetype" depends="init" if="freetype.build.present" description="Build FreeType2 code" >
+        <exec executable="${build.CMD}" dir="thirdparty/FreeType2" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make build"/>
+        </exec>
+    </target>
+    <target name="clean.lib.freetype" depends="init" if="freetype.build.present" description="Delete FreeType2 temporary and intermediate files" >
+        <exec executable="${build.CMD}" dir="thirdparty/FreeType2" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make clean"/>
+        </exec>
+    </target>
+    <target name="purge.lib.freetype" depends="init" if="freetype.build.present" description="Purge final FreeType2 binaries" >
+        <exec executable="${build.CMD}" dir="thirdparty/FreeType2" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make purge"/>
+        </exec>
+    </target>
+
+    <!-- ZLib Lib -->
+    <available file="${env.OCAPROOT}/thirdparty/Zlib-1.2.1/Makefile" property="zlib.build.present"/>
+    <target name="build.lib.zlib" depends="init" if="zlib.build.present" description="Build ZLib code" >
+        <exec executable="${build.CMD}" dir="thirdparty/Zlib-1.2.1" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make build"/>
+        </exec>
+    </target>
+    <target name="clean.lib.zlib" depends="init" if="zlib.build.present" description="Delete ZLib temporary and intermediate files" >
+        <exec executable="${build.CMD}" dir="thirdparty/Zlib-1.2.1" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make clean"/>
+        </exec>
+    </target>
+    <target name="purge.lib.zlib" depends="init" if="zlib.build.present" description="Purge final ZLib binaries" >
+        <exec executable="${build.CMD}" dir="thirdparty/Zlib-1.2.1" failonerror="true">
+            <arg value="${build.CMDSWITCH}" />
+            <arg value="make purge"/>
+        </exec>
+    </target>
+
+    <!-- Build QA Apps -->
+    <available file="apps/build.xml" property="qa.build.present"/>
+    <target name="build.qa" depends="init, build.apps" />
+    <target name="build.apps" depends="init, build.stubs" if="qa.build.present" description="Build QA Targets" >
+        <ant antfile="apps/build.xml" target="build" inheritAll="false" />
+    </target>
+    <target name="sign.apps" depends="init" if="sign.key.1" >
+        <!-- sign sample apps -->
+        <sign-apps src="${bindir}/env/apps" certs="${env.OCAPROOT}/${sign.cert.1a};${env.OCAPROOT}/${sign.cert.1b};${env.OCAPROOT}/${sign.cert.1c}" key="${env.OCAPROOT}/${sign.key.1}" dual="false" />
+        <sign-apps src="${bindir}/env/apps" certs="${env.OCAPROOT}/${sign.cert.2a};${env.OCAPROOT}/${sign.cert.2b};${env.OCAPROOT}/${sign.cert.2c}" key="${env.OCAPROOT}/${sign.key.2}" dual="true"  />
+        <!-- sign QA test apps -->
+        <sign-apps src="${bindir}/env/qa" certs="${env.OCAPROOT}/${sign.cert.1a};${env.OCAPROOT}/${sign.cert.1b};${env.OCAPROOT}/${sign.cert.1c}" key="${env.OCAPROOT}/${sign.key.1}" dual="false" />
+        <sign-apps src="${bindir}/env/qa" certs="${env.OCAPROOT}/${sign.cert.2a};${env.OCAPROOT}/${sign.cert.2b};${env.OCAPROOT}/${sign.cert.2c}" key="${env.OCAPROOT}/${sign.key.2}" dual="true" />
+    </target>
+
+    <target name="clean.qa" depends="init" if="qa.build.present" description="Delete QA temporary and intermediate files" >
+        <ant antfile="apps/build.xml" target="clean" inheritAll="false" />
+    </target>
+    <target name="purge.qa" depends="init" if="qa.build.present" description="Purge final QA binaries" >
+        <ant antfile="apps/build.xml" target="purge" inheritAll="false" />
+    </target>
+
+    <!-- Build JVM -->
+    <target name="build.jvm" depends="init" description="Build JVM code" >
+        <ant antfile="${env.OCAPROOT}/jvm/build.xml" target="build" inheritAll="false" />
+    </target>
+    <target name="clean.jvm" depends="init" description="Delete JVM temporary and intermediate files" >
+        <ant antfile="${env.OCAPROOT}/jvm/build.xml" target="clean" inheritAll="false" />
+    </target>
+    <target name="purge.jvm" depends="init" description="Purge final JVM binaries" >
+        <ant antfile="${env.OCAPROOT}/jvm/build.xml" target="purge" inheritAll="false" />
+    </target>
+    
+    <!-- Build Java -->
+    <available file="java/build.xml" property="java.build.present"/>
+    <target name="build.java" depends="init" if="java.build.present" description="Build Java code" >
+        <ant antfile="java/build.xml" target="build" inheritAll="false" />
+    </target>
+    <target name="clean.java" depends="init" if="java.build.present" description="Delete Java temporary and intermediate files" >
+        <ant antfile="java/build.xml" target="clean" inheritAll="false" />
+    </target>
+    <target name="purge.java" depends="init" if="java.build.present" description="Purge final Java binaries" >
+        <ant antfile="java/build.xml" target="purge" inheritAll="false" />
+    </target>
+
+    
+    <!-- Assets -->
+    <target name="build.assets" depends="init"
+        description="Build all required assets" >
+        <!-- copy in font -->
+        <mkdir dir="${bindir}/env/sys/fonts"/>
+        <copy todir="${bindir}/env/sys/fonts" failonerror="false">
+            <fileset file="assets/fonts/Bitstream/Tiresias/Tires-o_802.pfr"/>
+        </copy>
+        <copy todir="${bindir}/env/sys/fonts" failonerror="false">
+            <fileset file="assets/fonts/Gentium102/Gentium.pfr"/>
+        </copy>
+        <!-- copy in root certificate (for authentication) -->
+        <mkdir dir="${bindir}/env/sys/certs"/>
+        <copy todir="${bindir}/env/sys/certs" failonerror="false">
+            <fileset dir="${env.OCAPROOT}/assets/certificates" includes="**/*.cert,**/*.pem"/>
+        </copy>
+        <!-- copy in device icons (for publishing in device iconslist) -->
+        <mkdir dir="${bindir}/env/sys/icons/png"/>
+        <mkdir dir="${bindir}/env/sys/icons/jpeg"/>
+        <copy todir="${bindir}/env/sys/icons/png" failonerror="false">
+            <fileset dir="${env.OCAPROOT}/assets/icons/png" includes="**/*.png"/>
+        </copy>
+        <copy todir="${bindir}/env/sys/icons/jpeg" failonerror="false">
+            <fileset dir="${env.OCAPROOT}/assets/icons/jpeg" includes="**/*.jpg,**/*.jpeg"/>
+        </copy>
+    </target>
+    <target name="clean.assets" depends="init"
+        description="Clean all assets" >
+    </target>
+    <target name="purge.assets" depends="init"
+        description="Purge all assets" >
+    <delete quiet="true" includeemptydirs="true" >
+        <fileset dir="${bindir}/env/sys/fonts" />
+    </delete>
+    </target>
+
+    <!-- Test -->
+    <target name="test" depends="init, test.java"
+        description="Test all code">
+    </target>
+
+    <!-- Test Java -->
+    <target name="test.java" depends="init" if="java.build.present" 
+            description="Test Java code">
+        <ant antfile="java/build.xml" target="test" inheritAll="false" />
+    </target>
+
+    <target name="check_version">
+        <antversion property="correct.version" atleast="1.8" />
+        <fail unless="correct.version" message="!!!!! Must use Ant version 1.8 or greater!  Exiting!!!!!" />
+    </target>
+
+    <!-- Initialize values used by all tasks -->
+    <target name="init">
+      <tstamp>
+          <format property="DATE" pattern="MMMM d, yyyy"/>
+      </tstamp>
+      <antcall target="check_version" />
+    </target>
+
+    <target name="javadoc" depends="init" description="Source Java documentation">
+        <ant antfile="java/build_stubs.xml" target="build.javadoc" inheritAll="false" />
+    </target>
+
+</project>
+

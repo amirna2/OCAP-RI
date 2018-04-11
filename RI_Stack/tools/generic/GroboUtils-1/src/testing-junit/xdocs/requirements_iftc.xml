@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:05 $
+-->
+
+
+<document>
+<head>
+    <name>Goals/Requirements for IFTC</name>
+</head>
+<body>
+<P>
+The JUnit Interface/Hierarchial Test Case (IFTC) extention has the following
+goals:
+<OL>
+    <LI>
+    Allow for users to write tests for interfaces, abstract classes, and any
+    extensible class.
+    </LI>
+    <LI>
+    Provide a framework extension to JUnit, with a similar approach to writing
+    tests as standard JUnit.
+    </LI>
+    <LI>
+    A concrete class's tests must be able to use the framework to "inherit" the
+    tests of the concrete class' implemented interfaces and super-classes.
+    </LI>
+    <LI>
+    Allow for multiple <i>contexts</i> of a concrete class to be tested by
+    inherited tests.
+    </LI>
+    <LI>
+    Allow for easy tracing of failed tests.
+    </LI>
+</OL>
+</P>
+</body>
+</document>
+

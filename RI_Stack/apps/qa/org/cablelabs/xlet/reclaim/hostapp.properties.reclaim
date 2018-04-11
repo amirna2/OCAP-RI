@@ -1,0 +1,11 @@
+###############################################
+## Reclaim Xlet
+###############################################
+app.1.application_identifier=0x000000016099
+app.1.application_control_code=AUTOSTART
+app.1.visibility=VISIBLE
+app.1.priority=220
+app.1.application_name=RezAllocXlet
+app.1.base_directory=/syscwd/qa/xlet
+app.1.initial_class_name=org.cablelabs.xlet.reclaim.RezAllocXlet
+app.1.args.0=config.properties

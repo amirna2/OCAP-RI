@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+<!--
+    Document   : dispconfig.xml
+    Created on : March 31, 2004, 11:52 AM
+    Author     : Aaron Kamienski
+    Description:
+        Describes configurations for PowerTV 3250HD.
+-->
+
+<!DOCTYPE screens SYSTEM '../../dispconfig.dtd'>
+<screens default="screen0">
+
+    <!-- HVideoDevice.NOT_CONTRIBUTING -->   
+    <notcontrib uses="Video[0]">
+        <config id="notcontrib"
+                interlaced="true"
+                flicker="false">
+            <resolution width="0" height="0"/>
+            <area x="0" y="0" width="0" height="0"/>
+            <pixelRatio width="0" height="0"/>
+        </config>
+    </notcontrib>
+
+    <screen id="screen0" default="Graphics[0] Video[0] Background[0]">
+        <!-- 4 graphics configs -->
+        <device type="graphics" id="Graphics[0]">
+            <config id="gfx.480i" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="gfx.480p" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="gfx.480i.16by9" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0.1249" y="0" width="0.7503" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="gfx.480p.16by9" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0.1249" y="0" width="0.7503" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="gfx.720p" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0.125" y="0" width="0.75" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="gfx.1080i" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0.125" y="0" width="0.75" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <!-- Unsupported by 3250 -->
+            <!--
+            <config id="gfx.720p.4by3" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="gfx.1080i.4by3" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            -->
+        </device>
+        <!-- 9 video configs (including one non-contributing config) -->
+        <device type="video" id="Video[0]">
+            <config id="vid.480i.full" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.480p.full" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.480i.zoom" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.480p.zoom" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.480i.stretch" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="-1/6" width="1" height="4/3"/>
+                <pixelRatio width="3" height="4"/>
+            </config>
+            <config id="vid.480p.stretch" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="-1/6" width="1" height="4/3"/>
+                <pixelRatio width="3" height="4"/>
+            </config>
+            <config id="vid.480i.16by9" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="853" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.480p.16by9" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="853" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.720p.lb" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="1280" height="720"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.720p.zoom" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="1280" height="720"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.720p.stretch" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="1280" height="720"/>
+                <area x="-1/6" y="0" width="4/3" height="1"/>
+                <pixelRatio width="4" height="3"/>
+            </config>
+            <!-- Unsupported by 3250 -->
+            <!--
+            <config id="vid.720p.4by3" 
+                    interlaced="false"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="960" height="720"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            -->
+            <config id="vid.1080i.lb" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="1920" height="1080"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.1080i.zoom" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="1920" height="1080"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="vid.1080i.stretch" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="1920" height="1080"/>
+                <area x="-1/6" y="0" width="4/3" height="1"/>
+                <pixelRatio width="4" height="3"/>
+            </config>
+            <!-- Unsupported by 3250 -->
+            <!--
+            <config id="vid.1080i.4by3" 
+                    interlaced="true"
+                    flicker="false"
+                    vidmix="true">
+                <resolution width="1440" height="1080"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            -->
+        </device>
+        <!-- 16 background configs (8 color-only + 8 color/still) -->
+        <device type="background" id="Background[0]">
+            <config id="bg.480i.full" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.480p.full" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.480i.zoom" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.480p.zoom" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.480i.stretch" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="-1/6" width="1" height="4/3"/>
+                <pixelRatio width="3" height="4"/>
+            </config>
+            <config id="bg.480p.stretch" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="-1/6" width="1" height="4/3"/>
+                <pixelRatio width="3" height="4"/>
+            </config>
+            <config id="bg.480i.16by9" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="853" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.480p.16by9" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="853" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.720p.lb" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="1280" height="720"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.720p.zoom" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="1280" height="720"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.720p.stretch" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="1280" height="720"/>
+                <area x="-1/6" y="0" width="4/3" height="1"/>
+                <pixelRatio width="4" height="3"/>
+            </config>
+            <!-- Unsupported by 3250 -->
+            <!--
+            <config id="bg.720p.4by3" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="960" height="720"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            -->
+            <config id="bg.1080i.lb" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="1920" height="1080"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.1080i.zoom" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="1920" height="1080"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="bg.1080i.stretch" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="1920" height="1080"/>
+                <area x="-1/6" y="0" width="4/3" height="1"/>
+                <pixelRatio width="4" height="3"/>
+            </config>
+            <!-- Unsupported by 3250 -->
+            <!--
+            <config id="bg.1080i.4by3" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="false"
+                    vidmix="true">
+                <resolution width="1440" height="1080"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            -->
+            <config id="still.480i.full" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.480p.full" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.480i.zoom" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.480p.zoom" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.480i.stretch" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="-1/6" width="1" height="4/3"/>
+                <pixelRatio width="3" height="4"/>
+            </config>
+            <config id="still.480p.stretch" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="640" height="480"/>
+                <area x="0" y="-1/6" width="1" height="4/3"/>
+                <pixelRatio width="3" height="4"/>
+            </config>
+            <config id="still.480i.16by9" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="853" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.480p.16by9" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="853" height="480"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.720p.lb" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="1280" height="720"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.720p.zoom" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="1280" height="720"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.720p.stretch" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="1280" height="720"/>
+                <area x="-1/6" y="0" width="4/3" height="1"/>
+                <pixelRatio width="4" height="3"/>
+            </config>
+            <!-- Unsupported by 3250 -->
+            <!--
+            <config id="still.720p.4by3" 
+                    interlaced="false"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="960" height="720"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            -->
+            <config id="still.1080i.lb" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="1920" height="1080"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.1080i.zoom" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="1920" height="1080"/>
+                <area x="-1/6" y="-1/6" width="4/3" height="4/3"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            <config id="still.1080i.stretch" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="1920" height="1080"/>
+                <area x="-1/6" y="0" width="4/3" height="1"/>
+                <pixelRatio width="4" height="3"/>
+            </config>
+            <!-- Unsupported by 3250 -->
+            <!--
+            <config id="still.1080i.4by3" 
+                    interlaced="true"
+                    flicker="false"
+                    color="true"
+                    still="true"
+                    vidmix="true">
+                <resolution width="1440" height="1080"/>
+                <area x="0" y="0" width="1" height="1"/>
+                <pixelRatio width="1" height="1"/>
+            </config>
+            -->
+        </device>
+        
+        <coherent refid="gfx.480i vid.480i.full bg.480i.full"/>
+        <coherent refid="gfx.480p vid.480p.full bg.480p.full"/>
+        <coherent refid="gfx.480i vid.480i.zoom bg.480i.zoom"/>
+        <coherent refid="gfx.480p vid.480p.zoom bg.480p.zoom"/>
+        <coherent refid="gfx.480i vid.480i.stretch bg.480i.stretch"/>
+        <coherent refid="gfx.480p vid.480p.stretch bg.480p.stretch"/>
+        <coherent refid="gfx.480i.16by9 vid.480i.16by9 bg.480i.16by9"/>
+        <coherent refid="gfx.480p.16by9 vid.480p.16by9 bg.480p.16by9"/>
+        <coherent refid="gfx.720p vid.720p.lb bg.720p.lb"/>
+        <coherent refid="gfx.720p vid.720p.zoom bg.720p.zoom"/>
+        <coherent refid="gfx.720p vid.720p.stretch bg.720p.stretch"/>
+        <coherent refid="gfx.1080i vid.1080i.lb bg.1080i.lb"/>
+        <coherent refid="gfx.1080i vid.1080i.zoom bg.1080i.zoom"/>
+        <coherent refid="gfx.1080i vid.1080i.stretch bg.1080i.stretch"/>
+        <coherent refid="gfx.480i notcontrib still.480i.full"/>
+        <coherent refid="gfx.480p notcontrib still.480p.full"/>
+        <coherent refid="gfx.480i notcontrib still.480i.zoom"/>
+        <coherent refid="gfx.480p notcontrib still.480p.zoom"/>
+        <coherent refid="gfx.480i notcontrib still.480i.stretch"/>
+        <coherent refid="gfx.480p notcontrib still.480p.stretch"/>
+        <coherent refid="gfx.480i.16by9 notcontrib still.480i.16by9"/>
+        <coherent refid="gfx.480p.16by9 notcontrib still.480p.16by9"/>
+        <coherent refid="gfx.720p notcontrib still.720p.lb"/>
+        <coherent refid="gfx.720p notcontrib still.720p.zoom"/>
+        <coherent refid="gfx.720p notcontrib still.720p.stretch"/>
+        <coherent refid="gfx.1080i notcontrib still.1080i.lb"/>
+        <coherent refid="gfx.1080i notcontrib still.1080i.zoom"/>
+        <coherent refid="gfx.1080i notcontrib still.1080i.stretch"/>
+        <!-- Unsupported by 3250 -->
+        <!--
+        <coherent refid="gfx.720p.4by3 vid.720p.4by3 bg.720p.4by3"/>
+        <coherent refid="gfx.1080i.4by3 vid.1080i.4by3 bg.1080i.4by3"/>
+        <coherent refid="gfx.720p.4by3 notcontrib still.720p.4by3"/>
+        <coherent refid="gfx.1080i.4by3 notcontrib still.1080i.4by3"/>
+        -->
+    </screen>
+</screens>

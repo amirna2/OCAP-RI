@@ -1,0 +1,14 @@
+<!-- ANT entity include/definition for JDK javadoc files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.jdk SYSTEM "jdk.ant-inc.xml">
+
+<!ENTITY inc.javadoc.jdk.1_1 SYSTEM "1.1/javadoc-links.ant-inc.xml">
+<!ENTITY inc.javadoc.jdk.1_2 SYSTEM "1.2/javadoc-links.ant-inc.xml">
+<!ENTITY inc.javadoc.jdk.1_3 SYSTEM "1.3/javadoc-links.ant-inc.xml">
+<!ENTITY inc.javadoc.jdk.1_4 SYSTEM "1.4/javadoc-links.ant-inc.xml">
+

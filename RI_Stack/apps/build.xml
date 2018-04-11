@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+
+<!-- ================================================================== -->
+<!-- This file is an ANT build script.  ANT is a Java-based build tool. -->
+<!-- It is available at http://jakarta.apache.org/ant/                  -->
+<!-- ================================================================== -->
+
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+
+<project name="apps" default="build" basedir=".">
+
+  <!-- 
+#########################################################################################
+#       To insert additional project targets:
+#       1. Create a new target for the new project.
+#          E.g.,
+#                  <target name="my-app">
+#                    <ant dir="my-app">
+#                 </target>
+#       2. Add the target to the dependency list for "build".
+#          E.g.,
+#                 <target name="build"
+#                         description="Builds OCAP demo applications."
+#                         depends="launcher,
+#                                  my-app
+#                                  "/>
+#       3. Create a new "purge" target for the new project.
+#          E.g.,
+#                 <target name="purge.my-app">
+#                   <ant dir="my-app" target="purge"/>
+#                 </target>
+#       4. Create a new "clean" target for the new project.
+#          E.g.,
+#                 <target name="clean.my-app">
+#                   <ant dir="my-app" target="clean"/>
+#                 </target>
+#
+#      Note, it may be worthwhile to only attempt to build an app
+#      if it is present (e.g., it might not be included in a release).
+#      To do this add a "depends" and an "if" attribute to the targets.
+#      E.g.,
+#                 <target name="my-app" 
+#                         depends="my-app-present" if="my-app-present">
+#                   <ant dir="my-app">
+#                 </target>
+#                 <target name="purge.my-app" 
+#                         depends="my-app-present" if="my-app-present">
+#                   <ant dir="my-app" target="purge"/>
+#                 </target>
+#                 <target name="clean.my-app" 
+#                         depends="my-app-present" if="my-app-present">
+#                   <ant dir="my-app" target="clean"/>
+#                 </target>
+#      And then add the target that determines if the app is present:
+#      E.g.,
+#                 <target name="my-app-present">
+#                   <available file="my-app/build.xml" 
+#                              property="my-app-present"/>
+#                 </target>
+#########################################################################################
+  -->
+
+    <property environment="env"/>
+    <property file="${basedir}/../target/${env.OCAPTC}/buildrules.properties" />
+    <property file="${basedir}/../hostconfig/${env.OCAPHOST}/hostrules.properties" />
+
+    <property name="bindir" location="${basedir}/../bin/${env.OCAPTC}" />
+
+    <target name="build" description="Builds OCAP demo applications."
+      depends="build.Caption, build.hsampler, build.launcher, build.config, build.perf_test, build.qa">
+
+        <!-- copy sample apps -->
+        <mkdir dir="${bindir}/${build.java.APPSDIR}"/>
+        <copy todir="${bindir}/${build.java.APPSDIR}" preservelastmodified="yes" failonerror="yes" >
+            <fileset dir="${basedir}/../bin/apps" casesensitive="yes">
+                <include name="launcher/**/*"/>
+                <include name="watchtv/**/*"/>
+                <include name="config/**/*"/>
+                <include name="eas/**/*"/>
+            </fileset>
+            <fileset dir="${basedir}/../apps" casesensitive="yes">
+                <include name="hostapp.properties" /> 
+            </fileset>
+        </copy>
+
+        <!-- copy qa integration apps -->
+        <mkdir dir="${bindir}/${build.java.QADIR}"/>
+        <copy todir="${bindir}/${build.java.QADIR}" preservelastmodified="yes" failonerror="false">
+            <fileset dir="${basedir}/../bin/apps/qa" casesensitive="yes">
+                <include name="xlet/**/*"/>
+                <include name="regapi/**/*"/>
+                <exclude name="xlet/*hostapp.properties"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${bindir}/${build.java.QADIR}" preservelastmodified="yes" failonerror="false">
+            <fileset dir="${basedir}/../bin/apps/qa/xlet" casesensitive="yes">
+                <include name="hostapp.properties"/>
+            </fileset>
+        </copy>
+
+        <!-- make usr directory -->
+        <mkdir dir="${bindir}/env/usr"/>
+  </target>
+
+  <target name="clean" description="Cleans OCAP demo application intermediate files." 
+    depends="clean.Caption, clean.hsampler, clean.launcher, clean.config, clean.perf_test, clean.qa" />
+
+  <target name="purge" description="Purges OCAP demo application binaries." 
+    depends="purge.Caption, purge.hsampler, purge.launcher, purge.config, purge.perf_test, purge.qa">
+
+        <delete quiet="true" dir="${basedir}/../bin/apps"/>
+      
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${bindir}/${build.java.QADIR}" />
+            <fileset dir="${bindir}/${build.java.APPSDIR}" >
+                <exclude name="hostapp.properties"/> 
+            </fileset>
+            <fileset dir="${bindir}/lib/autoxlet.jar" />
+        </delete>
+
+  </target>
+
+  <target name="build.Caption" depends="Caption-present" if="Caption-present">
+    <ant dir="Caption" target="build"/>
+  </target>
+  <target name="purge.Caption" depends="Caption-present" if="Caption-present">
+    <ant dir="Caption" target="purge"/>
+  </target>
+  <target name="clean.Caption" depends="Caption-present" if="Caption-present">
+    <ant dir="Caption" target="clean"/>
+  </target>
+  <target name="Caption-present">
+    <available file="Caption/build.xml" property="Caption-present"/>
+  </target>
+
+  <target name="build.hsampler" depends="hsampler-present" if="hsampler-present">
+    <ant dir="hsampler" target="build"/>
+  </target>
+  <target name="purge.hsampler" depends="hsampler-present" if="hsampler-present">
+    <ant dir="hsampler" target="purge"/>
+  </target>
+  <target name="clean.hsampler" depends="hsampler-present" if="hsampler-present">
+    <ant dir="hsampler" target="clean"/>
+  </target>
+  <target name="hsampler-present">
+    <available file="hsampler/build.xml" property="hsampler-present"/>
+  </target>
+
+  <target name="build.launcher" depends="launcher-present" if="launcher-present">
+    <ant dir="launcher" target="build"/>
+  </target>
+  <target name="purge.launcher" depends="launcher-present" if="launcher-present">
+    <ant dir="launcher" target="purge"/>
+  </target>
+  <target name="clean.launcher" depends="launcher-present" if="launcher-present">
+    <ant dir="launcher" target="clean"/>
+  </target>
+  <target name="launcher-present">
+    <available file="launcher/build.xml" property="launcher-present"/>
+  </target>
+
+  <target name="build.config" depends="config-present" if="config-present">
+    <ant dir="config" target="build"/>
+  </target>
+  <target name="purge.config" depends="config-present" if="config-present">
+    <ant dir="config" target="purge"/>
+  </target>
+  <target name="clean.config" depends="config-present" if="config-present">
+    <ant dir="config" target="clean"/>
+  </target>
+  <target name="config-present">
+    <available file="config/build.xml" property="config-present"/>
+  </target>
+
+  <target name="build.perf_test" depends="perf_test-present" if="perf_test-present">
+    <ant dir="vm_perf_test" target="build"/>
+  </target>
+  <target name="purge.perf_test" depends="perf_test-present" if="perf_test-present">
+    <ant dir="vm_perf_test" target="purge"/>
+  </target>
+  <target name="clean.perf_test" depends="perf_test-present" if="perf_test-present">
+    <ant dir="vm_perf_test" target="clean"/>
+  </target>
+  <target name="perf_test-present">
+    <available file="vm_perf_test/build.xml" property="perf_test-present"/>
+  </target>
+
+  <target name="build.qa" depends="qa-present" if="qa-present">
+    <ant dir="qa" target="build"/>
+  </target>
+  <target name="purge.qa" depends="qa-present" if="qa-present">
+    <ant dir="qa" target="purge"/>
+  </target>
+  <target name="clean.qa" depends="qa-present" if="qa-present">
+    <ant dir="qa" target="clean"/>
+  </target>
+  <target name="qa-present">
+    <available file="qa/build.xml" property="qa-present"/>
+  </target>
+
+</project>

@@ -1,0 +1,462 @@
+--- orig/ocStbHostSystemLogging.c	2012-08-21 14:19:42.888054293 -0600
++++ ocStbHostSystemLogging.c	2013-03-14 12:47:28.969617481 -0600
+@@ -6,8 +6,94 @@
+ #include <net-snmp/net-snmp-config.h>
+ #include <net-snmp/net-snmp-includes.h>
+ #include <net-snmp/agent/net-snmp-agent-includes.h>
++#include <glib.h>
+ #include "ocStbHostSystemLogging.h"
+ 
++#define ocStbHostSystemLoggingControlResetDefault 3 // startLog
++#define ocStbHostSystemLoggingSizeDefault 500 // 500 Rows
++#define ocStbHostSystemLoggingLevelDefault 4 // INFO
++#define ocStbHostSystemLoggingGroupDefault 1 // ALL
++
++int ocStbHostSystemLoggingControlReset =
++                ocStbHostSystemLoggingControlResetDefault;
++int ocStbHostSystemLoggingSize = ocStbHostSystemLoggingSizeDefault;
++int ocStbHostSystemLoggingLevelControl = ocStbHostSystemLoggingLevelDefault;
++char ocStbHostSystemLoggingGroupControl[sizeof(uint32_t)]; // bit string
++
++extern void ocStbHostSystemLoggingResetSize(int newSize);
++
++/* Reset functions */
++void ResetLoggingSize(int newSize)
++{
++    snmp_log(LOG_INFO, "In ResetLoggingSize, newSize is %d\n", newSize);
++    ocStbHostSystemLoggingResetSize(newSize);
++    ocStbHostSystemLoggingSize = newSize;
++}
++
++void ResetLoggingControl(int newLoggingState)
++{
++    int size = 0;
++    snmp_log(LOG_INFO, "In ResetLoggingControl, newLoggingState is %d\n",
++            newLoggingState);
++
++    switch (newLoggingState)
++    {
++        case 1: //ResetLog
++            // Send 0 as size, so that log table gets emptied.
++            snmp_log(LOG_INFO, "ResetLog - set size to 0 then to new size\n");
++            size = ocStbHostSystemLoggingSize;
++            ResetLoggingSize(0);
++            ResetLoggingSize(size);
++
++            // resetting to "start" resumes logging and should be done last
++            ocStbHostSystemLoggingControlReset =
++                    ocStbHostSystemLoggingControlResetDefault;
++            break;
++        case 2: //PauseLog
++            //PauseLog is taken care of in the addLog()
++            snmp_log(LOG_INFO, "PauseLog - taken care of in addLog\n");
++            break;
++        case 3: //startLog
++            // Set the log table size to the most current logTable size value.
++            snmp_log(LOG_INFO, "StartLog - reset size to same\n");
++            ResetLoggingSize(ocStbHostSystemLoggingSize);
++            break;
++        case 4: //useDefaultReporting
++            // empty log table. Set all event levels to factory-default.
++            snmp_log(LOG_INFO, "SetDefault - reset then set all to defaults\n");
++            ResetLoggingSize(0);
++            ResetLoggingSize(ocStbHostSystemLoggingSizeDefault);
++            ocStbHostSystemLoggingSize = ocStbHostSystemLoggingSizeDefault;
++            ocStbHostSystemLoggingLevelControl =
++                    ocStbHostSystemLoggingLevelDefault;
++            ocStbHostSystemLoggingGroupControl[0] = 0;
++            ocStbHostSystemLoggingGroupControl[1] = 0;
++            ocStbHostSystemLoggingGroupControl[2] = 0;
++            ocStbHostSystemLoggingGroupControl[3] = 1;  // set to n/a
++
++            // resetting to "start" resumes logging and should be done last
++            ocStbHostSystemLoggingControlReset =
++                    ocStbHostSystemLoggingControlResetDefault;
++            break;
++        default:
++            snmp_log(LOG_ERR,
++                    "The LoggingState sent %d does not match valid options\n",
++                    newLoggingState);
++            break;
++    }
++
++    snmp_log(LOG_INFO, "ResetLoggingControl complete.\n");
++}
++
++void ResetLoggingLevel(int newLevel) {
++    snmp_log(LOG_INFO, "In ResetLoggingLevel, newLevel is %d\n", newLevel);
++}
++
++void ResetLoggingGroup(u_char* newVal) {
++    unsigned int val = newVal[0]<<24 | newVal[1]<<16 | newVal[2]<<8 | newVal[3];
++    snmp_log(LOG_INFO, "In ResetLoggingGroup, new group is 0x%08X\n", val);
++}
++
+ /** Initializes the ocStbHostSystemLogging module */
+ void
+ init_ocStbHostSystemLogging(void)
+@@ -15,7 +101,7 @@
+     static oid ocStbHostSystemLoggingControlReset_oid[] = { 1,3,6,1,4,1,4491,2,3,1,1,4,3,5,1 };
+     static oid ocStbHostSystemLoggingSize_oid[] = { 1,3,6,1,4,1,4491,2,3,1,1,4,3,5,2 };
+     static oid ocStbHostSystemLoggingLevelControl_oid[] = { 1,3,6,1,4,1,4491,2,3,1,1,4,3,5,3 };
+-    static oid ocStbHostSystemloggingGroupControl_oid[] = { 1,3,6,1,4,1,4491,2,3,1,1,4,3,5,4 };
++    static oid ocStbHostSystemLoggingGroupControl_oid[] = { 1,3,6,1,4,1,4491,2,3,1,1,4,3,5,4 };
+ 
+   DEBUGMSGTL(("ocStbHostSystemLogging", "Initializing\n"));
+ 
+@@ -35,8 +121,8 @@
+                                HANDLER_CAN_RWRITE
+         ));
+     netsnmp_register_scalar(
+-        netsnmp_create_handler_registration("ocStbHostSystemloggingGroupControl", handle_ocStbHostSystemloggingGroupControl,
+-                               ocStbHostSystemloggingGroupControl_oid, OID_LENGTH(ocStbHostSystemloggingGroupControl_oid),
++        netsnmp_create_handler_registration("ocStbHostSystemLoggingGroupControl", handle_ocStbHostSystemloggingGroupControl,
++                               ocStbHostSystemLoggingGroupControl_oid, OID_LENGTH(ocStbHostSystemLoggingGroupControl_oid),
+                                HANDLER_CAN_RWRITE
+         ));
+ }
+@@ -48,18 +134,21 @@
+                           netsnmp_request_info         *requests)
+ {
+     int ret;
++    static int undoVal = 0;
+     /* We are never called for a GETNEXT if it's registered as a
+        "instance", as it's "magically" handled for us.  */
+ 
+     /* a instance handler also only hands us one request at a time, so
+        we don't need to loop over a list of requests; we'll only get one. */
+-    
++
+     switch(reqinfo->mode) {
+ 
+         case MODE_GET:
++            snmp_log(LOG_INFO, "%s MODE_GET_ACTION called (sending %d)\n",
++                     __func__, ocStbHostSystemLoggingControlReset);
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                 (u_char *) &ocStbHostSystemLoggingControlReset,
++                                 sizeof(ocStbHostSystemLoggingControlReset));
+             break;
+ 
+         /*
+@@ -72,44 +161,38 @@
+                 /* or you could use netsnmp_check_vb_type_and_size instead */
+             ret = netsnmp_check_vb_type(requests->requestvb, ASN_INTEGER);
+             if ( ret != SNMP_ERR_NOERROR ) {
++                snmp_log(LOG_ERR,
++                        "ret(%d): requests->requestvb(%d) != ASN_INTEGER(%d)\n",
++                         ret, requests->requestvb->type, ASN_INTEGER);
+                 netsnmp_set_request_error(reqinfo, requests, ret );
+             }
+             break;
+ 
+         case MODE_SET_RESERVE2:
+-            /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+-            }
++            undoVal = ocStbHostSystemLoggingControlReset;
++            snmp_log(LOG_INFO, "%s MODE_SET_RESERVE2 called.\n", __func__);
+             break;
+ 
+         case MODE_SET_FREE:
+-            /* XXX: free resources allocated in RESERVE1 and/or
+-               RESERVE2.  Something failed somewhere, and the states
+-               below won't be called. */
++            snmp_log(LOG_INFO, "%s MODE_SET_FREE called.\n", __func__);
+             break;
+ 
+         case MODE_SET_ACTION:
+-            /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_ACTION called (%d <- %ld)\n",
++                     __func__, ocStbHostSystemLoggingControlReset,
++                     *requests->requestvb->val.integer);
++            ocStbHostSystemLoggingControlReset =
++                     *requests->requestvb->val.integer;
+             break;
+ 
+         case MODE_SET_COMMIT:
+-            /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
+-                /* try _really_really_ hard to never get to this point */
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_COMMIT called.\n", __func__);
++            ResetLoggingControl(*requests->requestvb->val.integer);
+             break;
+ 
+         case MODE_SET_UNDO:
+-            /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
+-                /* try _really_really_ hard to never get to this point */
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_UNDO called.\n", __func__);
++            ocStbHostSystemLoggingControlReset = undoVal;
+             break;
+ 
+         default:
+@@ -127,6 +210,7 @@
+                           netsnmp_request_info         *requests)
+ {
+     int ret;
++    static int undoVal = 0;
+     /* We are never called for a GETNEXT if it's registered as a
+        "instance", as it's "magically" handled for us.  */
+ 
+@@ -136,9 +220,11 @@
+     switch(reqinfo->mode) {
+ 
+         case MODE_GET:
++            snmp_log(LOG_INFO, "%s MODE_GET_ACTION called (sending %d)\n",
++                     __func__, ocStbHostSystemLoggingSize);
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                 (u_char *) &ocStbHostSystemLoggingSize,
++                                 sizeof(ocStbHostSystemLoggingSize));
+             break;
+ 
+         /*
+@@ -151,44 +237,36 @@
+                 /* or you could use netsnmp_check_vb_type_and_size instead */
+             ret = netsnmp_check_vb_type(requests->requestvb, ASN_INTEGER);
+             if ( ret != SNMP_ERR_NOERROR ) {
++                snmp_log(LOG_ERR,
++                        "ret(%d): requests->requestvb(%d) != ASN_INTEGER(%d)\n",
++                         ret, requests->requestvb->type, ASN_INTEGER);
+                 netsnmp_set_request_error(reqinfo, requests, ret );
+             }
+             break;
+ 
+         case MODE_SET_RESERVE2:
+-            /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+-            }
++            undoVal = ocStbHostSystemLoggingSize;
++            snmp_log(LOG_INFO, "%s MODE_SET_RESERVE2 called.\n", __func__);
+             break;
+ 
+         case MODE_SET_FREE:
+-            /* XXX: free resources allocated in RESERVE1 and/or
+-               RESERVE2.  Something failed somewhere, and the states
+-               below won't be called. */
++            snmp_log(LOG_INFO, "%s MODE_SET_FREE called.\n", __func__);
+             break;
+ 
+         case MODE_SET_ACTION:
+-            /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_ACTION called (%d <- %ld)\n",
++                     __func__, ocStbHostSystemLoggingSize,
++                     *requests->requestvb->val.integer);
+             break;
+ 
+         case MODE_SET_COMMIT:
+-            /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
+-                /* try _really_really_ hard to never get to this point */
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_COMMIT called.\n", __func__);
++            ResetLoggingSize(*requests->requestvb->val.integer);
+             break;
+ 
+         case MODE_SET_UNDO:
+-            /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
+-                /* try _really_really_ hard to never get to this point */
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_UNDO called.\n", __func__);
++            ocStbHostSystemLoggingSize = undoVal;
+             break;
+ 
+         default:
+@@ -206,6 +284,7 @@
+                           netsnmp_request_info         *requests)
+ {
+     int ret;
++    static int undoVal = 0;
+     /* We are never called for a GETNEXT if it's registered as a
+        "instance", as it's "magically" handled for us.  */
+ 
+@@ -215,9 +294,11 @@
+     switch(reqinfo->mode) {
+ 
+         case MODE_GET:
++            snmp_log(LOG_INFO, "%s MODE_GET_ACTION called (sending %d)\n",
++                     __func__, ocStbHostSystemLoggingLevelControl);
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                 (u_char *) &ocStbHostSystemLoggingLevelControl,
++                                 sizeof(ocStbHostSystemLoggingLevelControl));
+             break;
+ 
+         /*
+@@ -230,44 +311,38 @@
+                 /* or you could use netsnmp_check_vb_type_and_size instead */
+             ret = netsnmp_check_vb_type(requests->requestvb, ASN_INTEGER);
+             if ( ret != SNMP_ERR_NOERROR ) {
++                snmp_log(LOG_ERR,
++                        "ret(%d): requests->requestvb(%d) != ASN_INTEGER(%d)\n",
++                         ret, requests->requestvb->type, ASN_INTEGER);
+                 netsnmp_set_request_error(reqinfo, requests, ret );
+             }
+             break;
+ 
+         case MODE_SET_RESERVE2:
+-            /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+-            }
++            undoVal = ocStbHostSystemLoggingLevelControl;
++            snmp_log(LOG_INFO, "%s MODE_SET_RESERVE2 called.\n", __func__);
+             break;
+ 
+         case MODE_SET_FREE:
+-            /* XXX: free resources allocated in RESERVE1 and/or
+-               RESERVE2.  Something failed somewhere, and the states
+-               below won't be called. */
++            snmp_log(LOG_INFO, "%s MODE_SET_FREE called.\n", __func__);
+             break;
+ 
+         case MODE_SET_ACTION:
+-            /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_ACTION called (%d <- %ld)\n",
++                     __func__, ocStbHostSystemLoggingLevelControl,
++                     *requests->requestvb->val.integer);
++            ocStbHostSystemLoggingLevelControl =
++                     *requests->requestvb->val.integer;
+             break;
+ 
+         case MODE_SET_COMMIT:
+-            /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
+-                /* try _really_really_ hard to never get to this point */
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_COMMIT called.\n", __func__);
++            ResetLoggingLevel(*requests->requestvb->val.integer);
+             break;
+ 
+         case MODE_SET_UNDO:
+-            /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
+-                /* try _really_really_ hard to never get to this point */
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_UNDO called.\n", __func__);
++            ocStbHostSystemLoggingLevelControl = undoVal;
+             break;
+ 
+         default:
+@@ -294,9 +369,15 @@
+     switch(reqinfo->mode) {
+ 
+         case MODE_GET:
+-            snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++            snmp_log(LOG_INFO, "%s MODE_GET_ACTION called (sending %08X)\n",
++                     __func__,
++                     ocStbHostSystemLoggingGroupControl[0] << 24 |
++                     ocStbHostSystemLoggingGroupControl[1] << 16 |
++                     ocStbHostSystemLoggingGroupControl[2] << 8 |
++                     ocStbHostSystemLoggingGroupControl[3]);
++            snmp_set_var_typed_value(requests->requestvb, ASN_BIT_STR,
++                                 (u_char *) ocStbHostSystemLoggingGroupControl,
++                                 sizeof(ocStbHostSystemLoggingGroupControl));
+             break;
+ 
+         /*
+@@ -306,47 +387,54 @@
+          * http://www.net-snmp.org/tutorial-5/toolkit/mib_module/set-actions.jpg
+          */
+         case MODE_SET_RESERVE1:
+-                /* or you could use netsnmp_check_vb_type_and_size instead */
+-            ret = netsnmp_check_vb_type(requests->requestvb, ASN_OCTET_STR);
++            /* AgentX uses OCTET strings instead of BIT strings... */
++            ret = netsnmp_check_vb_type(requests->requestvb, ASN_BIT_STR);
+             if ( ret != SNMP_ERR_NOERROR ) {
+-                netsnmp_set_request_error(reqinfo, requests, ret );
++                snmp_log(LOG_WARNING,
++                        "ret(%d): requests->requestvb(%d) != ASN_BIT_STR(%d)\n",
++                         ret, requests->requestvb->type, ASN_BIT_STR);
++                 ret = netsnmp_check_vb_type(requests->requestvb,ASN_OCTET_STR);
++                 if ( ret != SNMP_ERR_NOERROR ) {
++                     snmp_log(LOG_ERR,
++                        "ret(%d): requests->requestvb(%d) != ASN_OCTET_STR(%d)\n",
++                         ret, requests->requestvb->type, ASN_OCTET_STR);
++                     netsnmp_set_request_error(reqinfo, requests, ret );
++                }
+             }
+             break;
+ 
+         case MODE_SET_RESERVE2:
+-            /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_RESERVE2 called.\n", __func__);
+             break;
+ 
+         case MODE_SET_FREE:
+-            /* XXX: free resources allocated in RESERVE1 and/or
+-               RESERVE2.  Something failed somewhere, and the states
+-               below won't be called. */
++            snmp_log(LOG_INFO, "%s MODE_SET_FREE called.\n", __func__);
+             break;
+ 
+         case MODE_SET_ACTION:
+-            /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_ACTION called (%08X <- %08X)\n",
++                     __func__,
++                     ocStbHostSystemLoggingGroupControl[0] << 24 |
++                     ocStbHostSystemLoggingGroupControl[1] << 16 |
++                     ocStbHostSystemLoggingGroupControl[2] << 8 |
++                     ocStbHostSystemLoggingGroupControl[3],
++                     requests->requestvb->val.string[0] << 24 |
++                     requests->requestvb->val.string[1] << 16 |
++                     requests->requestvb->val.string[2] << 8 |
++                     requests->requestvb->val.string[3]);
++            memcpy(ocStbHostSystemLoggingGroupControl,
++                   requests->requestvb->val.string,
++                   sizeof(ocStbHostSystemLoggingGroupControl));
+             break;
+ 
+         case MODE_SET_COMMIT:
+-            /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
+-                /* try _really_really_ hard to never get to this point */
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_COMMIT called.\n", __func__);
++            ResetLoggingGroup(requests->requestvb->val.string);
+             break;
+ 
+         case MODE_SET_UNDO:
+-            /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
+-                /* try _really_really_ hard to never get to this point */
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_UNDO called.\n", __func__);
++            netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             break;
+ 
+         default:

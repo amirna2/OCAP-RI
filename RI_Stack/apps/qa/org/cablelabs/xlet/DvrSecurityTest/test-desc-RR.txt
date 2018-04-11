@@ -1,0 +1,212 @@
+This file describes the RecordingRequest (RR) Tests
+
+    RR-1 - MonApp Xlet in same org as TestMgrXlet
+    RR-2 - MonApp Xlet in different org than TestMgrXlet
+
+RR-1
+----
+PURPOSE:
+    Confirm that MonApp Xlet in the same org as the resource
+    owner has appropriate access to RecordingRequests.
+
+    Xlet Attributes:
+
+    1. Same organization ID as the Test Manager Xlet
+       (which creates recording requests).
+    2. Monitor Application AID MonitorAppPermission("handler.recording")
+
+    re: hostapp.properties application_identifier
+
+FILES:
+    RR-1-ha.properties   --> usr/hostapp.properties
+    RR-1-primary.cfg     --> qa/xlet/
+    RR-1-xlet.cfg     --> qa/xlet/
+    ocap.TestMgrXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/
+    ocap.RecReqXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/
+
+PROCEDURE:
+    1. If necessary, modify RR-1-primary.cfg:
+        1a. Provide appropriate Source IDs.
+        1b. Specify appropriate Start Times, durations (msec), and expiration
+            periods (sec).  We need the recording requests to be stable
+            while we test Xlet access to them.
+    2. If necessary, modify ocap.RecReqXlet.perm:
+        2a. Ensure MonitorAppPermission("handler.recording") is requested
+        2b. Ensure Org ID matches that listed in the hostapp.properties file
+    3. Boot SA8300HD with files configured as above.
+    4. Wait for TestLauncher menu to be displayed on TV.
+    5. Select the TestMgrXlet for execution.
+    6. Press RC "INFO" button and verify display of usage message
+       in console logs.  For example:
+
++---------------------------------------------------------+
+TestMgrXlet:  Menu:
+<1> - Initialize Recording Requests
+<2> - Display Current List of Recording Requests
+<3> - Delete All Recording Requests
+<4> - Display internal list of LocatorRecordingSpecs
+<5> - Dump Overlapping Entries (PRF-dependent)
+<6> - Dump Entries (no filter; PRF-dependent)
+<7> - Dump Entries (hardcoded PENDING_WITH_CONFLICT_STATE filter; PRF-dependent)
+<8> - Dump Entries and Root Requests
+<9> - Dump Entries and Parent Requests
++---------------------------------------------------------+
+
+    7. Press "3" to delete any extant recording requests.
+    8. Press "1" to create new recording requests.  For example:
+
++---------------------------------------------------------+
+TestMgrXlet: Number of entries: 5
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:34:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:36:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
++---------------------------------------------------------+
+
+    9. Press "MENU".
+   10. Select "RR-1" Xlet for execution.
+   11. Allow the Xlet to run to completion.
+   12. Review the console logs, confirming all test cases PASSed.
+
+ANALYSIS:
+    Refer to the contents of RR-1-primary.cfg and RR-1-xlet.cfg.
+
+    Confirm appearance of the following message in the console logs:
+
+******************************
+RecReqXlet PASS
+******************************
+
+RR-2
+----
+PURPOSE:
+    Confirm that MonApp Xlet in a different org than the resource
+    owner has appropriate access to RecordingRequests.
+
+    Xlet Attributes:
+
+    1. Different organization ID than the Test Manager Xlet
+       (which creates recording requests).
+    2. Monitor Application AID MonitorAppPermission("handler.recording")
+
+    re: hostapp.properties application_identifier
+
+FILES:
+    RR-2-ha.properties   --> usr/hostapp.properties
+    RR-2-primary.cfg     --> qa/xlet/
+    RR-2-xlet.cfg     --> qa/xlet/
+    ocap.TestMgrXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/
+    ocap.RecReqXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/
+
+PROCEDURE:
+    Refer to RR-1 PROCEDURE listed above.
+
+    Sample dump of recording requests:
+
++---------------------------------------------------------+
+TestMgrXlet: Number of entries: 6
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:26:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:28:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:30:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:32:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:34:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Mon Aug 15 10:36:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
++---------------------------------------------------------+
+
+SAMPLE LOG MESSAGES
+
+RR-1:
+-----
+line: |----rw:1|cancel|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:1|delete|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:1|stop|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:1|getService|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:1|addAppData|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:1|removeAppData|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:1|reschedule|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:1|setRecordingProperties|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:2|cancel|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:2|delete|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:2|stop|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:2|getService|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:2|addAppData|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:2|removeAppData|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:2|reschedule|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |----rw:2|setRecordingProperties|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 5
+line: |--rwrw:1|stop|java.lang.IllegalStateException|
+TestConfig getORR() numEntries: 5
+line: |--rwrw:1|getService|java.lang.IllegalStateException|
+TestConfig getORR() numEntries: 5
+line: |--rwrw:2|stop|java.lang.IllegalStateException|
+TestConfig getORR() numEntries: 5
+line: |--rwrw:2|getService|java.lang.IllegalStateException|
+******************************
+RecReqXlet PASS
+******************************
+
+RR-2:
+-----
+line: |----rw:1|cancel|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |----rw:1|delete|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |----rw:1|stop|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |----rw:1|getService|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |----rw:1|addAppData|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |----rw:1|removeAppData|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |----rw:1|reschedule|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |----rw:1|setRecordingProperties|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |--rwrw:1|cancel|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |--rwrw:1|delete|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |--rwrw:1|stop|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |--rwrw:1|getService|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |--rwrw:1|addAppData|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |--rwrw:1|removeAppData|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |--rwrw:1|reschedule|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |--rwrw:1|setRecordingProperties|org.ocap.shared.dvr.AccessDeniedException|
+TestConfig getORR() numEntries: 6
+line: |rw--rw:1|getService|java.lang.IllegalStateException|
+TestConfig getORR() numEntries: 6
+line: |rw--rw:2|stop|java.lang.IllegalStateException|
+TestConfig getORR() numEntries: 6
+line: |rw--rw:2|getService|java.lang.IllegalStateException|
+TestConfig getORR() numEntries: 6
+line: |----rw:2|getService|java.lang.IllegalStateException|
+TestConfig getORR() numEntries: 6
+line: |----rw:3|getService|java.lang.IllegalStateException|
+TestConfig getORR() numEntries: 6
+line: |----rw:3|stop|java.lang.IllegalStateException|
+TestConfig getORR() numEntries: 6
+******************************
+RecReqXlet PASS
+******************************

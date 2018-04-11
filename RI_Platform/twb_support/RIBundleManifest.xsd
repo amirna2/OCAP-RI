@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Tobin Wahlers (Vidiom Systems) -->
+<xs:schema xmlns:ri="http://www.cablelabs.com/RIBundle" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cablelabs.com/RIBundle" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="apiLibrary">
+		<xs:annotation>
+			<xs:documentation>A supported API library.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="location" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>An URI specifying the location for the API library</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="documentation" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>An URI specying the location of the associated documentation.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="type" use="required">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="HTML"/>
+											<xs:enumeration value="Javadoc"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="majorVersion" type="xs:unsignedInt" use="required">
+				<xs:annotation>
+					<xs:documentation>The major version value for the API library.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="minorVersion" type="xs:unsignedInt">
+				<xs:annotation>
+					<xs:documentation>Optional minor version value for the API library.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Optional name for API library.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Optional description for the API library.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="author" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The author of the API library.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="publisher" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The publisher of the API library.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="keyValue">
+		<xs:annotation>
+			<xs:documentation>A key/value pair.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="key" type="xs:string" use="required"/>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="riBundle">
+		<xs:annotation>
+			<xs:documentation>The OCAP Reference Implementation Bundle</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:ID">
+					<xs:annotation>
+						<xs:documentation>An unique identifier.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="location" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The root location for the bundle.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ocapSpecification">
+					<xs:annotation>
+						<xs:documentation>Information related to the associated OCAP Specification.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="name" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>The name of the OCAP specification.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="location" type="xs:anyURI">
+							<xs:annotation>
+								<xs:documentation>An URI referencing the associated OCAP specification.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ocapCertification">
+					<xs:annotation>
+						<xs:documentation>Information related to the associated OCAP Certification Test Process.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="name" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>The name of the associated certification process.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="location" type="xs:anyURI">
+							<xs:annotation>
+								<xs:documentation>An URI referencing informtion concerning the associated CTP.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ocapImplementation">
+					<xs:annotation>
+						<xs:documentation>Information related to the associated OCAP Reference Implementation.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="executable" type="xs:anyURI">
+								<xs:annotation>
+									<xs:documentation>The location of the RI emulator.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="configuration" type="xs:anyURI">
+								<xs:annotation>
+									<xs:documentation>The location of the RI configuration file.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="environment" type="xs:anyURI">
+								<xs:annotation>
+									<xs:documentation>The location of the RI environment directory.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element ref="ri:apiLibrary"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>The name of the reference implementation.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="location" type="xs:anyURI">
+							<xs:annotation>
+								<xs:documentation>An URI referencing the associated Reference Implementation.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="ri:apiLibrary"/>
+				</xs:sequence>
+				<xs:sequence minOccurs="0">
+					<xs:element ref="ri:keyValue" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:sequence>
+			<xs:attribute name="majorVersion" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The major version value for the RI Bundle.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="minorVersion" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>The minor version value for the RI Bundle.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="date" type="xs:dateTime" use="optional">
+				<xs:annotation>
+					<xs:documentation>The date the RI Bundle was published.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="author" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The author of the RI Bundle.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="publisher" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The publisher of the RI Bundle.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A description of the RI Bundle.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="riBundleManifest">
+		<xs:annotation>
+			<xs:documentation>OCAP Reference Implementation Bundle Manifest</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="ri:riBundle"/>
+				<xs:element ref="ri:keyValue" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="majorVersion" type="xs:unsignedInt" use="required">
+				<xs:annotation>
+					<xs:documentation>The major version value of the manifest schema.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="minorVersion" type="xs:unsignedInt" use="required">
+				<xs:annotation>
+					<xs:documentation>The minor version value of the manifest schema.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="date" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>The date the manifest was published.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="author" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The manifest author.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="publisher" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The publisher of the manifest.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

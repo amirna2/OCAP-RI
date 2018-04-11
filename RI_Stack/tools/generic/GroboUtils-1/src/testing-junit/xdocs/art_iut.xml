@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/20 20:12:53 $
+-->
+
+
+<document>
+<head>
+    <name>Integration Unit Tests</name>
+</head>
+<body>
+    <i>An article by Matt Albrecht</i>
+
+<P>
+In the terminology I present in this series of articles,
+unit tests assert that the smallest unit of code (classes for OOP) work
+as designed.  System level tests verify that the whole application works as
+planned, and that outside forces do not cause
+unexpected errors.
+</P>
+<P>
+Integration unit tests (IUTs) reside in the middle ground between these two
+extremes. At the lowest level, IUTs ensure that two classes work together
+correctly.  Note that unit tests may fall into this location as well, otherwise
+unit tests would be restricted to only using
+<a href="http://www.mockobjects.com">mock-objects</a> to simulate any required
+interaction.  At the highest level, IUTs check that large groups of components
+work or fail correctly when presented with a specific initial state, which can
+fall into the same area as system level tests.
+</P>
+
+
+<H3>The Grobo Way</H3>
+
+<P>
+I tend to view IUTs from the perspective of another application wanting to
+reuse the functionality presented by the set of classes under test.  They have
+full access to the public methods and fields, as well as full access to any
+protected methods and fields for subclassed objects.
+</P>
+<P>
+The tests may try to use the classes in obscure ways, but any contract defined
+by the classes must be followed (otherwise, it's a class-user error, which
+should be tested in unit tests, not IUTs).
+</P>
+
+<H3>Standards for Integration</H3>
+
+<P>
+<B>Libraries:</B> Note that the IUTs test the "public", or "outside" usage of
+the library.  The IUTs can be used as a litmus test to ensure that the library
+retains binary backwards compatability with earlier versions.  My standard is
+that once a library is shipped as outside of beta, then the existing
+IUTs must not change.  If an IUT fails, then binary compatiblity has broken.
+If the change is required for a new functionality, then the library enters a
+new major version.  Due to the package naming convention of GroboUtils, the
+old major version (say, v3) will remain in the code base, while the revised
+version will enter a new package (in this example, v4).
+</P>
+
+</body>
+</document>
+

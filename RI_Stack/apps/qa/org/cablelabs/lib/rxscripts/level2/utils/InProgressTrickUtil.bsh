@@ -1,0 +1,326 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Purpose: This level 2 script performs the recording scenario as follows
+// Test Setup:
+// a. Create an inprogress recording of 3 mins duration
+// b. Publish to CDS if using HN playback, otherwise use DVR playback
+// c. Start playback
+//
+// Test Steps:
+// 1. Start playback, verifies starts at beginning
+// 2. Play 10 secs and verify whether we reached 10 seconds within the recording
+// 3. Rewind to beginning using -2x, verify BOS is received within the correct time.
+// 4. Play for 30 seconds and  verify whether we reached 30 seconds within the recording.
+// 5. Pause playback for 2 secs.
+// 6. Rewind at -1x and verify whether reached the BOS in the correct time.
+// 7. Fast forward using 2x and verify whether EOS was reached in the right time.
+// 8. Stop playback, verifies returns to DvrExerciser menu
+//
+///////////////////////////////////////////////////////////////////////////////
+ 
+// List of scripts used by this script
+//
+this.interpreter.source ("scripts/level2/utils/PlayerRateChangeUtil.bsh");
+this.interpreter.source ("scripts/level2/utils/RecordingTestSetup.bsh");
+this.interpreter.source ("scripts/level1/PlaybackRecording.bsh");
+this.interpreter.source ("scripts/level1/FindMediaServer.bsh");
+this.interpreter.source ("scripts/level1/RecordTunerContent.bsh");
+this.interpreter.source ("scripts/level1/PublishRecordingToCDS.bsh");
+
+/**
+ * Main method to perform in-progress segmented/non-segmented recording scenario.
+ *
+ * @return  null string if no problems encountered, 
+ *          failure reason if problems encountered 
+ */
+String inProgressTrick(boolean useRemoteService, boolean dvrPlayback, int recState, int toleranceSecs)
+{
+    String failureReason = null;
+    String testName = "inProgressTrick";
+    rxLog.info(testName +" - Starting Test setup");
+
+    int recLengthSecs = 180; // 3 minute recording   
+
+    String results;    
+    // As this is a "inprogress" recording test, need to create a background recording
+    // in order to properly play it back while still recording it.
+    if (recState == rxDriverDVR.IN_PROGRESS_STATE || 
+        recState == rxDriverDVR.IN_PROGRESS_INCOMPLETE_STATE)
+    {
+        results = performRecordingTestSetup
+                (testName,                      // The script name 
+                false,                          // Don't use existing recordings
+                recLengthSecs,                  // The length of the recording
+                recLengthSecs + toleranceSecs, // The amount of time to reach the desired state
+                false,                          // Don't change the channel
+                recState,                       // The recording state to wait for
+                true);                          // Make a background recording
+    }
+    if (results != null)
+    {
+        // Problems setting up for test
+        failureReason = "Problems during test setup: " + results;
+        rxLog.callTrace("Failure performing recording setup : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName +" - Completed Test setup for playback");
+    
+    if (dvrPlayback)
+    {
+        if (!startPlayback())
+        {
+            failureReason = "Problems setting up player for content";
+            rxLog.callTrace ("Failure setting up player : ", this.callstack);
+            return failureReason;
+        }
+        rxLog.info(testName + " - Created and started DVR playback");
+    }   
+    else
+    {
+        // Find the index of the local media server
+        int mediaServerIndex = findLocalMediaServer();
+        if (mediaServerIndex == -1)
+        {
+            failureReason = "Problems getting local media server";
+            rxLog.callTrace("Failure getting media server : ", this.callstack);
+            return failureReason;
+        }
+        rxLog.info(testName +" - Found local media server index: " + mediaServerIndex);
+    
+        // Get the content item index of first and only recording
+        int recContentItem = getContentItemIndexOfFirstRecording(mediaServerIndex);
+        if(recContentItem == -1)
+        {
+            failureReason = "Problems getting recording content item";
+            rxLog.callTrace ("Failure getting recording content item : ", this.callstack);
+            return failureReason;
+        }
+        rxLog.info(testName + "Found recording content item to playback");
+    
+        // Stop broadcast service selection so video device is available for playback        
+        tuneToServiceStop();                            
+
+        // Create and start HNPlayer to play the 0th content created using the performSetu+p step
+        if (!startHNPlayback(useRemoteService, mediaServerIndex, recContentItem))
+        {
+            failureReason = "Problems setting up remote player for content";
+            rxLog.callTrace("Failure setting up remote player : ", this.callstack);
+            return failureReason;
+        }
+        rxLog.info(testName + " - Created and start Remote player");
+    }    
+
+    int sysStartTimeSecs = (System.currentTimeMillis() / 1000);
+    rxLog.info(testName +" - system time at start of hn playback is " + sysStartTimeSecs + " seconds");
+    
+    int playDurationSecs = recLengthSecs;
+    // If this is a segmented recording, the rec length will be 15 secs less
+    if (recState == rxDriverDVR.INCOMPLETE_STATE ||
+        recState == rxDriverDVR.IN_PROGRESS_INCOMPLETE_STATE)
+    {
+        // Adjust length by 15 seconds due to segmentation
+        playDurationSecs -= 15;
+    }
+    
+    int startMediaTimeSecs = 0; 
+    // Let play for at least 10 seconds & verify media time is around 10 secs
+    if (!waitForSecs(10))
+    {
+        failureReason = "Failure waiting for playback for 10 secs";
+        rxLog.callTrace(testName + " - Failure waiting for playback for 10 secs ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed waiting for first playback for 10 secs");
+    
+    // Verify now within range of 10 seconds from BOS
+    int minMTSecs = 10 + startMediaTimeSecs - toleranceSecs;
+    int maxMTSecs = 10 + startMediaTimeSecs + toleranceSecs;
+
+    if (!checkPlaybackPosition(minMTSecs, maxMTSecs))
+    {
+        failureReason = "At unexpected media time";
+        rxLog.callTrace(testName + " - Failure - Unexpected media time during 1x playback after first BOS.  PlaybackPosition is " + 
+                getMediaTimeSecs() + " secs, expected it to be between " + minMTSecs + " secs and " + maxMTSecs, this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed media time time check during 1x playback after first BOS.  PlaybackPosition is " + 
+            getMediaTimeSecs() + " secs, expected between " + minMTSecs + " secs and " + maxMTSecs);        
+    
+    int curMediaTimeSecs = getMediaTimeSecs();
+
+    // Calculate time required tor each BOS when doing playback at -2x
+    // Set playback rate to -2x, 5 == -2.0 index
+    if (null != (failureReason = rateChangeHelper(testName, (float)-2.0)))
+    {
+        return failureReason;
+    }
+
+    // Get duration of current recording
+    int durationSecs = recLengthSecs;
+    rxLog.info(testName + " - Playback duration secs: " + durationSecs);
+
+    int timeToBOSSecs = (curMediaTimeSecs / 2) + toleranceSecs;
+    rxLog.info(testName + " - Expected time in secs to reach BOS: " + timeToBOSSecs);
+    
+    if (!waitForBOS(timeToBOSSecs))
+    {
+        failureReason = "Failed to receive playback event: PLAYER_CONTROLLER_BEGINNING_OF_CONTENT";
+        rxLog.callTrace(testName + " - Failure Did not receive PLAYER_CONTROLLER_BEGINNING_OF_CONTENT : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed first BOS within " + timeToBOSSecs + " secs");
+    
+    // Set playback rate to 1x, 9 == 1x rate
+    if (null != (failureReason = rateChangeHelper(testName, (float)1.0)))
+    {
+        return failureReason;
+    }
+
+    int startMediaTimeSecs = getMediaTimeSecs();
+    
+    rxLog.info(testName + " - Starting Media Time secs: " + startMediaTimeSecs);
+
+    // Let play for at least 30 seconds & verify media time is around 30 secs
+    if (!waitForSecs(30))
+    {
+        failureReason = "Failure waiting for playback for 30 secs";
+        rxLog.callTrace(testName + " - Failure waiting for playback for 30 secs ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed waiting for first playback for 30 secs");
+    
+    // Verify now within range of 30 seconds from BOS
+    int minMTSecs = 30 + startMediaTimeSecs - toleranceSecs;
+    int maxMTSecs = 30 + startMediaTimeSecs + toleranceSecs;
+    if (minMTSecs < 0)
+    {
+        minMTSecs = 0;
+    }
+    
+    if (!checkPlaybackPosition(minMTSecs, maxMTSecs))
+    {
+        failureReason = "At unexpected media time";
+        rxLog.callTrace(testName + " - Failure - Unexpected media time during 1x playback after second BOS.  PlaybackPosition is " + 
+                getMediaTimeSecs() + " secs, expected it to be between " + minMTSecs + " secs and " + maxMTSecs, this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed media time time check during 1x playback after second BOS.  PlaybackPosition is " + 
+            getMediaTimeSecs() + " secs, expected between " + minMTSecs + " secs and " + maxMTSecs);        
+
+    // Pause playback for 2 seconds
+    if (null != (failureReason = rateChangeHelper(testName, (float)0.0)))
+    {
+        return failureReason;
+    }
+
+    if (!waitForSecs(2))
+    {
+        failureReason = "Failure waiting for pause for 2 secs";
+        rxLog.callTrace(testName + " - Failure waiting for 2 secs during pause", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed waiting for 2 secs during pause");
+    
+    // Rewind to BOS, set playback rate to -1x, index 6 == -1.0
+    if (null != (failureReason = rateChangeHelper(testName, (float)-1.0)))
+    {
+        return failureReason;
+    }
+
+    // Get current media time or assume it is 30 secs since rewind to BOS, played for 30, & paused for 2
+    curMediaTimeSecs =  getMediaTimeSecs();
+    rxLog.info(testName + " - Current Media Time secs: " + curMediaTimeSecs);
+
+    // Determine amount of time to wait for BOS
+    timeToBOSSecs = curMediaTimeSecs + toleranceSecs;
+    rxLog.info(testName + " - Expected BOS playback duration secs: " + timeToBOSSecs);
+    
+    // Rewind to beginning, wait a max secs for BOS event
+    if (!waitForBOS(timeToBOSSecs))
+    {
+        failureReason = "Failed to receive playback event: PLAYER_CONTROLLER_BEGINNING_OF_CONTENT";
+        rxLog.callTrace(testName + " - Failure to receive second playback event PLAYER_CONTROLLER_BEGINNING_OF_CONTENT", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed receive PLAYER_CONTROLLER_BEGINNING_OF_CONTENT");
+    
+    // Fast forward to EOS, verify event is received
+    // Set playback rate to 2x, index 10 == 2x
+    if (null != (failureReason = rateChangeHelper(testName, (float)2.0)))
+    {
+        return failureReason;
+    }
+
+    curMediaTimeSecs = getMediaTimeSecs();
+    rxLog.info(testName + " - Current Media Time secs: " + curMediaTimeSecs);
+
+    // Determine amount of time to wait for EOS
+    int timeToEOSSecs = (durationSecs / 2) - curMediaTimeSecs + toleranceSecs;
+    rxLog.info(testName + " - Expected EOS playback duration secs: " + timeToEOSSecs);
+
+    // Verify FF gets to EOS within max of 120 secs
+    if (!waitForEOS(timeToEOSSecs))
+    {
+        failureReason = "Failed to receive playback event: PLAYER_CONTROLLER_END_OF_CONTENT";
+        rxLog.callTrace(testName + " - Failure to receive playback event PLAYER_CONTROLLER_END_OF_CONTENT ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed receive PLAYER_CONTROLLER_END_OF_CONTENT");
+
+    stopPlayback();
+    rxLog.info(testName + " - Completed");
+    return failureReason;
+}

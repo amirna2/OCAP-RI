@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+	<!ATTLIST Xlet 
+	name CDATA #REQUIRED
+	orgID CDATA #REQUIRED
+	appID CDATA #REQUIRED
+	pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+	<!ATTLIST RCEvent 
+	name CDATA #IMPLIED
+	pauseBeforeNext CDATA #IMPLIED
+	monitorTimeout CDATA #IMPLIED
+	getResultsAfter (true|false) #IMPLIED>
+]>
+<AutoXlet>
+	<Xlet name="AllProperties" orgID="0x1" appID="0x7231" pauseAfterLast="3000">
+		<RCEvent name="Channel Up" pauseBeforeNext="100" monitorTimeout="300">VK_CHANNEL_UP</RCEvent>
+		<RCEvent>VK_CHANNEL_UP</RCEvent>
+		<RCEvent name="Channel Down" monitorTimeout="1000">VK_CHANNEL_DOWN</RCEvent>
+	</Xlet>
+</AutoXlet>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates><template id="org.eclipse.jdt.ui.text.codetemplates.gettercomment" name="gettercomment" description="Comment for getter method" context="gettercomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * @return Returns the ${bare_field_name}.
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.settercomment" name="settercomment" description="Comment for setter method" context="settercomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * @param ${param} The ${bare_field_name} to set.
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.constructorcomment" name="constructorcomment" description="Comment for created constructors" context="constructorcomment_context" enabled="true" deleted="false" autoinsert="false">/**
+ * Constructs an instance of 
+ * ${tags}
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment" description="Comment for created Java files" context="filecomment_context" enabled="true" deleted="false" autoinsert="false">/**
+ * Notice:
+ *
+ * Neither CableLabs nor any member company is responsible to any party for any liability of 
+ * any nature whatsoever resulting from or arising out of use or reliance upon this software.  
+ * This software is furnished on an "AS IS" basis and neither CableLabs nor its members 
+ * provides any representation or warranty, express or implied, regarding the accuracy, 
+ * completeness, or fitness for a particular purpose of this software. 
+ * 
+ * (C)Copyright 2008 Cable Television Laboratories, Inc.  All rights reserved.
+ * ---------------------------------------------------------------------------------------------
+ * 
+ * File: ${file_name}
+ * 
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.typecomment" name="typecomment" description="Comment for created types" context="typecomment_context" enabled="true" deleted="false" autoinsert="false">/**
+  * Purpose: This class . 
+  * &lt;p&gt;
+  * Requirements: None.
+  * &lt;p&gt;
+  * Limitations and Constraints: None
+  * &lt;p&gt;
+  * Exceptions: ...
+  * &lt;p&gt;
+  * Modification History: 
+  * &lt;p&gt; YYYY-MMM-DD Initial Revision
+  * &lt;p&gt;
+  * Version:  0.1
+  * &lt;p&gt;
+  * Introduced in version: 0.1
+  * 
+  * @author ${user}, Cable Television Laboratories, Inc.
+  * &lt;p&gt;
+  * ${tags}
+  */</template><template id="org.eclipse.jdt.ui.text.codetemplates.fieldcomment" name="fieldcomment" description="Comment for fields" context="fieldcomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * 
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.methodcomment" name="methodcomment" description="Comment for non-overriding methods" context="methodcomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * ${tags}
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.overridecomment" name="overridecomment" description="Comment for overriding methods" context="overridecomment_context" enabled="true" deleted="false" autoinsert="true">/* (non-Javadoc)
+ * ${see_to_overridden}
+ */</template></templates>

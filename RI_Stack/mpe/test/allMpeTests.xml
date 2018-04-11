@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE VTE [
+        <!ELEMENT VTE (#PCDATA)>
+        <!ELEMENT TEST (#PCDATA)>
+                <!ATTLIST TEST name CDATA " ">
+                <!ATTLIST TEST id CDATA " ">
+                <!ATTLIST TEST goldFile CDATA " ">
+                <!ATTLIST TEST type CDATA " ">
+                <!ATTLIST TEST location CDATA " ">
+        <!ELEMENT RUN (#PCDATA)>
+        <!ELEMENT FILE (#PCDATA)>
+                <!ATTLIST FILE filename CDATA " ">
+]>
+
+<VTE>
+
+	<!-- Graphics Tests -->
+	<TEST name="test_mpeos_gfxRunAllTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_drawPolygon" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunARGB2COLORTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunRGB2COLORTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunALPHAVALUETest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunREDVALUETest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunGREENVALUETest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunBLUEVALUETest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunContextTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunContextNewTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunContextCreateTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunContextDeleteTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunGetSurfaceTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSetGetColorTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSetGetFontTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunGetFont_DefaultTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSetFont_ClearTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSetGetPaintModeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSetGetOriginTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSetGetClipRectTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunContext_DistinctStateTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunDrawTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunDrawSetupTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_DistinctContextTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawLineTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawLine_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawRectTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawRect_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillRectTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillRect_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawEllipseTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawEllipse_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillEllipseTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillEllipse_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawRoundRectTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawRoundRect_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillRoundRectTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillRoundRect_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawArcTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawArc_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillArcTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillArc_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawPolylineTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawPolyline_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawPolygonTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawPolygon_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillPolygonTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxFillPolygon_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxBitBltTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxBlit_SRCOVERTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+
+	<TEST name="test_gfxBitBlt_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxBitBlt_diffTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxStretchBltTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxStretchBlt_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxStretchBlt_otherTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxStretchBlt_diffTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawStringTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawString_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawString16Test" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDrawString16_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_ClippedTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_Clipped_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_TranslatedTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_Translated_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_DistinctStateTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_DistinctState_offscreenTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_DistinctSurfaceTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_XORTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_SRCOVERTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_SRCTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_CLRTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxDraw_OtherPorterDuffTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunFontTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunFontNewTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunFontDeleteTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunGetFontMetricsTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunGetStringWidthTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunGetString16WidthTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunGetCharWidthTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunFontHasCodeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSurfaceTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSurfaceNewTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSurfaceCreateTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSurfaceDeleteTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_gfxRunSurfaceGetInfoTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+
+	<!-- File-System Tests -->
+	<TEST name="test_mpe_fileioRunAllTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_fileioRunAllTests_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_fileioRunAllTests_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_fileioRunAllTests_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_fileioRunAllTests_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileOpenClose_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileOpenClose_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileOpenClose_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileOpenClose_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileRead_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileRead_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileRead_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileRead_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileWrite_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileWrite_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileSeek_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileSeek_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileSeek_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileSeek_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileSync_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileSync_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileSync_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileSync_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileDelete_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileDelete_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileRename_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileRename_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileDirOpenClose_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileDirOpenClose_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileDirOpenClose_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileDirRead_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileDirRead_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileDirRenameDelete_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_fileDirRenameDelete_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_openclose_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_openclose_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_openclose_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_openclose_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_read_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_read_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_read_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_read_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_seek_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_seek_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_seek_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_seek_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_stat_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_stat_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_stat_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_stat_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_write_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_write_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_dir_openclose_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_dir_openclose_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_dir_openclose_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_dirread_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_dirread_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_dirread_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="mpe_test_loadunload_bfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_recurseDir_romfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_recurseDir_snfs" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_recurseDir_sim" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+
+	<!-- Media Tests -->
+	<TEST name="test_mpe_basicMedia" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunAllTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunTunerTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunAudioTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunDecoderTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunVideoTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunVideoOneTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunVideoTwoTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunVideoThreeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunVideoFourTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunVideoFiveTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunMiscTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunNegTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunAudioOneTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunAudioTwoTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunAudioThreeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunAudioFourTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunAudioFiveTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunAudioSixTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunSetSAPTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunGetSAPTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunPlayStillTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunDecoderOneTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunDecoderTwoTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunDecoderThreeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunDecoderFourTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunNegAudioTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunNegDecoderTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunNegTunerTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mediaRunNegVideoTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+
+	<!-- Networking Tests -->
+	<TEST name="test_mpe_netConnectAll" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_netLookupAll" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_netOptionsAll" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_netReadWriteAll" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_netSelectAll" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_mpe_netRunAllTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+
+	<!-- SI Tests -->
+	<TEST name="test_siRunAllTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_siRunAPITests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_siRunNegTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+
+	<!-- VoD Tests -->
+	<TEST name="test_mpe_sspRunAllTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+
+	<!-- System Tests -->
+	<TEST name="test_sysRunAllTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimeTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunMemTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunThreadTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunSyncTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunEventTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunUtilTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimerTests" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimeGetTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimeToDateTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimeClockTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimeClockTicksTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimeClockToMillisTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimeClockToTimeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimeMillisToClockTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunTimeTmToTimeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunEventQueueNewTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunEventQueueSendTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunEventQueueThreadSendTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunEventQueueThreadReceiveTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunEventPingPongTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunEventQueueNextTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunMemAllocFreeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunMemReallocFreeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunMemGetFreeSizeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunMemLargestFreeTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunSyncMutexNewTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunSyncMutexAcquireTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunSyncMutexAcquierTryTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunSyncCondNewTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunSyncCondGetSetTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunSyncCondPingPongTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+	<TEST name="test_sysRunSyncCondWaitForTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+
+	<!-- Bug Test -->
+	<TEST name="bug_eventDeleteTest" id="123" goldFile="none" type="DLL" location="mpe_test" >	TESTMESSAGE </TEST>
+
+</VTE>

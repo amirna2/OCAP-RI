@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent+)>
+	<!ATTLIST Xlet 
+	name CDATA #REQUIRED
+	orgID CDATA #REQUIRED
+	appID CDATA #REQUIRED
+	pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+	<!ATTLIST RCEvent 
+	name CDATA #IMPLIED
+	pauseBeforeNext CDATA #IMPLIED
+	monitorTimeout CDATA #IMPLIED
+	getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+   <!-- DvrTest -->
+   <Xlet name="DVRTest" orgID="0x1" appID="0x7203" pauseAfterLast="7000" startupTimeout="180000">
+
+      <RCEvent name="Select Group 2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Select Group 2" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="false">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="TestDigitalRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestDigitalRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingPlayback" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestRecordingPlayback" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecByLoc_w_UnBufferedSC" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestRecByLoc_w_UnBufferedSC" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecByLoc_w_UnBufferedSC_FailedRec" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestRecByLoc_w_UnBufferedSC_FailedRec" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecByLoc_w_BufferedSC_A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRecByLoc_w_BufferedSC_A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestRecByLoc_w_BufferedSC_A" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecByLoc_w_BufferedSC_B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRecByLoc_w_BufferedSC_B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRecByLoc_w_BufferedSC_B" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecByLoc_w_BufferedSC_C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRecByLoc_w_BufferedSC_C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRecByLoc_w_BufferedSC_C" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecByLoc_w_BufferedSC_D" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRecByLoc_w_BufferedSC_D" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestRecByLoc_w_BufferedSC_D" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestUnBufferedSC_w_RecByLoc" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestUnBufferedSC_w_RecByLoc" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestUnBufferedSC_w_RecByLoc" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBufferedSC_w_RecByLoc" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestBufferedSC_w_RecByLoc" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestBufferedSC_w_RecByLoc" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBufferedSC_w_RecByServ" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestBufferedSC_w_RecByServ" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestBufferedSC_w_RecByServ" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Rec_w_BufferReq A record in the past  " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Rec_w_BufferReq A record in the past  " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="Rec_w_BufferReq A record in the past  " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Rec_w_BufferReq B record in the past  " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Rec_w_BufferReq B record in the past  " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="Rec_w_BufferReq B record in the past  " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Rec_w_BufferReq C record in the past  " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Rec_w_BufferReq C record in the past  " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Rec_w_BufferReq C record in the past  " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Rec_w_BufferReq D record in the past  " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Rec_w_BufferReq D record in the past  " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Rec_w_BufferReq D record in the past  " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecByBufferedSC_w_BufferReq_E " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecByBufferedSC_w_BufferReq_E " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="RecByBufferedSC_w_BufferReq_E " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecBySC_w_BufferReqF " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqF " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqF " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecBySC_w_BufferReqG " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqG " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqG " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecBySC_w_BufferReqH " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqH " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqH " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecBySC_w_BufferReqI " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqI " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqI " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecBySC_w_BufferReqJ " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqJ " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqJ " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecBySC_w_BufferReqK " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqK " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="RecBySC_w_BufferReqK " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="LastChannelBuffering_A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="LastChannelBuffering_A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="LastChannelBuffering_A" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecByLoc_w_LastChBuffer_A - record in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecByLoc_w_LastChBuffer_A - record in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="RecByLoc_w_LastChBuffer_A - record in the past" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecByLoc_w_LastChBuffer_B - record in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="RecByLoc_w_LastChBuffer_B - record in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="RecByLoc_w_LastChBuffer_B - record in the past" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecByLoc_w_LastChBuffer_C - atart and stop time in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="RecByLoc_w_LastChBuffer_C - atart and stop time in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="RecByLoc_w_LastChBuffer_C - atart and stop time in the past" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecByServ_w_LastChBuffer_D - start and stop time in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="RecByServ_w_LastChBuffer_D - start and stop time in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="RecByServ_w_LastChBuffer_D - start and stop time in the past" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="JumpInBufferedSC_w_LastChBuffer_E - record in the past " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="JumpInBufferedSC_w_LastChBuffer_E - record in the past " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="JumpInBufferedSC_w_LastChBuffer_E - record in the past " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecByUnbufferedSC_w_LastChBuffer_F - record in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="RecByUnbufferedSC_w_LastChBuffer_F - record in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="RecByUnbufferedSC_w_LastChBuffer_F - record in the past" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecByBufferedSC_w_LastChBuffer_G - record in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="RecByBufferedSC_w_LastChBuffer_G - record in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="RecByBufferedSC_w_LastChBuffer_G - record in the past" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecByUnbufferedSC_w_LastChBuffer_H - start and stop time in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="RecByUnbufferedSC_w_LastChBuffer_H - start and stop time in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="RecByUnbufferedSC_w_LastChBuffer_H - start and stop time in the past" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="RecByBufferedSC_w_LastChBuffer_I - start and stop time in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="RecByBufferedSC_w_LastChBuffer_I - start and stop time in the past" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="RecByBufferedSC_w_LastChBuffer_I - start and stop time in the past" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecTerminationOnChannelChange" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestRecTerminationOnChannelChange" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestRecTerminationOnChannelChange" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestPlaybackOfOngoingRecordings2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestPlaybackOfOngoingRecordings2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestPlaybackOfOngoingRecordings2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestPlaybackOfOngoingRecordings3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestPlaybackOfOngoingRecordings3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestPlaybackOfOngoingRecordings3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBufferResize" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestBufferResize" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestBufferResize" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestDisableTimeshifting1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestDisableTimeshifting1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestDisableTimeshifting1 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestDisableTimeshifting2 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestDisableTimeshifting2 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestDisableTimeshifting2 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Cancelling a Buffering Request " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Cancelling a Buffering Request " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Cancelling a Buffering Request " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Checking FAP explicitly " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Checking FAP explicitly " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="Checking FAP explicitly " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+  
+      <RCEvent name="Checking FAP implicitly " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Checking FAP implicitly " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Checking FAP implicitly " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SetService on active buffer req " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="SetService on active buffer req " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SetService on active buffer req " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SetService on inactive buffer req " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="SetService on inactive buffer req " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="SetService on inactive buffer req " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Resource Contention - TestCaseA " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Resource Contention - TestCaseA " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Resource Contention - TestCaseA " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Resource Contention - TestCaseB " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="Resource Contention - TestCaseB " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Resource Contention - TestCaseB " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+<!--
+      <RCEvent name="Resource Contention - TestCaseC " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="Resource Contention - TestCaseC " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Resource Contention - TestCaseC " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Resource Contention - TestCaseD " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="Resource Contention - TestCaseD " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Resource Contention - TestCaseD " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+-->
+      <RCEvent name="TestOverlappingSchedRec0 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestOverlappingSchedRec0 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestOverlappingSchedRec0 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestOverlappingSchedRec1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestOverlappingSchedRec1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestOverlappingSchedRec1 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestOverlappingSchedRec2 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestOverlappingSchedRec2 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestOverlappingSchedRec2 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestOverlappingRecWSC0 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestOverlappingRecWSC0 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestOverlappingRecWSC0 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestOverlappingRecWSC1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestOverlappingRecWSC1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestOverlappingRecWSC1 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestCaseA - Tuning by NI and SCs ------: ocap://0x87B " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestCaseA - Tuning by NI and SCs ------: ocap://0x87B " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestCaseA - Tuning by NI and SCs ------: ocap://0x87B " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestCaseB - Tuning by NI" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestCaseB - Tuning by NI" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestCaseB - Tuning by NI" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestCaseC - Tuning by NI" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestCaseC - Tuning by NI" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestCaseC - Tuning by NI" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+   
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase4" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase5" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase6" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase8" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase10" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase10" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase10" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordIfNoConflict : TestCase2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordIfNoConflict : TestCase2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="SegmentedRec_RecordIfNoConflict : TestCase2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordIfNoConflict : TestCase3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRec_RecordIfNoConflict : TestCase3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="SegmentedRec_RecordIfNoConflict : TestCase3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordIfNoConflict : TestCase4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRec_RecordIfNoConflict : TestCase4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="SegmentedRec_RecordIfNoConflict : TestCase4" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRecPlayback : TestCase1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRecPlayback : TestCase2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRecPlayback : TestCase3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRecPlayback : TestCase4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase4" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRecPlayback : TestCase5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase5" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRecPlayback : TestCase6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase6" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRecPlayback : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase7" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="SegmentedRecPlayback : TestCase8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="SegmentedRecPlayback : TestCase8" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes associated Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes associated Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes associated Recorded Services" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes associated Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes associated Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes associated Recorded Services" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes associated Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes associated Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent> 
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes associated Recorded Services" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent> 
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent> 
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes ongoing Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes ongoing Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes ongoing Recorded Services" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes ongoing Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes ongoing Recorded Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Deletion of a Recording Request deletes ongoing Recorded Services" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestDeletedSegementedRecordings :  Implicit deletion if rate greater than 1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :  Implicit deletion if rate greater than 1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :  Implicit deletion if rate greater than 1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="SegmentedRec_RecordWithConflict : TestCase7" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestDeletedSegementedRecordings :Implicit deletion  if rate less than 0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Implicit deletion  if rate less than 0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestDeletedSegementedRecordings :Implicit deletion  if rate less than 0" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+<!--
+      <RCEvent name="DdLockOnBRequest" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="DdLockOnBRequest" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="DdLockOnBRequest" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+-->
+      <RCEvent name="TestPresTimeFallsWithinBuffReqDur" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestPresTimeFallsWithinBuffReqDur" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestPresTimeFallsWithinBuffReqDur" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test setPresentation when Action Flag is true" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Test setPresentation when Action Flag is true" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test setPresentation when Action Flag is true" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test setPresentation when Action Flag is false" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Test setPresentation when Action Flag is false" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Test setPresentation when Action Flag is false" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test setPresentation when Persistent Flag is true" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Test setPresentation when Persistent Flag is true" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="Test setPresentation when Persistent Flag is true" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test setPresentation when Persistent Flag is false" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Test setPresentation when Persistent Flag is false" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Test setPresentation when Persistent Flag is false" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingDisabledStorage" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestRecordingDisabledStorage" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestRecordingDisabledStorage" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestPlaybackDisabledStorage" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestPlaybackDisabledStorage" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestPlaybackDisabledStorage" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBasicDisableBuffering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestBasicDisableBuffering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestBasicDisableBuffering" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestGetAllowedList" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestGetAllowedList" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestGetAllowedList" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestImplicitTSBDisabledStorage" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestImplicitTSBDisabledStorage" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestImplicitTSBDisabledStorage" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+<!--
+      <RCEvent name="TestImplicitTSBDisabledBuffering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestImplicitTSBDisabledBuffering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestImplicitTSBDisabledBuffering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestImplicitTSBDisabledBuffering" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+-->
+      <RCEvent name="TestDisableBufferingNoPresentation" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestDisableBufferingNoPresentation" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestDisableBufferingNoPresentation" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestDisableBufferingNoPresentation" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Playback between segments during ongoing recording at rate 1.0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Playback between segments during ongoing recording at rate 1.0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Playback between segments during ongoing recording at rate 1.0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Playback between segments during ongoing recording at rate 1.0" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Playback between segments during ongoing recording at rate 2.0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Playback between segments during ongoing recording at rate 2.0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Playback between segments during ongoing recording at rate 2.0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="Playback between segments during ongoing recording at rate 2.0" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Playback between segments during ongoing recording at rate 0.5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Playback between segments during ongoing recording at rate 0.5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Playback between segments during ongoing recording at rate 0.5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Playback between segments during ongoing recording at rate 0.5" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Jogging during ongoing recording as segment is created" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Jogging during ongoing recording as segment is created" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Jogging during ongoing recording as segment is created" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="Jogging during ongoing recording as segment is created" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+   </Xlet>
+
+   <Xlet name="AutoXletDoneXlet" orgID="0x1" appID="0x4444" pauseAfterLast="3000">
+   </Xlet>
+
+</AutoXlet>

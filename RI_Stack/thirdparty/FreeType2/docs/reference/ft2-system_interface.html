@@ -1,0 +1,326 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+System Interface
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FT_Memory">FT_Memory</a></td><td></td><td><a href="#FT_MemoryRec">FT_MemoryRec</a></td><td></td><td><a href="#FT_Stream_CloseFunc">FT_Stream_CloseFunc</a></td></tr>
+<tr><td></td><td><a href="#FT_Alloc_Func">FT_Alloc_Func</a></td><td></td><td><a href="#FT_Stream">FT_Stream</a></td><td></td><td><a href="#FT_StreamRec">FT_StreamRec</a></td></tr>
+<tr><td></td><td><a href="#FT_Free_Func">FT_Free_Func</a></td><td></td><td><a href="#FT_StreamDesc">FT_StreamDesc</a></td><td></td><td></td></tr>
+<tr><td></td><td><a href="#FT_Realloc_Func">FT_Realloc_Func</a></td><td></td><td><a href="#FT_Stream_IoFunc">FT_Stream_IoFunc</a></td><td></td><td></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>This section contains various definitions related to memory management and i/o access. You need to understand this information if you want to use a custom memory manager or you own input i/o streams.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FT_Memory">
+<h4>FT_Memory</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FT_MemoryRec_*  <b>FT_Memory</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A handle to a given memory manager object, defined with a <a href="ft2-system_interface.html#FT_MemoryRec">FT_MemoryRec</a> structure.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Alloc_Func">
+<h4>FT_Alloc_Func</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>*
+  (*<b>FT_Alloc_Func</b>)( <a href="ft2-system_interface.html#FT_Memory">FT_Memory</a>  memory,
+                    <font color="darkblue">long</font>       size );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function used to allocate `size' bytes from `memory'.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>memory</b></td><td>
+<p>A handle to the source memory manager.</p>
+</td></tr>
+<tr valign=top><td><b>size</b></td><td>
+<p>The size in bytes to allocate.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>Address of new memory block. 0 in case of failure.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Free_Func">
+<h4>FT_Free_Func</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>
+  (*<b>FT_Free_Func</b>)( <a href="ft2-system_interface.html#FT_Memory">FT_Memory</a>  memory,
+                   <font color="darkblue">void</font>*      block );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function used to release a given block of memory.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>memory</b></td><td>
+<p>A handle to the source memory manager.</p>
+</td></tr>
+<tr valign=top><td><b>block</b></td><td>
+<p>The address of the target memory block.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Realloc_Func">
+<h4>FT_Realloc_Func</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>*
+  (*<b>FT_Realloc_Func</b>)( <a href="ft2-system_interface.html#FT_Memory">FT_Memory</a>  memory,
+                      <font color="darkblue">long</font>       cur_size,
+                      <font color="darkblue">long</font>       new_size,
+                      <font color="darkblue">void</font>*      block );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>a function used to re-allocate a given block of memory.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>memory</b></td><td>
+<p>A handle to the source memory manager.</p>
+</td></tr>
+<tr valign=top><td><b>cur_size</b></td><td>
+<p>The block's current size in bytes.</p>
+</td></tr>
+<tr valign=top><td><b>new_size</b></td><td>
+<p>The block's requested new size.</p>
+</td></tr>
+<tr valign=top><td><b>block</b></td><td>
+<p>The block's current address.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>New block address. 0 in case of memory shortage.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>In case of error, the old block must still be available.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_MemoryRec">
+<h4>FT_MemoryRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">struct</font>  FT_MemoryRec_
+  {
+    <font color="darkblue">void</font>*            user;
+    <a href="ft2-system_interface.html#FT_Alloc_Func">FT_Alloc_Func</a>    alloc;
+    <a href="ft2-system_interface.html#FT_Free_Func">FT_Free_Func</a>     free;
+    <a href="ft2-system_interface.html#FT_Realloc_Func">FT_Realloc_Func</a>  realloc;
+  };
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to describe a given memory manager to FreeType 2.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>user</b></td><td>
+<p>A generic typeless pointer for user data.</p>
+</td></tr>
+<tr valign=top><td><b>alloc</b></td><td>
+<p>A pointer type to an allocation function.</p>
+</td></tr>
+<tr valign=top><td><b>free</b></td><td>
+<p>A pointer type to an memory freeing function.</p>
+</td></tr>
+<tr valign=top><td><b>realloc</b></td><td>
+<p>A pointer type to a reallocation function.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Stream">
+<h4>FT_Stream</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FT_StreamRec_*  <b>FT_Stream</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A handle to an input stream.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_StreamDesc">
+<h4>FT_StreamDesc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">union</font>  FT_StreamDesc_
+  {
+    <font color="darkblue">long</font>   value;
+    <font color="darkblue">void</font>*  pointer;
+
+  } <b>FT_StreamDesc</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A union type used to store either a long or a pointer. This is used to store a file descriptor or a FILE* in an input stream.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Stream_IoFunc">
+<h4>FT_Stream_IoFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">unsigned</font> <font color="darkblue">long</font>
+  (*<b>FT_Stream_IoFunc</b>)( <a href="ft2-system_interface.html#FT_Stream">FT_Stream</a>       stream,
+                       <font color="darkblue">unsigned</font> <font color="darkblue">long</font>   offset,
+                       <font color="darkblue">unsigned</font> <font color="darkblue">char</font>*  buffer,
+                       <font color="darkblue">unsigned</font> <font color="darkblue">long</font>   count );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function used to seek and read data from a given input stream.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>stream</b></td><td>
+<p>A handle to the source stream.</p>
+</td></tr>
+<tr valign=top><td><b>offset</b></td><td>
+<p>The offset of read in stream (always from start).</p>
+</td></tr>
+<tr valign=top><td><b>buffer</b></td><td>
+<p>The address of the read buffer.</p>
+</td></tr>
+<tr valign=top><td><b>count</b></td><td>
+<p>The number of bytes to read from the stream.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>The number of bytes effectively read by the stream.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>This function might be called to perform a seek or skip operation with a `count' of 0.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Stream_CloseFunc">
+<h4>FT_Stream_CloseFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>
+  (*<b>FT_Stream_CloseFunc</b>)( <a href="ft2-system_interface.html#FT_Stream">FT_Stream</a>  stream );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function used to close a given input stream.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>stream</b></td><td>
+<p>A handle to the target stream.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_StreamRec">
+<h4>FT_StreamRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_StreamRec_
+  {
+    <font color="darkblue">unsigned</font> <font color="darkblue">char</font>*       base;
+    <font color="darkblue">unsigned</font> <font color="darkblue">long</font>        size;
+    <font color="darkblue">unsigned</font> <font color="darkblue">long</font>        pos;
+
+    <a href="ft2-system_interface.html#FT_StreamDesc">FT_StreamDesc</a>        descriptor;
+    <a href="ft2-system_interface.html#FT_StreamDesc">FT_StreamDesc</a>        pathname;
+    <a href="ft2-system_interface.html#FT_Stream_IoFunc">FT_Stream_IoFunc</a>     read;
+    <a href="ft2-system_interface.html#FT_Stream_CloseFunc">FT_Stream_CloseFunc</a>  close;
+
+    <a href="ft2-system_interface.html#FT_Memory">FT_Memory</a>            memory;
+    <font color="darkblue">unsigned</font> <font color="darkblue">char</font>*       cursor;
+    <font color="darkblue">unsigned</font> <font color="darkblue">char</font>*       limit;
+
+  } <b>FT_StreamRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to describe an input stream.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>base</b></td><td>
+<p>For memory-based streams, this is the address of the first stream byte in memory. This field should always be set to NULL for disk-based streams.</p>
+</td></tr>
+<tr valign=top><td><b>size</b></td><td>
+<p>The stream size in bytes.</p>
+</td></tr>
+<tr valign=top><td><b>pos</b></td><td>
+<p>The current position within the stream.</p>
+</td></tr>
+<tr valign=top><td><b>descriptor</b></td><td>
+<p>This field is a union that can hold an integer or a pointer. It is used by stream implementations to store file descriptors or FILE* pointers.</p>
+</td></tr>
+<tr valign=top><td><b>pathname</b></td><td>
+<p>This field is completely ignored by FreeType. However, it is often useful during debugging to use it to store the stream's filename (where available).</p>
+</td></tr>
+<tr valign=top><td><b>read</b></td><td>
+<p>The stream's input function.</p>
+</td></tr>
+<tr valign=top><td><b>close</b></td><td>
+<p>The stream;s close function.</p>
+</td></tr>
+<tr valign=top><td><b>memory</b></td><td>
+<p>The memory manager to use to preload frames. This is set internally by FreeType and shouldn't be touched by stream implementations.</p>
+</td></tr>
+<tr valign=top><td><b>cursor</b></td><td>
+<p>This field is set and used internally by FreeType when parsing frames.</p>
+</td></tr>
+<tr valign=top><td><b>limit</b></td><td>
+<p>This field is set and used internally by FreeType when parsing frames.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

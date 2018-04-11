@@ -1,0 +1,9 @@
+<!-- Javadoc links for this version
+    To be included in a <javadoc> tag.
+-->
+    
+    <link offline="true"
+        href="${javadoc.url.mockobjects.0_01}"
+        packagelistLoc="${javadoc.package-list.mockobjects.0_01}"
+    />
+

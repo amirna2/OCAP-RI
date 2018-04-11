@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+</head>
+<body bgcolor="white">
+
+The <code>org.cablelabs.gear.data</code> package contains the classes that 
+are used to manipulate various data resources in GEAR applications.
+While this package is largely made up of <i>data wrapper</i> types and 
+implementations, it is also home to the 
+{@link org.cablelabs.gear.data.Locator data locator} API used to locate
+data resources.
+
+<h2>Package Specification</h2>
+
+<h3>Data Wrappers</h3>
+
+The <i>data wrapper</i> types all implement the 
+{@link org.cablelabs.gear.data.DataWrapper} interface.  This simple interface
+is simply used to "tag" a type as <i>data wrapper</i>.  The package is 
+composed of the following types of data wrappers:
+
+  <ul>
+    <li> {@link org.cablelabs.gear.data.GraphicData}
+    <li> {@link org.cablelabs.gear.data.AnimationData}
+    <li> {@link org.cablelabs.gear.data.SoundData}
+  </ul>
+
+<h4>Graphic Data</h4>
+
+The <code>GraphicData</code> interface defines an API for
+the management and rendering of graphic pixel data.  It provides
+methods for drawing and determining the size of graphic data.
+Each implementation of the <code>GraphicData</code> interface 
+is based on a different type of <i>wrapped</i> data.  
+The simplest is the {@link org.cablelabs.gear.data.ImageGraphic}, 
+which is a <i>data wrapper</i> around a simple <code>Image</code> object.  
+The {@link org.cablelabs.gear.data.PortfolioGraphic} is a wrapping around 
+a {@link org.cablelabs.gear.util.PicturePortfolio} object and a single
+<code>String</code> id.
+
+<h4>Animation Data</h4>
+
+The <code>AnimationData</code> interface defines an API for 
+the management and rendering of animation frame data.  It provides
+methods for drawing individual frames, as well as determining the
+number of animation frames, and the maximum size of all frames.
+As with <code>GraphicData</code>, each implementation of the 
+<code>AnimationData</code> interface is based on a different type
+of wrapped data.  
+The simplest is the {@link org.cablelabs.gear.data.ImageAnimation}, which
+is a data wrapper around a simple <code>Image[]</code> object.  
+The {@link org.cablelabs.gear.data.PortfolioAnimation} is a wrapping around
+a <code>PicturePortfolio</code> and a set of <code>String</code> ids.
+The {@link org.cablelabs.gear.data.GraphicAnimation} class is the most
+versatile: it is a wrapping around an array of <code>GraphicData</code> 
+objects.
+
+<h4>Sound Data</h4>
+
+The <code>SoundData</code> class is an extension to the <code>HAVi</code>
+<code>HSound</code> class.  It makes the <i>locator</i> used to load the
+sound data an intrisic part of the object.  
+
+<h3>Data Locators</h3>
+
+The <i>data locator</i> types all implement the <code>Locator</code>
+interface.  This simple interface is used to provide for various ways
+of specifying the location of a data resource.  It is essentially a
+wrapper around a <code>java.net.URL</code>, but allows for dynamic
+construction of that <code>URL</code>.  
+<p>
+The package is composed of the following <code>Locator</code> 
+implementations:
+
+  <ul>
+    <li> {@link org.cablelabs.gear.data.ResourceLocator}
+    <li> {@link org.cablelabs.gear.data.FileLocator}
+    <li> {@link org.cablelabs.gear.data.URLLocator}
+  </ul>
+
+<!--
+<h2>Related Documentation</h2>
+
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+<ul>
+	<li><i><u>Insert</u> references here...</i>
+</ul>
+-->
+
+<!-- Put @see and @since tags down here. -->
+@see org.cablelabs.gear.havi.HasGraphicData
+@see org.cablelabs.gear.havi.HasAnimationData
+@see org.cablelabs.gear.havi.HasStringData
+@see org.cablelabs.gear.havi.Label
+@see org.cablelabs.gear.util.PicturePortfolio
+@see org.cablelabs.gear.util.ImagePortfolio
+@see org.cablelabs.gear.util.ImageScrapbook
+
+@since Gear 1.0.1
+
+@author Aaron Kamienski
+@version $Revision: 1.2 $, $Date: 2002/06/03 21:31:08 $
+
+</body>
+</html>
+

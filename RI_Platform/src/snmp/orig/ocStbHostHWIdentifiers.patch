@@ -1,0 +1,58 @@
+--- orig/ocStbHostHWIdentifiers.c	2011-04-11 15:35:53.753080002 -0600
++++ ocStbHostHWIdentifiers.c	2011-04-12 09:11:18.557080000 -0600
+@@ -9,6 +9,11 @@
+ #include "ocStbHostHWIdentifiers.h"
+ 
+ /** Initializes the ocStbHostHWIdentifiers module */
++static unsigned char ocStbHostSerialNumber[32];
++static char ocStbHostHostID[32];
++static int ocStbHostCapabilities;
++static int ocStbHostAvcSupport;
++
+ void
+ init_ocStbHostHWIdentifiers(void)
+ {
+@@ -57,8 +62,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostSerialNumber,
++                                     sizeof(ocStbHostSerialNumber));
+             break;
+ 
+ 
+@@ -86,8 +91,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostHostID,
++                                     sizeof(ocStbHostHostID));
+             break;
+ 
+ 
+@@ -115,8 +120,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostCapabilities,
++                                     sizeof(ocStbHostCapabilities));
+             break;
+ 
+ 
+@@ -144,8 +149,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostAvcSupport,
++                                     sizeof(ocStbHostAvcSupport));
+             break;
+ 
+ 

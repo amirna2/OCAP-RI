@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent+)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+
+    <!-- FAP Create Files -->
+    <Xlet name="FAP Create Files" orgID="0x1" appID="0x7011" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Read Files (same org) -->
+    <Xlet name="FAP Read Files (same org)" orgID="0x1" appID="0x4012" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Write Files (same org) -->
+    <Xlet name="FAP Write Files (same org)" orgID="0x1" appID="0x4013" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Read Files (other org) -->
+    <Xlet name="FAP Read Files (other org)" orgID="0x2" appID="0x4014" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Write Files (other org) -->
+    <Xlet name="FAP Write Files (other org)" orgID="0x2" appID="0x4015" pauseAfterLast="1000">
+    </Xlet>
+
+
+    <!-- FAP Remove Files (other org) -->
+    <Xlet name="FAP Remove Files (other org)" orgID="0x2" appID="0x7016" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Remove Files -->
+    <Xlet name="FAP Remove Files" orgID="0x1" appID="0x7015" pauseAfterLast="1000">
+    </Xlet>
+</AutoXlet>

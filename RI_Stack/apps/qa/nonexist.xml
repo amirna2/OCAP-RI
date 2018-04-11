@@ -1,0 +1,19 @@
+<!-- Simple SCDF file that describes a non-existent file -->
+<?xml version="1.0"?>
+<!DOCTYPE applicationdescription
+          PUBLIC "-//OCAP//DTD Font Directory 1.0//EN" 
+                 "http://www.opencable.com/ocap/dtd/applicationdescriptionfile-1-0.dtd">
+
+<applicationdescription>
+
+  <dir name="org">
+    <dir name="cablelabs">
+      <!-- This file is not expected to exist -->
+      <file name="NoSuchFile.class" size="10000"/>
+      <dir name="api">
+          <file name="*" size="ignored"/>
+      </dir>
+    </dir>
+  </dir>
+
+</applicationdescription>

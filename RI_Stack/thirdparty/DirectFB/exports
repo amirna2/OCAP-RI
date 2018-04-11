@@ -1,0 +1,24 @@
+#
+# This file defines the entry points which will go into the hash table
+# for dynamic lookup.  The format is PERL regular expressions.  If you
+# match a line in this file, an entry in the table will be generated
+#
+# Note, be sure to prepend an _ to all function names.
+
+^_DirectFBInit
+^_DirectFBCreate
+^_SetupDirectFB
+^_dfb_layers_register
+^_g_dfb2ext
+^_dfb_config
+^_dfb_pixelformat_for_depth
+^_dfb_layer_surface
+^_dfb_surface_flip_buffers
+^_dfb_surface_create_preallocated
+^_dfb_surface_create_preallocated_video
+^_dfb_palette_create
+^_dfb_palette_generate_rgb332_map
+^_dfb_surface_set_palette
+^_fusion_object_unref
+^_dfb_get_structs
+

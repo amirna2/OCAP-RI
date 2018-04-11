@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.cablelabs.ocap</groupId>
+    <artifactId>stubs-parent</artifactId>
+    <version>1.3.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>OCAP RI Stubs</name>
+    <url>http://www.opencable.com</url>
+
+    <modules>
+        <module>ocap_api</module>
+        <module>ocap_ds</module>
+        <module>ocap_dvr</module>
+        <module>ocap_fp</module>
+        <module>ocap_hn</module>
+        <module>stubs-pkg</module>
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>tru2way-repo</id>
+            <url>https://community.cablelabs.com/mvn/tru2way-repo</url>
+        </repository>
+    </repositories>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>MM/dd/yyyy</maven.build.timestamp.format>
+        
+        <!-- 
+            The following properties are used within javadoc and release files to specify the version
+            of various specs being used 
+        -->
+        <pbp.version>1.1.2</pbp.version>
+        <javatv.version>1.1.1</javatv.version>
+        <mhp.version.1>1.0.1</mhp.version.1>
+        <mhp.version.2>1.1.3</mhp.version.2>
+        <ocap.ds.spec.version>I05</ocap.ds.spec.version>
+        <ocap.dvr.spec.version>I08</ocap.dvr.spec.version>
+        <ocap.fp.spec.version>I05</ocap.fp.spec.version>
+        <ocap.hn.spec.version>I08</ocap.hn.spec.version>        
+    </properties>
+        
+    <build>        
+        <plugins>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.8.1</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <doctitle>This is the OCAP Bundle ${project.version} and extensions (released ${maven.build.timestamp}).</doctitle>
+                    
+                    <groups>
+                        <group>
+                            <title>Core Packages</title>
+                            <packages>java*:*</packages>                            
+                        </group>
+                        <group>
+                            <title>OCAP Extensions</title>
+                            <packages>org.ocap.dvr*:org.ocap.hn*:org.ocap.hardware.device*:org.ocap.hardware.frontpanel*</packages>
+                        </group>
+                        <group>
+                            <title>Required by org.ocap.dvr</title>
+                            <packages>org.ocap.shared*</packages>
+                        </group>
+                    </groups>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>aggregate</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                    </execution>
+                </executions>
+            </plugin>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.3</version>
+                <inherited>false</inherited>                
+                <executions>
+                    <execution>
+                        <id>docszip</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>                        
+                        <configuration>                            
+                            <descriptors>
+                                <descriptor>src/assemble/docszip.xml</descriptor>
+                            </descriptors>
+                            <finalName>ocap_stubs-${project.version}</finalName>
+                        </configuration>                        
+                        <phase>site</phase>
+                    </execution>
+                </executions>                
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>tru2way-repo</id>
+            <name>CableLabs Internal Releases</name>
+            <url>https://community.cablelabs.com/mvn/cl-internal-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>tru2way-repo</id>
+            <name>CableLabs Internal Snapshots</name>
+            <url>https://community.cablelabs.com/mvn/cl-internal-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

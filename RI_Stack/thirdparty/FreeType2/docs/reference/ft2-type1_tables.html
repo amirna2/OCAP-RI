@@ -1,0 +1,699 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+Type 1 Tables
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#PS_FontInfoRec">PS_FontInfoRec</a></td><td></td><td><a href="#CID_Info">CID_Info</a></td><td></td><td><a href="#TT_MAC_ID_XXX">TT_MAC_ID_XXX</a></td></tr>
+<tr><td></td><td><a href="#T1_FontInfo">T1_FontInfo</a></td><td></td><td><a href="#FT_Has_PS_Glyph_Names">FT_Has_PS_Glyph_Names</a></td><td></td><td><a href="#TT_ISO_ID_XXX">TT_ISO_ID_XXX</a></td></tr>
+<tr><td></td><td><a href="#PS_PrivateRec">PS_PrivateRec</a></td><td></td><td><a href="#FT_Get_PS_Font_Info">FT_Get_PS_Font_Info</a></td><td></td><td><a href="#TT_MS_ID_XXX">TT_MS_ID_XXX</a></td></tr>
+<tr><td></td><td><a href="#T1_Private">T1_Private</a></td><td></td><td><a href="#TT_PLATFORM_XXX">TT_PLATFORM_XXX</a></td><td></td><td><a href="#TT_ADOBE_ID_XXX">TT_ADOBE_ID_XXX</a></td></tr>
+<tr><td></td><td><a href="#T1_Blend_Flags">T1_Blend_Flags</a></td><td></td><td><a href="#TT_APPLE_ID_XXX">TT_APPLE_ID_XXX</a></td><td></td><td></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>This section contains the definition of Type 1-specific tables, including structures related to other PostScript font formats.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="PS_FontInfoRec">
+<h4>PS_FontInfoRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  <b>PS_FontInfoRec</b>
+  {
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*  version;
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*  notice;
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*  full_name;
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*  family_name;
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*  weight;
+    <a href="ft2-basic_types.html#FT_Long">FT_Long</a>     italic_angle;
+    <a href="ft2-basic_types.html#FT_Bool">FT_Bool</a>     is_fixed_pitch;
+    <a href="ft2-basic_types.html#FT_Short">FT_Short</a>    underline_position;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>   underline_thickness;
+
+  } <b>PS_FontInfoRec</b>, *PS_FontInfo;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to model a Type1/Type2 FontInfo dictionary. Note that for Multiple Master fonts, each instance has its own FontInfo.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="T1_FontInfo">
+<h4>T1_FontInfo</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-type1_tables.html#PS_FontInfoRec">PS_FontInfoRec</a>  <b>T1_FontInfo</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This type is equivalent to <a href="ft2-type1_tables.html#PS_FontInfoRec">PS_FontInfoRec</a> It is deprecated but kept to maintain source compatibility between various versions of FreeType.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="PS_PrivateRec">
+<h4>PS_PrivateRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  PS_PrivateRec_
+  {
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>     unique_id;
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>     lenIV;
+
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    num_blue_values;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    num_other_blues;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    num_family_blues;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    num_family_other_blues;
+
+    <a href="ft2-basic_types.html#FT_Short">FT_Short</a>   blue_values[14];
+    <a href="ft2-basic_types.html#FT_Short">FT_Short</a>   other_blues[10];
+
+    <a href="ft2-basic_types.html#FT_Short">FT_Short</a>   family_blues      [14];
+    <a href="ft2-basic_types.html#FT_Short">FT_Short</a>   family_other_blues[10];
+
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>   blue_scale;
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>     blue_shift;
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>     blue_fuzz;
+
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  standard_width[1];
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  standard_height[1];
+
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    num_snap_widths;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    num_snap_heights;
+    <a href="ft2-basic_types.html#FT_Bool">FT_Bool</a>    force_bold;
+    <a href="ft2-basic_types.html#FT_Bool">FT_Bool</a>    round_stem_up;
+
+    <a href="ft2-basic_types.html#FT_Short">FT_Short</a>   snap_widths [13];  /* including std width  */
+    <a href="ft2-basic_types.html#FT_Short">FT_Short</a>   snap_heights[13];  /* including std height */
+
+    <a href="ft2-basic_types.html#FT_Long">FT_Long</a>    language_group;
+    <a href="ft2-basic_types.html#FT_Long">FT_Long</a>    password;
+
+    <a href="ft2-basic_types.html#FT_Short">FT_Short</a>   min_feature[2];
+
+  } <b>PS_PrivateRec</b>, *PS_Private;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to model a Type1/Type2 private dictionary. Note that for Multiple Master fonts, each instance has its own Private dictionary.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="T1_Private">
+<h4>T1_Private</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-type1_tables.html#PS_PrivateRec">PS_PrivateRec</a>  <b>T1_Private</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This type is equivalent to <a href="ft2-type1_tables.html#PS_PrivateRec">PS_PrivateRec</a> It is deprecated but kept to maintain source compatibility between various versions of FreeType.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="T1_Blend_Flags">
+<h4>T1_Blend_Flags</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">enum</font>
+  {
+    /*# required fields in a FontInfo blend dictionary */
+    T1_BLEND_UNDERLINE_POSITION = 0,
+    T1_BLEND_UNDERLINE_THICKNESS,
+    T1_BLEND_ITALIC_ANGLE,
+
+    /*# required fields in a Private blend dictionary */
+    T1_BLEND_BLUE_VALUES,
+    T1_BLEND_OTHER_BLUES,
+    T1_BLEND_STANDARD_WIDTH,
+    T1_BLEND_STANDARD_HEIGHT,
+    T1_BLEND_STEM_SNAP_WIDTHS,
+    T1_BLEND_STEM_SNAP_HEIGHTS,
+    T1_BLEND_BLUE_SCALE,
+    T1_BLEND_BLUE_SHIFT,
+    T1_BLEND_FAMILY_BLUES,
+    T1_BLEND_FAMILY_OTHER_BLUES,
+    T1_BLEND_FORCE_BOLD,
+
+    /*# never remove */
+    T1_BLEND_MAX
+
+  } <b>T1_Blend_Flags</b>;
+
+
+  /*# backwards compatible definitions */
+#define t1_blend_underline_position   T1_BLEND_UNDERLINE_POSITION
+#define t1_blend_underline_thickness  T1_BLEND_UNDERLINE_THICKNESS
+#define t1_blend_italic_angle         T1_BLEND_ITALIC_ANGLE
+#define t1_blend_blue_values          T1_BLEND_BLUE_VALUES
+#define t1_blend_other_blues          T1_BLEND_OTHER_BLUES
+#define t1_blend_standard_widths      T1_BLEND_STANDARD_WIDTH
+#define t1_blend_standard_height      T1_BLEND_STANDARD_HEIGHT
+#define t1_blend_stem_snap_widths     T1_BLEND_STEM_SNAP_WIDTHS
+#define t1_blend_stem_snap_heights    T1_BLEND_STEM_SNAP_HEIGHTS
+#define t1_blend_blue_scale           T1_BLEND_BLUE_SCALE
+#define t1_blend_blue_shift           T1_BLEND_BLUE_SHIFT
+#define t1_blend_family_blues         T1_BLEND_FAMILY_BLUES
+#define t1_blend_family_other_blues   T1_BLEND_FAMILY_OTHER_BLUES
+#define t1_blend_force_bold           T1_BLEND_FORCE_BOLD
+#define t1_blend_max                  T1_BLEND_MAX
+
+
+  /* maximum number of Multiple Masters designs, as defined in the spec */
+#define T1_MAX_MM_DESIGNS     16
+
+  /* maximum number of Multiple Masters axes, as defined in the spec */
+#define T1_MAX_MM_AXIS        4
+
+  /* maximum number of elements in a design map */
+#define T1_MAX_MM_MAP_POINTS  20
+
+
+  /* this <font color="darkblue">structure</font> is used to store the BlendDesignMap entry for an axis */
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  PS_DesignMap_
+  {
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    num_points;
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>*  design_points;
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>*  blend_points;
+
+  } PS_DesignMapRec, *PS_DesignMap;
+
+  /* backwards-compatible definition */
+  <font color="darkblue">typedef</font> PS_DesignMapRec  T1_DesignMap;
+
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  PS_BlendRec_
+  {
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>          num_designs;
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>          num_axis;
+
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*       axis_names[T1_MAX_MM_AXIS];
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>*        design_pos[T1_MAX_MM_DESIGNS];
+    PS_DesignMapRec  design_map[T1_MAX_MM_AXIS];
+
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>*        weight_vector;
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>*        default_weight_vector;
+
+    PS_FontInfo      font_infos[T1_MAX_MM_DESIGNS + 1];
+    PS_Private       privates  [T1_MAX_MM_DESIGNS + 1];
+
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>         blend_bitflags;
+
+    <a href="ft2-basic_types.html#FT_BBox">FT_BBox</a>*         bboxes    [T1_MAX_MM_DESIGNS + 1];
+
+  } PS_BlendRec, *PS_Blend;
+
+
+  /* backwards-compatible definition */
+  <font color="darkblue">typedef</font> PS_BlendRec  T1_Blend;
+
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  CID_FaceDictRec_
+  {
+    <a href="ft2-type1_tables.html#PS_PrivateRec">PS_PrivateRec</a>  private_dict;
+
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>        len_buildchar;
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>       forcebold_threshold;
+    <a href="ft2-basic_types.html#FT_Pos">FT_Pos</a>         stroke_width;
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>       expansion_factor;
+
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>        paint_type;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>        font_type;
+    <a href="ft2-basic_types.html#FT_Matrix">FT_Matrix</a>      font_matrix;
+    <a href="ft2-basic_types.html#FT_Vector">FT_Vector</a>      font_offset;
+
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>        num_subrs;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>       subrmap_offset;
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>         sd_bytes;
+
+  } CID_FaceDictRec, *CID_FaceDict;
+
+
+  /* backwards-compatible definition */
+  <font color="darkblue">typedef</font> CID_FaceDictRec  CID_FontDict;
+
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  CID_FaceInfoRec_
+  {
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*      cid_font_name;
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>        cid_version;
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>          cid_font_type;
+
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*      registry;
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*      ordering;
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>          supplement;
+
+    <a href="ft2-type1_tables.html#PS_FontInfoRec">PS_FontInfoRec</a>  font_info;
+    <a href="ft2-basic_types.html#FT_BBox">FT_BBox</a>         font_bbox;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>        uid_base;
+
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>          num_xuid;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>        xuid[16];
+
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>        cidmap_offset;
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>          fd_bytes;
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>          gd_bytes;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>        cid_count;
+
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>          num_dicts;
+    CID_FaceDict    font_dicts;
+
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>        data_offset;
+
+  } CID_FaceInfoRec, *CID_FaceInfo;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A set of flags used to indicate which fields are present in a given blen dictionary (font info or private). Used to support Multiple Masters fonts.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="CID_Info">
+<h4>CID_Info</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> CID_FaceInfoRec  <b>CID_Info</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This type is equivalent to ?CID_FaceInfoRec? It is deprecated but kept to maintain source compatibility between various versions of FreeType.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Has_PS_Glyph_Names">
+<h4>FT_Has_PS_Glyph_Names</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Int">FT_Int</a> )
+  <b>FT_Has_PS_Glyph_Names</b>( <a href="ft2-base_interface.html#FT_Face">FT_Face</a>  face );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Return true if a given face provides reliable Postscript glyph names. This is similar to using the <a href="ft2-base_interface.html#FT_HAS_GLYPH_NAMES">FT_HAS_GLYPH_NAMES</a> macro, except that certain fonts (mostly TrueType) contain incorrect glyph name tables.</p>
+<p>When this function returns true, the caller is sure that the glyph names returned by <a href="ft2-base_interface.html#FT_Get_Glyph_Name">FT_Get_Glyph_Name</a> are reliable.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face</b></td><td>
+<p>face handle</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>Boolean. True if glyph names are reliable.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Get_PS_Font_Info">
+<h4>FT_Get_PS_Font_Info</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_Get_PS_Font_Info</b>( <a href="ft2-base_interface.html#FT_Face">FT_Face</a>          face,
+                       <a href="ft2-type1_tables.html#PS_FontInfoRec">PS_FontInfoRec</a>  *afont_info );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Retrieve the <a href="ft2-type1_tables.html#PS_FontInfoRec">PS_FontInfoRec</a> structure corresponding to a given Postscript font.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face</b></td><td>
+<p>Postscript face handle.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>afont_info</b></td><td>
+<p>Output font info structure pointer.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The string pointers within the font info structure are owned by the face and don't need to be freed by the caller.</p>
+<p>If the font's format is not Postscript-based, this function will return the ?FT_Err_Invalid_Argument? error code.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="TT_PLATFORM_XXX">
+<h4>TT_PLATFORM_XXX</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_APPLE_UNICODE</a>  0
+#define <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_MACINTOSH</a>      1
+#define <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_ISO</a>            2 /* deprecated */
+#define <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_MICROSOFT</a>      3
+#define <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_CUSTOM</a>         4
+#define <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_ADOBE</a>          7 /* artificial */
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A list of valid values for the `platform_id' identifier code in ?FT_CharmapRec? and <a href="ft2-sfnt_names.html#FT_SfntName">FT_SfntName</a> structures.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>TT_PLATFORM_APPLE_UNICODE</b></td><td>
+<p>Used by Apple to indicate a Unicode character map and/or name entry. See <a href="ft2-type1_tables.html#TT_APPLE_ID_XXX">TT_APPLE_ID_XXX</a> for corresponding `encoding_id' values. Note that name entries in this format are coded as big-endian UCS-2 character codes <i>only</i></p>
+</td></tr>
+<tr valign=top><td><b>TT_PLATFORM_MACINTOSH</b></td><td>
+<p>Used by Apple to indicate a MacOS-specific charmap and/or name entry. See <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_XXX</a> for corresponding `encoding_id' values. Note that most TrueType fonts contain an Apple roman charmap to be usable on MacOS systems (even if they contain a Microsoft charmap as well).</p>
+</td></tr>
+<tr valign=top><td><b>TT_PLATFORM_ISO</b></td><td>
+<p>This value was used to specify Unicode charmaps. It is however now deprecated. See <a href="ft2-type1_tables.html#TT_ISO_ID_XXX">TT_ISO_ID_XXX</a> for a list of corresponding `encoding_id' values.</p>
+</td></tr>
+<tr valign=top><td><b>TT_PLATFORM_MICROSOFT</b></td><td>
+<p>Used by Microsoft to indicate Windows-specific charmaps. See <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_XXX</a> for a list of corresponding `encoding_id' values. Note that most fonts contain a Unicode charmap using (@TT_PLATFORM_MICROSOFT, <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_UNICODE_CS</a></p>
+</td></tr>
+<tr valign=top><td><b>TT_PLATFORM_CUSTOM</b></td><td>
+<p>Used to indicate application-specific charmaps.</p>
+</td></tr>
+<tr valign=top><td><b>TT_PLATFORM_ADOBE</b></td><td>
+<p>This value isn't part of any font format specification, but is used by FreeType to report Adobe-specific charmaps in an <a href="ft2-base_interface.html#FT_CharMapRec">FT_CharMapRec</a> structure. See <a href="ft2-type1_tables.html#TT_ADOBE_ID_XXX">TT_ADOBE_ID_XXX</a></p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="TT_APPLE_ID_XXX">
+<h4>TT_APPLE_ID_XXX</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <a href="ft2-type1_tables.html#TT_APPLE_ID_XXX">TT_APPLE_ID_DEFAULT</a>      0 /* Unicode 1.0 */
+#define <a href="ft2-type1_tables.html#TT_APPLE_ID_XXX">TT_APPLE_ID_UNICODE_1_1</a>  1 /* specify Hangul at U+34xx */
+#define <a href="ft2-type1_tables.html#TT_APPLE_ID_XXX">TT_APPLE_ID_ISO_10646</a>    2 /* deprecated */
+#define <a href="ft2-type1_tables.html#TT_APPLE_ID_XXX">TT_APPLE_ID_UNICODE_2_0</a>  3 /* or later */
+#define <a href="ft2-type1_tables.html#TT_APPLE_ID_XXX">TT_APPLE_ID_UNICODE_32</a>   4 /* 2.0 or later, full repertoire */
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A list of valid values for the `encoding_id' for <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_APPLE_UNICODE</a> charmaps and name entries.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>TT_APPLE_ID_DEFAULT</b></td><td>
+<p>Unicode version 1.0.</p>
+</td></tr>
+<tr valign=top><td><b>TT_APPLE_ID_UNICODE_1_1</b></td><td>
+<p>Unicode 1.1; specifies Hangul characters starting at U+34xx.</p>
+</td></tr>
+<tr valign=top><td><b>TT_APPLE_ID_ISO_10646</b></td><td>
+<p>Deprecated (identical to preceding.)</p>
+</td></tr>
+<tr valign=top><td><b>TT_APPLE_ID_UNICODE_2_0</b></td><td>
+<p>Unicode 2.0 and beyond (UTF-16 BMP only.)</p>
+</td></tr>
+<tr valign=top><td><b>TT_APPLE_ID_UNICODE_32</b></td><td>
+<p>Unicode 3.1 and beyond, using UTF-32</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="TT_MAC_ID_XXX">
+<h4>TT_MAC_ID_XXX</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_ROMAN</a>                 0
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_JAPANESE</a>              1
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_TRADITIONAL_CHINESE</a>   2
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_KOREAN</a>                3
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_ARABIC</a>                4
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_HEBREW</a>                5
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_GREEK</a>                 6
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_RUSSIAN</a>               7
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_RSYMBOL</a>               8
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_DEVANAGARI</a>            9
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_GURMUKHI</a>             10
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_GUJARATI</a>             11
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_ORIYA</a>                12
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_BENGALI</a>              13
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_TAMIL</a>                14
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_TELUGU</a>               15
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_KANNADA</a>              16
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_MALAYALAM</a>            17
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_SINHALESE</a>            18
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_BURMESE</a>              19
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_KHMER</a>                20
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_THAI</a>                 21
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_LAOTIAN</a>              22
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_GEORGIAN</a>             23
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_ARMENIAN</a>             24
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_MALDIVIAN</a>            25
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_SIMPLIFIED_CHINESE</a>   25
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_TIBETAN</a>              26
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_MONGOLIAN</a>            27
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_GEEZ</a>                 28
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_SLAVIC</a>               29
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_VIETNAMESE</a>           30
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_SINDHI</a>               31
+#define <a href="ft2-type1_tables.html#TT_MAC_ID_XXX">TT_MAC_ID_UNINTERP</a>             32
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A list of valid values for the `encoding_id' for <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_MACINTOSH</a> charmaps and name entries.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>TT_MAC_ID_ROMAN</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_JAPANESE</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_TRADITIONAL_CHINESE</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_KOREAN</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_ARABIC</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_HEBREW</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_GREEK</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_RUSSIAN</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_RSYMBOL</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_DEVANAGARI</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_GURMUKHI</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_GUJARATI</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_ORIYA</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_BENGALI</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_TAMIL</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_TELUGU</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_KANNADA</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_MALAYALAM</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_SINHALESE</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_BURMESE</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_KHMER</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_THAI</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_LAOTIAN</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_GEORGIAN</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_ARMENIAN</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_MALDIVIAN</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_SIMPLIFIED_CHINESE</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_TIBETAN</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_MONGOLIAN</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_GEEZ</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_SLAVIC</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_VIETNAMESE</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_SINDHI</b></td><td>
+<p></p>
+</td></tr>
+<tr valign=top><td><b>TT_MAC_ID_UNINTERP</b></td><td>
+<p></p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="TT_ISO_ID_XXX">
+<h4>TT_ISO_ID_XXX</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <a href="ft2-type1_tables.html#TT_ISO_ID_XXX">TT_ISO_ID_7BIT_ASCII</a>  0
+#define <a href="ft2-type1_tables.html#TT_ISO_ID_XXX">TT_ISO_ID_10646</a>       1
+#define <a href="ft2-type1_tables.html#TT_ISO_ID_XXX">TT_ISO_ID_8859_1</a>      2
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A list of valid values for the `encoding_id' for <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_ISO</a> charmaps and name entries.</p>
+<p>Their use is now deprecated.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>TT_ISO_ID_7BIT_ASCII</b></td><td>
+<p>ASCII.</p>
+</td></tr>
+<tr valign=top><td><b>TT_ISO_ID_10646</b></td><td>
+<p>ISO/10646.</p>
+</td></tr>
+<tr valign=top><td><b>TT_ISO_ID_8859_1</b></td><td>
+<p>Also known as Latin-1.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="TT_MS_ID_XXX">
+<h4>TT_MS_ID_XXX</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_SYMBOL_CS</a>    0
+#define <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_UNICODE_CS</a>   1
+#define <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_SJIS</a>         2
+#define <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_GB2312</a>       3
+#define <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_BIG_5</a>        4
+#define <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_WANSUNG</a>      5
+#define <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_JOHAB</a>        6
+#define <a href="ft2-type1_tables.html#TT_MS_ID_XXX">TT_MS_ID_UCS_4</a>       10
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A list of valid values for the `encoding_id' for <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_MICROSOFT</a> charmaps and name entries.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>TT_MS_ID_SYMBOL_CS</b></td><td>
+<p>Corresponds to symbol encodings. see <a href="ft2-base_interface.html#FT_Encoding">FT_ENCODING_MS_SYMBOL</a></p>
+</td></tr>
+<tr valign=top><td><b>TT_MS_ID_UNICODE_CS</b></td><td>
+<p>Corresponds to a Microsoft WGL4 charmap, matching Unicode. See <a href="ft2-base_interface.html#FT_Encoding">FT_ENCODING_UNICODE</a></p>
+</td></tr>
+<tr valign=top><td><b>TT_MS_ID_SJIS</b></td><td>
+<p>Corresponds to Microsoft SJIS Japanese encoding. See <a href="ft2-base_interface.html#FT_Encoding">FT_ENCODING_MS_SJIS</a></p>
+</td></tr>
+<tr valign=top><td><b>TT_MS_ID_GB2312</b></td><td>
+<p>Corresponds to Microsoft Simplified Chinese as used in Mainland China. See <a href="ft2-base_interface.html#FT_Encoding">FT_ENCODING_MS_GB2312</a></p>
+</td></tr>
+<tr valign=top><td><b>TT_MS_ID_BIG_5</b></td><td>
+<p>Corresponds to Microsoft Traditional Chinese as used in Taiwan and Hong Kong. See <a href="ft2-base_interface.html#FT_Encoding">FT_ENCODING_MS_BIG5</a></p>
+</td></tr>
+<tr valign=top><td><b>TT_MS_ID_WANSUNG</b></td><td>
+<p>Corresponds to Microsoft Korean Wansung encoding. See <a href="ft2-base_interface.html#FT_Encoding">FT_ENCODING_MS_WANSUNG</a></p>
+</td></tr>
+<tr valign=top><td><b>TT_MS_ID_JOHAB</b></td><td>
+<p>Corresponds to Microsoft Johab encoding. See <a href="ft2-base_interface.html#FT_Encoding">FT_ENCODING_MS_JOHAB</a></p>
+</td></tr>
+<tr valign=top><td><b>TT_MS_ID_UCS_4</b></td><td>
+<p>Corresponds to UCS-4 or UTF-32 charmaps. This has been added into OpenType specification as of version 1.4 (mid-2001.)</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="TT_ADOBE_ID_XXX">
+<h4>TT_ADOBE_ID_XXX</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <a href="ft2-type1_tables.html#TT_ADOBE_ID_XXX">TT_ADOBE_ID_STANDARD</a>  0
+#define <a href="ft2-type1_tables.html#TT_ADOBE_ID_XXX">TT_ADOBE_ID_EXPERT</a>    1
+#define <a href="ft2-type1_tables.html#TT_ADOBE_ID_XXX">TT_ADOBE_ID_CUSTOM</a>    2
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A list of valid values for the `encoding_id' for <a href="ft2-type1_tables.html#TT_PLATFORM_XXX">TT_PLATFORM_ADOBE</a> charmaps. This is a FreeType-specific extension!</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>TT_ADOBE_ID_STANDARD</b></td><td>
+<p>Adobe standard encoding.</p>
+</td></tr>
+<tr valign=top><td><b>TT_ADOBE_ID_EXPERT</b></td><td>
+<p>Adobe expert encoding.</p>
+</td></tr>
+<tr valign=top><td><b>TT_ADOBE_ID_CUSTOM</b></td><td>
+<p>Adobe custom encoding.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

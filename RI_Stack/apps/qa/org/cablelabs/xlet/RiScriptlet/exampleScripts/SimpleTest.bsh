@@ -1,0 +1,11 @@
+
+// SimpleTest
+
+rxLog.info ("Inside SimpleTest...");
+
+int x = 1;
+int y = 2;
+
+int z = x + y;
+
+rxLog.info ("x = " + x + ", y = " + y + ", z = " + z);

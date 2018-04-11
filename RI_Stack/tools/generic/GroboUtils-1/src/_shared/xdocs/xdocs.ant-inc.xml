@@ -1,0 +1,20 @@
+<!-- ANT includes for the _shared files in all project -->
+
+    <!-- This should technically be moved into the _shared/xdocs directory -->
+    <property name="_shared.xstyle.dir.relative"
+        value="../_shared/xdocs/style" />
+    <property name="_shared.xstyle.relative"
+        value="${_shared.xstyle.dir.relative}/style.xsl" />
+    <property name="_shared.xstyle.absolute"
+        value="${basedir}/${_shared.xstyle.relative}" />
+
+    <property name="_shared.xdoc.summary-xsl.relative"
+        value="${_shared.xstyle.dir.relative}/addToSummary.xsl" />
+    <property name="_shared.xdoc.summary-xsl.absolute"
+        value="${basedir}/${_shared.xstyle.relative}" />
+    
+    <property name="_shared.xdoc.dir.tmp"
+        value="${_shared.dirs.base}/../tmp" />
+
+    <property name="_shared.xdoc.tmp-summary"
+        value="${_shared.xdoc.dir.tmp}/summary.xml" />

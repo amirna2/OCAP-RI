@@ -1,0 +1,301 @@
+done tests, run time= 3531154 ms 
+dumping results... 
+---------------------- PlatEval: Start of Results ----------------------
+Test StaticClassLoading started at Fri Dec 31 19:06:39 EST 1999:
+  class loading time: 617 ms
+
+Test EmptyLoop started at Fri Dec 31 19:06:58 EST 1999:
+  total loops=32767000 iteration count=15 total time=18366 ms
+  loop overhead: 560 ns
+
+Test TotalAndFreeMemory started at Fri Dec 31 19:07:29 EST 1999:
+  Total Memory=20971520 bytes 
+
+Test TotalAndFreeMemory started at Fri Dec 31 19:07:29 EST 1999:
+  Free Memory=20214616 bytes 
+
+Test VirtualMethodInvocation started at Fri Dec 31 19:07:45 EST 1999:
+  total invocations=8191000 iteration count=13 total time=15781 ms
+  virtual method invocation overhead: 1926 ns
+  virtual method invocation overhead corrected for loop overhead: 1366 ns
+
+Test NonVirtualMethodInvocation started at Fri Dec 31 19:08:01 EST 1999:
+  total invocations=8191000 iteration count=13 total time=14907 ms
+  non-virtual method invocation overhead: 1819 ns
+  non-virtual method invocation overhead corrected for loop overhead: 1259 ns
+
+Test InterfaceMethodInvocation started at Fri Dec 31 19:08:14 EST 1999:
+  total invocations=6141000 iteration count=11 total time=12606 ms
+  interface method invocation overhead: 2052 ns
+  interface method invocation overhead corrected for loop overhead: 1492 ns
+
+Test StaticMethodInvocation started at Fri Dec 31 19:08:28 EST 1999:
+  total invocations=8191000 iteration count=13 total time=13574 ms
+  static method invocation overhead: 1657 ns
+  static method invocation overhead corrected for loop overhead: 1097 ns
+
+Test ObjectInstantiationShallow started at Fri Dec 31 19:08:39 EST 1999:
+  total instantiations=871000 iteration count=871 total time=10004 ms
+  shallow instantiation overhead: 11485 ns
+  shallow instantiation overhead corrected for loop overhead: 10925 ns
+
+Test ObjectInstantiationDeep started at Fri Dec 31 19:08:50 EST 1999:
+  total instantiations=419000 iteration count=419 total time=10010 ms
+  deep instantiation overhead: 23890 ns
+  deep instantiation overhead corrected for loop overhead: 23330 ns
+  estimated instantiation overhead per level of hierarchy: 1378 ns
+
+Test LocalVariableWrite started at Fri Dec 31 19:09:29 EST 1999:
+  total writes=127000000 iteration count=7 total time=38201 ms
+  local variable write cost: 300 ns
+  local variable write cost corrected for loop overhead: 300 ns
+
+Test LocalVariableRead started at Fri Dec 31 19:10:08 EST 1999:
+  total reads=127000000 iteration count=7 total time=38539 ms
+  local variable read cost: 303 ns
+  local variable read cost corrected for loop overhead: 302 ns
+
+Test InstanceVariableWrite started at Fri Dec 31 19:10:51 EST 1999:
+  total writes=63000000 iteration count=6 total time=42273 ms
+  instance variable write cost: 671 ns
+  instance variable write cost corrected for loop overhead: 670 ns
+
+Test InstanceVariableRead started at Fri Dec 31 19:11:35 EST 1999:
+  total reads=63000000 iteration count=6 total time=43524 ms
+  instance variable read cost: 690 ns
+  instance variable read cost corrected for loop overhead: 690 ns
+
+Test StaticVariableWrite started at Fri Dec 31 19:12:20 EST 1999:
+  total writes=127000000 iteration count=7 total time=43909 ms
+  static variable write cost: 345 ns
+  static variable write cost corrected for loop overhead: 345 ns
+
+Test StaticVariableRead started at Fri Dec 31 19:13:07 EST 1999:
+  total reads=127000000 iteration count=7 total time=46145 ms
+  static variable read cost: 363 ns
+  static variable read cost corrected for loop overhead: 362 ns
+
+Test ArrayCopyHighLevel started at Fri Dec 31 19:13:18 EST 1999:
+  total high level array copies=6000 iteration count=6 total time=10915 ms
+  array (1024 byte) high level copy cost: 1819166 ns
+  array (1024 byte) high level copy cost corrected for loop overhead: 1818606 ns
+
+Test ArrayCopyLowLevel started at Fri Dec 31 19:13:29 EST 1999:
+  total low level array copies=1391000 iteration count=1391 total time=10006 ms
+  array (1024 byte) low level copy cost: 7193 ns
+  array (1024 byte) low level copy cost corrected for loop overhead: 6633 ns
+
+Test ArrayCreation started at Fri Dec 31 19:13:40 EST 1999:
+  total array creations=1192000 iteration count=1192 total time=10004 ms
+  array (50 byte) creation cost: 8392 ns
+  array (50 byte) creation cost corrected for loop overhead: 7832 ns
+
+Test ThreadYield started at Fri Dec 31 19:13:50 EST 1999:
+  total yeilds=2003000 iteration count=2003 total time=10004 ms
+  yield cost: 4994 ns
+  yield cost corrected for loop overhead: 4434 ns
+
+Test SyncBlockUncontended started at Fri Dec 31 19:14:12 EST 1999:
+  total syncs=2000000 iteration count=20 total time=20753 ms
+  uncontended sync overhead: 10376 ns
+  uncontended sync overhead corrected for loop overhead and yield cost: 10326 ns
+
+Test SyncBlockContended started at Fri Dec 31 19:14:34 EST 1999:
+  total syncs thread1=1100000 total syncs thread2=1100000 total time=21507 ms
+  contended sync overhead: 9775 ns
+  contended sync overhead corrected for loop overhead and yield cost: 9725 ns
+
+Test CaffeineMark started at Fri Dec 31 19:14:59 EST 1999:
+  CaffeineMark tests: total time=24209 ms
+
+Test CaffeineMark started at Fri Dec 31 19:14:59 EST 1999:
+  CaffeineMark Sieve score: 104 
+
+Test CaffeineMark started at Fri Dec 31 19:14:59 EST 1999:
+  CaffeineMark Loop score: 87 
+
+Test CaffeineMark started at Fri Dec 31 19:14:59 EST 1999:
+  CaffeineMark Logic score: 105 
+
+Test CaffeineMark started at Fri Dec 31 19:14:59 EST 1999:
+  CaffeineMark String score: 381 
+
+Test CaffeineMark started at Fri Dec 31 19:14:59 EST 1999:
+  CaffeineMark Float score: 98 
+
+Test CaffeineMark started at Fri Dec 31 19:14:59 EST 1999:
+  CaffeineMark Method score: 93 
+
+Test FontRender started at Fri Dec 31 19:16:21 EST 1999:
+  total glyphs (SRC) =354531 total time=74779 ms
+  glyph draw cost: 210923 ns
+
+Test FontRender started at Fri Dec 31 19:18:51 EST 1999:
+  total glyph (SRC_OVER) =354531 total time=76787 ms
+  glyph draw cost: 216587 ns
+
+Test FontRender started at Fri Dec 31 19:18:51 EST 1999:
+  total point sizes requested =11 different sizes achieved=11
+
+Test FontRender started at Fri Dec 31 19:18:51 EST 1999:
+  total point sizes requested =11 total font creation time=1444 ms
+
+Test FullscreenFill started at Fri Dec 31 19:19:18 EST 1999:
+  total fullscreen syncs (SRC)=20 total time=151 ms
+  fullscreen sync cost: 7550000 ns
+
+Test FullscreenFill started at Fri Dec 31 19:19:18 EST 1999:
+  total fullscreen fills (SRC)=2000 total time=24018 ms
+  fullscreen fill cost: 12009000 ns
+
+Test FullscreenFill started at Fri Dec 31 19:41:53 EST 1999:
+  total fullscreen syncs (SRC_OVER)=20 total time=150 ms
+  fullscreen sync cost: 7500000 ns
+
+Test FullscreenFill started at Fri Dec 31 19:41:53 EST 1999:
+  total fullscreen fills (SRC_OVER) =2000 total time=1355646 ms
+  fullscreen fill cost: 677823000 ns
+
+Test FullscreenBlit started at Fri Dec 31 19:42:37 EST 1999:
+  total fullscreen syncs (SRC) =60 total time=441 ms
+  fullscreen sync cost: 7350000 ns
+
+Test FullscreenBlit started at Fri Dec 31 19:42:37 EST 1999:
+  total fullscreen image blits (SRC) =6000 total time=28199 ms
+  fullscreen blit cost: 4699833 ns
+
+Test FullscreenBlit started at Fri Dec 31 19:52:37 EST 1999:
+  total fullscreen syncs (SRC_OVER) =20 total time=146 ms
+  fullscreen sync cost: 7300000 ns
+
+Test FullscreenBlit started at Fri Dec 31 19:52:37 EST 1999:
+  total fullscreen image blits (SRC_OVER) =2000 total time=600208 ms
+  fullscreen blit cost: 300104000 ns
+
+Test FontRenderClip started at Fri Dec 31 19:53:35 EST 1999:
+  total glyphs (fullclip) (SRC) =354531 total time=52962 ms
+  glyph draw cost: 149386 ns
+
+Test FontRenderClip started at Fri Dec 31 19:54:32 EST 1999:
+  total glyphs (threequarterclip) (SRC) =354531 total time=54103 ms
+  glyph draw cost: 152604 ns
+
+Test FontRenderClip started at Fri Dec 31 19:55:30 EST 1999:
+  total glyphs (halfclip) (SRC) =354531 total time=55691 ms
+  glyph draw cost: 157083 ns
+
+Test FontRenderClip started at Fri Dec 31 19:56:31 EST 1999:
+  total glyphs (quarterclip) (SRC) =354531 total time=57783 ms
+  glyph draw cost: 162984 ns
+
+Test FontRenderClip started at Fri Dec 31 19:57:34 EST 1999:
+  total glyphs (noclip) (SRC) =354531 total time=60668 ms
+  glyph draw cost: 171121 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:57:58 EST 1999:
+  total fullscreen/fullclip syncs (SRC) =1020 total time=7230 ms
+  sync cost: 7088235 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:57:58 EST 1999:
+  total fullscreen/fullclip fills (SRC) =102000 total time=16099 ms
+  fill cost: 157833 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:58:20 EST 1999:
+  total fullscreen/threequarterclip syncs (SRC) =460 total time=3350 ms
+  sync cost: 7282608 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:58:20 EST 1999:
+  total fullscreen/threequarterclip image fills (SRC) =46000 total time=20237 ms
+  fill cost: 439934 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:58:43 EST 1999:
+  total fullscreen/halfclip syncs (SRC) =160 total time=1196 ms
+  sync cost: 7475000 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:58:43 EST 1999:
+  total fullscreen/halfclip image fills (SRC) =16000 total time=22377 ms
+  fill cost: 1398562 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:59:06 EST 1999:
+  total fullscreen/quarterclip syncs (SRC) =80 total time=597 ms
+  sync cost: 7462500 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:59:06 EST 1999:
+  total fullscreen/quarterclip fills (SRC) =8000 total time=22244 ms
+  fill cost: 2780500 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:59:33 EST 1999:
+  total fullscreen/noclip syncs (SRC) =60 total time=454 ms
+  sync cost: 7566666 ns
+
+Test FullscreenFillClip started at Fri Dec 31 19:59:33 EST 1999:
+  total fullscreen/noclip fills (SRC) =6000 total time=26631 ms
+  fill cost: 4438500 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:00:07 EST 1999:
+  total fullscreen/fullclip syncs (SRC) =1000 total time=7108 ms
+  sync cost: 7108000 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:00:07 EST 1999:
+  total fullscreen/fullclip image blits (SRC) =100000 total time=20290 ms
+  blit cost: 202900 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:00:29 EST 1999:
+  total fullscreen/threequarterclip syncs (SRC) =300 total time=2177 ms
+  sync cost: 7256666 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:00:29 EST 1999:
+  total fullscreen/threequarterclip image blits (SRC) =30000 total time=21178 ms
+  blit cost: 705933 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:00:50 EST 1999:
+  total fullscreen/halfclip syncs (SRC) =120 total time=880 ms
+  sync cost: 7333333 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:00:50 EST 1999:
+  total fullscreen/halfclip image blits (SRC) =12000 total time=20303 ms
+  blit cost: 1691916 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:01:16 EST 1999:
+  total fullscreen/quarterclip syncs (SRC) =80 total time=585 ms
+  sync cost: 7312500 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:01:16 EST 1999:
+  total fullscreen/quarterclip image blits (SRC) =8000 total time=25118 ms
+  blit cost: 3139750 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:01:44 EST 1999:
+  total fullscreen/noclip syncs (SRC) =60 total time=440 ms
+  sync cost: 7333333 ns
+
+Test FullscreenBlitClip started at Fri Dec 31 20:01:44 EST 1999:
+  total fullscreen/noclip image blits (SRC) =6000 total time=28067 ms
+  blit cost: 4677833 ns
+
+Test VQDecode started at Fri Dec 31 20:02:56 EST 1999:
+  VQ decode time for 40 images: 71190 ms, hash= 0x3f1a0bf5
+
+Test TotalAndFreeMemory started at Fri Dec 31 20:03:27 EST 1999:
+  Total Memory=20971520 bytes 
+
+Test TotalAndFreeMemory started at Fri Dec 31 20:03:27 EST 1999:
+  Free Memory=20189020 bytes 
+
+Test AllocateLargestByteArray started at Fri Dec 31 20:03:37 EST 1999:
+  Largest block size of 19152304 bytes determined after 120 allocations taking 7866 ms 
+
+Test RelocationDetection started at Fri Dec 31 20:04:51 EST 1999:
+  Allocated 18738 1024 byte arrays, then shed reference to every other one
+  With half the 1024 byte arrays still referenced the largest block we could allocate was 9371015 bytes
+  total test time was 13052 ms 
+
+Test TotalAndFreeMemory started at Fri Dec 31 20:05:21 EST 1999:
+  Total Memory=20971520 bytes 
+
+Test TotalAndFreeMemory started at Fri Dec 31 20:05:21 EST 1999:
+  Free Memory=20197708 bytes 
+
+Test AllocateLargestByteArray started at Fri Dec 31 20:05:28 EST 1999:
+  Largest block size of 19152144 bytes determined after 108 allocations taking 5314 ms 
+
+---------------------- PlatEval: End of Results ---------------------- 

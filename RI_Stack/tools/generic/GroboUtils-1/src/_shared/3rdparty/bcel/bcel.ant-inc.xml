@@ -1,0 +1,22 @@
+<!-- Main Entrypoint for defining BCEL libraries properties.
+-->
+    <property name="_shared.dirs.3rdparty.bcel"
+            value="${_shared.dirs.3rdparty}/bcel" />
+    
+    
+    <!-- BCEL libraries -->
+    <property name="libs.bcel.5_0"
+            value="${_shared.dirs.3rdparty.bcel}/5.0/bcel.jar" />
+    
+    <property name="javadoc.package-list.bcel.5_0"
+            value="${_shared.dirs.3rdparty.bcel}/5.0/package-list" />
+    <property name="javadoc.url.bcel.5_0"
+            value="http://jakarta.apache.org/bcel/manual/api" />
+    
+    <property name="licenses.bcel.5_0"
+            value="${_shared.dirs.3rdparty.bcel}/5.0/LICENSE" />
+    
+    
+    <property name="libs.bcel.current"
+            value="${libs.bcel.5_0}" />
+

@@ -1,0 +1,73 @@
+<HTML>
+<STYLE>
+  <!--
+    A{textdecoration:none}
+  -->
+</STYLE>
+<HEAD>
+  <TITLE>DirectFB Reference Manual</TITLE>
+</HEAD>
+<BODY bgcolor=#FFFFFF link=#0070FF vlink=#0070FF text=#404040>
+
+<TABLE width=100% bgcolor=black border=0 cellspacing=1 cellpadding=3>
+  <TR><TD width=30%>
+    <A href="http://www.directfb.org"><IMG border=0 src="directfb.png"></A>
+  </TD><TD align=right>
+    &nbsp;&nbsp;    <A href="index.html"><FONT size=+3 color=white>DirectFB Reference Manual</FONT></A>
+  </TD></TR>
+  <TR><TD colspan=2 align=center bgcolor=#303030>
+    <TABLE border=0 cellspacing=0 cellpadding=0>
+      <TR><TD align=right width=50%>
+        <BIG><A href="IDirectFBFont.html"><FONT color=#DDDDDD>IDirectFBFont</FONT></A>&nbsp;</BIG>
+      </TD><TD align=left width=50%>
+        <BIG><FONT color=orange>&nbsp;GetStringExtents</FONT></BIG>
+      </TD></TR>
+    </TABLE>
+  </TD></TR>
+</TABLE>
+
+<P> Get the logical and real extents of the specified UTF-8 string as if it were drawn with this font.</P><P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#C0C0C0>
+    <TR><TD colspan=3><I><FONT color=black>GetStringExtents (</FONT></I></TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="IDirectFBFont.html">IDirectFBFont</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>*thiz</B></FONT>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      const char
+    </TD><TD valign=top>
+      <FONT color=black><B>*text</B></FONT>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>bytes</B></FONT>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBRectangle">DFBRectangle</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>*logical_rect</B></FONT>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBRectangle">DFBRectangle</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>*ink_rect</B></FONT>
+    </TD></TR>
+    <TR><TD colspan=3><I><FONT color=black>);</FONT></I></TD></TR>
+  </TABLE>
+</P>
+<P> Bytes specifies the number of bytes to take from the string or -1 for the complete NULL-terminated string. </P><P> The logical rectangle describes the typographic extents and should be used to layout text. The ink rectangle describes the smallest rectangle containing all pixels that are touched when drawing the string. If you only need one of the rectangles, pass NULL for the other one. </P><P> The ink rectangle is guaranteed to be a valid rectangle with positive width and height, while the logical rectangle may have negative width indicating right-to-left layout. </P><P> The rectangle offsets are reported relative to the baseline and refer to the text being drawn using DSTF_LEFT.</P>
+
+<TABLE width=100% bgcolor=black border=0 cellspacing=0 cellpadding=0>
+  <TR><TD valign=center>
+    <FONT size=-3>&nbsp;&nbsp;(C) Copyright by convergence GmbH</FONT>
+  </TD><TD align=right>
+    <A href="http://www.convergence.de">
+      <IMG border=0 hspace=4 src="cimlogo.png">
+    </A>
+  </TD></TR>
+</TABLE>
+
+</BODY>
+</HTML>

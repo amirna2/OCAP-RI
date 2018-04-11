@@ -1,0 +1,142 @@
+--- orig/ocStbHostQpskObjects.c	2011-04-11 15:35:55.101080002 -0600
++++ ocStbHostQpskObjects.c	2011-04-12 09:44:11.885080000 -0600
+@@ -9,6 +9,18 @@
+ #include "ocStbHostQpskObjects.h"
+ 
+ /** Initializes the ocStbHostQpskObjects module */
++static unsigned long ocStbHostQpskFDCFreq;
++static unsigned long ocStbHostQpskRDCFreq;
++static int ocStbHostQpskFDCBer;
++static int ocStbHostQpskFDCStatus;
++static unsigned long ocStbHostQpskFDCBytesRead;
++static int ocStbHostQpskFDCPower;
++static unsigned long ocStbHostQpskFDCLockedTime;
++static int ocStbHostQpskFDCSNR;
++static int ocStbHostQpskAGC;
++static int ocStbHostQpskRDCPower;
++static int ocStbHostQpskRDCDataRate;
++
+ void
+ init_ocStbHostQpskObjects(void)
+ {
+@@ -99,8 +111,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskFDCFreq,
++                                     sizeof(ocStbHostQpskFDCFreq));
+             break;
+ 
+ 
+@@ -128,8 +140,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskRDCFreq,
++                                     sizeof(ocStbHostQpskRDCFreq));
+             break;
+ 
+ 
+@@ -157,8 +169,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskFDCBer,
++                                     sizeof(ocStbHostQpskFDCBer));
+             break;
+ 
+ 
+@@ -186,8 +198,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskFDCStatus,
++                                     sizeof(ocStbHostQpskFDCStatus));
+             break;
+ 
+ 
+@@ -215,8 +227,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskFDCBytesRead,
++                                     sizeof(ocStbHostQpskFDCBytesRead));
+             break;
+ 
+ 
+@@ -244,8 +256,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskFDCPower,
++                                     sizeof(ocStbHostQpskFDCPower));
+             break;
+ 
+ 
+@@ -273,8 +285,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskFDCLockedTime,
++                                     sizeof(ocStbHostQpskFDCLockedTime));
+             break;
+ 
+ 
+@@ -302,8 +314,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskFDCSNR,
++                                     sizeof(ocStbHostQpskFDCSNR));
+             break;
+ 
+ 
+@@ -331,8 +343,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskAGC,
++                                     sizeof(ocStbHostQpskAGC));
+             break;
+ 
+ 
+@@ -360,8 +372,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskRDCPower,
++                                     sizeof(ocStbHostQpskRDCPower));
+             break;
+ 
+ 
+@@ -389,8 +401,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostQpskRDCDataRate,
++                                     sizeof(ocStbHostQpskRDCDataRate));
+             break;
+ 
+ 

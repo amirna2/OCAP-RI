@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!DOCTYPE permissionrequestfile PUBLIC "-//OCAP//DTD Permission Request File 1.0//EN" "http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-1-0.dtd">
+
+<permissionrequestfile appid="0x6001" orgid="0x000000001">
+
+    <tuning />
+    <servicesel />
+    <file value="true"/>
+    <network>
+	<host action="accept,connect,listen,resolve">*</host>
+    </network>
+    <ocap:monitorapplication name="signal.configured" value="true"/>
+    <ocap:monitorapplication name="servicemanager" value="true"/>
+    <ocap:monitorapplication name="recording" value="true"/>
+    <ocap:monitorapplication name="handler.recording" value="true"/>
+    <ocap:monitorapplication name="handler.resource" value="true"/>
+    <ocap:monitorapplication name="handler.homenetwork" value="true"/>
+    <ocap:monitorapplication name="mediaAccess" value="true"/>
+    <ocap:homenetpermission type="contentmanagement" value="true"/>
+    <ocap:homenetpermission type="contentlisting" value="true"/>
+    <ocap:homenetpermission type="recording" value="true"/>
+    <ocap:homenetpermission type="recordinghandler" value="true"/>
+
+</permissionrequestfile>

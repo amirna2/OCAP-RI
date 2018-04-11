@@ -1,0 +1,146 @@
+diff -Naur log4c-1.2.1-orig/Makefile.in log4c-1.2.1/Makefile.in
+--- log4c-1.2.1-orig/Makefile.in	2007-09-24 13:15:17.000000000 -0600
++++ log4c-1.2.1/Makefile.in	2008-11-20 19:39:40.906250000 -0700
+@@ -210,8 +210,8 @@
+ top_srcdir = @top_srcdir@
+ @DOC_TRUE@DOC_SUBDIR = doc
+ @TEST_TRUE@TEST_SUBDIR = tests
+-SUBDIRS = config src ${DOC_SUBDIR} ${TEST_SUBDIR} examples
+-DIST_SUBDIRS = config src doc tests examples
++SUBDIRS = config src ${DOC_SUBDIR} ${TEST_SUBDIR}
++DIST_SUBDIRS = config src doc tests
+ EXTRA_DIST = \
+ 	log4c.m4 \
+ 	log4c.spec.in \
+diff -Naur log4c-1.2.1-orig/src/log4c/appender_type_mmap.c log4c-1.2.1/src/log4c/appender_type_mmap.c
+--- log4c-1.2.1-orig/src/log4c/appender_type_mmap.c	2007-09-24 13:12:16.000000000 -0600
++++ log4c-1.2.1/src/log4c/appender_type_mmap.c	2008-11-20 19:39:19.000000000 -0700
+@@ -1,3 +1,4 @@
++#ifdef HAVE_MMAP
+ static const char version[] = "$Id$";
+ 
+ /*
+@@ -151,3 +152,4 @@
+     mmap_close,
+ };
+ 
++#endif
+diff -Naur log4c-1.2.1-orig/src/log4c/layout_type_dated_r.c log4c-1.2.1/src/log4c/layout_type_dated_r.c
+--- log4c-1.2.1-orig/src/log4c/layout_type_dated_r.c	2007-09-24 13:12:16.000000000 -0600
++++ log4c-1.2.1/src/log4c/layout_type_dated_r.c	2008-11-20 19:39:19.000000000 -0700
+@@ -21,28 +21,29 @@
+     const log4c_logging_event_t*a_event)
+ {
+     int n, i;
+-    struct tm	tm;
+ 
+ #ifndef _WIN32
++    struct tm	tm;
+ #ifndef __HP_cc
+ #warning gmtime() routine should be defined in sd_xplatform
+ #endif
+     gmtime_r(&a_event->evt_timestamp.tv_sec, &tm);
+ #else
+-    /* xxx Need a CreateMutex/ReleaseMutex or something here
+-     */
+-    { 
+-	struct tm *tmp = NULL;
+-	tmp = gmtime(&a_event->evt_timestamp.tv_sec);
+-	tm = *tmp; /* struct copy */
+-    }
++	SYSTEMTIME stime;
++	GetLocalTime(&stime);
+ #endif
+ 
+     n = snprintf(a_event->evt_buffer.buf_data, a_event->evt_buffer.buf_size,
+ 		 "%04d%02d%02d %02d:%02d:%02d.%03ld %-8s %s - %s\n",
++#ifndef _WIN32
+ 		 tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+ 		 tm.tm_hour, tm.tm_min, tm.tm_sec,
+ 		 a_event->evt_timestamp.tv_usec / 1000,
++#else
++		stime.wYear, stime.wMonth , stime.wDay,
++		stime.wHour, stime.wMinute, stime.wSecond,
++		stime.wMilliseconds,
++#endif
+ 		 log4c_priority_to_string(a_event->evt_priority),
+ 		 a_event->evt_category, a_event->evt_msg);
+ 
+diff -Naur log4c-1.2.1-orig/src/sd/malloc.c log4c-1.2.1/src/sd/malloc.c
+--- log4c-1.2.1-orig/src/sd/malloc.c	2007-09-24 13:12:16.000000000 -0600
++++ log4c-1.2.1/src/sd/malloc.c	2008-11-20 19:39:19.015625000 -0700
+@@ -34,6 +34,9 @@
+ # include <sys/time.h>
+ # include <crt_externs.h>
+ # define environ (*_NSGetEnviron())
++#else
++# undef malloc
++# undef realloc
+ #endif /* __APPLE__ */
+ 
+ typedef void (*sd_malloc_handler_t)();
+
+--- log4c-1.2.0/src/log4c/config-win32.h	2008-12-12 15:43:37.746375000 -0700
++++ log4c-1.2.1/src/log4c/config-win32.h	2008-12-12 18:30:40.183875000 -0700
+@@ -29,6 +29,8 @@
+ #endif
+ 
+ 
++#ifndef __MINGW32__
++
+ /* This is defined to be 'inline' by default,
+    but with msvc6 undef it so that inlined
+    functions are just normal functions.
+@@ -36,4 +38,6 @@
+ #undef LOG4C_INLINE
+ #define LOG4C_INLINE
+ 
++#endif /* __MINGW32__ */
++
+ #endif /* __log4c_config_win32_h */
+
+--- log4c-1.2.0/src/log4c/category.c	2007-09-24 13:12:16.000000000 -0600
++++ log4c-1.2.1/src/log4c/category.c	2008-12-14 15:09:21.012000000 -0700
+@@ -117,7 +117,7 @@
+ }
+ 
+ /*******************************************************************************/
+-extern int log4c_category_get_chainedpriority(const log4c_category_t* this)
++extern LOG4C_API int log4c_category_get_chainedpriority(const log4c_category_t* this)
+ {
+   const log4c_category_t* cat = this;
+   
+@@ -203,7 +203,7 @@
+ }
+ 
+ /*******************************************************************************/
+-extern void __log4c_category_vlog(const log4c_category_t* this, 
++extern LOG4C_API void __log4c_category_vlog(const log4c_category_t* this, 
+   const log4c_location_info_t* a_locinfo, 
+   int a_priority,
+   const char* a_format, 
+
+--- log4c-1.2.0/src/log4c/category.h	2007-09-24 13:12:16.000000000 -0600
++++ log4c-1.2.1/src/log4c/category.h	2008-12-14 15:09:18.449500000 -0700
+@@ -163,7 +163,7 @@
+  * @param a_priority The priority to compare with.
+  * @returns whether logging is enable for this priority.
+  **/
+-#if !defined(_WIN32) && !defined(__HP_cc)
++#if defined(__MINGW32__) || !defined(_WIN32) && !defined(__HP_cc)
+ static inline int log4c_category_is_priority_enabled(const log4c_category_t* a_category,
+ 						     int a_priority)
+ {
+--- log4c-1.2.1/src/log4c/category.c.orig	2009-01-29 10:13:41.064750000 -0700
++++ log4c-1.2.1/src/log4c/category.c	2009-01-29 10:14:10.846000000 -0700
+@@ -244,8 +244,8 @@
+     size_t n;
+     
+     evt.evt_buffer.buf_size = evt.evt_buffer.buf_maxsize;
+-    evt.evt_buffer.buf_data = alloca(evt.evt_buffer.buf_size);
+-    message = alloca(evt.evt_buffer.buf_size);
++    evt.evt_buffer.buf_data = sd_malloc(evt.evt_buffer.buf_size);
++    message = sd_malloc(evt.evt_buffer.buf_size);
+     
+     if ( (n = (size_t)vsnprintf(message, evt.evt_buffer.buf_size, a_format, a_args))
+       >= evt.evt_buffer.buf_size)

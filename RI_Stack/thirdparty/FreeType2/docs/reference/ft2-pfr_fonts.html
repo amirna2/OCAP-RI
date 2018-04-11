@@ -1,0 +1,154 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+PFR Fonts
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FT_Get_PFR_Metrics">FT_Get_PFR_Metrics</a></td><td></td><td><a href="#FT_Get_PFR_Kerning">FT_Get_PFR_Kerning</a></td><td></td><td><a href="#FT_Get_PFR_Advance">FT_Get_PFR_Advance</a></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>This section contains the declaration of PFR-specific functions.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FT_Get_PFR_Metrics">
+<h4>FT_Get_PFR_Metrics</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_Get_PFR_Metrics</b>( <a href="ft2-base_interface.html#FT_Face">FT_Face</a>     face,
+                      <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>    *aoutline_resolution,
+                      <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>    *ametrics_resolution,
+                      <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>   *ametrics_x_scale,
+                      <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>   *ametrics_y_scale );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>returns the outline and metrics resolutions of a given PFR face.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face</b></td><td>
+<p>handle to input face. It can be a non-PFR face.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>aoutline_resolution</b></td><td>
+<p>outline resolution. This is equivalent to "face-&gt;units_per_EM". optional (parameter can be NULL)</p>
+</td></tr>
+<tr valign=top><td><b>ametrics_resolution</b></td><td>
+<p>metrics_resolution. This is equivalent to "outline_resolution" for non-PFR fonts. can be NULL optional (parameter can be NULL)</p>
+</td></tr>
+<tr valign=top><td><b>ametrics_x_scale</b></td><td>
+<p>a 16.16 fixed-point number used to scale distance expressed in metrics units to device sub-pixels. This is equivalent to 'face-&gt;size-&gt;x_scale', but for metrics only. optional (parameter can be NULL)</p>
+</td></tr>
+<tr valign=top><td><b>ametrics_y_scale</b></td><td>
+<p>same as 'ametrics_x_scale', but for the vertical direction. optional (parameter can be NULL)</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>if the input face is not a PFR, this function will return an error. However, in all cases, it will return valid values.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Get_PFR_Kerning">
+<h4>FT_Get_PFR_Kerning</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_Get_PFR_Kerning</b>( <a href="ft2-base_interface.html#FT_Face">FT_Face</a>     face,
+                      <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>     left,
+                      <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>     right,
+                      <a href="ft2-basic_types.html#FT_Vector">FT_Vector</a>  *avector );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>returns the kerning pair corresponding to two glyphs in a PFR face. The distance is expressed in metrics units, unlike the result of <a href="ft2-base_interface.html#FT_Get_Kerning">FT_Get_Kerning</a></p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face</b></td><td>
+<p>handle to input face.</p>
+</td></tr>
+<tr valign=top><td><b>left</b></td><td>
+<p>left glyph index</p>
+</td></tr>
+<tr valign=top><td><b>right</b></td><td>
+<p>right glyph index</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>avector</b></td><td>
+<p>kerning vector</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>this function always return distances in original PFR metrics units. This is unlike <a href="ft2-base_interface.html#FT_Get_Kerning">FT_Get_Kerning</a> with the <a href="ft2-base_interface.html#FT_Kerning_Mode">FT_KERNING_UNSCALED</a> mode, which always return distances converted to outline units.</p>
+<p>you can use the value of the 'x_scale' and 'y_scale' parameters returned by <a href="ft2-pfr_fonts.html#FT_Get_PFR_Metrics">FT_Get_PFR_Metrics</a> to scale these to device sub-pixels</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Get_PFR_Advance">
+<h4>FT_Get_PFR_Advance</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_Get_PFR_Advance</b>( <a href="ft2-base_interface.html#FT_Face">FT_Face</a>    face,
+                      <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>    gindex,
+                      <a href="ft2-basic_types.html#FT_Pos">FT_Pos</a>    *aadvance );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>returns a given glyph advance, expressed in original metrics units, from a PFR font.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face</b></td><td>
+<p>handle to input face.</p>
+</td></tr>
+<tr valign=top><td><b>gindex</b></td><td>
+<p>glyph index</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>aadvance</b></td><td>
+<p>glyph advance in metrics units</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>error code. 0 means success</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>you can use the 'x_scale' or 'y_scale' results of <a href="ft2-pfr_fonts.html#FT_Get_PFR_Metrics">FT_Get_PFR_Metrics</a> to convert the advance to device sub-pixels (i.e. 1/64th of pixels)</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

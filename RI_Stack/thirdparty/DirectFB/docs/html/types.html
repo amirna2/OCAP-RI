@@ -1,0 +1,841 @@
+<HTML>
+<STYLE>
+  <!--
+    A{textdecoration:none}
+  -->
+</STYLE>
+<HEAD>
+  <TITLE>DirectFB Reference Manual</TITLE>
+</HEAD>
+<BODY bgcolor=#FFFFFF link=#0070FF vlink=#0070FF text=#404040>
+
+<TABLE width=100% bgcolor=black border=0 cellspacing=1 cellpadding=3>
+  <TR><TD width=30%>
+    <A href="http://www.directfb.org"><IMG border=0 src="directfb.png"></A>
+  </TD><TD align=right>
+    &nbsp;&nbsp;    <A href="index.html"><FONT size=+3 color=white>DirectFB Reference Manual</FONT></A>
+  </TD></TR>
+  <TR><TD colspan=2 align=center bgcolor=#303030>
+    <BIG><FONT color=orange>DirectFB Types</FONT></BIG>
+  </TD></TR>
+</TABLE>
+
+<br><br><a name=DFBResult><font color=#D07070 size=+2>DFBResult</font>
+<p>
+   Every interface method returns this result code.<br>
+   Any other value to be returned adds an argument pointing
+   to a location the value should be written to.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_OK</font><br>  <font color=#404040>No error occured. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_FAILURE</font><br>  <font color=#404040>A general or unknown error occured. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_INIT</font><br>  <font color=#404040>A general initialization error occured. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_BUG</font><br>  <font color=#404040>Internal bug or inconsistency has been detected. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_DEAD</font><br>  <font color=#404040>Interface has a zero reference counter (after Release, only available in debug mode). </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_UNSUPPORTED</font><br>  <font color=#404040>The requested operation or an argument is not supported by hardware or software. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_UNIMPLEMENTED</font><br>  <font color=#404040>The requested operation is not yet implemented. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_ACCESSDENIED</font><br>  <font color=#404040>Access to the resource is denied. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_INVARG</font><br>  <font color=#404040>An invalid argument has been specified. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_NOSYSTEMMEMORY</font><br>  <font color=#404040>There's not enough system memory. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_NOVIDEOMEMORY</font><br>  <font color=#404040>There's not enough video memory. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_LOCKED</font><br>  <font color=#404040>The resource is (already) locked. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_BUFFEREMPTY</font><br>  <font color=#404040>The buffer is empty. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_FILENOTFOUND</font><br>  <font color=#404040>The specified file has not been found. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_IO</font><br>  <font color=#404040>A general I/O error occured. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_BUSY</font><br>  <font color=#404040>The resource or device is busy. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_NOIMPL</font><br>  <font color=#404040>No implementation for the requested interface or specified data has been found. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_MISSINGFONT</font><br>  <font color=#404040>No font has been set. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_TIMEOUT</font><br>  <font color=#404040>The operation timed out. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_MISSINGIMAGE</font><br>  <font color=#404040>No image has been set. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_THIZNULL</font><br>  <font color=#404040>'thiz' pointer is NULL. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_IDNOTFOUND</font><br>  <font color=#404040>No resource has been found by the specified id. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_INVAREA</font><br>  <font color=#404040>An invalid area has been specified or detected. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_DESTROYED</font><br>  <font color=#404040>The underlying object (e.g. a window or surface) has been destroyed. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFB_FUSION</font><br>  <font color=#404040>Internal fusion error detected, most likely related to IPC resources. </font></p>
+<br><br><a name=DFBPoint><font color=#70D070 size=+2>DFBPoint</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>x;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>X coordinate of it </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>y;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Y coordinate of it </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   A point specified by x/y coordinates.
+</p>
+<br><br><a name=DFBDimension><font color=#70D070 size=+2>DFBDimension</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>w;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>width of it </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>h;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>height of it </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   A dimension specified by width and height.
+</p>
+<br><br><a name=DFBRectangle><font color=#70D070 size=+2>DFBRectangle</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>x;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>X coordinate of its top-left point </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>y;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Y coordinate of its top-left point </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>w;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>width of it </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>h;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>height of it </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   A rectangle specified by a point and a dimension.
+</p>
+<br><br><a name=DFBRegion><font color=#70D070 size=+2>DFBRegion</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>x1;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>X coordinate of top-left point </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>y1;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Y coordinate of top-left point </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>x2;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>X coordinate of lower-right point </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>y2;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Y coordinate of lower-right point </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   A region specified by two points.
+</p><p>
+   The defined region includes both endpoints.
+</p>
+<br><br><a name=DFBTriangle><font color=#70D070 size=+2>DFBTriangle</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>x1;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>X coordinate of first edge </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>y1;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Y coordinate of first edge </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>x2;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>X coordinate of second edge </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>y2;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Y coordinate of second edge </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>x3;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>X coordinate of third edge </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>y3;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Y coordinate of third edge </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   A triangle specified by three points.
+</p>
+<br><br><a name=DFBColor><font color=#70D070 size=+2>DFBColor</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      __u8
+    </TD><TD valign=top>
+      <FONT color=black><B>a;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>alpha channel </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      __u8
+    </TD><TD valign=top>
+      <FONT color=black><B>r;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>red channel </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      __u8
+    </TD><TD valign=top>
+      <FONT color=black><B>g;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>green channel </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      __u8
+    </TD><TD valign=top>
+      <FONT color=black><B>b;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>blue channel </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   A color defined by channels with 8bit each.
+</p>
+<br><br><a name=DFBCooperativeLevel><font color=#D07070 size=+2>DFBCooperativeLevel</font>
+<p>
+   The cooperative level controls the super interface's behaviour
+   in functions like SetVideoMode or CreateSurface for the primary.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFSCL_NORMAL</font><br>  <font color=#404040>Normal shared access, primary surface will be the buffer of an implicitly created window at the resolution given by SetVideoMode().  </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFSCL_FULLSCREEN</font><br>  <font color=#404040>Application grabs the primary layer, SetVideoMode automates layer control. Primary surface is the primary layer surface. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFSCL_EXCLUSIVE</font><br>  <font color=#404040>All but the primary layer will be disabled, the application has full control over layers if desired, other applications have no input/output/control. Primary surface is the primary layer surface. </font></p>
+<br><br><a name=DFBDisplayLayerCapabilities><font color=#D07070 size=+2>DFBDisplayLayerCapabilities</font>
+<p>
+   Capabilities of a display layer.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLCAPS_SURFACE</font><br>  <font color=#404040>The layer has a surface that can be drawn to. This may not be provided by layers that display realtime data, e.g. from an MPEG decoder chip. Playback control may be provided by an external API. </font></p>
+<br><br><a name=DFBDisplayLayerOptions><font color=#D07070 size=+2>DFBDisplayLayerOptions</font>
+<p>
+   Used to enable some capabilities like flicker filtering or colorkeying.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLOP_NONE</font><br>  <font color=#404040>None of these. </font></p>
+<br><br><a name=DFBDisplayLayerBufferMode><font color=#D07070 size=+2>DFBDisplayLayerBufferMode</font>
+<p>
+   Layer Buffer Mode.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLBM_FRONTONLY</font><br>  <font color=#404040>no backbuffer </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLBM_BACKVIDEO</font><br>  <font color=#404040>backbuffer in video memory </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLBM_BACKSYSTEM</font><br>  <font color=#404040>backbuffer in system memory </font></p>
+<br><br><a name=DFBSurfaceDescriptionFlags><font color=#D07070 size=+2>DFBSurfaceDescriptionFlags</font>
+<p>
+   Flags defining which fields of a DFBSurfaceDescription are valid.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDESC_CAPS</font><br>  <font color=#404040>caps field is valid </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDESC_WIDTH</font><br>  <font color=#404040>width field is valid </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDESC_HEIGHT</font><br>  <font color=#404040>height field is valid </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDESC_PIXELFORMAT</font><br>  <font color=#404040>pixelformat field is valid </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDESC_PREALLOCATED</font><br>  <font color=#404040>Surface uses data that has been preallocated by the application. The field array 'preallocated' has to be set using the first element for the front buffer and eventually the second one for the back buffer. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDESC_PALETTE</font><br>  <font color=#404040>Initialize the surfaces palette with the entries specified in the description. </font></p>
+<br><br><a name=DFBPaletteDescriptionFlags><font color=#D07070 size=+2>DFBPaletteDescriptionFlags</font>
+<p>
+   Flags defining which fields of a DFBPaletteDescription are valid.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DPDESC_CAPS</font><br>  <font color=#404040>Specify palette capabilities. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DPDESC_SIZE</font><br>  <font color=#404040>Specify number of entries. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DPDESC_ENTRIES</font><br>  <font color=#404040>Initialize the palette with the entries specified in the description. </font></p>
+<br><br><a name=DFBSurfaceCapabilities><font color=#D07070 size=+2>DFBSurfaceCapabilities</font>
+<p>
+   The surface capabilities.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSCAPS_NONE</font><br>  <font color=#404040>None of these. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSCAPS_PRIMARY</font><br>  <font color=#404040>It's the primary surface. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSCAPS_SYSTEMONLY</font><br>  <font color=#404040>Surface data is permanently stored in system memory. <br>There's no video memory allocation/storage. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSCAPS_VIDEOONLY</font><br>  <font color=#404040>Surface data is permanently stored in video memory. <br>There's no system memory allocation/storage. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSCAPS_FLIPPING</font><br>  <font color=#404040>Surface is double buffered or needs Flip() calls to make updates/changes visible/usable. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSCAPS_SUBSURFACE</font><br>  <font color=#404040>Surface is just a sub area of another one sharing the surface data. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSCAPS_INTERLACED</font><br>  <font color=#404040>Each buffer contains interlaced video (or graphics) data consisting of two fields. <br>Their lines are stored interleaved. One field's height is a half of the surface's height. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSCAPS_SEPARATED</font><br>  <font color=#404040>For usage with DSCAPS_INTERLACED. <br> DSCAPS_SEPARATED specifies that the fields are NOT interleaved line by line in the buffer. <br>The first field is followed by the second one in the buffer. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSCAPS_STATIC_ALLOC</font><br>  <font color=#404040>The amount of video or system memory allocated for the surface is never less than its initial value. This way a surface can be resized (smaller and bigger up to the initial size) without reallocation of the buffers. It's useful for surfaces that need a guaranteed space in video memory after resizing. </font></p>
+<br><br><a name=DFBPaletteCapabilities><font color=#D07070 size=+2>DFBPaletteCapabilities</font>
+<p>
+   The palette capabilities.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DPCAPS_NONE</font><br>  <font color=#404040>None of these. </font></p>
+<br><br><a name=DFBSurfaceDrawingFlags><font color=#D07070 size=+2>DFBSurfaceDrawingFlags</font>
+<p>
+   Flags controlling drawing commands.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDRAW_NOFX</font><br>  <font color=#404040>uses none of the effects </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDRAW_BLEND</font><br>  <font color=#404040>uses alpha from color </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDRAW_DST_COLORKEY</font><br>  <font color=#404040>write to destination only if the destination pixel matches the destination color key (not fully implemented yet) </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDRAW_SRC_PREMULTIPLY</font><br>  <font color=#404040>multiplies the color's rgb channels by the alpha channel before drawing </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDRAW_DST_PREMULTIPLY</font><br>  <font color=#404040>modulates the dest. color with the dest. alpha </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDRAW_DEMULTIPLY</font><br>  <font color=#404040>divides the color by the alpha before writing the data to the destination </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSDRAW_XOR</font><br>  <font color=#404040>bitwise xor the destination pixels with the specified color after premultiplication </font></p>
+<br><br><a name=DFBSurfaceBlittingFlags><font color=#D07070 size=+2>DFBSurfaceBlittingFlags</font>
+<p>
+   Flags controlling blitting commands.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_NOFX</font><br>  <font color=#404040>uses none of the effects </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_BLEND_ALPHACHANNEL</font><br>  <font color=#404040>enables blending and uses alphachannel from source </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_BLEND_COLORALPHA</font><br>  <font color=#404040>enables blending and uses alpha value from color </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_COLORIZE</font><br>  <font color=#404040>modulates source color with the color's r/g/b values </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_SRC_COLORKEY</font><br>  <font color=#404040>don't blit pixels matching the source color key </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_DST_COLORKEY</font><br>  <font color=#404040>write to destination only if the destination pixel matches the destination color key (not fully implemented yet) </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_SRC_PREMULTIPLY</font><br>  <font color=#404040>modulates the source color with the (modulated) source alpha </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_DST_PREMULTIPLY</font><br>  <font color=#404040>modulates the dest. color with the dest. alpha </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_DEMULTIPLY</font><br>  <font color=#404040>divides the color by the alpha before writing the data to the destination </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBLIT_DEINTERLACE</font><br>  <font color=#404040>deinterlaces the source during blitting by reading only one field (every second line of full image) scaling it vertically </font></p>
+<br><br><a name=DFBAccelerationMask><font color=#D07070 size=+2>DFBAccelerationMask</font>
+<p>
+   Mask of accelerated functions.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_NONE</font><br>  <font color=#404040>None of these. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_FILLRECTANGLE</font><br>  <font color=#404040>FillRectangle() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_DRAWRECTANGLE</font><br>  <font color=#404040>DrawRectangle() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_DRAWLINE</font><br>  <font color=#404040>DrawLine() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_FILLTRIANGLE</font><br>  <font color=#404040>FillTriangle() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_FILLOVAL</font><br>  <font color=#404040>FillOval() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_DRAWOVAL</font><br>  <font color=#404040>DrawOval() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_FILLARC</font><br>  <font color=#404040>FillArc() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_DRAWARC</font><br>  <font color=#404040>DrawArc() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_FILLPOLYGON</font><br>  <font color=#404040>FillPolygon() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_BLIT</font><br>  <font color=#404040>Blit() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_STRETCHBLIT</font><br>  <font color=#404040>StretchBlit() is accelerated. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFXL_ALL</font><br>  <font color=#404040>All drawing/blitting functions. </font></p>
+<br><br><a name=DFBCardCapabilities><font color=#70D070 size=+2>DFBCardCapabilities</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBAccelerationMask">DFBAccelerationMask</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>acceleration_mask;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>drawing/blitting functions </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBSurfaceDrawingFlags">DFBSurfaceDrawingFlags</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>drawing_flags;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>drawing flags </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBSurfaceBlittingFlags">DFBSurfaceBlittingFlags</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>blitting_flags;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>blitting flags </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>video_memory;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>amount of video memory in bytes </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   Rough information about hardware capabilities.
+</p>
+<br><br><a name=DFBDisplayLayerTypeFlags><font color=#D07070 size=+2>DFBDisplayLayerTypeFlags</font>
+<p>
+   Type of display layer for basic classification.
+   Values may be or'ed together.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLTF_NONE</font><br>  <font color=#404040>Unclassified, no specific type. </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLTF_GRAPHICS</font><br>  <font color=#404040>Can be used for graphics output. </font></p>
+<br><br><a name=DFBFontAttributes><font color=#D07070 size=+2>DFBFontAttributes</font>
+<p>
+   Flags describing how to load a font.
+</p><p>
+   These flags describe how a font is loaded and affect how the
+   glyphs are drawn. There is no way to change this after the font
+   has been loaded. If you need to render a font with different
+   attributes, you have to create multiple FontProviders of the
+   same font file.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFFA_NONE</font><br>  <font color=#404040>none of these flags </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFFA_NOKERNING</font><br>  <font color=#404040>don't use kerning </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFFA_NOHINTING</font><br>  <font color=#404040>don't use hinting </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFFA_MONOCHROME</font><br>  <font color=#404040>don't use anti-aliasing </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFFA_NOCHARMAP</font><br>  <font color=#404040>no char map, glyph indices are specified directly </font></p>
+<br><br><a name=DFBFontDescriptionFlags><font color=#D07070 size=+2>DFBFontDescriptionFlags</font>
+<p>
+   Flags defining which fields of a DFBFontDescription are valid.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFDESC_ATTRIBUTES</font><br>  <font color=#404040>attributes field is valid </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFDESC_HEIGHT</font><br>  <font color=#404040>height is specified </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFDESC_WIDTH</font><br>  <font color=#404040>width is specified </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFDESC_INDEX</font><br>  <font color=#404040>index is specified </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFDESC_FIXEDADVANCE</font><br>  <font color=#404040>specify a fixed advance overriding any character advance of fixed or proportional fonts </font></p>
+<br><br><a name=DFBFontDescription><font color=#70D070 size=+2>DFBFontDescription</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBFontDescriptionFlags">DFBFontDescriptionFlags</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>flags;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBFontAttributes">DFBFontAttributes</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>attributes;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>height;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>width;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>index;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>fixed_advance;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   Description of how to load glyphs from a font file.
+</p><p>
+   The attributes control how the glyphs are rendered. Width and
+   height can be used to specify the desired face size in pixels.
+   If you are loading a non-scalable font, you shouldn't specify
+   a font size. Please note that the height value in the
+   FontDescription doesn't correspond to the height returned by
+   the font's GetHeight() method.
+</p><p>
+   The index field controls which face is loaded from a font file
+   that provides a collection of faces. This is rarely needed.
+</p>
+<br><br><a name=DFBFontStyle><font color=#D07070 size=+2>DFBFontStyle</font>
+<p>
+   Flags describing the font style. These values are bit flags
+   and may be combined.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFFS_NORMAL</font><br>  <font color=#404040>no special style </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFFS_BOLD</font><br>  <font color=#404040>bold style </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFFS_ITALIC</font><br>  <font color=#404040>italic style </font></p>
+<br><br><a name=DFBSurfacePixelFormat><font color=#D07070 size=+2>DFBSurfacePixelFormat</font>
+<p>
+   Pixel format of a surface.
+   Contains information about the format (see following definition).
+</p><p>
+   Format constants are encoded in the following way (bit 31 - 0):
+</p><p>
+   -hgg:ffff | eeee:dddc | bbbb:bbbb | aaaa:aaaa
+</p><p>
+   a) pixelformat index<br>
+   b) effective bits per pixel of format<br>
+   c) alpha channel present<br>
+   d) bytes per pixel in a row (1/8 fragment, i.e. bits)<br>
+   e) bytes per pixel in a row (decimal part, i.e. bytes)<br>
+   f) multiplier for planes minus one (1/16 fragment)<br>
+   g) multiplier for planes minus one (decimal part)<br>
+   h) indexed pixelformat (using a palette)
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_UNKNOWN</font><br>  <font color=#404040>no specific format, unusual and unsupported </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_ARGB1555</font><br>  <font color=#404040>16bit ARGB (2 bytes, alpha 1@15, red 5@10, green 5@5, blue 5@0) </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_RGB16</font><br>  <font color=#404040>16bit  RGB (2 bytes, red 5@11, green 6@5, blue 5@0) </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_RGB24</font><br>  <font color=#404040>24bit  RGB (3 bytes, red 8@16, green 8@8, blue 8@0) </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_RGB32</font><br>  <font color=#404040>24bit  RGB (4 bytes, nothing@24, red 8@16, green 8@8, blue 8@0)</font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_ARGB</font><br>  <font color=#404040>32bit ARGB (4 bytes, alpha 8@24, red 8@16, green 8@8, blue 8@0)</font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_A8</font><br>  <font color=#404040>8bit alpha (1 byte, alpha 8@0 ), e.g. anti-aliased text glyphs </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_YUY2</font><br>  <font color=#404040>A macropixel (32bit / 2 pixel) contains YUYV (starting with the LOWEST byte on the LEFT) </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_RGB332</font><br>  <font color=#404040>8bit true color (1 byte, red 3@5, green 3@2, blue 2@0 </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_UYVY</font><br>  <font color=#404040>A macropixel (32bit / 2 pixel) contains UYVY (starting with the LOWEST byte on the LEFT) </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_I420</font><br>  <font color=#404040>8 bit Y plane followed by 8 bit 2x2 subsampled U and V planes </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_YV12</font><br>  <font color=#404040>8 bit Y plane followed by 8 bit 2x2 subsampled V and U planes </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPF_LUT8</font><br>  <font color=#404040>8 bit lookup table (palette) </font></p>
+<br><br><a name=palette><font color=#70D070 size=+2>palette</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBSurfaceDescriptionFlags">DFBSurfaceDescriptionFlags</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>flags;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>field validation </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBSurfaceCapabilities">DFBSurfaceCapabilities</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>caps;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>capabilities </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>width;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>pixel width </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>height;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>pixel height </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBSurfacePixelFormat">DFBSurfacePixelFormat</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>pixelformat;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>pixel format </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      void
+    </TD><TD valign=top>
+      <FONT color=black><B>*data;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>data pointer of existing buffer </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      int
+    </TD><TD valign=top>
+      <FONT color=black><B>pitch;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>pitch of buffer </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBColor">DFBColor</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>*entries;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>size;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   Description of the surface that is to be created.
+</p>
+<br><br><a name=DFBPaletteDescription><font color=#70D070 size=+2>DFBPaletteDescription</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBPaletteDescriptionFlags">DFBPaletteDescriptionFlags</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>flags;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Validation of fields. </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBPaletteCapabilities">DFBPaletteCapabilities</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>caps;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Palette capabilities. </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>size;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Number of entries. </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBColor">DFBColor</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>*entries;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Preset palette entries. </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   Description of the palette that is to be created.
+</p>
+<br><br><a name=DFBDisplayLayerDescription><font color=#70D070 size=+2>DFBDisplayLayerDescription</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBDisplayLayerTypeFlags">DFBDisplayLayerTypeFlags</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>type;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Classification of the display layer. </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBDisplayLayerCapabilities">DFBDisplayLayerCapabilities</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>caps;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Capability flags of the display layer. </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      char
+    </TD><TD valign=top>
+      <FONT color=black><B>name[DFB_DISPLAY_LAYER_DESC_NAME_LENGTH];</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Display layer name. </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   Description of the display layer capabilities.
+</p>
+<br><br><a name=DFBEnumerationResult><font color=#D07070 size=+2>DFBEnumerationResult</font>
+<p>
+   Return value of callback function of enumerations.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFENUM_OK</font><br>  <font color=#404040>Proceed with enumeration </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DFENUM_CANCEL</font><br>  <font color=#404040>Cancel enumeration </font></p>
+<br><br><a name=DFBColorAdjustmentFlags><font color=#D07070 size=+2>DFBColorAdjustmentFlags</font>
+<p>
+   Flags defining which fields of a DFBColorAdjustment are valid.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DCAF_NONE</font><br>  <font color=#404040>none of these              </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DCAF_BRIGHTNESS</font><br>  <font color=#404040>brightness field is valid  </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DCAF_CONTRAST</font><br>  <font color=#404040>contrast field is valid    </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DCAF_HUE</font><br>  <font color=#404040>hue field is valid         </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DCAF_SATURATION</font><br>  <font color=#404040>saturation field is valid  </font></p>
+<br><br><a name=DFBColorAdjustment><font color=#70D070 size=+2>DFBColorAdjustment</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBColorAdjustmentFlags">DFBColorAdjustmentFlags</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>flags;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      __u16
+    </TD><TD valign=top>
+      <FONT color=black><B>brightness;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      __u16
+    </TD><TD valign=top>
+      <FONT color=black><B>contrast;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      __u16
+    </TD><TD valign=top>
+      <FONT color=black><B>hue;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      __u16
+    </TD><TD valign=top>
+      <FONT color=black><B>saturation;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040></font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   Color Adjustment used to adjust video colors.
+</p><p>
+   All fields are in the range 0x0 to 0xFFFF with
+   0x8000 as the default value (no adjustment).
+</p>
+<br><br><a name=DFBDisplayLayerCooperativeLevel><font color=#D07070 size=+2>DFBDisplayLayerCooperativeLevel</font>
+<p>
+   Cooperative level handling the access permissions.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLSCL_SHARED</font><br>  <font color=#404040>shared access </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLSCL_EXCLUSIVE</font><br>  <font color=#404040>exclusive access, fullscreen/mode switching </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DLSCL_ADMINISTRATIVE</font><br>  <font color=#404040>administrative access, enumerate windows, control them </font></p>
+<br><br><a name=DFBDisplayLayerConfig><font color=#70D070 size=+2>DFBDisplayLayerConfig</font>
+<P>
+  <TABLE border=0 cellspacing=0 cellpadding=4 bgcolor=#E0E0E0>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBDisplayLayerConfigFlags">DFBDisplayLayerConfigFlags</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>flags;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Which fields of the configuration are set </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>width;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Pixel width </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      unsigned int
+    </TD><TD valign=top>
+      <FONT color=black><B>height;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Pixel height </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBSurfacePixelFormat">DFBSurfacePixelFormat</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>pixelformat;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Pixel format </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBDisplayLayerBufferMode">DFBDisplayLayerBufferMode</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>buffermode;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Buffer mode </font>
+    </TD></TR>
+    <TR><TD width=50>&nbsp;</TD><TD valign=top>
+      <A href="types.html#DFBDisplayLayerOptions">DFBDisplayLayerOptions</A>
+    </TD><TD valign=top>
+      <FONT color=black><B>options;</B></FONT>
+    </TD><TD valign=top>
+      <font color=#404040>Enable capabilities </font>
+    </TD></TR>
+  </TABLE>
+</P>
+<p>
+   Layer configuration
+</p>
+<br><br><a name=DFBSurfaceFlipFlags><font color=#D07070 size=+2>DFBSurfaceFlipFlags</font>
+<p>
+   Flipping flags controlling the behaviour of Flip().
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSFLIP_BLIT</font><br>  <font color=#404040>copy backbuffer into frontbuffer rather than just swapping these buffers </font></p>
+<br><br><a name=DFBSurfaceTextFlags><font color=#D07070 size=+2>DFBSurfaceTextFlags</font>
+<p>
+   Flags controlling the text layout.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSTF_LEFT</font><br>  <font color=#404040>left aligned </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSTF_CENTER</font><br>  <font color=#404040>horizontally centered </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSTF_RIGHT</font><br>  <font color=#404040>right aligned </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSTF_TOP</font><br>  <font color=#404040>y specifies the top instead of the baseline </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSTF_BOTTOM</font><br>  <font color=#404040>y specifies the bottom instead of the baseline </font></p>
+<br><br><a name=DFBSurfaceLockFlags><font color=#D07070 size=+2>DFBSurfaceLockFlags</font>
+<p>
+   Flags defining the type of data access.
+   These are important for surface swapping management.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSLF_READ</font><br>  <font color=#404040>request read access while surface is locked </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSLF_WRITE</font><br>  <font color=#404040>request write access </font></p>
+<br><br><a name=DFBSurfacePorterDuffRule><font color=#D07070 size=+2>DFBSurfacePorterDuffRule</font>
+<p>
+   Available Porter/Duff rules.
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPD_NONE</font><br>  <font color=#404040>fs: sa      fd: 1.0-sa (defaults) </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPD_CLEAR</font><br>  <font color=#404040>fs: 0.0     fd: 0.0    </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPD_SRC</font><br>  <font color=#404040>fs: 1.0     fd: 0.0    </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPD_SRC_OVER</font><br>  <font color=#404040>fs: 1.0     fd: 1.0-sa </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPD_DST_OVER</font><br>  <font color=#404040>fs: 1.0-da  fd: 1.0    </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPD_SRC_IN</font><br>  <font color=#404040>fs: da      fd: 0.0    </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPD_DST_IN</font><br>  <font color=#404040>fs: 0.0     fd: sa     </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPD_SRC_OUT</font><br>  <font color=#404040>fs: 1.0-da  fd: 0.0    </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSPD_DST_OUT</font><br>  <font color=#404040>fs: 0.0     fd: 1.0-sa </font></p>
+<br><br><a name=DFBSurfaceBlendFunction><font color=#D07070 size=+2>DFBSurfaceBlendFunction</font>
+<p>
+   Blend functions to use for source and destination blending
+</p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_ZERO</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_ONE</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_SRCCOLOR</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_INVSRCCOLOR</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_SRCALPHA</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_INVSRCALPHA</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_DESTALPHA</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_INVDESTALPHA</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_DESTCOLOR</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_INVDESTCOLOR</font><br>  <font color=#404040> </font></p>
+<p style="margin-left:6mm;" >  <font color=#40A040 size=+1>DSBF_SRCALPHASAT</font><br>  <font color=#404040> </font></p>
+
+<TABLE width=100% bgcolor=black border=0 cellspacing=0 cellpadding=0>
+  <TR><TD valign=center>
+    <FONT size=-3>&nbsp;&nbsp;(C) Copyright by convergence GmbH</FONT>
+  </TD><TD align=right>
+    <A href="http://www.convergence.de">
+      <IMG border=0 hspace=4 src="cimlogo.png">
+    </A>
+  </TD></TR>
+</TABLE>
+
+</BODY>
+</HTML>

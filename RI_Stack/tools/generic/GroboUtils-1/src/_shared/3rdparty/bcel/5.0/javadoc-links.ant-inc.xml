@@ -1,0 +1,9 @@
+<!-- Javadoc links for this version
+    To be included in a <javadoc> tag.
+-->
+    
+    <link offline="true"
+        href="${javadoc.url.bcel.5_0}"
+        packagelistLoc="${javadoc.package-list.bcel.5_0}"
+    />
+

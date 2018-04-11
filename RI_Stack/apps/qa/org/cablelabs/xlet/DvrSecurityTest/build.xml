@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<project name="Test Xlets" default="build" basedir=".">
+
+    <property environment="env"/>
+
+    <property name="srcdir" value="${basedir}"/>
+    <property name="usrdir" value="${env.OCAPROOT}/bin/${env.OCAPTC}/usr"/>
+    <property name="rundir" value="${env.OCAPROOT}/bin/${env.OCAPTC}/qa/xlet"/>
+    <property name="classdir" value="${env.OCAPROOT}/bin/${env.OCAPTC}/qa/xlet/org/cablelabs/xlet/DvrSecurityTest"/>
+    <property name="ocap.jar" value="${env.OCAPROOT}/bin/${env.OCAPTC}/sys/ocap-classes.jar"/>
+    <property name="rootdir" value="${env.OCAPROOT}/bin/apps/qa/xlet"/>
+
+    <target name="build"
+        description="Builds Test Xlets."
+        depends="init,javac,copyFiles"/>
+
+    <target name="init">
+       <mkdir dir="${rundir}"/>
+    </target>
+
+    <target name="copyFiles">
+        <mkdir dir="${rundir}"/>
+        <mkdir dir="${classdir}"/>
+        <mkdir dir="${usrdir}"/>
+        <copy todir="${usrdir}">
+            <fileset dir="${srcdir}">
+                <include name="*.properties"/>
+            </fileset>
+        </copy>
+        <copy todir="${rundir}">
+            <fileset dir="${srcdir}">
+                <include name="*.cfg"/>
+            </fileset>
+        </copy>
+        <copy todir="${classdir}">
+            <fileset dir="${srcdir}">
+                <include name="*.perm"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="javac">
+        <javac debug="yes"
+               srcdir="${srcdir}"
+               destdir="${rundir}"
+               classpath="${rt.jar}:${ocap.jar}:${rootdir}:">
+        </javac>
+    </target>
+
+</project>

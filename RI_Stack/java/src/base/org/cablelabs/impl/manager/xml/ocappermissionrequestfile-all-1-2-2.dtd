@@ -1,0 +1,126 @@
+<!-- ....................................................................... -->
+<!-- OCAP Permission Request File, includes all extensions DTD -->
+<!-- ....................................................................... -->
+<!-- file: ocappermissionrequestfile-all-1-2-2.dtd -->
+<!-- ....................................................................... -->
+<!-- This is the DTD for the OCAP 1.2.2 permission request file and the OCAP 
+extentions. The following formal public identifier SHALL be used to identify it:
+"-//OCAP//DTD Permission Request File All Extensions 1.2.2//EN"
+The following URL for the SystemLiteral may be used to reference this file :
+http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-all-1-2-2.dtd
+-->
+<!-- All elements and attributes defined in MHP 1.0.x shall be supported and -->
+<!-- inserted at this level with appropriate extensions. OCAP extends the -->
+<!-- set of permissions with the ocap:monitorapplication one.  The following -->
+<!-- extension specifications include changes that have also been added to -->
+<!-- this DTD: -->
+<!--    OCAP DVR Specification -->
+<!--    OCAP Home Networking Extension -->
+<!--    OCAP Multiscreen Manager Extension -->
+<!--    OCAP Front Panel Extension -->
+<!--    OCAP Device Settings Extension -->
+<!ELEMENT permissionrequestfile (file?, capermission?, applifecyclecontrol?, returnchannel?,
+tuning?, servicesel?, userpreferences?, network?, dripfeed?, persistentfilecredential*,
+ocap:monitorapplication*, ocap:servicetypepermission*, ocap:registeredapi.user*, ocap:ixc*, 
+ocap:homenetpermission*)>
+<!ATTLIST permissionrequestfile
+orgid CDATA #REQUIRED
+appid CDATA #REQUIRED
+xmlns:ocap CDATA #FIXED "ocap"
+>
+<!ELEMENT file EMPTY>
+<!ATTLIST file
+value (true | false) "true"
+>
+<!ELEMENT capermission (casystemid)+>
+<!ELEMENT casystemid EMPTY>
+<!ATTLIST casystemid
+entitlementquery (true | false) "false"
+id CDATA #REQUIRED
+mmi (true | false) "false"
+messagepassing (true | false) "false"
+buy (true | false) "false"
+>
+<!ELEMENT applifecyclecontrol EMPTY>
+<!ATTLIST applifecyclecontrol
+value (true | false) "true"
+>
+<!ELEMENT returnchannel (defaultisp?, phonenumber*)>
+<!ELEMENT defaultisp EMPTY>
+<!ELEMENT phonenumber (#PCDATA)>
+<!ELEMENT tuning EMPTY>
+<!ATTLIST tuning
+value (true | false) "true"
+>
+<!ELEMENT servicesel EMPTY>
+<!ATTLIST servicesel
+value (true | false) "true"
+>
+<!ELEMENT userpreferences EMPTY>
+<!ATTLIST userpreferences
+write (true | false) "false"
+read (true | false) "true"
+>
+<!ELEMENT network (host)+>
+<!ELEMENT host (#PCDATA)>
+<!ATTLIST host
+action CDATA #REQUIRED
+>
+<!ELEMENT dripfeed EMPTY>
+<!ATTLIST dripfeed
+value (true | false) "true"
+>
+<!ELEMENT persistentfilecredential (grantoridentifier, expirationdate, filename+, signature,
+certchainfileid)>
+<!ELEMENT grantoridentifier EMPTY>
+<!ATTLIST grantoridentifier
+id CDATA #REQUIRED
+>
+<!ELEMENT expirationdate EMPTY>
+<!ATTLIST expirationdate
+date CDATA #REQUIRED
+>
+<!ELEMENT filename (#PCDATA)>
+<!ATTLIST filename
+write (true | false) "true"
+read (true | false) "true"
+>
+<!ELEMENT signature (#PCDATA)>
+<!ELEMENT certchainfileid (#PCDATA)>
+<!-- In addition, the following elements and attributes are defined in order
+to support OCAP specific behavior. They are prefixed by the string "ocap:" according to DVB-GEM
+-->
+<!ELEMENT ocap:servicetypepermission EMPTY>
+<!ATTLIST ocap:servicetypepermission
+type (broadcast | abstract.mso | abstract.manufacturer) "broadcast"
+action (own | all) "all"
+value (true | false) "false"
+>
+<!ELEMENT ocap:monitorapplication EMPTY>
+<!ATTLIST ocap:monitorapplication
+value (true | false) "false"
+name (registrar | service | servicemanager | security | reboot | systemevent |
+handler.appFilter | handler.resource | handler.closedCaptioning | filterUserEvents | handler.eas
+| setVideoPort | podApplication | signal.configured | properties | storage |
+registeredapi.manager | vbifiltering | codeDownload | mediaAccess | powerMode |
+environment.selection | logger.config | recording | handler.recording | multiscreen.configuration |
+multiscreen.context | frontpanel | deviceController)
+#IMPLIED
+>
+<!ELEMENT ocap:registeredapi.user EMPTY>
+<!ATTLIST ocap:registeredapi.user
+name CDATA #REQUIRED
+>
+<!ELEMENT ocap:ixc EMPTY>
+<!ATTLIST ocap:ixc
+scope CDATA #IMPLIED
+oid CDATA #IMPLIED
+aid CDATA #IMPLIED
+name CDATA #IMPLIED
+action (bind | lookup) #REQUIRED
+>
+<!ELEMENT ocap:homenetpermission EMPTY>
+<!ATTLIST ocap:homenetpermission
+type (contentmanagement | contentlisting | recording | recordinghandler) "contentmanagement"
+value (true | false) "false"
+>

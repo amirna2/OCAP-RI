@@ -1,0 +1,118 @@
+--- orig/ocStbHostFirmwareDownloadStatus.c	2011-04-11 15:35:53.605080002 -0600
++++ ocStbHostFirmwareDownloadStatus.c	2011-04-12 09:03:03.141080002 -0600
+@@ -9,6 +9,13 @@
+ #include "ocStbHostFirmwareDownloadStatus.h"
+ 
+ /** Initializes the ocStbHostFirmwareDownloadStatus module */
++static int ocStbHostFirmwareImageStatus;
++static int ocStbHostFirmwareCodeDownloadStatus;
++static char ocStbHostFirmwareCodeObjectName[32];
++static int ocStbHostFirmwareDownloadFailedStatus;
++static unsigned long ocStbHostFirmwareDownloadFailedCount;
++static unsigned long ocStbHostFirmwareDownloadGroupId;
++
+ void
+ init_ocStbHostFirmwareDownloadStatus(void)
+ {
+@@ -69,8 +76,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostFirmwareImageStatus,
++                                     sizeof(ocStbHostFirmwareImageStatus));
+             break;
+ 
+ 
+@@ -98,8 +105,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostFirmwareCodeDownloadStatus,
++			     sizeof(ocStbHostFirmwareCodeDownloadStatus));
+             break;
+ 
+ 
+@@ -127,8 +134,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) ocStbHostFirmwareCodeObjectName,
++			     sizeof(ocStbHostFirmwareCodeObjectName));
+             break;
+ 
+ 
+@@ -156,8 +163,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostFirmwareDownloadFailedStatus,
++			     sizeof(ocStbHostFirmwareDownloadFailedStatus));
+             break;
+ 
+ 
+@@ -185,8 +192,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_COUNTER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostFirmwareDownloadFailedCount,
++			     sizeof(ocStbHostFirmwareDownloadFailedCount));
+             break;
+ 
+ 
+@@ -215,8 +222,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostFirmwareDownloadGroupId,
++			     sizeof(ocStbHostFirmwareDownloadGroupId));
+             break;
+ 
+         /*
+@@ -235,7 +242,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -248,14 +255,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -263,7 +270,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }

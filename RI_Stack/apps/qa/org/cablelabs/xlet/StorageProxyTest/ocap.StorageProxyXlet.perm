@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<!DOCTYPE permissionrequestfile PUBLIC "-//OCAP//DTD Permission Request File 1.0//EN" "http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-1-0.dtd">
+
+<permissionrequestfile appid="0x6555" orgid="0x000000001">
+
+<file value = "true"/>
+
+<network> 
+	<host action="connect,accept,listen,resolve">*</host> 
+</network>
+
+<returnchannel>
+  <defaultisp></defaultisp>
+</returnchannel>
+
+<applifecyclecontrol value="true"/>
+
+<servicesel value="true"/>
+
+<dripfeed value="true"/>
+
+<userpreferences write="true" read="true"/>
+
+<tuning value="true"/>
+
+
+<ocap:monitorapplication name="frontpanel" value="true" />
+<ocap:monitorapplication name="handler.recording" value="true" />
+<ocap:monitorapplication name="registrar" value="true" />
+<ocap:monitorapplication name="handler.appFilter" value="true" />
+<ocap:monitorapplication name="security" value="true" />
+<ocap:monitorapplication name="podApplication" value="true" />
+<ocap:monitorapplication name="service" value="true" />
+<ocap:monitorapplication name="servicemanager" value="true" />
+<ocap:monitorapplication name="reboot" value="true" />
+<ocap:monitorapplication name="storage" value="true" />
+<ocap:monitorapplication name="properties" value="true" />
+<ocap:monitorapplication name="codeDownload" value="true" />
+<ocap:monitorapplication name="systemevent" value="true" />
+<ocap:monitorapplication name="handler.closedCaptioning" value="true" />
+<ocap:monitorapplication name="signal.configured" value="true" />
+<ocap:monitorapplication name="setVideoPort" value="true" />
+<ocap:monitorapplication name="filterUserEvents" value="true" />
+<ocap:monitorapplication name="handler.eas" value="true" />
+<ocap:monitorapplication name="handler.resource" value="true" />
+<ocap:monitorapplication name="vbifiltering" value="true" />
+<ocap:monitorapplication name="mediaAccess" value="true" />
+<ocap:monitorapplication name="registeredapi.manager" value="true"/>
+<ocap:registeredapi.user value="true"/>
+
+   
+</permissionrequestfile>

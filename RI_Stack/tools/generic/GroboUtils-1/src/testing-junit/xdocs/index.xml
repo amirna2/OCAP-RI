@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:05 $
+-->
+
+
+<document>
+<head>
+    <name>JUnit Extensions</name>
+</head>
+<body>
+    <H2>Table Of Contents</H2>
+    <OL>
+        <LI><link name="about">About JUnit Extensions</link></LI>
+        <LI><B>Interface/Hierarchial Test Case (IFTC):</B>
+            <OL>
+                <LI><link name="requirements_iftc">Goals/Requirements</link></LI>
+                <LI><link name="design_iftc">Design</link></LI>
+                <LI><link name="using_iftc">Using</link></LI>
+            </OL>
+        </LI>
+        <LI><B>Other Extensions:</B>
+            <OL>
+                <LI><link name="using_it">Using Integration Tests </link></LI>
+                <LI><link name="using_mtt">Using Multi-Threaded Tests</link></LI>
+            </OL>
+        </LI>
+        <LI>Articles
+            <OL>
+                <LI><link name="art_naming">Naming JUnit Tests</link></LI>
+                <LI><link name="art_jf">JUnit Patterns</link></LI>
+                <LI><link name="art_hierarchy">Hierarchy Tests</link></LI>
+                <LI><link name="art_eut">Enemy Unit Tests</link></LI>
+                <LI><link name="art_iut">Integration Unit Tests</link></LI>
+                <LI><link name="art_ait">Application Integration Tests</link></LI>
+            </OL>
+        </LI>
+    </OL>
+</body>
+</document>
+

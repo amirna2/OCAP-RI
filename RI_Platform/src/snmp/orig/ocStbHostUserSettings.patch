@@ -1,0 +1,22 @@
+--- orig/ocStbHostUserSettings.c	2011-04-11 15:35:56.665080002 -0600
++++ ocStbHostUserSettings.c	2011-04-12 10:11:23.921080000 -0600
+@@ -9,6 +9,8 @@
+ #include "ocStbHostUserSettings.h"
+ 
+ /** Initializes the ocStbHostUserSettings module */
++static char ocStbHostUserSettingsPreferedLanguage[4];
++
+ void
+ init_ocStbHostUserSettings(void)
+ {
+@@ -39,8 +41,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) ocStbHostUserSettingsPreferedLanguage,
++			     sizeof(ocStbHostUserSettingsPreferedLanguage));
+             break;
+ 
+ 

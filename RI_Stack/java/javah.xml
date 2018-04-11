@@ -1,0 +1,231 @@
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+  COPYRIGHT_END -->
+
+<project name="javah" default="build" basedir="..">
+
+    <property environment="env"/>
+
+	<!-- Local properties -->
+	<property name="jni.h.dir" location="${gendir}/javah"/>
+
+    <target name="mkdir" depends="init">
+        <mkdir dir="${jni.h.dir}" />
+    </target>
+
+	<!-- Generate JNI header files -->
+	<target name="build.jni.h" depends="init, mkdir, check.jni.uptodate" unless="jni.uptodate">
+
+        <!-- Base module files -->
+		<javah destdir="${jni.h.dir}" force="true"
+               bootclasspath="${build.lib.BOOTCLASSPATH}" classpath="${class_gendir}">
+			<class name="org.cablelabs.debug.Memory"/>
+			<class name="org.cablelabs.debug.Profile"/>
+			<class name="org.cablelabs.debug.status.MpeStatusProducer"/>
+			<class name="org.cablelabs.impl.davic.net.tuning.NetworkInterfaceImpl"/>
+			<class name="org.cablelabs.impl.davic.net.tuning.NetworkInterfaceManagerImpl"/>
+			<class name="org.cablelabs.impl.debug.Debug"/>
+			<class name="org.cablelabs.impl.dvb.dsmcc.DSMCCStreamImpl"/>
+			<class name="org.cablelabs.impl.dvb.dsmcc.DSMCCStreamEventImpl"/>
+			<class name="org.cablelabs.impl.dvb.dsmcc.NPTTimebase"/>
+			<class name="org.cablelabs.impl.dvb.dsmcc.ObjectCarousel"/>
+			<class name="org.cablelabs.impl.dvb.dsmcc.RealObjectCarousel"/>
+			<class name="org.cablelabs.impl.dvb.dsmcc.PrefetchingServiceDomain"/>
+			<class name="org.cablelabs.impl.havi.port.mpe.HDCoherentConfig"/>
+			<class name="org.cablelabs.impl.havi.port.mpe.HDConfigInfo"/>
+			<class name="org.cablelabs.impl.havi.port.mpe.HDScreen"/>
+			<class name="org.cablelabs.impl.havi.MpegBackgroundImage"/>
+			<class name="org.cablelabs.impl.manager.ResourceReclamationManager$ContextID"/>
+			<class name="org.cablelabs.impl.manager.SectionFilterManager$FilterSpec"/>
+			<class name="org.cablelabs.impl.manager.sections.MpeSectionFilterApi"/>
+			<class name="org.cablelabs.impl.manager.auth.RootCertSerializer"/>
+			<class name="org.cablelabs.impl.manager.cdl.DownloadManagerImpl"/>
+			<class name="org.cablelabs.impl.manager.ed.EventDispatchImpl"/>
+			<class name="org.cablelabs.impl.manager.filesys.FileManagerImpl"/>
+			<class name="org.cablelabs.impl.manager.filesys.OCFileSys"/>
+			<class name="org.cablelabs.impl.manager.filesys.OCFileData"/>
+			<class name="org.cablelabs.impl.manager.reclaim.Callback"/>
+			<class name="org.cablelabs.impl.manager.reclaim.RRMgrImpl"/>
+			<class name="org.cablelabs.impl.manager.pod.PodManagerImpl"/>
+			<class name="org.cablelabs.impl.manager.service.SIDatabaseImpl"/>
+			<class name="org.cablelabs.impl.manager.service.SIEventCodes"/>
+			<class name="org.cablelabs.impl.manager.signalling.SignallingMgr"/>
+			<class name="org.cablelabs.impl.manager.sound.SoundMgr"/>
+			<class name="org.cablelabs.impl.manager.system.mmi.MmiSystemModule"/>
+			<class name="org.cablelabs.impl.manager.system.SASSystemModule"/>
+			<class name="org.cablelabs.impl.manager.system.SystemModuleMgr"/>
+			<class name="org.cablelabs.impl.manager.system.SystemModuleRegistrarImpl"/>
+			<class name="org.cablelabs.impl.manager.vbi.NativeVBIFilterApi"/>
+			<class name="org.cablelabs.impl.media.mpe.MediaAPIImpl"/>
+			<class name="org.cablelabs.impl.ocap.OcapMain"/>
+			<class name="org.cablelabs.impl.ocap.hardware.HostImpl"/>
+			<class name="org.cablelabs.impl.ocap.hardware.IEEE1394NodeImpl"/>
+			<class name="org.cablelabs.impl.ocap.hardware.VideoOutputPortImpl"/>
+			<class name="org.cablelabs.impl.ocap.si.ByteParser"/>
+			<class name="org.cablelabs.impl.sound.mpe.SoundAPIImpl"/>
+			<class name="org.cablelabs.impl.storage.StorageManagerImpl"/>
+			<class name="org.cablelabs.impl.storage.StorageProxyImpl"/>
+			<class name="org.cablelabs.impl.storage.DetachableStorageOptionImpl"/>
+			<class name="org.cablelabs.impl.storage.RemovableStorageOptionImpl"/>
+			<class name="org.cablelabs.impl.util.MPEEnv"/>
+			<class name="org.cablelabs.impl.ocap.manager.eas.EASAlert"/>
+			<class name="org.davic.net.tuning.StreamTable"/>
+			<class name="org.davic.mpeg.NotAuthorizedInterface"/> <!-- for constants only -->
+			<class name="org.dvb.dsmcc.DSMCCObject"/>
+			<class name="org.dvb.io.persistent.FileAttributes"/>
+			<class name="org.dvb.media.DripFeedDataSource"/>
+			<class name="org.dvb.user.UserPreferenceManager"/>
+			<class name="org.ocap.hardware.CopyControl"/>
+			<class name="org.ocap.hardware.Host"/>
+			<class name="org.ocap.media.ClosedCaptioningAttribute"/>
+			<class name="org.ocap.media.ClosedCaptioningControl"/>
+			<class name="org.cablelabs.impl.manager.snmp.HostSummaryErrorContentInfoMIBModuleHandler"/>
+		</javah>
+
+        <!-- Generate JNI headers for extensions -->
+        <antcall target="build.jni.h.dvr" />
+        <antcall target="build.jni.h.hn" />
+        <antcall target="build.jni.h.ds" />
+        <antcall target="build.jni.h.fp" />
+
+        <!-- Mark that we are up-to-date -->
+		<touch file="${jni.h.dir}/jni.uptodate"/>
+    </target>
+
+    <target name="build.jni.h.dvr" depends="init" if="${build.ocap.DVR_ENABLED}">
+        <!-- DVR module files -->
+		<javah destdir="${jni.h.dir}" force="true" bootclasspath="${build.lib.BOOTCLASSPATH}" classpath="${class_gendir}">
+			<class name="org.cablelabs.impl.manager.recording.RecordingImpl"/>
+			<class name="org.cablelabs.impl.manager.recording.RecordingManagerImpl"/>
+			<class name="org.cablelabs.impl.manager.recording.RecordedServiceImpl"/>
+			<class name="org.cablelabs.impl.storage.DVRStorageManagerImpl"/>			
+			<class name="org.cablelabs.impl.storage.MediaStorageVolumeImpl"/>
+			<class name="org.cablelabs.impl.storage.MediaStorageOptionImpl"/>
+			<class name="org.cablelabs.impl.manager.timeshift.TimeShiftBufferImpl"/>
+			<class name="org.cablelabs.impl.media.mpe.DVRAPIImpl"/>
+		</javah>
+    </target>
+
+    <target name="build.jni.h.hn" depends="init" if="${build.ocap.HN_ENABLED}">
+        <!-- HomeNetworking module files -->
+		<javah destdir="${jni.h.dir}" force="true" bootclasspath="${build.lib.BOOTCLASSPATH}" classpath="${class_gendir}">
+			<class name="org.cablelabs.impl.media.mpe.HNAPIImpl"/>
+		</javah>
+		<javah destdir="${jni.h.dir}" force="true" bootclasspath="${build.lib.BOOTCLASSPATH}" classpath="${class_gendir}">
+			<class name="org.cablelabs.impl.ocap.hn.NetManagerImpl"/>
+		</javah>
+		<javah destdir="${jni.h.dir}" force="true" bootclasspath="${build.lib.BOOTCLASSPATH}" classpath="${class_gendir}">
+			<class name="org.cablelabs.impl.ocap.hn.transformation.TransformationManagerImpl"/>
+		</javah>
+    </target>
+
+    <target name="build.jni.h.fp" depends="init" if="${build.ocap.FP_ENABLED}">
+        <!-- FrontPanel module files -->
+		<javah destdir="${jni.h.dir}" force="true" bootclasspath="${build.lib.BOOTCLASSPATH}" classpath="${class_gendir}">
+			<class name="org.cablelabs.impl.ocap.hardware.frontpanel.FrontPanelManagerImpl"/>
+			<class name="org.cablelabs.impl.ocap.hardware.frontpanel.IndicatorImpl"/>
+			<class name="org.cablelabs.impl.ocap.hardware.frontpanel.TextDisplayImpl"/>
+        </javah>
+    </target>
+
+    <target name="build.jni.h.ds" depends="init" if="${build.ocap.DS_ENABLED}">
+        <!-- DeviceSettings module files -->
+		<javah destdir="${jni.h.dir}" force="true" bootclasspath="${build.lib.BOOTCLASSPATH}" classpath="${class_gendir}">
+			<class name="org.cablelabs.impl.ocap.hardware.device.AudioOutputPortImpl"/>
+			<class name="org.cablelabs.impl.ocap.hardware.device.HostSettingsProxy"/>
+			<class name="org.cablelabs.impl.ocap.hardware.device.VideoOutputSettingsProxy"/>
+			<class name="org.cablelabs.impl.manager.host.DeviceSettingsHostManagerImpl"/>
+        </javah>
+    </target>
+
+    <!-- Determines whether the classes jar file is newer than our "uptodate" file -->
+	<target name="check.jni.uptodate" depends="init">
+		<uptodate property="jni.uptodate" srcfile="${ocap-classes.jar}" targetfile="${jni.h.dir}/jni.uptodate" />
+	</target>
+
+	<!-- Generate JNI header files for base OCAP test classes -->
+	<target name="build.test.jni.h" description="Create test JNI Header files"
+            depends="init, mkdir, check.jni.test.uptodate" unless="jni.test.uptodate">
+
+		<javah destdir="${jni.h.dir}" force="true" classpath="${ocap-test.jar}">
+			<class name="org.cablelabs.test.ScreenCapture"/>
+		</javah>
+
+		<touch file="${jni.h.dir}/jni.test.uptodate"/>
+
+	</target>
+
+    <!-- Determines whether the classes jar file is newer than our "uptodate" file -->
+	<target name="check.jni.test.uptodate" depends="init">
+		<uptodate property="jni.test.uptodate" targetfile="${jni.h.dir}/jni.test.uptodate">
+			<srcfiles file="${ocap-test.jar}"/>
+		</uptodate>
+	</target>
+
+	<!-- Clean -->
+	<target name="clean" depends="init" description="Clean intermediate files for all targets">
+		<delete file="${jni.h.dir}/*.h"/>
+	</target>
+
+	<!-- Purge -->
+	<target name="purge" depends="init" description="Purge final files for all targets">
+		<!-- nop -->
+	</target>
+
+	<!-- Initialize values used by all tasks -->
+	<target name="init">
+		<tstamp>
+			<format property="DATE" pattern="MMMM d, yyyy"/>
+		</tstamp>
+	    <ant antfile="${env.OCAPROOT}/build.xml" target="check_version" />
+	</target>
+</project>

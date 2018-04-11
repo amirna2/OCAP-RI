@@ -1,0 +1,35 @@
+#---*---*---*---*---*---*---*---*---*---*---*---*---*     TCPIPTunerXlet
+app.0.application_control_code=AUTOSTART
+app.0.application_identifier=0x000000017101
+app.0.visibility=VISIBLE
+app.0.priority=220
+app.0.application_name=TCPIPTuner
+app.0.base_directory=/mnt/nfs/DEMO/xlets
+app.0.initial_class_name=org.cablelabs.xlet.TCPIPTunerXlet.TCPIPTunerXlet
+# default port number: 8888
+app.0.args.0=portnum=8888
+# How long to wait for the tune to complete
+app.0.args.1=tunesec=60
+# Three Modes:  "normal", "canned", "randomCanned", "test"
+#     normal: Xlet receives TCP/IP tune requests and performs service-selection
+#     test: Xlet receives TCP/IP tune requests; does NOT perform
+#         service-selection; returns response to client
+#     canned: Xlet reads Xlet arg list of service identifiers
+#     randomCanned: Xlet reads Xlet arg list of service identifiers IN RANDOM FASHION
+app.0.args.2=mode=normal
+# How long to "dwell" after successful tune
+app.0.args.3=dwellmsec=10000
+# CANNED MODE ONLY: a space-separated list of OcapLocator URLs
+#app.0.args.4=locators=ocap://f=0x27290640.0x5 \
+#ocap://f=0x22274940.0x33 \
+#ocap://f=0x24A827C0.0x6 \
+#ocap://f=0x27290640.0xC \
+#ocap://f=0x24A827C0.0x2 \
+#ocap://f=0x27290640.0x4 \
+#ocap://f=0x24A827C0.0x6 \
+#ocap://f=0x27290640.0x7 \
+#ocap://f=0x24A827C0.0x8 \
+#ocap://f=0x244C9A40.0x6 \
+#ocap://f=0x244C9A40.0x2 \
+#ocap://f=0x244C9A40.0x3 \
+#ocap://f=0x244C9A40.0x4

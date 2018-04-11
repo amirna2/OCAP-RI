@@ -1,0 +1,24 @@
+<!-- Main Entrypoint for defining the SAX libraries properties.
+-->
+    <property name="_shared.dirs.3rdparty.sax"
+            value="${_shared.dirs.3rdparty}/sax" />
+    
+    
+    <!-- SAX libraries -->
+    <property name="libs.sax.2_0_1"
+            value="${_shared.dirs.3rdparty.sax}/2.0.1/sax.jar" />
+    
+    <property name="javadoc.package-list.sax.2_0_1"
+            value="${_shared.dirs.3rdparty.sax}/2.0.1/package-list" />
+    <property name="javadoc.url.sax.2_0_1"
+            value="http://www.saxproject.org/apidoc" />
+    
+    <property name="licenses.sax.2_0_1"
+            value="${_shared.dirs.3rdparty.sax}/2.0.1/license.html" />
+
+
+    
+    
+    <property name="libs.sax.current"
+            value="${libs.sax.2_0_1}" />
+

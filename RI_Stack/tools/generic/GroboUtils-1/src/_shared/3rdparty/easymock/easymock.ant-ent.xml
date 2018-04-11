@@ -1,0 +1,11 @@
+<!-- ANT entity include/definition for EasyMock library files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.easymock SYSTEM "easymock.ant-inc.xml">
+
+<!ENTITY inc.javadoc.easymock.0_8 SYSTEM "0.8/javadoc-links.ant-inc.xml">
+

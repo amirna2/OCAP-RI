@@ -1,0 +1,8 @@
+<!-- ANT includes for the _shared files in all project -->
+
+    <property name="_shared.license"
+            value="${_shared.dirs.base}/license/LGPL.txt" />
+
+    
+    
+    

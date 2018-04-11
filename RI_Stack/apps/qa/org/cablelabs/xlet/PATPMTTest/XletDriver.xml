@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent+)>
+	<!ATTLIST Xlet 
+	name CDATA #REQUIRED
+	orgID CDATA #REQUIRED
+	appID CDATA #REQUIRED
+	pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+	<!ATTLIST RCEvent 
+	name CDATA #IMPLIED
+	pauseBeforeNext CDATA #IMPLIED
+	monitorTimeout CDATA #IMPLIED
+	getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+	
+        <!-- PATPMTTest -->
+	
+        <Xlet name="PATPMTTest" orgID="0x1" appID="0x4307" pauseAfterLast="100000" startupTimeout="100000">
+
+        <RCEvent name="OOB_PAT"      monitorTimeout="20000" pauseBeforeNext="20000">VK_5</RCEvent>
+        <RCEvent name="OOB_PMT"      monitorTimeout="20000" pauseBeforeNext="20000">VK_6</RCEvent>
+
+        <RCEvent name="Tune_01"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+        
+        <RCEvent name="ChannelUp_02" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_02"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_03" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_03"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+        
+        <RCEvent name="ChannelUp_04" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_04"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_05" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_05"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_06" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_06"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_07" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_07"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_08" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_08"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_09" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_09"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_10" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_10"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_11" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_11"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_12" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_12"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_13" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_13"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_14" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_14"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_15" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_15"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>	
+
+        <RCEvent name="ChannelUp_16" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_16"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_17" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_17"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_18" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_18"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_19" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_19"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_20" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_20"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_21" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_21"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_22" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_22"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_23" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_23"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_24" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_24"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_25" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_25"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_26" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_26"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_27" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_27"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_28" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_28"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_29" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_29"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_30" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_30"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_31" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_31"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_32" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_32"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_33" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_33"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_34" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_34"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_35" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_35"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>	
+
+        <RCEvent name="ChannelUp_36" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_36"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_37" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_37"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_38" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_38"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_39" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_39"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_40" monitorTimeout="5000"  pauseBeforeNext="50000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_40"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_41" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_41"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_42" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_42"      monitorTimeout="15000" pauseBeforeNext="150000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_43" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_43"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_44" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_44"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_45" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_45"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_46" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_46"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_47" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_47"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_48" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_48"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_49" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_49"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_50" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_50"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        </Xlet>
+
+</AutoXlet>

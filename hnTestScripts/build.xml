@@ -1,0 +1,269 @@
+<!--
+    TODO:
+
+    This script refers to four svn roots within https://community.cablelabs.com/svn
+    (where by 'root' I mean a directory structure rooted in trunk or branches/foo
+    for some foo):
+
+        OCAPRI
+        oc/ocap_ri
+        oc/ocapate
+        oc/ocaptest (via tsbuild-update-svn)
+
+    In principle, we might want to support specification of each of them. Currently
+    specification of only the first and last is supported (via the properties
+    OCAPRI_root and oc.ocaptest_root, respectively).
+  -->
+
+<project default="All" name="Automate HN CTP Testing">
+    <description>Update all sources and run all HN CTP tests</description>
+
+    <property environment="env"/>
+
+    <property name="commitResult" value="false"/>
+    <property name="hnInterface" value="eth0"/>
+    <property name="minimumMaturity" value="34"/>
+    <property name="OCAPRI_root" value="trunk"/>
+    <property name="oc.ocaptest_root" value="trunk"/>
+    <property name="riRoot" value="${env.HOME}/Build"/>
+    <property name="simulatorMachine" value="192.168.0.103"/>
+    <property name="simulatorMachineUser" value="admin"/>
+    <property name="testFilter" value="..*"/>
+    <property name="excludeUnreliable" value="true"/>
+    <property name="fileUnreliableTests" value="unreliableTests.csv"/>
+
+    <exec osfamily="windows" executable="cygpath" outputproperty="RI_ROOT">
+       <arg value="--mixed"/>
+       <arg value="${riRoot}"/>
+    </exec>
+    <condition property="RI_ROOT" value="${riRoot}">
+        <os family="unix"/>
+    </condition>
+
+    <target name="init">
+        <tstamp/>
+        <property name="label" value="${DSTAMP}:${TSTAMP}"/>
+
+        <echo>Run on ${DSTAMP} at ${TSTAMP}.</echo>
+        <echo/>
+        <echo>  $${ant.core.lib}                  ${ant.core.lib}</echo>
+        <echo>  $${ant.file}                      ${ant.file}</echo>
+        <echo>  $${ant.home}                      ${ant.home}</echo>
+        <echo>  $${ant.java.version}              ${ant.java.version}</echo>
+        <echo>  $${ant.library.dir}               ${ant.library.dir}</echo>
+        <echo>  $${ant.project.invoked-targets}   ${ant.project.invoked-targets}</echo>
+        <echo>  $${ant.version}                   ${ant.version}</echo>
+        <echo>  $${basedir}                       ${basedir}</echo>
+        <echo/>
+        <echo>USAGE</echo>
+        <echo/>
+        <echo>  ant -p</echo>
+        <echo>    to print target definitions</echo>
+        <echo/>
+        <echo>  You may override any of the following properties on the command line,</echo>
+        <echo>  using the parenthesized property name. For example,</echo>
+        <echo/>
+        <echo>    ant -DriRoot="$HOME/Build2"</echo>
+        <echo/>
+        <echo>  NAME                   DESCRIPTION                                           VALUE</echo>
+        <echo/>
+        <echo>  commitResult           Commit results to subversion (true or false)          ${commitResult}</echo>
+        <echo>  hnInterface            RI network interface                                  ${hnInterface}</echo>
+        <echo>  minimumMaturity        Minimum maturity level for tests (35, 40, ...)        ${minimumMaturity}</echo>
+        <echo>  OCAPRI_root            OCAPRI svn root (trunk or branches/foo)               ${OCAPRI_root}</echo>
+        <echo>  oc.ocaptest_root       oc/ocaptest svn root (trunk or branches/foo)          ${oc.ocaptest_root}</echo>
+        <echo>  riRoot                 Directory in which to export and build RI (fq path)   ${RI_ROOT}</echo>
+        <echo>  simulatorMachine       Linux UPnP simulator machine (IP address)             ${simulatorMachine}</echo>
+        <echo>  simulatorMachineUser   Linux UPnP simulator machine user (admin, ...)        ${simulatorMachineUser}</echo>
+        <echo>  testFilter             ERE by which to filter TPIDs, or file containing same ${testFilter}</echo>
+        <echo>  excludeUnreliable      If TRUE, do not queue tests from the Unreliable list  ${excludeUnreliable}</echo>
+        <echo>  fileUnreliableTests    List of unreliable tests, in .csv format              ${fileUnreliableTests}</echo>
+        <echo/>
+        <echo>PRECONDITIONS AND ASSUMPTIONS:</echo>
+        <echo/>
+        <echo>  Developers, please add others to this list as you think of them,</echo>
+        <echo>  and remove items from this list as you resolve them.</echo>
+        <echo/>
+        <echo>  ON THE RI MACHINE</echo>
+        <echo/>
+        <echo>  1. The scripts in this script directory (see $${basedir} above) are up to date.</echo>
+        <echo>  2. The directory ~admin/atelite is up to date.</echo>
+        <echo>  3. ~admin/atelite/bin/tsbuild-update-env is accessible through user 'admin''s $PATH.</echo>
+        <echo>  4. ~admin/atelite/bin/tsbuild-update-svn is accessible through user 'admin''s $PATH.</echo>
+        <echo>  5. ~admin/atelite/config/main.cfg defines atelite.upnpsim.address to be the IP address</echo>
+        <echo>     of the Linux UPnP simulator machine.</echo>
+        <echo>  6. User 'admin' has already authenticated to the SVN repository at</echo>
+        <echo>     https://community.cablelabs.com/svn/oc/ocap_ri/trunk/ri/QA/CTP_results/home_networking.</echo>
+        <echo>  7. Passwordless authentication to the Linux UPnP simulator machine has been set up.</echo>
+        <echo>  8. The network interface for the RI to use is 'eth0'.</echo>
+        <echo>  9. User 'admin' updates the world and runs the tests daily, using for example a crontab entry</echo>
+        <echo>     such as this (with the '0 20' part all on one line):</echo>
+        <echo>       HOME=/home/admin</echo>
+        <echo>       0 20 * * * (. $HOME/.bash_profile; cd $PLATFORMROOT/../hnTestScripts; ant -DcommitResult=true)</echo>
+        <echo>                   > $HOME/nightly_run.log 2>&amp;1</echo>
+        <echo/>
+        <echo>  ON THE LINUX UPNP SIMULATOR MACHINE</echo>
+        <echo/>
+        <echo>  1. ~/.bashrc defines the usual family of OCAP RI environment variables, and the directory</echo>
+        <echo>     $RIROOT/.. exists.</echo>
+        <echo>  2. ~/.bashrc leaves the current directory set to the home directory.</echo>
+        <echo>  3. Working copies of the scripts in this directory exist, are up to date, and are accessible</echo>
+        <echo>     through $PATH:</echo>
+        <echo>       https://community.cablelabs.com/svn/OCAPRI/trunk/ri/hnTestScripts</echo>
+        <echo>  4. User root has an up-to-date working copy of this directory, for example at</echo>
+        <echo>     ~root/upnpSim/utilityScripts:</echo>
+        <echo>       https://community.cablelabs.com/svn/oc/ocapate/trunk/upnpSimulator/utilityScripts</echo>
+        <echo>  5. The network interface for the UPnP simulator to use is 'eth0'.</echo>
+        <echo>  6. The installSim.sh file within that directory has been edited locally to specify 'eth0'</echo>
+        <echo>     for both network interfaces on the install.sh command line. (NOTE: this will not be</echo>
+        <echo>     necessary once Walter parametrizes the network interface names.)</echo>
+        <echo>  7. User 'root' updates the UPnP simulator daily, using for example a crontab entry such as this</echo>
+        <echo>     (all on one line):</echo>
+        <echo>       0 19 * * * (echo; echo == TIME: $(date); svn update ~/upnpSim/utilityScripts;</echo>
+        <echo>                   ~/upnpSim/utilityScripts/installHnLab.sh) > ~/upnpSim/installSim.out 2>&amp;1</echo>
+    </target>
+
+    <!--
+        Sample setup of the Linux UPnP simulator machine:
+
+        # log on as root
+
+        mkdir ~/upnpSim
+        cd ~/upnpSim
+
+        svn co https://community.cablelabs.com/svn/oc/ocapate/trunk/upnpSimulator/utilityScripts
+        # When prompted for password for 'root', hit ENTER. Then when prompted for a new username and its password,
+        # enter credentials supplied by Walter. (Currently these are read/write credentials; we really need
+        # to get read-only credentials for this purpose.) Enter 'yes' to subsequent 'store password
+        # unencrypted?' prompts.
+
+        sed -i -e 's|\<eth1\>|eth0|' utilityScripts/installSim.sh
+
+        crontab -e
+        # add the above crontab entry and exit
+    -->
+
+    <!--
+        Sample environment variable settings on Linux UPnP simulator machine:
+
+        export RIROOT=~/ocap-ri/OCAPRI_root
+        export PLATFORMROOT=$RIROOT/ri/RI_Platform
+        export OCAPROOT=$RIROOT/ri/RI_Stack
+        export RICOMMONROOT=$RIROOT/common
+        export OCAPHOST=Linux
+        export OCAPTC=CableLabs/simulator/Linux/debug
+        export PLATFORMHOST=Linux
+        export PLATFORMTC=Linux/debug
+        export TWB_TOOLROOT=$RIROOT/ri/RI_Platform
+    -->
+
+    <target name="All"
+        depends="UpdateRI, UpdateEnv, UpdateDotM, EnableCoverage, RunTests, AnalyzeResults"
+        description="Run UpdateRI, UpdateEnv, UpdateDotM, EnableCoverage, RunTests, AnalyzeResults"/>
+
+    <target name="AnalyzeResults" depends="init"
+        description="When the tests have completed, archive and analyze them">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite_hn.sh"/>
+            <arg value="-ProcessResults"/>
+            <arg value="${RI_ROOT}"/>
+            <arg value="${basedir}"/>
+            <arg value="${label}"/>
+            <arg value="${commitResult}"/>
+            <arg value="${OCAPRI_root}"/>
+            <arg value="${oc.ocaptest_root}"/>
+        </exec>
+         <antcall target="EMailResults"/>
+    <!-- NOTE 
+         After analyzing the results, a file is touched.  Other scripts then begin.
+         Why is the signal not sent until after the results are analyed?
+         Testing is easier with the signal sent from this task.  Since the analysis is a quick
+         task and has no persistence (like svn checkins) this is a handy place to test integration.
+         Ideally, the signal should be sent once the build is complete.  Running several 
+         scripts in parallel is enabled.  However there is a chance that a failure in one 
+         script might affect other scripts so until a few successful runs are made the signal 
+         will not be after the build.  Instead the signal waits until after  all tasks are
+         essentially finished.
+    -->
+         <antcall target="SignalBuildIsComplete"/>
+    </target>
+
+    <!-- Should the EMailResults depend upon the AnalyzeResults task? -->
+    <!--    if so, add the depends attribute to the target below -->
+      <target name="EMailResults"
+        description="After the results are analyzed, e-mail them">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite_hn.sh"/>
+            <arg value="-EMailResults"/>
+        </exec>
+    </target>
+
+    <target name="EnableCoverage" depends="init"
+        description="Instrument the stack to capture coverage data">
+        <echo> installing emma jar files ... </echo>
+        <exec executable="bash" failonerror="true">
+           <arg value="installEmma.sh"/>
+        </exec>
+        <echo>   ... emma instlled </echo>
+    </target>
+
+    <target name="RunTests" depends="init"
+        description="Start the processes, run the tests, stop the processes">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite_hn.sh"/>
+            <arg value="-RunTests"/>
+            <arg value="${RI_ROOT}"/>
+            <arg value="${basedir}"/>
+            <arg value="${testFilter}"/>
+            <arg value="${excludeUnreliable}"/>
+            <arg value="${fileUnreliableTests}"/>
+        </exec>
+    </target>
+
+    <target name="UpdateDotM" depends="init"
+        description="Update and build the test streams">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite_hn.sh"/>
+            <arg value="-UpdateDotM"/>
+            <arg value="${basedir}"/>
+            <arg value="${minimumMaturity}"/>
+            <arg value="${testFilter}"/>
+        </exec>
+    </target>
+
+    <target name="UpdateEnv" depends="init"
+        description="Download and install the latest UPnP simulator code">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite_hn.sh"/>
+            <arg value="-UpdateEnv"/>
+            <arg value="${RI_ROOT}"/>
+            <arg value="${oc.ocaptest_root}"/>
+        </exec>
+    </target>
+
+    <target name="UpdateRI" depends="init"
+        description="Update and build the RI platform and stack">
+        <exec executable="bash" failonerror="true">
+            <arg value="run_testsuite_hn.sh"/>
+            <arg value="-UpdateRI"/>
+            <arg value="${RI_ROOT}"/>
+            <arg value="${simulatorMachine}"/>
+            <arg value="${simulatorMachineUser}"/>
+            <arg value="${OCAPRI_root}"/>
+            <arg value="${hnInterface}"/>
+        </exec>
+    </target>
+
+
+    <target name="SignalBuildIsComplete"
+        description="Touches a file used by other scripts to indicate the build is finished">
+        <exec executable="touch" failonerror="false">
+            <arg value="RIBuildComplete"/>
+        </exec>
+        <exec executable="ls" failonerror="false">
+            <arg value="-la"/>
+            <arg value="RIBuildComplete"/>
+        </exec>
+    </target>
+
+</project>

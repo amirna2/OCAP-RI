@@ -1,0 +1,67 @@
+#########################################################################################
+## app <Organization ID> <Application ID>:
+# app        0xhex_number 0xhex_number
+#
+## Application control flag: 1=autostart 2=present 3=destroy 4=kill:
+# control    1
+#
+## service bound flag (0 or 1):
+# bound      0
+#
+## Basedir of application (must be relative to /home directory):
+# basedir    "/home"
+#
+## Initial class name (fully qualified name):
+# class      "your.company.Test"
+#
+## The next set of parameters are optional:
+#
+## Name of application preceded by language code:
+# name       eng "Test"
+#
+## Parameter of service on which the application should be visible to application manager:
+# tsid       0x7	# transport stream id
+# onid       0x46	# original network id
+# svid       0x2bd	# service id
+#
+## other flags:
+# priority   137
+## Visibility of application: 0 = Hidden, 1 = Hidden from users only, 3 = Visible
+# visibility 3
+#
+## Classpath extension:
+# classpath  ""
+#
+## String params passed to Xlet:
+# param = "value 0"
+# param = "value 1"
+#########################################################################################
+
+###############################################
+## Test Launcher
+## NOTE - This TestLauncher is here to launch all the xlets
+##        until we figure out how to define abstract services.
+##        Each abstract service will need its own TestLauncher.
+###############################################
+#app 0x0001 0x4511
+#control 1
+#bound 0
+#basedir "/home"
+#class "org.cablelabs.xlet.TestLauncher.TestLauncher2"
+#name "Test Launcher"
+#priority 220
+#visibility 0
+
+###############################################
+## MediaStorageVolume test
+###############################################
+app 0x0001 0x6001
+control 1
+bound 0
+basedir "/home"
+class "org.cablelabs.xlet.DvrTest.ECN1098.MediaStorageVolumeXlet"
+name "MediaStorageVolumeXlet"
+priority 220
+visibility 3
+param = "config_file=ecn_1098_config.properties"
+

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+   	<!-- TEST SEQUENCE 1 
+   		Validation of creator's org present in the organization ID 
+		OcapRecordingProperties results in successful playback after 
+		the authentication of the leaf certificate
+  	 -->
+  	 
+ 	<Xlet name="RecordingXlet1" orgID="0x1" appID="0x6001" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="OneOrgRec" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_2</RCEvent>
+ 	</Xlet>
+ 	<Xlet name="PlaybackXlet1" orgID="0x1" appID="0x6002" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackSuccess" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_1</RCEvent>
+ 	</Xlet>
+ 	<Xlet name="PlaybackXlet2" orgID="0x2" appID="0x6012" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackFail" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_2</RCEvent>
+ 	</Xlet>
+        <Xlet name="PlaybackXlet3" orgID="0x3" appID="0x6022" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackFail" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_2</RCEvent>
+ 	</Xlet>
+ 	
+   	<!-- TEST SEQUENCE 2
+   		Validation of null being used in the organization ID to disable 
+		autentication, allowing all apps to successfully playback 
+  	 -->	 
+     <Xlet name="RecordingXlet1" orgID="0x1" appID="0x6001" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="AllOrgRec" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_1</RCEvent>
+ 	</Xlet>
+ 	<Xlet name="PlaybackXlet1" orgID="0x1" appID="0x6002" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackSuccess" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_1</RCEvent>
+ 	</Xlet>
+ 	<Xlet name="PlaybackXlet2" orgID="0x2" appID="0x6012" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackSuccess" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_1</RCEvent>
+ 	</Xlet>
+    <Xlet name="PlaybackXlet3" orgID="0x3" appID="0x6022" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackSuccess" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_1</RCEvent>
+ 	</Xlet>
+ 	
+   	<!-- TEST SEQUENCE 3
+   		Validation of null being used in the organization ID to disable 
+		autentication, allowing all apps to successfully playback
+    -->
+    
+   <Xlet name="RecordingXlet1" orgID="0x1" appID="0x6001" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="InvalidOrg" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_6</RCEvent>
+ 	</Xlet>
+ 	
+   	<!-- TEST SEQUENCE 4A
+    	Validation of IllegalArgumentException is thrown when the organization_id defined
+		in OcapRecordingProperties does not match with the Org ID of the creator
+    -->
+     <Xlet name="RecordingXlet1" orgID="0x1" appID="0x6001" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="AllOrgRec" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_1</RCEvent>
+		<RCEvent name="RemoveAccess1and2" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_3</RCEvent>
+ 	</Xlet>
+ 	<Xlet name="PlaybackXlet1" orgID="0x1" appID="0x6002" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackFail" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_2</RCEvent>
+ 	</Xlet>
+ 	<Xlet name="PlaybackXlet2" orgID="0x2" appID="0x6012" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackFail" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_2</RCEvent>
+ 	</Xlet>
+        <Xlet name="PlaybackXlet3" orgID="0x3" appID="0x6022" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackSuccess" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_1</RCEvent>
+        </Xlet>
+   	<!-- TEST SEQUENCE 4B
+   		Validation of the removal of organizations from a MediaStorageVolume results
+		in a SecurityException thrown from apps existing in those organizations and 
+		successful playback elsewhere
+   	 -->
+        <Xlet name="RecordingXlet1" orgID="0x1" appID="0x6001" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="AddAccess1and2" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_4</RCEvent>
+ 	</Xlet>
+ 	<Xlet name="PlaybackXlet1" orgID="0x1" appID="0x6002" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackSuccess" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_1</RCEvent>
+ 	</Xlet>
+ 	<Xlet name="PlaybackXlet2" orgID="0x2" appID="0x6012" pauseAfterLast="7000" startupTimeout="10000">
+		<RCEvent name="PlaybackSuccess" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_1</RCEvent>
+ 	</Xlet>
+
+</AutoXlet>
+   

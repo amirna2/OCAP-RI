@@ -1,0 +1,404 @@
+<?xml version="1.0"?>
+
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+  COPYRIGHT_END -->
+
+<project name="OCAP_Java" default="build" basedir="..">
+
+	<import file="../extensions.xml"/>
+	
+    <!-- Pull in target configuration properties -->
+    <property environment="env"/>
+    <property file="${env.OCAPROOT}/target/${env.OCAPTC}/buildrules.properties" />
+    <property file="${env.OCAPROOT}/tools/${env.OCAPHOST}/hostrules.properties" />
+    <property file="${env.OCAPROOT}/${build.java.PROPERTYFILE}" />
+    <property file="${env.OCAPROOT}/java/javadoc.properties" />
+
+    <!-- Directories -->
+    <property name="gendir" location="gen/${env.OCAPTC}/java" />
+    <property name="sysdir" location="bin/${env.OCAPTC}/${build.java.SYSDIR}" />
+    <property name="qadir"  location="bin/${env.OCAPTC}/${build.java.QADIR}" />
+
+    <!-- JAR names -->
+    <property name="ocap-classes.jar"    location="${sysdir}/${build.lib.classes.FILENAME}" />
+    <property name="ocap-rez.jar"        location="${sysdir}/${build.lib.rez.FILENAME}" />
+    <property name="support.jar"         location="${sysdir}/${build.lib.support.FILENAME}" />
+    <property name="ocap-test.jar"       location="${qadir}/${build.test.FILENAME}"/>
+    <property name="support-test.jar"    location="${qadir}/${build.test.support.FILENAME}"/>
+
+    <!-- Sub-directory names that will be used by each module build -->
+    <property name="srcdir" value="source" />
+    <property name="test_srcdir" value="test-source" />
+    <property name="classesdir" value="classes" />
+    <property name="test_classesdir" value="test-classes" />
+
+    <!-- Directories for the module and JUnit classfiles -->
+    <property name="class_gendir" location="${gendir}/${classesdir}" />
+    <property name="testclass_gendir" location="${gendir}/${test_classesdir}" />
+
+    <!-- Create the main gendir directories for this module -->
+    <target name="mkdir" depends="init" description="Make all directories">
+        <mkdir dir="${class_gendir}" />
+        <mkdir dir="${testclass_gendir}" />
+        <mkdir dir="${sysdir}" />
+        <mkdir dir="${qadir}" />
+    </target>
+
+    <!-- Purge -->
+    <target name="purge" depends="init" description="Purge final binaries">
+        <delete file="${ocap-classes.jar}" quiet="true" />
+        <delete file="${ocap-rez.jar}" quiet="true" />
+        <delete file="${support.jar}" quiet="true" />
+        <delete file="${ocap-test.jar}" quiet="true" />
+        <delete file="${support-test.jar}" quiet="true" />
+
+        <ant antfile="${basedir}/java/javah.xml" target="purge" inheritAll="false" />
+        <ant antfile="${basedir}/java/build_stubs.xml" target="purge" inheritAll="false" />
+    </target>
+
+    <!-- Main macro used to perform build operations for each module -->
+    <macrodef name="call_module">
+        <attribute name="target" />
+        <attribute name="module" />
+        <attribute name="module.filelist" />
+        <sequential>
+            <ant antfile="java/build_module.xml" target="@{target}">
+                <property name="build.lib.MODULE" value="@{module}" />
+                <property name="build.lib.MODULE.filelist" value="@{module.filelist}" />
+            </ant>
+        </sequential>
+    </macrodef>
+
+    <condition property="build.ocap.HNEXT.filelist" value="${build.ocap.HNEXT.filelist.with.DVREXT}">
+        <and>
+            <istrue value="${build.ocap.HN_ENABLED}"/>
+            <istrue value="${build.ocap.DVR_ENABLED}"/>
+        </and>
+    </condition>
+
+    <condition property="build.ocap.HNEXT.filelist" value="${build.ocap.HNEXT.filelist.without.DVREXT}">
+        <and>
+            <istrue value="${build.ocap.HN_ENABLED}"/>
+            <isfalse value="${build.ocap.DVR_ENABLED}"/>
+        </and>
+    </condition>
+
+    <!-- Clean all module intermediate files -->
+    <target name="clean" depends="init, clean.base, clean.dvr, clean.hn, clean.fp, clean.ds">
+        <delete quiet="true" dir="${class_gendir}" />
+        <delete quiet="true" dir="${testclass_gendir}" />
+        <delete file="${ocap-rez.jar}" quiet="true" />
+        <ant antfile="${basedir}/java/javah.xml" target="clean" inheritAll="false" />
+        <ant antfile="${basedir}/java/build_stubs.xml" target="clean" inheritAll="false"/>
+    </target>
+
+    <target name="clean.base" depends="init">
+        <call_module target="clean" module="${build.ocap.BASE}" module.filelist="${build.ocap.BASE}" />
+    </target>
+    <target name="clean.dvr"  depends="init" if="${build.ocap.DVR_ENABLED}">
+        <call_module target="clean" module="${build.ocap.DVREXT}" module.filelist="${build.ocap.DVREXT}" />
+    </target>
+    <target name="clean.hn" depends="init" if="${build.ocap.HN_ENABLED}">
+        <call_module target="clean" module="${build.ocap.HNEXT}" module.filelist="${build.ocap.HNEXT.filelist}" />
+    </target>
+    <target name="clean.fp" depends="init" if="${build.ocap.FP_ENABLED}">
+        <call_module target="clean" module="${build.ocap.FPEXT}" module.filelist="${build.ocap.FPEXT}" />
+    </target>
+    <target name="clean.ds" depends="init" if="${build.ocap.DS_ENABLED}">
+        <call_module target="clean" module="${build.ocap.DSEXT}" module.filelist="${build.ocap.DSEXT}" />
+    </target>
+
+    <!-- Build everything -->
+    <target name="build" depends="init, mkdir, log4j.properties, build.lib, build.javah, build.test.lib, build.test.javah, build.stubs"
+        description="Build everything" />
+
+    <available file="bin/${env.OCAPTC}/log4j.properties" property="log4j.properties.present"/>
+
+    <!-- log4j.properties is not copied in to the gen tree - only copy it to the target destination if it does not already exist in the destination folder-->
+    <target name="log4j.properties"
+            description="Copy log4j.properties to destination if it does not exist in the destination folder" unless="log4j.properties.present">
+        <copy file="${basedir}/java/src/base/log4j.properties" todir="bin/${env.OCAPTC}/env"/>
+    </target>
+
+    <!-- Copy source files for all modules -->
+    <target name="build.source"
+            depends="init, build.source.base, build.source.dvr, build.source.hn, build.source.fp, build.source.ds, 
+                     gen.properties.props " />
+
+    <target name="build.source.base" depends="init">
+        <call_module target="build.source" module="${build.ocap.BASE}" module.filelist="${build.ocap.BASE}" />
+    </target>
+    <target name="build.source.dvr" depends="init" if="${build.ocap.DVR_ENABLED}">
+        <call_module target="build.source" module="${build.ocap.DVREXT}" module.filelist="${build.ocap.DVREXT}" />
+    </target>
+    <target name="build.source.hn" depends="init" if="${build.ocap.HN_ENABLED}">
+        <call_module target="build.source" module="${build.ocap.HNEXT}" module.filelist="${build.ocap.HNEXT.filelist}" />
+    </target>
+    <target name="build.source.fp" depends="init" if="${build.ocap.FP_ENABLED}">
+        <call_module target="build.source" module="${build.ocap.FPEXT}" module.filelist="${build.ocap.FPEXT}" />
+    </target>
+    <target name="build.source.ds" depends="init" if="${build.ocap.DS_ENABLED}">
+        <call_module target="build.source" module="${build.ocap.DSEXT}" module.filelist="${build.ocap.DSEXT}" />
+    </target>
+
+    <!-- Copy JUnit test source files for all modules -->
+    <target name="build.test"
+            depends="init, build.test.base, build.test.dvr, build.test.hn, build.test.fp, build.test.ds" />
+
+    <target name="build.test.base" depends="init">
+        <call_module target="build.test" module="${build.ocap.BASE}" module.filelist="${build.ocap.BASE}" />
+    </target>
+    <target name="build.test.dvr" depends="init" if="${build.ocap.DVR_ENABLED}">
+        <call_module target="build.test" module="${build.ocap.DVREXT}" module.filelist="${build.ocap.DVREXT}" />
+    </target>
+    <target name="build.test.hn" depends="init" if="${build.ocap.HN_ENABLED}">
+        <call_module target="build.test" module="${build.ocap.HNEXT}" module.filelist="${build.ocap.HNEXT.filelist}" />
+    </target>
+    <target name="build.test.fp" depends="init" if="${build.ocap.FP_ENABLED}">
+        <call_module target="build.test" module="${build.ocap.FPEXT}" module.filelist="${build.ocap.FPEXT}" />
+    </target>
+    <target name="build.test.ds" depends="init" if="${build.ocap.DS_ENABLED}">
+        <call_module target="build.test" module="${build.ocap.DSEXT}" module.filelist="${build.ocap.DSEXT}" />
+    </target>
+
+    <!-- Build the OCAP library and supporting libraries -->
+    <target name="build.lib" depends="init, jar.ocap, lib.3rdparty"
+        description="Build the OCAP library"/>
+
+    <target name="jar.ocap" depends="init, jar.ocap-classes, jar.ocap-rez"/>
+
+    <!-- Determine whether ocap-classes.jar needs to be build -->
+    <target name="check.ocap-classes.uptodate" depends="init">
+        <uptodate targetfile="${ocap-class.jar}" property="ocap-classes.uptodate">
+            <srcfiles dir="${class_gendir}" includes="**/*.class" />
+        </uptodate>
+    </target>
+
+    <!-- Generate class-file-only jar -->
+    <target name="jar.ocap-classes" depends="init, build.source, check.ocap-classes.uptodate" unless="ocap-classes.uptodate">
+        <!-- Create the OCAP classes JAR file -->
+        <jar destfile="${ocap-classes.jar}" compress="${build.lib.COMPRESS}" update="${build.lib.UPDATE}" >
+            <fileset dir="${class_gendir}" includes="**/*.class" />
+        </jar>
+    </target>
+
+    <!-- Generate resource-file-only jar -->
+    <target name="jar.ocap-rez" depends="init, build.source, jar.ocap-rez.base, jar.ocap-rez.dvr, jar.ocap-rez.hn, jar.ocap-rez.fp, jar.ocap-rez.ds" />
+    <target name="jar.ocap-rez.base">
+        <jar destfile="${ocap-rez.jar}" compress="${build.lib.COMPRESS}" update="false" filesonly="true" >
+            <fileset dir="${gendir}/${srcdir}/${build.ocap.BASE}" includes="**/*" excludes="**/*.java"/>
+        </jar>
+    </target>
+    <target name="jar.ocap-rez.dvr" depends="init" if="${build.ocap.DVR_ENABLED}">
+        <jar destfile="${ocap-rez.jar}" compress="${build.lib.COMPRESS}" update="true" filesonly="true" >
+            <fileset dir="${gendir}/${srcdir}/${build.ocap.DVREXT}" includes="**/*" excludes="**/*.java"/>
+        </jar>
+    </target>
+    <target name="jar.ocap-rez.hn" depends="init" if="${build.ocap.HN_ENABLED}">
+        <jar destfile="${ocap-rez.jar}" compress="${build.lib.COMPRESS}" update="true" filesonly="true" >
+            <fileset dir="${gendir}/${srcdir}/${build.ocap.HNEXT}" includes="**/*" excludes="**/*.java"/>
+        </jar>
+    </target>
+    <target name="jar.ocap-rez.fp" depends="init" if="${build.ocap.FP_ENABLED}">
+        <jar destfile="${ocap-rez.jar}" compress="${build.lib.COMPRESS}" update="true" filesonly="true" >
+            <fileset dir="${gendir}/${srcdir}/${build.ocap.FPEXT}" includes="**/*" excludes="**/*.java"/>
+        </jar>
+    </target>
+    <target name="jar.ocap-rez.ds" depends="init" if="${build.ocap.DS_ENABLED}">
+        <jar destfile="${ocap-rez.jar}" compress="${build.lib.COMPRESS}" update="true" filesonly="true" >
+            <fileset dir="${gendir}/${srcdir}/${build.ocap.DSEXT}" includes="**/*" excludes="**/*.java"/>
+        </jar>
+    </target>
+
+    <!-- Generate jar containing third-party files -->
+    <target name="lib.3rdparty" depends="init">
+        <delete file="${support.jar}" quiet="true" />
+        <jar destfile="${support.jar}" compress="${build.lib.COMPRESS}">
+            <zipgroupfileset dir="" includes="${build.lib.CLASSPATH}"/>
+        </jar>
+    </target>
+
+    <!-- Build the OCAP library and supporting libraries -->
+    <target name="build.test.lib" depends="init, jar.test, lib.test.3rdparty"
+        description="Build the OCAP library"/>
+
+    <!-- Build the test code JAR file -->
+    <target name="jar.test" depends="init, build.test, jar.ocap-test.base, jar.ocap-test.dvr, jar.ocap-test.hn, jar.ocap-test.fp, jar.ocap-test.ds" />
+    <target name="jar.ocap-test.base" depends="init">
+        <jar destfile="${ocap-test.jar}" compress="${build.lib.COMPRESS}" update="false" filesonly="true" >
+            <fileset dir="${gendir}/${test_srcdir}/${build.ocap.BASE}" includes="**/*" excludes="**/*.java"/>
+            <fileset dir="${testclass_gendir}" includes="**/*.class" />
+        </jar>
+    </target>
+    <target name="jar.ocap-test.dvr" depends="init" if="${build.ocap.DVR_ENABLED}">
+        <jar destfile="${ocap-test.jar}" compress="${build.lib.COMPRESS}" update="true" filesonly="true" >
+            <fileset dir="${gendir}/${test_srcdir}/${build.ocap.DVREXT}" includes="**/*" excludes="**/*.java"/>
+        </jar>
+    </target>
+    <target name="jar.ocap-test.hn" depends="init" if="${build.ocap.HN_ENABLED}">
+        <jar destfile="${ocap-test.jar}" compress="${build.lib.COMPRESS}" update="true" filesonly="true" >
+            <fileset dir="${gendir}/${test_srcdir}/${build.ocap.HNEXT}" includes="**/*" excludes="**/*.java"/>
+        </jar>
+    </target>
+    <target name="jar.ocap-test.fp" depends="init" if="${build.ocap.FP_ENABLED}">
+        <jar destfile="${ocap-test.jar}" compress="${build.lib.COMPRESS}" update="true" filesonly="true" >
+            <fileset dir="${gendir}/${test_srcdir}/${build.ocap.FPEXT}" includes="**/*" excludes="**/*.java"/>
+        </jar>
+    </target>
+    <target name="jar.ocap-test.ds" depends="init" if="${build.ocap.DS_ENABLED}">
+        <jar destfile="${ocap-test.jar}" compress="${build.lib.COMPRESS}" update="true" filesonly="true" >
+            <fileset dir="${gendir}/${test_srcdir}/${build.ocap.DSEXT}" includes="**/*" excludes="**/*.java"/>
+        </jar>
+    </target>
+
+    <!-- 3rd party test support libraries -->
+    <target name="lib.test.3rdparty" depends="init" >
+        <delete file="${support-test.jar}" quiet="true" />
+        <jar destfile="${support-test.jar}" compress="${build.test.COMPRESS}">
+            <zipgroupfileset dir="" includes="${build.test.CLASSPATH}"/>
+        </jar>
+    </target>
+
+    <!-- Build JNI header files -->
+    <target name="build.javah" depends="init, build.lib" description="Generate JNI header files">
+        <ant antfile="${basedir}/java/javah.xml" target="build.jni.h" />
+    </target>
+
+    <!-- Build Test JNI header files -->
+    <target name="build.test.javah" depends="init, build.lib" description="Generate JNI test header files">
+        <ant antfile="${basedir}/java/javah.xml" target="build.test.jni.h" />
+    </target>
+
+    <!-- Run all tests -->
+    <target name="test" depends="init, run.test" description="Run all tests" />
+    <target name="run.test" depends="init">
+        <delete dir="${gendir}/test-results"/>
+        <mkdir dir="${gendir}/test-results"/>
+        <junit fork="yes" haltonfailure="no" haltonerror="no">
+            <classpath>
+                <pathelement location="tools/generic/junit3.8.1/junit.jar"/>
+                <pathelement location="${ocap-clear.jar}"/>
+                <pathelement location="${ocap-test.jar}"/>
+            </classpath>
+            <formatter type="plain" usefile="false"/>
+            <formatter type="xml"/>
+            <batchtest todir="${gendir}/test-results">
+                <fileset dir="${gendir}/test-classes" includes="${run.test.CLASSES}" />
+            </batchtest>
+        </junit>
+    </target>
+
+
+    <!-- Build the unit test Javadoc -->
+    <target name="build.testdoc" depends="init, testdoc.uptodate"
+        description="Build the OCAP unit test Javadoc (not built by default)"
+        unless="testdoc.uptodate">
+
+        <!-- Create the unit test Javadoc -->
+        <javadoc sourcepath="${gendir}/test-source"
+                 destdir="${gendir}/test-javadoc"
+                 packagenames="${build.testdoc.PACKAGENAMES}"
+                 access="${build.testdoc.ACCESS}"
+                 version="${build.testdoc.VERSION}"
+                 author="${build.testdoc.AUTHOR}"
+                 windowtitle="${build.testdoc.TITLE}"
+                 header="${build.testdoc.TITLE}&lt;br>${DATE}"
+                 footer="${build.testdoc.TITLE}&lt;br>${DATE}"
+                 bottom="&lt;font size=-1 color=#999999>${build.testdoc.COPYRIGHT}&lt;/font>"
+                 group="${build.testdoc.GROUP}"
+                 encoding="ISO-8859-1"
+                 failonerror="true"
+                 breakiterator="true">
+            <classpath>
+                <filelist dir="" files="${build.lib.CLASSPATH}"/>
+                <pathelement location="tools/generic/junit3.8.1/junit.jar"/>
+                <pathelement location="tools/generic/GroboUtils-1/lib/core/GroboTestingJUnit-1.0.0-core.jar" />
+                <pathelement location="${ocap-clear.jar}"/>
+                <pathelement location="${ocap-test.jar}"/>
+            </classpath>
+            <bootclasspath>
+                <filelist dir="" files="${build.lib.BOOTCLASSPATH}"  />
+            </bootclasspath>
+        </javadoc>
+    </target>
+
+    <!-- Check whether we need to run javadoc -->
+    <target name="testdoc.uptodate" depends="init">
+        <uptodate
+            property="testdoc.uptodate"
+            targetfile="${gendir}/test-javadoc/packages.html">
+            <srcfiles dir="${gendir}/test-source" includes="**/*/package.html"/>
+            <srcfiles dir="${gendir}/test-source" includes="${build.lib.INCLUDES}" excludes="${build.lib.EXCLUDES}"/>
+            <srcfiles dir="." includes="${build.test.FILELIST}"/>
+            <srcfiles dir="." includes="${build.test.DVRFILELIST}"/>
+            <srcfiles dir="." includes="${build.test.DSFILELIST}"/>
+            <srcfiles dir="." includes="${build.test.FPFILELIST}"/>
+            <srcfiles dir="." includes="${build.test.HNFILELIST}"/>
+            <srcfiles dir="." includes="${build.java.PROPERTYFILE}"/>
+        </uptodate>
+    </target>
+
+    <!-- Initialize values used by all tasks -->
+    <target name="init">
+      <tstamp>
+          <format property="DATE" pattern="MMMM d, yyyy"/>
+      </tstamp>
+      <ant antfile="${env.OCAPROOT}/build.xml" target="check_version" />
+    </target>
+
+    <!-- Manage new stub structure -->
+    <target name="build.stubs" >
+        <ant antfile="${basedir}/java/build_stubs.xml" inheritAll="false" />
+    </target>
+
+</project>

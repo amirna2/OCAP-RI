@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<riBundleManifest xmlns="http://www.cablelabs.com/RIBundle" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cablelabs.com/RIBundle RIBundleManifest.xsd"
+ majorVersion="2" minorVersion="0" date="2010-02-12T11:30:00" author="Mark S. Millard" publisher="Cable Television Laboratories, Inc.">
+	<riBundle majorVersion="1.3.1_RELA">
+		<id>com.cablelabs.tru2way.ri.bundle.131</id>
+		<location>$(TWB_TOOLROOT)</location>
+		<ocapSpecification name="OC-SP-OCAP1.3.1-130530" location="https://www.cablelabs.com/doczone/opencable/requirements/specs/current/issuedsw/"/>
+		<ocapCertification name="Unknown"/>
+		<ocapImplementation name="OCAP RI">
+			<executable>install/Win32/debug/bin/ri.exe</executable>
+			<configuration>platform.cfg</configuration>
+			<environment>../RI_Stack/bin/CableLabs/simulator/Win32/debug/env</environment>
+			<apiLibrary majorVersion="1" description="This library contains the core OCAP API signatures as called out in the OCAP 1.3.1 specification. It also contains the API signatures for the DVR I09, Home Networking I11, Front Panel I05 and Device Settings I05 extensions.">
+				<location>../RI_Stack/bin/lib/ocap-stub.jar</location>
+				<documentation>../RI_Stack/docs/javadoc/ocap-javadoc.zip</documentation>
+			</apiLibrary>
+		</ocapImplementation>
+	</riBundle>
+</riBundleManifest>

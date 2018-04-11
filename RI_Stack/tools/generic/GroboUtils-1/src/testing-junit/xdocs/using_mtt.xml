@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:05 $
+-->
+
+
+<document>
+<head>
+    <name>Using Multi-Threaded Tests</name>
+</head>
+<body>
+<!--
+The code in this document were generated with the jEdit "Code2HTML" plugin.
+-->
+<P>
+The GroboUtils class <tt>MultiThreadedTestRunner</tt> was based on the
+article "JUnit Best Practices" by Andy Schneider
+(andrew.schneider@javaworld.com), published online at
+<a href="http://www.javaworld.com/javaworld/jw-12-2000/jw-1221-junit_p.html">
+http://www.javaworld.com/javaworld/jw-12-2000/jw-1221-junit_p.html</a>. 
+</P>
+</body>
+</document>
+

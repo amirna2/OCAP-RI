@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent+)>
+	<!ATTLIST Xlet 
+	name CDATA #REQUIRED
+	orgID CDATA #REQUIRED
+	appID CDATA #REQUIRED
+	pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+	<!ATTLIST RCEvent 
+	name CDATA #IMPLIED
+	pauseBeforeNext CDATA #IMPLIED
+	monitorTimeout CDATA #IMPLIED
+	getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+   <!-- SWAK -->
+   <Xlet name="SWAK" orgID="0x1" appID="0x6002" pauseAfterLast="7000" startupTimeout="180000">
+	<RCEvent name="Service Map - Aconfig" pauseBeforeNext="1000" monitorTimeout="1000" getResultsAfter="true">VK_5</RCEvent> 
+	<RCEvent name="Service Map - Get file" pauseBeforeNext="1000" monitorTimeout="1000" getResultsAfter="true">VK_2</RCEvent> 
+	<RCEvent name="Service Map - Load List" pauseBeforeNext="5000" monitorTimeout="1000" getResultsAfter="true">VK_3</RCEvent> 
+	<RCEvent name="TestBot" pauseBeforeNext="1000" monitorTimeout="1000" getResultsAfter="true">VK_RIGHT</RCEvent> 
+   	<RCEvent name="Dvr2" pauseBeforeNext="1000" monitorTimeout="1000" getResultsAfter="true">VK_RIGHT</RCEvent>
+	<RCEvent name="Dvr1" pauseBeforeNext="1000" monitorTimeout="1000" getResultsAfter="true">VK_RIGHT</RCEvent> 
+ 	<RCEvent name="Dvr1 - enable buffering" pauseBeforeNext="1000" monitorTimeout="1000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent> 
+   	<RCEvent name="Dvr2" pauseBeforeNext="1000" monitorTimeout="1000" getResultsAfter="true">VK_LEFT</RCEvent> 
+ 	<RCEvent name="TestBot" pauseBeforeNext="1000" monitorTimeout="1000" getResultsAfter="true">VK_LEFT</RCEvent> 
+   	<RCEvent name="Automated tune" pauseBeforeNext="1000" monitorTimeout="72000000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent> 
+ </Xlet>
+
+</AutoXlet>

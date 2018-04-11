@@ -1,0 +1,65 @@
+<!-- Main Entrypoint for defining the MockObjects libraries properties.
+-->
+    <property name="_shared.dirs.3rdparty.mockobjects"
+            value="${_shared.dirs.3rdparty}/mockobjects" />
+    
+    
+    
+    <!-- MockObjects libraries -->
+    <property name="libs.mockobjects.0_01"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.01/mockobjects.jar" />
+    
+    <property name="javadoc.package-list.mockobjects.0_01"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.01/package-list" />
+    <property name="javadoc.url.mockobjects.0_01"
+            value="http://mockobjects.com/javadoc" />
+    
+    <property name="licenses.mockobjects.0_01"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.01/LICENSE.txt" />
+
+
+
+    
+    <!-- MockObjects libraries -->
+    <property name="libs.mockobjects.0_4rc1.core"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.4rc1/mockobjects-core.jar" />
+    <property name="libs.mockobjects.0_4rc1.j2ee.1_3"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.4rc1/mockobjects-j2ee1.3.jar" />
+    <property name="libs.mockobjects.0_4rc1.jdk.1_3"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.4rc1/mockobjects-jdk1.3.jar" />
+    <property name="libs.mockobjects.0_4rc1.jdk.1_4"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.4rc1/mockobjects-jdk1.4.jar" />
+    <property name="libs.mockobjects.0_4rc1.alt-j2ee.1_3"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.4rc1/alt-j2ee1.3.jar" />
+    <property name="libs.mockobjects.0_4rc1.alt-jdk.1_3"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.4rc1/alt-jdk1.3.jar" />
+    <property name="libs.mockobjects.0_4rc1.alt-jdk.1_4"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.4rc1/alt-jdk1.4.jar" />
+    
+    <property name="javadoc.package-list.mockobjects.0_4rc1"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.4rc1/package-list" />
+    <property name="javadoc.url.mockobjects.0_4rc1"
+            value="http://mockobjects.com/javadoc" />
+    
+    <property name="licenses.mockobjects.0_4rc1"
+            value="${_shared.dirs.3rdparty.mockobjects}/0.4rc1/LICENSE.txt" />
+            
+
+            
+    
+    
+    <property name="libs.mockobjects.current.core"
+            value="${libs.mockobjects.0_4rc1.core}" />
+    <property name="libs.mockobjects.current.j2ee.1_3"
+            value="${libs.mockobjects.0_4rc1.j2ee.1_3}" />
+    <property name="libs.mockobjects.current.jdk.1_3"
+            value="${libs.mockobjects.0_4rc1.jdk.1_3}" />
+    <property name="libs.mockobjects.current.jdk.1_4"
+            value="${libs.mockobjects.0_4rc1.jdk.1_4}" />
+    <property name="libs.mockobjects.current.alt-j2ee.1_3"
+            value="${libs.mockobjects.0_4rc1.alt-j2ee.1_3}" />
+    <property name="libs.mockobjects.current.alt-jdk.1_3"
+            value="${libs.mockobjects.0_4rc1.alt-jdk.1_3}" />
+    <property name="libs.mockobjects.current.alt-jdk.1_4"
+            value="${libs.mockobjects.0_4rc1.alt-jdk.1_4}" />
+

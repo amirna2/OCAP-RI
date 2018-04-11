@@ -1,0 +1,103 @@
+<!-- Common properties/tasks that are shared by all projects
+
+However, for possible overrides, these are all prefixed by
+"_shared.common."
+
+ -->
+    
+    <!-- jar tasks -->
+    <target name="_shared.common.jar" depends="_shared.common.jar-copies,
+        _shared.common.jar-dev,_shared.common.jar-eut,
+        _shared.common.jar-ut,_shared.common.jar-iut,_shared.common.jar-ait" />
+    
+    <target name="_shared.common.jar-copies" depends="init" >
+        <mkdir dir="${dirs.classes.dev}" />
+        <copy file="${_shared.license}"
+            tofile="${dirs.classes.dev}/LICENSE.txt" />
+        <copy todir="${dirs.classes.dev}" overwrite="yes" >
+            <fileset dir="${dirs.sources.dev}">
+                <exclude name="**/*.java" />
+                <exclude name="about.txt" />
+                <exclude name="**/doc-files/**" />
+                <exclude name="**/CVS/**" />
+                <exclude name="**/package.html" />
+            </fileset>
+        </copy>
+            
+        <mkdir dir="${dirs.classes.eut}" />
+        <copy todir="${dirs.classes.eut}" overwrite="yes" >
+            <fileset dir="${dirs.sources.eut}">
+                <exclude name="**/*.java" />
+                <exclude name="**/CVS/**" />
+            </fileset>
+        </copy>
+            
+        <mkdir dir="${dirs.classes.ut}" />
+        <copy todir="${dirs.classes.ut}" overwrite="yes" >
+            <fileset dir="${dirs.sources.ut}">
+                <exclude name="**/*.java" />
+                <exclude name="**/CVS/**" />
+            </fileset>
+        </copy>
+            
+        <mkdir dir="${dirs.classes.iut}" />
+        <copy todir="${dirs.classes.iut}" overwrite="yes" >
+            <fileset dir="${dirs.sources.iut}">
+                <exclude name="**/*.java" />
+                <exclude name="**/CVS/**" />
+            </fileset>
+        </copy>
+            
+        <mkdir dir="${dirs.classes.ait}" />
+        <copy todir="${dirs.classes.ait}" overwrite="yes" >
+            <fileset dir="${dirs.sources.ait}">
+                <exclude name="**/*.java" />
+                <exclude name="**/CVS/**" />
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="_shared.common.jar-dev" depends="init,_shared.common.jar-copies" >
+        <jar jarfile="${output.jar-name.dev}" basedir="${dirs.classes.dev}"
+            compress="true" >
+            <manifest>
+                <attribute name="Sealed" value="false"/>
+                <section name="${basepackage}">
+                    <attribute name="Implementation-Vendor"
+                        value="GroboUtils"/>
+                    <attribute name="Implementation-URL"
+                        value="http://groboutils.sourceforge.net"/>
+                    <attribute name="Implementation-Version"
+                        value="${version}"/>
+                    <attribute name="Implementation-Title"
+                        value="${product}"/>
+                    <attribute name="Implementation-Build"
+                        value="${DSTAMP}:${TSTAMP}"/>
+                </section>
+            </manifest>            
+        </jar>
+        <copy file="${output.jar-name.dev}" tofile="${output.jar-name.dev.root}" />
+    </target>
+    
+    <target name="_shared.common.jar-eut" depends="init" >
+        <jar jarfile="${output.jar-name.eut}" basedir="${dirs.classes.eut}"
+            compress="true" /> 
+    </target>
+    
+    <target name="_shared.common.jar-ut" depends="init" >
+        <jar jarfile="${output.jar-name.ut}" basedir="${dirs.classes.ut}"
+            compress="true" /> 
+    </target>
+    
+    <target name="_shared.common.jar-iut" depends="init" >
+        <jar jarfile="${output.jar-name.iut}" basedir="${dirs.classes.iut}"
+            compress="true" /> 
+    </target>
+    
+    <target name="_shared.common.jar-ait" depends="init" >
+        <jar jarfile="${output.jar-name.ait}" basedir="${dirs.classes.ait}"
+            compress="true" /> 
+    </target>
+    
+    
+

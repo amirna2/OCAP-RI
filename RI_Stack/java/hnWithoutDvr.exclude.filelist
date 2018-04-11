@@ -1,0 +1,20 @@
+# files to exclude when building hn (Without DVR support)
+org/cablelabs/impl/manager/recording/HNRecordingManagerImpl.java
+org/cablelabs/impl/manager/recording/HNRecordingMgr.java
+org/cablelabs/impl/ocap/hn/recording/LocalRecordingContentItemResource.java
+org/cablelabs/impl/media/streaming/exception/HNStreamingRangeException.java
+org/cablelabs/impl/media/streaming/session/HNServerSessionManagerDvr.java
+org/cablelabs/impl/media/streaming/session/RecordingStream.java
+org/cablelabs/impl/media/streaming/session/TSBChannelStream.java
+org/cablelabs/impl/media/streaming/session/data/HNStreamContentDescriptionTSB.java
+org/cablelabs/impl/ocap/hn/upnp/srs/LastChange.java
+org/cablelabs/impl/ocap/hn/upnp/srs/LastChangeReason.java
+org/cablelabs/impl/ocap/hn/upnp/srs/NetRecordingEntryLocal.java
+org/cablelabs/impl/ocap/hn/upnp/srs/NetRecordingRequestManagerImpl.java
+org/cablelabs/impl/ocap/hn/upnp/srs/RecordSchedule.java
+org/cablelabs/impl/ocap/hn/upnp/srs/RecordSchedules.java
+org/cablelabs/impl/ocap/hn/upnp/srs/RecordTask.java
+org/cablelabs/impl/ocap/hn/upnp/srs/RecordedServiceInterceptor.java
+org/cablelabs/impl/ocap/hn/upnp/srs/RecordingContentItemLocal.java
+org/cablelabs/impl/ocap/hn/upnp/srs/ScheduledRecordingService.java
+org/cablelabs/impl/ocap/hn/upnp/srs/ScheduledRecordingServiceSCPD.java

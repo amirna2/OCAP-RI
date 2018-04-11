@@ -1,0 +1,180 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Test cases covered: Simple Recording 30
+// Purse: This level 2 script performs the completed non-segmented recording
+// scenario which is as follows:
+// Test Setup:
+// a. Create a recording
+// b. Publish to CDS
+// c. Start playback twice, once via local DVR playback and again via remote
+//    HN playback
+//
+// Test Steps:
+// 1. Test setup:
+//    i.  create a 30 second recording.
+//    ii. publish recording in CDS.
+// 2. Playback via local DVR playback
+// 3. Stop playback.
+// 4. Playback via remote HN playback 
+// 5. stop playback.
+///////////////////////////////////////////////////////////////////////////////
+ 
+// List of scripts used by this script
+//
+this.interpreter.source ("scripts/level2/utils/RecordingTestSetup.bsh");
+this.interpreter.source ("scripts/level1/PlaybackRecording.bsh");
+this.interpreter.source ("scripts/level1/FindMediaServer.bsh");
+this.interpreter.source ("scripts/level1/TuneToServiceByIndex.bsh");
+
+/**
+ * Main method to perform completed non-segmented recording scenario.
+ *
+ * @return  null string if no problems encountered, 
+ *          failure reason if problems encountered 
+ */
+String simpleRecording30(boolean useExistingRecs)
+{
+    String failureReason = null;
+    String testName = "simpleRecording30";
+    
+    //
+    // Step 1: test setup: create a recording, publish to CDS, channel_up
+    //
+    String results = performRecordingTestSetup(testName, useExistingRecs, true);
+    if (results != null)
+    {
+        // Problems setting up for test
+        failureReason = "Problems during test setup: " + results;
+        rxLog.callTrace ("Failure performing recording setup : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed Test setup: created and published recoding, channeled_up.");
+    
+    //
+    // Step 2: Local play back of current recording 
+    //
+    // Create and start DVR playback to play the recording created during setup
+    if(!startPlayback())
+    {
+        failureReason = "Problems starting the DVR player";
+        rxLog.callTrace ("Failure starting the DVR player : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Started DVR player");
+
+
+    //
+    // Step 3. Stop local playback
+    // 
+    if(!stopPlayback())
+    {
+        failureReason = "Problems stopping local DVR playback";
+        rxLog.callTrace ("Failure to stop local DVR playback", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed stopping local DVR playback");
+
+
+
+    //
+    // Step 4. Start playback again via HN playback
+    //
+    // Get local media server - find the index of the local media server
+    int mediaServerIndex = findLocalMediaServer();
+    if(mediaServerIndex == -1)
+    {
+        failureReason = "Problems getting local media server";
+        rxLog.callTrace ("Failure getting media server : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Found local media server");
+
+    // Get the content item index of first and only recording
+    int recContentItem = getContentItemIndexOfFirstRecording(mediaServerIndex);
+    if (recContentItem == -1)
+    {
+        failureReason = "Problems getting recording content item";
+        rxLog.callTrace ("Failure getting recording content item : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Found recording content item to playback");
+
+    // Create HNPlayer to play the recording created during setup
+    if (!startHNPlayback(true,mediaServerIndex,recContentItem))
+    {
+        failureReason = "Problems setting up remote player for content";
+        rxLog.callTrace ("Failure setting up remote player : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Created and started Remote player");
+    
+
+
+    //
+    // Step 5. Stop playback
+    // 
+    if(!stopPlayback())
+    {
+        failureReason = "Problems stopping remote HN playback";
+        rxLog.callTrace ("Failure to stop remote HN playback", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed stopping remote HN playback");
+
+
+    return failureReason;
+}

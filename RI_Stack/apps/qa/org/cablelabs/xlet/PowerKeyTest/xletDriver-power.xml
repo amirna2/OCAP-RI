@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+	
+
+        <!-- PowerKeyTest -->
+	<Xlet name="PowerKeyTest" orgID="0x1" appID="0x6305" pauseAfterLast="100000" startupTimeout="100000">
+
+        <RCEvent name="SyncPowerCall_noListener_0"   monitorTimeout="5000" pauseBeforeNext="5000">VK_3</RCEvent>
+        <RCEvent name="SyncPowerCall_noListener_1"   monitorTimeout="5000" pauseBeforeNext="5000">VK_3</RCEvent>
+
+        <RCEvent name="RegisterListener"   monitorTimeout="5000" pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="SyncPowerCall_withListener_0"   monitorTimeout="10000" pauseBeforeNext="5000">VK_3</RCEvent>
+        <RCEvent name="SyncPowerCall_withListener_1"   monitorTimeout="10000" pauseBeforeNext="5000">VK_3</RCEvent>
+
+        <RCEvent name="UnregisterListener" monitorTimeout="5000" pauseBeforeNext="5000">VK_2</RCEvent>
+        <RCEvent name="SyncPowerCall_removeListener_0"   monitorTimeout="5000" pauseBeforeNext="5000">VK_3</RCEvent>
+        <RCEvent name="SyncPowerCall_removeListener_1"   monitorTimeout="5000" pauseBeforeNext="5000">VK_3</RCEvent>
+
+        </Xlet>
+
+</AutoXlet>

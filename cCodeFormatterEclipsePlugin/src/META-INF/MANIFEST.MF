@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Export-Package: org.cablelabs.ccodeformatter
+Fragment-Host: org.eclipse.cdt.core;bundle-version="5.1.2"
+Bundle-Version: 1.0.0.yyyymmddHHMM
+Bundle-Name: CCodeFormatter
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.cablelabs.ccodeformatter;singleton:=true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+

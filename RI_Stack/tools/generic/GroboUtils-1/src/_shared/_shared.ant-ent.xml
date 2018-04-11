@@ -1,0 +1,25 @@
+<!-- ANT entity include/definition for the _shared files in all projects -->
+
+
+<!-- Include and execute these from sub-directories -->
+<!ENTITY % ent._shared.3rdparty SYSTEM "3rdparty/3rdparty.ant-ent.xml">
+%ent._shared.3rdparty;
+
+<!ENTITY % ent._shared.license SYSTEM "license/license.ant-ent.xml">
+%ent._shared.license;
+
+<!ENTITY % ent._shared.common-ant SYSTEM "common-ant/common-ant.ant-ent.xml">
+%ent._shared.common-ant;
+
+<!ENTITY % ent._shared.xdocs SYSTEM "xdocs/xdocs.ant-ent.xml">
+%ent._shared.xdocs;
+
+<!ENTITY % ent._shared.deployed SYSTEM "deployed/deployed.ant-ent.xml">
+%ent._shared.deployed;
+
+<!-- Define global entities from this directory
+        * included in the XML root element
+  -->
+<!ENTITY inc._shared SYSTEM "_shared.ant-inc.xml">
+
+

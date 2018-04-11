@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE book [
+
+<!-- default sources -->
+<!ENTITY % ent._shared SYSTEM "../_shared/_shared.ant-ent.xml">
+%ent._shared;
+]>
+
+
+
+<project name="TestingJUnit" default="main" basedir=".">
+
+    <!-- Property Defines -->
+    <property name="product" value="GroboTestingJUnit" />
+    <property name="version" value="1.0.0" />
+    <property name="basepackage" value="net/sourceforge/groboutils/junit/v1" />
+    
+    
+    &inc._shared;
+    
+    <!-- replace default properties and tasks -->
+    &inc._shared.common-ant-replace;
+    
+    &inc._shared.common-ant-tasks-init;
+    &inc._shared.common-ant-tasks-clean;
+    &inc._shared.common-ant-tasks-javac;
+    &inc._shared.common-ant-tasks-jar;
+    &inc._shared.common-ant-tasks-doc;
+    &inc._shared.common-ant-tasks-jdkdepend;
+    &inc._shared.common-ant-tasks-test;
+    &inc._shared.common-ant-tasks-deploy;
+
+    
+    <!-- inter-project dependencies -->
+        <!-- This is the base-level package.  It has NO dependencies! -->
+    
+    
+    <!-- Used versions of libraries -->
+    <property name="libs.junit" value="${libs.junit.current}" />
+    <property name="libs.log4j" value="${libs.log4j.current}" />
+    <property name="libs.log4j.props" value="${basedir}" />
+    <property name="libs.easymock" value="${libs.easymock.current}" />
+    <property name="libs.mockobjects" value="${libs.mockobjects.current.core}" />
+    <property name="libs.xerces.impl" value="${libs.xerces.current.impl}" />
+    <property name="libs.xerces.api" value="${libs.xalan.current.xmlapi}" />
+    <property name="libs.xalan" value="${libs.xalan.current}" />
+    <property name="libs.ant.core" value="${libs.ant.current.core}" />
+    <property name="libs.ant.optional" value="${libs.ant.current.optional}" />
+    
+    
+    <!-- Data objects -->
+    <path id="classpath.base">
+        <pathelement location="${libs.log4j}" />
+        <pathelement location="${libs.junit}" />
+    </path>
+    
+    <path id="classpath.tests">
+        <path refid="classpath.base" />
+        <pathelement location="${libs.easymock}" />
+        <pathelement location="${libs.mockobjects}" />
+        <pathelement location="${libs.log4j.props}" />
+        
+        <!-- EUTs require xalan + xerces + ant -->
+        <pathelement location="${libs.xerces.api}" />
+        <pathelement location="${libs.xerces.impl}" />
+        <pathelement location="${libs.xalan}" />
+        <pathelement location="${libs.ant.core}" />
+        <pathelement location="${libs.ant.optional}" />
+        
+        <!-- Include Autodoc bootstrapped elements. -->
+        <path refid="classpath.bootstrap" />
+    </path>
+    
+    
+    
+    
+    <!-- ****************************************************************** -->
+    
+    <!-- Targets -->
+
+    <target name="all" depends="init,clean,javac,jar,test-all,doc,java-doc,deploy" />
+    <target name="main" depends="init,javac,jar,test-all" />
+
+    <target name="deploy" depends="init,_shared.common.deploy" />
+    <target name="init" depends="_shared.common.init" />
+    <target name="jar" depends="_shared.common.deploy-setup,
+        _shared.common.jar" />
+    <target name="clean" depends="_shared.common.clean" />
+    
+    <!-- ****************************************************************** -->
+    
+    <!--
+        Compiling requires a test of what we're compiling against.
+        This allows for both JDK 1.4 and JDK 1.3 compatibility.
+     -->
+    <target name="javac"
+        depends="init, javac-checkDependencies,
+            _shared.common.javac-dev,
+            _shared.common.javac-eut,
+            _shared.common.javac-ut,
+            _shared.common.javac-iut,
+            _shared.common.javac-ait" />
+    
+    
+    
+    <!-- Compilation Dependency Check: can we compile with the current
+         environment? -->
+    <target name="javac-checkDependencies"
+        depends="_shared.common.depend.jdk.1_1" >
+    </target>
+    
+    
+    
+    
+    <!-- ****************************************************************** -->
+    
+    <!-- Documentation -->
+    <target name="doc" depends="init">
+        <!-- create the base document part -->
+        <antcall target="_shared.common.subdocs">
+            <param name="arg-subdir" value="" />
+        </antcall>
+        
+        <!-- create each sub-part
+        <antcall target="_shared.common.subdocs">
+            <param name="arg-subdir" value="junit" />
+        </antcall>
+        -->
+    </target>
+    
+    
+    <!-- JavaDoc -->
+    <target name="java-doc" depends="init,doc,_shared.common.java-doc.latest" />
+
+    
+    
+    <!-- ****************************************************************** -->
+    
+    
+    
+    <!-- ****************************************************************** -->
+    
+    <!-- testing
+        AIT tests need to be run separately, since they generally take
+        a long time to run.
+    -->
+    <target name="test-all"
+        depends="test-checkDependencies, _shared.common.test-all" />
+
+    <target name="test-checkDependencies"
+        depends="javac-checkDependencies" >
+    </target>
+    
+    
+</project>

@@ -1,0 +1,70 @@
+--- orig/ocStbHostRebootInfo.c	2011-04-11 15:35:55.241080002 -0600
++++ ocStbHostRebootInfo.c	2011-04-12 09:47:14.265080000 -0600
+@@ -9,6 +9,9 @@
+ #include "ocStbHostRebootInfo.h"
+ 
+ /** Initializes the ocStbHostRebootInfo module */
++static int ocStbHostRebootType;
++static int ocStbHostRebootReset;
++
+ void
+ init_ocStbHostRebootInfo(void)
+ {
+@@ -45,8 +48,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostRebootType,
++                                     sizeof(ocStbHostRebootType));
+             break;
+ 
+ 
+@@ -75,8 +78,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostRebootReset,
++                                     sizeof(ocStbHostRebootReset));
+             break;
+ 
+         /*
+@@ -95,7 +98,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -108,14 +111,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -123,7 +126,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }

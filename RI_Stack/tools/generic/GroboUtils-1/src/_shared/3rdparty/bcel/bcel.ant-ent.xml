@@ -1,0 +1,11 @@
+<!-- ANT entity include/definition for BCEL files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.bcel SYSTEM "bcel.ant-inc.xml">
+
+<!ENTITY inc.javadoc.bcel.5_0 SYSTEM "5.0/javadoc-links.ant-inc.xml">
+

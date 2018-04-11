@@ -1,0 +1,412 @@
+#! /bin/bash
+
+# COPYRIGHT_BEGIN
+#  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+#  
+#  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+#  
+#  This software is available under multiple licenses: 
+#  
+#  (1) BSD 2-clause 
+#   Redistribution and use in source and binary forms, with or without modification, are
+#   permitted provided that the following conditions are met:
+#        ·Redistributions of source code must retain the above copyright notice, this list 
+#             of conditions and the following disclaimer.
+#        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+#             and the following disclaimer in the documentation and/or other materials provided with the 
+#             distribution.
+#   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+#   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+#   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+#   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+#   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+#   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+#   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+#   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+#   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+#   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+#   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#  
+#  (2) GPL Version 2
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, version 2. This program is distributed
+#   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+#   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#   PURPOSE. See the GNU General Public License for more details.
+#  
+#   You should have received a copy of the GNU General Public License along
+#   with this program.If not, see<http:www.gnu.org/licenses/>.
+#  
+#  (3)CableLabs License
+#   If you or the company you represent has a separate agreement with CableLabs
+#   concerning the use of this code, your rights and obligations with respect
+#   to this code shall be as set forth therein. No license is granted hereunder
+#   for any other purpose.
+#  
+#   Please contact CableLabs if you need additional information or 
+#   have any questions.
+#  
+#       CableLabs
+#       858 Coal Creek Cir
+#       Louisville, CO 80027-9750
+#       303 661-9100
+# COPYRIGHT_END
+
+##############################################################################
+#
+# This script "restyles" (that is, formats) all C and Java source files
+# selected for formatting. It also converts line endings to UNIX-style line
+# endings (that is, LFs) in selected text files.
+#
+# C files (that is, files whose names end in .h, .c, or .cpp) are formatted
+# according to the Eclipse CDT preferences file OCAPCCodeFormat.xml. When the
+# script runs, Eclipse must be accessible, and the application plugin
+# org.eclipse.cdt.core.CCodeFormatter must be installed in it. Note that this
+# is a custom application plugin developed for CableLabs.
+#
+# Java files (that is, files whose names end in .java) are formatted
+# according to the Eclipse JDT preferences file OCAPJavaCodeFormat.xml. When
+# the script runs, Eclipse must be accessible, and the application plugin
+# org.eclipse.jdt.core.JavaCodeFormatter must be installed in it.
+#
+# C and Java source files were selected for formatting if modification of them
+# was not prohibited by license agreements, CableLabs internal convention, or
+# other factors. The lists of selected C and Java files, respectively, are
+# determined by the values of the variables $cFiles and $javaFiles. See the
+# function "initializeConstants".
+#
+# Text files were selected for line ending conversion with the same considera-
+# tion, but thereafter based on the Subversion svn:mime-type property. See the
+# function "restyleLineEndings".
+#
+# This script runs under Cygwin. It takes no arguments. It must be run from
+# the top-level OCAPRI trunk directory; that is, the directory containing
+# subdirectories ri, SDK, and so on. Eclipse should not be running when this
+# script is run.
+#
+# The environment variable ECLIPSE_HOME may be set to define the root
+# directory of the Eclipse installation. If it is not set, the path
+# "C:/Program Files/eclipse" will be used.
+#
+# Messages are logged as indicated in the following files, where the pathnames
+# are relative to the Eclipse workspace directory:
+#
+#     .metadata/.log                                 Eclipse error messages
+#     .metadata/.plugins/org.eclipse.cdt.core/.log   C code formatter messages
+#
+# The functions in this script were ordered alphabetically.
+#
+# exit code 1: The runtime environment is incorrect.
+# exit code 2: The Eclipse installation could not be validated.
+# exit code 3: The script is not being run from the correct directory.
+# exit code 4: An internal error occurred.
+#
+##############################################################################
+
+# TODO: is it possible to suppress the hourglass cursor and the error windows?
+
+##############################################################################
+#
+# function initializeConstants
+#
+# Define global variables as follows:
+#
+#    $cFiles           A space-separated list of files and directories, such
+#                      that all .h, .c, and .cpp files either listed or found
+#                      anywhere under a listed directory are to be restyled.
+#    $javaFiles        A space-separated list of files and directories, such
+#                      that all .java files either listed or found anywhere
+#                      under a listed directory are to be restyled.
+#    $JAVA             The absolute DOS-style pathname of the 'javaw' command.
+#    $PATH             Its previous value with $ECLIPSE_HOME prepended.
+#
+##############################################################################
+
+function initializeConstants
+{
+    local eh
+
+    if [ "$ECLIPSE_HOME" = "" ]
+    then
+        eh="C:/Program Files/eclipse"
+        log "  The environment variable ECLIPSE_HOME is not defined; using '$eh'."
+    else
+        eh=$ECLIPSE_HOME
+    fi
+
+    eh=$(cygpath -u "$eh")
+
+    PATH="$eh:$PATH"
+
+    JAVA=$(cygpath -m $(which javaw))
+
+    cFiles="\
+        common/resources/Linux/HdHr/libhdhomerun \
+        ri/MfgEnv/src                            \
+        ri/RI_Stack/jni                          \
+        ri/RI_Stack/jvm                          \
+        ri/RI_Stack/mpe                          \
+        ri/RI_Platform/include                   \
+        ri/RI_Platform/src                       \
+        SDK/ImageMapEditor/src                   \
+        SDK/ImageMapViewer/src                   \
+        "
+
+    javaFiles="\
+        packaging                                \
+        ri/RI_Stack/apps                         \
+        ri/RI_Stack/java/src                     \
+        ri/RI_Stack/java/test                    \
+        ri/RI_Stack/jvm                          \
+        ri/cCodeFormatterEclipsePlugin/src       \
+        SDK/tru2wayWorkbench                     \
+        SDK/tvt                                  \
+        "
+}
+
+##############################################################################
+#
+# function log
+#
+# Log a message.
+#
+# args:
+#       1        The message.
+#
+##############################################################################
+
+function log
+{
+    echo "  $(date '+%Y/%m/%d %H:%M:%S ') $1"
+}
+
+##############################################################################
+#
+# function main
+#
+# Do the actual work of the script. (See the comment at the top of the
+# script.)
+#
+# exit code 1: The runtime environment is incorrect.
+# exit code 2: The Eclipse installation could not be validated.
+# exit code 3: The script is not being run from the correct directory.
+# exit code 4: An internal error occurred.
+#
+##############################################################################
+
+function main
+{
+    validateCygwin
+
+    log "Initializing ..."
+
+    initializeConstants
+    validateEclipseInstallation
+    validateWorkingDirectory
+
+    restyleC
+    restyleJava
+    restyleLineEndings
+
+    log "Done."
+}
+
+##############################################################################
+#
+# function restyle
+#
+# Restyle all the source files of a given language.
+#
+# args:
+#       1        The language (C or Java).
+#       2-n      Files and directories, such that all source files of the
+#                language that are either listed or found anywhere under a
+#                listed directory are to be restyled.
+#
+# exit code 4: An internal error occurred.
+#
+##############################################################################
+
+function restyle
+{
+    local language=$1
+    shift
+
+    case "$language" in
+    C )
+        local FORMATTER=org.eclipse.cdt.core.CCodeFormatter
+        local SETTINGS_XML=ri/greatRestyling/OCAPCCodeFormat.xml
+        local SETTINGS_PREFS=ri/greatRestyling/OCAPCCodeFormat.prefs      # org.eclipse.cdt.core.prefs
+        ;;
+    Java )
+        local FORMATTER=org.eclipse.jdt.core.JavaCodeFormatter
+        local SETTINGS_XML=ri/greatRestyling/OCAPJavaCodeFormat.xml
+        local SETTINGS_PREFS=ri/greatRestyling/OCAPJavaCodeFormat.prefs   # org.eclipse.jdt.core.prefs
+        ;;
+    * )
+        log "Internal error: language = '$language'"
+        exit 4
+        ;;
+    esac
+
+    if [ ! \( -f $SETTINGS_XML -a -r $SETTINGS_XML \) ]
+    then
+        log "Internal error: can't read $SETTINGS_XML"
+        exit 4
+    fi
+
+    log "Restyling $language files ..."
+
+    cat $SETTINGS_XML | grep -w setting | sed 's|^.*id="\(.*\)" value="\(.*\)".*$|\1=\2|' >$SETTINGS_PREFS
+
+    eclipse -noSplash -vm "$JAVA" -application $FORMATTER -config $SETTINGS_PREFS -verbose "$@" -vmargs -Xss2M # -Djava.awt.headless=true
+}
+
+##############################################################################
+#
+# function restyleC
+#
+# Restyle all the C files.
+#
+# exit code 4: An internal error occurred.
+#
+##############################################################################
+
+function restyleC
+{
+    restyle C $cFiles
+}
+
+##############################################################################
+#
+# function restyleJava
+#
+# Restyle all the Java files.
+#
+# exit code 4: An internal error occurred.
+#
+##############################################################################
+
+function restyleJava
+{
+    restyle Java $javaFiles
+}
+
+##############################################################################
+#
+# function restyleLineEndings
+#
+# Restyle line endings in all the text files.
+#
+##############################################################################
+
+function restyleLineEndings
+{
+    local f
+
+    log "Restyling line endings ..."
+
+    find . -name .svn -prune -false -o -name gen -prune -false -o -type f |
+
+        grep -v "^./common/3rdParty/"                    |
+        grep -v "^./emu/"                                |
+        grep -v "^./ri/RI_Stack/java/stubs/"             |
+        grep -v "^./ri/RI_Stack/thirdparty/"             |
+        grep -v "^./ri/RI_Stack/tools/generic/"          |
+        grep -v "^./ri/RI_Platform/install/Win32/debug/" |
+        grep -v "^./ri/RI_Platform/supportLibs/"         |
+        grep -v "^./SDK/3rdParty/"                       |
+
+        while read f
+        do
+            local mt=$(svn propget svn:mime-type "$f" 2>/dev/null || echo unknown/unversioned)
+
+            if [ "$mt" = "" -o \( ${#mt} -ge 5 -a "${mt:0:5}" = "text/" \) ]
+            then
+                dos2unix "$f" >/dev/null 2>&1
+                svn propset -q svn:eol-style LF "$f"
+            fi
+        done
+}
+
+##############################################################################
+#
+# function validateCygwin
+#
+# Validate the runtime environment.
+#
+# exit code 1: The runtime environment is incorrect.
+#
+##############################################################################
+
+function validateCygwin
+{
+    local uname=$(uname)
+
+    if [ ${#uname} -lt 6 -o "${uname:0:6}" != "CYGWIN" ]
+    then
+        log "Please run me under Cygwin."
+        exit 1
+    fi
+}
+
+##############################################################################
+#
+# function validateEclipseInstallation
+#
+# Validate the Eclipse installation.
+#
+# exit code 2: The Eclipse installation could not be validated.
+#
+##############################################################################
+
+function validateEclipseInstallation
+{
+    local e=$(which eclipse 2>/dev/null)
+
+    if [ "$e" = "" -o ! \( -f "$e" -a -x "$e" \) ]
+    then
+        log "Can't find an executable Eclipse. Check ECLIPSE_HOME."
+        exit 2
+    fi
+}
+
+##############################################################################
+#
+# function validateWorkingDirectory
+#
+# Validate the working directory.
+#
+# exit code 3: The script is not being run from the correct directory.
+#
+##############################################################################
+
+function validateWorkingDirectory
+{
+    local f
+
+    for f in $cFiles $javaFiles
+    do
+        if [ ! \( -e $f -a -r $f \) ]
+        then
+            log "The file or directory '$f' does not exist or is not readable."
+            exit 3
+        fi
+    done
+}
+
+##############################################################################
+#
+# The main program.
+#
+# Invoke function main.
+#
+# exit code 1: The runtime environment is incorrect.
+# exit code 2: The Eclipse installation could not be validated.
+# exit code 3: The script is not being run from the correct directory.
+# exit code 4: An internal error occurred.
+#
+##############################################################################
+
+main

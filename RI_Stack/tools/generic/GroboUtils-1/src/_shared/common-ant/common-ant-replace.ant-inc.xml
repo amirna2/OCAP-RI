@@ -1,0 +1,56 @@
+<!-- Common properties/tasks that are shared by all projects
+
+Example of how to replace all defined common properties and tasks for a
+project.  This can be directly included if the project does not need
+any specialization.  Of course, any specialization could be done before the
+inclusion of this as an element...
+
+
+ -->
+    <!-- Directory Structure -->
+    <property name="dirs.sources" value="${_shared.common.dirs.sources}" />
+    <property name="dirs.sources.dev" value="${_shared.common.dirs.sources.dev}" />
+    <property name="dirs.sources.eut" value="${_shared.common.dirs.sources.eut}" />
+    <property name="dirs.sources.ut" value="${_shared.common.dirs.sources.ut}" />
+    <property name="dirs.sources.iut" value="${_shared.common.dirs.sources.iut}" />
+    <property name="dirs.sources.ait" value="${_shared.common.dirs.sources.ait}" />
+    
+    <property name="dirs.classes" value="${_shared.common.dirs.classes}" />
+    <property name="dirs.classes.dev" value="${_shared.common.dirs.classes.dev}" />
+    <property name="dirs.classes.eut" value="${_shared.common.dirs.classes.eut}" />
+    <property name="dirs.classes.ut" value="${_shared.common.dirs.classes.ut}" />
+    <property name="dirs.classes.iut" value="${_shared.common.dirs.classes.iut}" />
+    <property name="dirs.classes.ait" value="${_shared.common.dirs.classes.ait}" />
+    
+    <property name="dirs.xdocs" value="${_shared.common.dirs.xdocs}" />
+    
+    <property name="dirs.test-output" value="${_shared.common.dirs.test-output}" />
+
+    <property name="dirs.manifests" value="${_shared.common.dirs.manifests}" />
+    
+    <property name="dirs.deploy-base" value="${_shared.common.dirs.deploy-base}" />
+    <property name="dirs.deploy" value="${_shared.common.dirs.deploy}" />
+    <property name="dirs.deploy.lib" value="${_shared.common.dirs.deploy.lib}" />
+    <property name="dirs.deploy.docs" value="${_shared.common.dirs.deploy.docs}" />
+    <property name="dirs.deploy.api-docs" value="${_shared.common.dirs.deploy.api-docs}" />
+
+    
+    
+    <!-- output files -->
+    <property name="output.jar-name.dev.root" value="${_shared.common.output.jar-name.dev.root}" />
+    <property name="output.jar-name.dev" value="${_shared.common.output.jar-name.dev}" />
+    <property name="output.jar-name.eut" value="${_shared.common.output.jar-name.eut}" />
+    <property name="output.jar-name.ut" value="${_shared.common.output.jar-name.ut}" />
+    <property name="output.jar-name.iut" value="${_shared.common.output.jar-name.iut}" />
+    <property name="output.jar-name.ait" value="${_shared.common.output.jar-name.ait}" />
+    
+    <property name="output.doc-zip" value="${_shared.common.output.doc-zip}" />
+    <property name="output.src-zip" value="${_shared.common.output.src-zip}" />
+    <property name="output.deploy-zip" value="${_shared.common.output.deploy-zip}" />
+    <property name="output.deploy-tgz" value="${_shared.common.output.deploy-tgz}" />
+    <property name="output.deploy-tbz2" value="${_shared.common.output.deploy-tbz2}" />
+    <property name="output.deploy-tar" value="${_shared.common.output.deploy-tar}" />
+
+        
+        
+

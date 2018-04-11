@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/20 20:12:54 $
+-->
+
+
+<document>
+<head>
+    <name>JUnit Patterns</name>
+</head>
+<body>
+    <i>An article by Matt Albrecht</i>
+
+<P>
+Here's a list of problems presented during testing JUnit tests, and possible
+set of solutions.
+</P>
+
+<H3>Subclass Anti-Pattern</H3>
+<P>
+A common technique in writing JUnit tests goes like this.  The developer
+writes a test that contains a lot of logic for a specific package.  When
+the developer moves to the next class in the package, she finds that the
+same logic or data is shared between the two tests, so the tests are
+refactored, creating an abstract superclass for both tests.
+</P>
+<P>
+This subclassing pattern breaks down when some tests require the functionality
+from two orthogonal functionality sets.  Since Java does not support multiple
+inheritance, the test must be split to artificially accomodate the two required
+functionalities, which also may lead to some tests that use both
+functionalities not being written. 
+</P>
+<P>
+Instead, a suite utility class can be written for the purpose of aiding in
+tests.  Not only does this break the tests away from the subclass anti-pattern,
+but it also isolates code that can be useful for outside projects.  In this
+way, these utility classes can be moved from the tests to the production
+code if they are considered very useful.
+</P>
+
+
+
+<H3>Testing Protected Code</H3>
+<P>
+A developer will want to test the functionality of a class's protected or
+package-private members, and under most circumstances, this is not possible
+without the use of "backdoor" code.
+</P>
+<P>
+Tools such as the JUnitX package act as class loaders which change the
+signature of classes under test so that the protected members can be accessed
+by tests.
+</P>
+<P>
+Instead, put tests in the same package as the class files.  Now, tests can
+access all outside accessible points of contact for assurance of correct
+behavior.
+</P>
+<P>
+See <link name="art_naming">Naming Your JUnit Tests</link> for more information
+on this technique.
+</P>  
+    
+</body>
+</document>
+

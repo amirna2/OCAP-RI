@@ -1,0 +1,77 @@
+# PRF for this test xlet looks like this:
+#  ...
+#    <!-- We can lookup objects from any service, but only from our org -->
+#    <ocap:ixc scope="xservice" oid="1" action="lookup" />
+#
+#    <!-- We can only bind objects that start with the name "MyObject" -->
+#    <ocap:ixc name="MyObject*" action="bind" />
+#  ...
+#
+testName=Signed Tests (PRF1)
+
+# Bind our own remote object (bad name).
+# This test should pass because OCAP spec indicates that "bind" operations that
+# fail due to security exception should fail silently
+BIND_TEST
+bindName=BoundObject
+expectedResult=pass
+END_TEST
+
+# Verify that the previous attempt to bind "BoundObject" failed
+LOOKUP_TEST
+lookupName=/1/4606/BoundObject
+expectedResult=fail
+END_TEST
+
+# Bind our own remote object (good name)
+BIND_TEST
+bindName=MyObjectIsGreat
+expectedResult=pass
+END_TEST
+
+# Lookup our own remote object that we just bound
+LOOKUP_TEST
+lookupName=/1/4606/MyObjectIsGreat
+expectedResult=pass
+expectedString=14606
+END_TEST
+
+# Lookup a remote object from a signed app, different org
+LOOKUP_TEST
+lookupName=/2/4601/SameService,Signed,DiffOrg,SameApp,Binder4
+expectedResult=fail
+END_TEST
+
+# Lookup a remote object from a signed app, different app
+LOOKUP_TEST
+lookupName=/1/4602/SameService,Signed,SameOrg,DiffApp,Binder3
+expectedResult=pass
+expectedString=14602
+END_TEST
+
+# Lookup a remote object from an unsigned app, different service
+LOOKUP_TEST
+lookupName=/1/3597/DiffService,Unsigned,Org1,App3597,Binder0a
+expectedResult=fail
+END_TEST
+
+# Lookup a remote object from a signed app, different service
+LOOKUP_TEST
+lookupName=/1/4597/DiffService,Signed,Org1,App4597,Binder0b
+expectedResult=pass
+expectedString=14597
+END_TEST
+
+# List the objects we should be able to see
+LIST_TEST
+listName=/1/4606/MyObjectIsGreat
+listName=/1/4602/SameService,Signed,SameOrg,DiffApp,Binder3
+listName=/1/4597/DiffService,Signed,Org1,App4597,Binder0b
+nolistName=/1/4606/BoundObject
+nolistName=/2/4601/SameService,Signed,DiffOrg,SameApp,Binder4
+nolistName=/1/3597/DiffService,Unsigned,Org1,App3597,Binder0a
+nolistName=/2/3601/SameService,Unsigned,DiffOrg,SameApp,Binder1
+nolistName=/1/3612/SameService,Unsigned,SameOrg,DiffApp,Binder2
+nolistName=/2/4597/DiffService,Signed,Org2,App4597,Binder0c
+nolistName=/2/3597/DiffService,Unsigned,Org2,App3597,Binderdc
+END_TEST

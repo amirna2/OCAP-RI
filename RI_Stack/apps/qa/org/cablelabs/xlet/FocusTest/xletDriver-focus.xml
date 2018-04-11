@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+    
+
+    <!-- FocusTestRunner -->
+    <Xlet name="FocusTestRunner" orgID="0x01" appID="0x4600" pauseAfterLast="1000">
+        
+        <!-- Start the Focus1 test xlet -->
+        <RCEvent name="Start Focus1" monitorTimeout="30000">VK_PLAY</RCEvent>
+
+        <!-- Select Focus1-Text2 component -->
+        <RCEvent name="Select Focus1-Text1" pauseBeforeNext="1000">VK_RIGHT</RCEvent>
+        <RCEvent name="Select Focus1-Text2" pauseBeforeNext="1000">VK_RIGHT</RCEvent>
+
+        <!-- requestFocus Focus1-Text2 -->
+        <RCEvent name="requestFocus Focus1-Text2" monitorTimeout="10000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+
+        <!-- Select Focus1-Text1 component and requestFocus -->
+        <RCEvent name="Select Focus1-Text1" pauseBeforeNext="1000">VK_LEFT</RCEvent>
+        <RCEvent name="requestFocus Focus1-Text1" monitorTimeout="5000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+
+        <!-- Select and start the Focus4 test xlet -->
+        <RCEvent name="Select Focus4" pauseBeforeNext="1000">VK_DOWN</RCEvent>
+        <RCEvent name="Start Focus4" monitorTimeout="30000">VK_PLAY</RCEvent>
+
+        <!-- requestFocus Focus4-Text1 -->
+        <RCEvent name="requestFocus Focus4-Text1" monitorTimeout="5000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+
+        <!-- Select Focus4-Scene and setVisible(false) -->
+        <RCEvent name="Select Focus4-Scene" pauseBeforeNext="1000">VK_LEFT</RCEvent>
+        <RCEvent name="setVisible(false) Focus4-Scene" pauseBeforeNext="1000">VK_3</RCEvent>
+
+        <!-- Select Focus3 and start -->
+        <RCEvent name="Select Focus3" pauseBeforeNext="1000">VK_DOWN</RCEvent>
+        <RCEvent name="Start Focus3" monitorTimeout="30000">VK_PLAY</RCEvent>
+
+        <!-- requestFocus Focus3-Scene -->
+        <RCEvent name="requestFocus Focus3-Scene" monitorTimeout="5000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+        
+        <!-- Select Focus4-Scene, setVisible(true), requestFocus -->
+        <RCEvent name="Select Focus4" pauseBeforeNext="1000">VK_UP</RCEvent>
+        <RCEvent name="setVisible(true) Focus4-Scene" pauseBeforeNext="1000">VK_2</RCEvent>
+        <RCEvent name="requestFocus Focus4-Scene" monitorTimeout="5000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+		
+		<!-- Return to Focus3-Scene -->
+		<RCEvent name="Reselect Focus3" pauseBeforeNext="1000">VK_DOWN</RCEvent>
+        <RCEvent name="setVisible(true) Focus3-Scene" pauseBeforeNext="1000">VK_2</RCEvent>
+		
+        <!-- requestFocus Focus3-Text1 -->
+        <RCEvent name="Select Focus3-Text1" pauseBeforeNext="1000">VK_RIGHT</RCEvent>
+        <RCEvent name="requestFocus Focus3-Text1" monitorTimeout="5000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+    </Xlet>
+
+</AutoXlet>

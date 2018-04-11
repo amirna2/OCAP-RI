@@ -1,0 +1,58 @@
+--- orig/ocStbHostDeviceSoftwareBase.c	2011-11-16 11:07:53.203031964 -0700
++++ ocStbHostDeviceSoftwareBase.c	2011-11-16 13:38:27.555031982 -0700
+@@ -9,6 +9,11 @@
+ #include "ocStbHostDeviceSoftwareBase.h"
+ 
+ /** Initializes the ocStbHostDeviceSoftwareBase module */
++static unsigned char ocStbHostSoftwareFirmwareVersion[32];
++static unsigned char ocStbHostSoftwareOCAPVersion[32];
++static unsigned char ocStbHostSoftwareFirmwareReleaseDate[32];
++static unsigned char ocStbHostSoftwareBootloaderVersion[32];
++
+ void
+ init_ocStbHostDeviceSoftwareBase(void)
+ {
+@@ -57,8 +62,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) ocStbHostSoftwareFirmwareVersion,
++			     sizeof(ocStbHostSoftwareFirmwareVersion));
+             break;
+ 
+ 
+@@ -86,8 +91,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostSoftwareOCAPVersion,
++                                     sizeof(ocStbHostSoftwareOCAPVersion));
+             break;
+ 
+ 
+@@ -115,8 +120,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) ocStbHostSoftwareFirmwareReleaseDate,
++			     sizeof(ocStbHostSoftwareFirmwareReleaseDate));
+             break;
+ 
+ 
+@@ -144,8 +149,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) ocStbHostSoftwareBootloaderVersion,
++			     sizeof(ocStbHostSoftwareBootloaderVersion));
+             break;
+ 
+ 

@@ -1,0 +1,83 @@
+<!-- Common properties/tasks that are shared by all projects
+
+However, for possible overrides, these are all prefixed by
+"_shared.common."
+
+ -->
+    
+    <target name="_shared.common.init"
+            depends="_shared.common.probe-offline,
+                    _shared.common.depend.jdk-checker"
+            description="initialize the build" >
+        <tstamp/>
+        
+        <echo>
+  **********************************************
+  Start of Compilation for ${product}-${version}
+  **********************************************
+        </echo>
+        <echo message="Java classpath = ${java.class.path}" />
+    </target>
+    
+    <!-- ****************************************************************** -->
+    
+    
+    <!-- test to see if we are online or not. can take a while when we are
+    off line, so setting the property is a good shortcut-->
+    <target name="_shared.common.probe-offline"
+            description="Check for internet availability" >
+        <condition property="global.offline">
+            <or>
+                <isset property="global.offline"/>
+                <not>
+                    <http url="http://groboutils.sourceforge.net/"/>
+                </not>
+            </or>
+        </condition>
+        <echo level="verbose" > global.offline=${global.offline}</echo>
+    </target>
+    
+    <!-- ****************************************************************** -->
+    
+    
+    <target name="_shared.common.depend.jdk-checker" >
+        <condition property="_shared.common.depend.has-jdkUnknown" >
+            <not>
+                <or>
+                    <equals arg1="${ant.java.version}" arg2="1.0" />
+                    <equals arg1="${ant.java.version}" arg2="1.1" />
+                    <equals arg1="${ant.java.version}" arg2="1.2" />
+                    <equals arg1="${ant.java.version}" arg2="1.3" />
+                    <equals arg1="${ant.java.version}" arg2="1.4" />
+                </or>
+            </not>
+        </condition>
+        
+        <condition property="_shared.common.depend.has-jdk11" >
+            <or>
+                <equals arg1="${ant.java.version}" arg2="1.1" />
+                <equals arg1="${ant.java.version}" arg2="1.2" />
+                <equals arg1="${ant.java.version}" arg2="1.3" />
+                <equals arg1="${ant.java.version}" arg2="1.4" />
+            </or>
+        </condition>
+        <condition property="_shared.common.depend.has-jdk12" >
+            <or>
+                <equals arg1="${ant.java.version}" arg2="1.2" />
+                <equals arg1="${ant.java.version}" arg2="1.3" />
+                <equals arg1="${ant.java.version}" arg2="1.4" />
+            </or>
+        </condition>
+        <condition property="_shared.common.depend.has-jdk13" >
+            <or>
+                <equals arg1="${ant.java.version}" arg2="1.3" />
+                <equals arg1="${ant.java.version}" arg2="1.4" />
+            </or>
+        </condition>
+        <condition property="_shared.common.depend.has-jdk14" >
+            <or>
+                <equals arg1="${ant.java.version}" arg2="1.4" />
+            </or>
+        </condition>
+    </target>
+

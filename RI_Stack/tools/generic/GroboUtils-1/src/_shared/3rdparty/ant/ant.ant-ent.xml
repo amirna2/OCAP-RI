@@ -1,0 +1,15 @@
+<!-- ANT entity include/definition for ant library files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.ant SYSTEM "ant.ant-inc.xml">
+
+<!ENTITY inc.javadoc.ant.1_4_1 SYSTEM "1.4.1/javadoc-links.ant-inc.xml">
+
+<!ENTITY inc.javadoc.ant.1_5 SYSTEM "1.5/javadoc-links.ant-inc.xml">
+
+<!ENTITY inc.javadoc.ant.1_5_1 SYSTEM "1.5.1/javadoc-links.ant-inc.xml">
+

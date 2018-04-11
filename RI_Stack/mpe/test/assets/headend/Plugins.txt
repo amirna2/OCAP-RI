@@ -1,0 +1,2 @@
+headend.application.brm.gui.BRMMainFrame
+headend.application.mpeg.gui.MPEGMainFrame

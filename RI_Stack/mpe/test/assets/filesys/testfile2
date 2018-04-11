@@ -1,0 +1,3526 @@
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 3 
+
+################################################################################
+
+DNCS 1.5.0.8p5 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #13790  Modify drm to send BFS sessions in the right order
+CR #13791  Modify camFastRefresh so it does not generate too many files
+CR #13867  Fix a condition where drm session state is out of synch with dsm
+CR #13495  The Service Pack install should not fail if the site does not
+           have MQAM code
+
+--------------------------------------------------------
+
+Note: Service Pack 3 also includes Service Pack 2 fixes
+
+--------------------------------------------------------
+
+################################################################################
+
+             Scientific-Atlanta System Release 1.5.0 Service Pack 2 
+
+################################################################################
+
+DNCS 1.5.0.8p4 (SAIdncs)
+------------------------
+
+CR's fixed with this patch:
+
+CR #11819  CD loading is slow due to lack to index in the hctprofile table
+CR #11629  camFastRefresh coredumps when it updates 2nd BFS file
+CR #11493  Need the ability to turn off VOD Service Groups
+CR #11638  QAM offline provisioning is incomplete due to key certificate issue
+CR #11639  qamManager must clean up IP/Qam_id data when a QAM is deleted.
+           Otherwise, it cannot be reprovisioned.
+CR #11926  DHCTs cannot setup VOD sessions after reboot, if they have an active
+           session with session id 513 before reboot. (113 error on the DHCT)
+CR #11736  Need to modify 1.5 SP2 package components for patch backout
+           capabilities
+CR #11791  Reset the pkgparam values after installing a SAI patch
+CR #12046  siManager affitinizing SI to the 750 plant in a 550/750 Mhz split
+           plant
+CR #12047  Muted port on MQAM configuration causes the frequencies to be out
+           of order
+CR #12465  Partial fix to 1.5 BFS dance - takes it back to 1.4.3 reliability
+
+
+Files included:
+
+/dvs/dncs/bin/bigManager
+/dvs/dncs/bin/drm
+/dvs/dncs/bin/dsm
+/dvs/dncs/bin/qamManager
+/dvs/dncs/bin/camFastRefresh
+
+
+AppServer 1.5.0.8p1 (SAIapsrv)
+------------------------------
+
+CR's fixed with this patch:
+
+CR #12048  ppvServer doesn't allow back-to-back events w/o interstitial
+
+
+Files included:
+
+/dvs/appserv/bin/ppvServer
+
+
+MQAM 1.2.8 (SAImqam)
+--------------------
+
+CR's fixed with this patch:
+
+CR #11795	MSG #502 causes VOD sessions not being setup on MQAM
+CR #12208	MQAM reboots during heavy VOD activity
+
+Files included:
+
+Complete mqam package

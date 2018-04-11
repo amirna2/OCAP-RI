@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="**/.svn/|org/cablelabs/test/media/ServerSessionTest.java" path="src" kind="src"/>
+	<classpathentry path="OCAPROOT/bin/lib/ocap-optional-stub.jar" kind="var"/>
+	<classpathentry path="OCAPROOT/bin/lib/ocap-stub.jar" kind="var"/>
+	<classpathentry path="OCAPROOT/bin/lib/ocap-base-stub.jar" kind="var"/>
+	<classpathentry path="OCAPROOT/bin/lib/ocap-ds-stub.jar" kind="var"/>
+	<classpathentry path="OCAPROOT/bin/lib/ocap-dvr-stub.jar" kind="var"/>
+	<classpathentry path="OCAPROOT/bin/lib/ocap-fp-stub.jar" kind="var"/>
+	<classpathentry path="OCAPROOT/bin/lib/ocap-hn-stub.jar" kind="var"/>
+	<classpathentry path="bin" kind="output"/>
+</classpath>

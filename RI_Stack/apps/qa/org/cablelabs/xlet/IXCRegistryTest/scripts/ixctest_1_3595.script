@@ -1,0 +1,65 @@
+testName=Unsigned Tests
+
+# Bind our own remote object
+BIND_TEST
+bindName=BoundObject
+expectedResult=pass
+END_TEST
+
+# Try to bind the same object again
+BIND_TEST
+bindName=BoundObject
+expectedResult=fail
+END_TEST
+
+# Try to rebind the same object
+REBIND_TEST
+bindName=BoundObject
+expectedResult=pass
+END_TEST
+
+# Lookup our own remote object that we just bound
+LOOKUP_TEST
+lookupName=/1/3595/BoundObject
+expectedResult=pass
+expectedString=13595
+END_TEST
+
+# Lookup a remote object from a different org
+LOOKUP_TEST
+lookupName=/2/3595/SameService,Unsigned,DiffOrg,SameApp,Binder1
+expectedResult=pass
+expectedString=23595
+END_TEST
+
+# Lookup a remote object from a different app
+LOOKUP_TEST
+lookupName=/1/3596/SameService,Unsigned,SameOrg,DiffApp,Binder2
+expectedResult=pass
+expectedString=13596
+END_TEST
+
+# Lookup a remote object from a different service
+LOOKUP_TEST
+lookupName=/1/3597/DiffService,Unsigned,Org1,App3597,Binder0a
+expectedResult=pass
+expectedString=13597
+END_TEST
+
+# Lookup a remote object from a signed app
+LOOKUP_TEST
+lookupName=/1/4595/SameService,Signed,SameOrg,DiffApp,Binder3
+expectedResult=fail
+END_TEST
+
+# List the available remote objects
+LIST_TEST
+listName=/1/3595/BoundObject
+listName=/2/3595/SameService,Unsigned,DiffOrg,SameApp,Binder1
+listName=/1/3596/SameService,Unsigned,SameOrg,DiffApp,Binder2
+listName=/1/3597/DiffService,Unsigned,Org1,App3597,Binder0a
+listName=/2/3597/DiffService,Unsigned,Org2,App3597,Binder0d
+nolistName=/1/4595/SameService,Signed,SameOrg,DiffApp,Binder3
+nolistName=/1/4597/DiffService,Signed,Org1,App4597,Binder0b
+nolistName=/2/4597/DiffService,Signed,Org2,App4597,Binder0c
+END_TEST

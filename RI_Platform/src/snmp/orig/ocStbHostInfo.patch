@@ -1,0 +1,451 @@
+--- orig/ocStbHostInfo.c	2011-04-18 07:58:03.013341001 -0600
++++ ocStbHostInfo.c	2011-05-24 10:36:40.087486001 -0600
+@@ -9,6 +9,21 @@
+ #include "ocStbHostInfo.h"
+ 
+ /** Initializes the ocStbHostInfo module */
++static unsigned long ocStbHostIpAddressType;
++static unsigned char ocStbHostIpSubNetMask[4];
++static int ocStbHostOobMessageMode;
++static unsigned long ocStbHostDumpEventCount = 5;
++static int ocStbHostDumpNow;
++static unsigned long ocStbHostDumpEventTimeout;
++static char ocStbHostDumpFilePath[512];
++static char ocStbHostCfrSpecificationIssue[512];
++static char ocStbHostMibSpecificationIssue[512];
++static int ocStbHostBootStatus;
++static unsigned long ocStbHostPatTimeoutCount;
++static unsigned long ocStbHostPmtTimeoutCount;
++static unsigned long ocStbHostOobCarouselTimeoutCount;
++static unsigned long ocStbHostInbandCarouselTimeoutCount;
++
+ void
+ init_ocStbHostInfo(void)
+ {
+@@ -117,8 +132,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostIpAddressType,
++                                     sizeof(ocStbHostIpAddressType));
+             break;
+ 
+ 
+@@ -146,8 +161,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostIpSubNetMask,
++                                     sizeof(ocStbHostIpSubNetMask));
+             break;
+ 
+ 
+@@ -175,8 +190,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostOobMessageMode,
++                                     sizeof(ocStbHostOobMessageMode));
+             break;
+ 
+ 
+@@ -204,9 +219,11 @@
+     switch(reqinfo->mode) {
+ 
+         case MODE_GET:
++            snmp_log(LOG_INFO, "%s MODE_GET_ACTION called (sending %lu)\n",
++                     __func__, ocStbHostDumpEventCount);
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostDumpEventCount,
++                                     sizeof(ocStbHostDumpEventCount));
+             break;
+ 
+         /*
+@@ -219,41 +236,35 @@
+                 /* or you could use netsnmp_check_vb_type_and_size instead */
+             ret = netsnmp_check_vb_type(requests->requestvb, ASN_INTEGER);
+             if ( ret != SNMP_ERR_NOERROR ) {
++                snmp_log(LOG_ERR,
++                        "ret(%d): requests->requestvb(%d) != ASN_INTEGER(%d)\n",
++                         ret, requests->requestvb->type, ASN_INTEGER);
+                 netsnmp_set_request_error(reqinfo, requests, ret );
+             }
+             break;
+ 
+         case MODE_SET_RESERVE2:
+-            /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_RESERVE2 called.\n", __func__);
+             break;
+ 
+         case MODE_SET_FREE:
+-            /* XXX: free resources allocated in RESERVE1 and/or
+-               RESERVE2.  Something failed somewhere, and the states
+-               below won't be called. */
++            snmp_log(LOG_INFO, "%s MODE_SET_FREE called.\n", __func__);
+             break;
+ 
+         case MODE_SET_ACTION:
+-            /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_ACTION called (%lu <- %ld)\n",
++                     __func__, ocStbHostDumpEventCount,
++                     *requests->requestvb->val.integer);
++            ocStbHostDumpEventCount = *requests->requestvb->val.integer;
+             break;
+ 
+         case MODE_SET_COMMIT:
+-            /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
+-                /* try _really_really_ hard to never get to this point */
+-                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+-            }
++            snmp_log(LOG_INFO, "%s MODE_SET_COMMIT called.\n", __func__);
+             break;
+ 
+         case MODE_SET_UNDO:
+-            /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            snmp_log(LOG_INFO, "%s MODE_SET_UNDO called.\n", __func__);
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }
+@@ -284,8 +295,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostDumpNow,
++                                     sizeof(ocStbHostDumpNow));
+             break;
+ 
+         /*
+@@ -304,7 +315,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -317,14 +328,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -332,7 +343,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }
+@@ -363,8 +374,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_UNSIGNED,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostDumpEventTimeout,
++                                     sizeof(ocStbHostDumpEventTimeout));
+             break;
+ 
+         /*
+@@ -383,7 +394,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -396,14 +407,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -411,7 +422,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }
+@@ -441,8 +452,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostDumpFilePath,
++                                     sizeof(ocStbHostDumpFilePath));
+             break;
+ 
+ 
+@@ -470,8 +481,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostCfrSpecificationIssue,
++                                     sizeof(ocStbHostCfrSpecificationIssue));
+             break;
+ 
+ 
+@@ -499,8 +510,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) ocStbHostMibSpecificationIssue,
++                                     sizeof(ocStbHostMibSpecificationIssue));
+             break;
+ 
+ 
+@@ -528,8 +539,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostBootStatus,
++                                     sizeof(ocStbHostBootStatus));
+             break;
+ 
+ 
+@@ -558,8 +569,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_COUNTER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostPatTimeoutCount,
++                                     sizeof(ocStbHostPatTimeoutCount));
+             break;
+ 
+         /*
+@@ -578,7 +589,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -591,14 +602,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -606,7 +617,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }
+@@ -637,8 +648,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_COUNTER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostPmtTimeoutCount,
++                                     sizeof(ocStbHostPmtTimeoutCount));
+             break;
+ 
+         /*
+@@ -657,7 +668,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -670,14 +681,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -685,7 +696,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }
+@@ -716,8 +727,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_COUNTER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostOobCarouselTimeoutCount,
++			     sizeof(ocStbHostOobCarouselTimeoutCount));
+             break;
+ 
+         /*
+@@ -736,7 +747,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -749,14 +760,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -764,7 +775,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }
+@@ -795,8 +806,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_COUNTER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++			     (u_char *) &ocStbHostInbandCarouselTimeoutCount,
++			     sizeof(ocStbHostInbandCarouselTimeoutCount));
+             break;
+ 
+         /*
+@@ -815,7 +826,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -828,14 +839,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -843,7 +854,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }

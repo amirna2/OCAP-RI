@@ -1,0 +1,140 @@
+<FindBugsFilter>
+    <Match>
+        <Package name="~com\.sun\..*" />
+    </Match>
+    <Match>
+        <Package name="~java[.x].*" />
+    </Match>
+    <Match>
+        <Package name="~org.apache\..*" />
+    </Match>
+    <Match>
+        <Package name="~sun\..*" />
+    </Match>
+    <Match>
+        <Package name="~org.davic\..*" />
+    </Match>
+    <Match>
+        <Package name="~org.davic\..*" />
+    </Match>
+    <Match>
+        <Package name="~org.dvb\..*" />
+    </Match>
+    <Match>
+        <Package name="~org.havi\..*" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is incorrect -->
+        <Class name="org.cablelabs.impl.ocap.hn.upnp.srs.RecordingContentItemLocal" />
+        <Method name="createRecordTask" />
+        <Bug code="RCN" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is incorrect -->
+        <Class name="org.cablelabs.impl.ocap.hn.upnp.srs.RecordingContentItemLocal" />
+        <Method name="updateMetadata" />
+        <Bug code="REC" />
+    </Match>
+	<Match>
+        <!-- Examined code, findbugs report is incorrect -->
+        <Class name="org.cablelabs.impl.ocap.hn.upnp.srs.RecordingContentItemLocal" />
+        <Method name="updateRecordingRequestMetadataValues" />
+        <Bug code="REC" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is correct, and a comment in the code indicates that it is intentional... -->
+        <Class name="org.cablelabs.impl.manager.signalling.AitProps" />
+        <Method name="parseEntry" />
+        <Bug code="NP" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is correct, and a comment in the code indicates that it is intentional... -->
+        <Class name="org.cablelabs.impl.manager.service.SIEventCodes" />
+        <Bug code="MS" />
+    </Match>
+     <Match>
+        <!-- Examined code, findbugs report is correct, and a comment in the code indicates that it is intentional... -->
+        <Class name="org.cablelabs.impl.util.TimeTable" />
+        <Method name="clone" />
+        <Bug code="CN" />
+    </Match>
+     <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.manager.filesys.FileManagerImpl" />
+        <Method name="destroy" />
+        <Bug code="ST" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.manager.pod.PodImpl" />
+        <Method name="setHostParamHandler" />
+        <Bug code="ST" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.manager.timeshift.TimeShiftWindow" />
+        <Method name="~^.init.$" />
+        <Bug code="ST" />
+    </Match>
+     <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.media.vbi.VBIFilterGroupImpl" />
+        <Method name="setRezManager" />
+        <Bug code="ST" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.manager.reclaim.RRMgrImpl" />
+        <Bug pattern="DM_GC" />
+    </Match>
+    <Match>
+        <!-- Unfortunately, this is a common pattern in the RI. To refactor the code is currently not an option -->
+        <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" />
+    </Match>
+     <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.service.javatv.selection.ServiceContextFactoryImpl" />
+        <Method name="setCreateEnabled" />
+        <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.manager.TimeShiftManager" />
+        <Field name="reasonString" />
+        <Bug code="MS" />
+    </Match>
+     <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.manager.TimeShiftManager" />
+        <Field name="stateString" />
+        <Bug code="MS" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.manager.recording.RecordingImpl" />
+        <Method name="addRecordedService" />
+        <Bug pattern="DMI_INVOKING_TOSTRING_ON_ARRAY" />
+    </Match>
+    <Match>
+        <!-- Internationalization is not a concern in the RI -->
+        <Bug pattern="DM_DEFAULT_ENCODING" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.manager.application.AppClassLoader" />
+        <Method name="findClass" />
+        <Bug code="ST" />
+    </Match>
+    <Match>
+        <!-- Examined code, findbugs report is correct, code is intentional -->
+        <Class name="org.cablelabs.impl.ocap.hn.util.xml.miniDom.NodeImpl" />
+        <Method name="dump" />
+        <Bug code="ST" />
+    </Match>
+    <Match>
+    <Priority value="2" />
+    </Match>
+    <Match>
+    <Priority value="3" />
+    </Match>
+</FindBugsFilter>

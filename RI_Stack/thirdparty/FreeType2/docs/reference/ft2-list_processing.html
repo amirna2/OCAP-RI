@@ -1,0 +1,371 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+List Processing
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FT_List">FT_List</a></td><td></td><td><a href="#FT_List_Add">FT_List_Add</a></td><td></td><td><a href="#FT_List_Iterate">FT_List_Iterate</a></td></tr>
+<tr><td></td><td><a href="#FT_ListNode">FT_ListNode</a></td><td></td><td><a href="#FT_List_Insert">FT_List_Insert</a></td><td></td><td><a href="#FT_List_Destructor">FT_List_Destructor</a></td></tr>
+<tr><td></td><td><a href="#FT_ListRec">FT_ListRec</a></td><td></td><td><a href="#FT_List_Remove">FT_List_Remove</a></td><td></td><td><a href="#FT_List_Finalize">FT_List_Finalize</a></td></tr>
+<tr><td></td><td><a href="#FT_ListNodeRec">FT_ListNodeRec</a></td><td></td><td><a href="#FT_List_Up">FT_List_Up</a></td><td></td><td></td></tr>
+<tr><td></td><td><a href="#FT_List_Find">FT_List_Find</a></td><td></td><td><a href="#FT_List_Iterator">FT_List_Iterator</a></td><td></td><td></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>This section contains various definitions related to list processing using doubly-linked nodes.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FT_List">
+<h4>FT_List</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FT_ListRec_*  <b>FT_List</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A handle to a list record (see FT_ListRec).</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_ListNode">
+<h4>FT_ListNode</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FT_ListNodeRec_*  <b>FT_ListNode</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Many elements and objects in FreeType are listed through a FT_List record (see FT_ListRec). As its name suggests, a FT_ListNode is a handle to a single list element.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_ListRec">
+<h4>FT_ListRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_ListRec_
+  {
+    <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a>  head;
+    <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a>  tail;
+
+  } <b>FT_ListRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to hold a simple doubly-linked list. These are used in many parts of FreeType.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>head</b></td><td>
+<p>The head (first element) of doubly-linked list.</p>
+</td></tr>
+<tr valign=top><td><b>tail</b></td><td>
+<p>The tail (last element) of doubly-linked list.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_ListNodeRec">
+<h4>FT_ListNodeRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_ListNodeRec_
+  {
+    <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a>  prev;
+    <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a>  next;
+    <font color="darkblue">void</font>*        data;
+
+  } <b>FT_ListNodeRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to hold a single list element.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>prev</b></td><td>
+<p>The previous element in the list. NULL if first.</p>
+</td></tr>
+<tr valign=top><td><b>next</b></td><td>
+<p>The next element in the list. NULL if last.</p>
+</td></tr>
+<tr valign=top><td><b>data</b></td><td>
+<p>A typeless pointer to the listed object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_List_Find">
+<h4>FT_List_Find</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a> )
+  <b>FT_List_Find</b>( <a href="ft2-list_processing.html#FT_List">FT_List</a>  list,
+                <font color="darkblue">void</font>*    data );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Finds the list node for a given listed object.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>list</b></td><td>
+<p>A pointer to the parent list.</p>
+</td></tr>
+<tr valign=top><td><b>data</b></td><td>
+<p>The address of the listed object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>List node. NULL if it wasn't found.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_List_Add">
+<h4>FT_List_Add</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <font color="darkblue">void</font> )
+  <b>FT_List_Add</b>( <a href="ft2-list_processing.html#FT_List">FT_List</a>      list,
+               <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a>  node );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Appends an element to the end of a list.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>inout</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>list</b></td><td>
+<p>A pointer to the parent list.</p>
+</td></tr>
+<tr valign=top><td><b>node</b></td><td>
+<p>The node to append.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_List_Insert">
+<h4>FT_List_Insert</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <font color="darkblue">void</font> )
+  <b>FT_List_Insert</b>( <a href="ft2-list_processing.html#FT_List">FT_List</a>      list,
+                  <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a>  node );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Inserts an element at the head of a list.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>inout</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>list</b></td><td>
+<p>A pointer to parent list.</p>
+</td></tr>
+<tr valign=top><td><b>node</b></td><td>
+<p>The node to insert.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_List_Remove">
+<h4>FT_List_Remove</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <font color="darkblue">void</font> )
+  <b>FT_List_Remove</b>( <a href="ft2-list_processing.html#FT_List">FT_List</a>      list,
+                  <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a>  node );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Removes a node from a list. This function doesn't check whether the node is in the list!</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>node</b></td><td>
+<p>The node to remove.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>inout</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>list</b></td><td>
+<p>A pointer to the parent list.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_List_Up">
+<h4>FT_List_Up</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <font color="darkblue">void</font> )
+  <b>FT_List_Up</b>( <a href="ft2-list_processing.html#FT_List">FT_List</a>      list,
+              <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a>  node );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Moves a node to the head/top of a list. Used to maintain LRU lists.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>inout</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>list</b></td><td>
+<p>A pointer to the parent list.</p>
+</td></tr>
+<tr valign=top><td><b>node</b></td><td>
+<p>The node to move.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_List_Iterator">
+<h4>FT_List_Iterator</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-basic_types.html#FT_Error">FT_Error</a>
+  (*<b>FT_List_Iterator</b>)( <a href="ft2-list_processing.html#FT_ListNode">FT_ListNode</a>  node,
+                       <font color="darkblue">void</font>*        user );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>An FT_List iterator function which is called during a list parse by FT_List_Iterate().</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>node</b></td><td>
+<p>The current iteration list node.</p>
+</td></tr>
+<tr valign=top><td><b>user</b></td><td>
+<p>A typeless pointer passed to FT_List_Iterate(). Can be used to point to the iteration's state.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_List_Iterate">
+<h4>FT_List_Iterate</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_List_Iterate</b>( <a href="ft2-list_processing.html#FT_List">FT_List</a>           list,
+                   <a href="ft2-list_processing.html#FT_List_Iterator">FT_List_Iterator</a>  iterator,
+                   <font color="darkblue">void</font>*             user );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Parses a list and calls a given iterator function on each element. Note that parsing is stopped as soon as one of the iterator calls returns a non-zero value.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>list</b></td><td>
+<p>A handle to the list.</p>
+</td></tr>
+<tr valign=top><td><b>iterator</b></td><td>
+<p>An interator function, called on each node of the list.</p>
+</td></tr>
+<tr valign=top><td><b>user</b></td><td>
+<p>A user-supplied field which is passed as the second argument to the iterator.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>The result (a FreeType error code) of the last iterator call.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_List_Destructor">
+<h4>FT_List_Destructor</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>
+  (*<b>FT_List_Destructor</b>)( <a href="ft2-system_interface.html#FT_Memory">FT_Memory</a>  memory,
+                         <font color="darkblue">void</font>*      data,
+                         <font color="darkblue">void</font>*      user );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>An FT_List iterator function which is called during a list finalization by FT_List_Finalize() to destroy all elements in a given list.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>system</b></td><td>
+<p>The current system object.</p>
+</td></tr>
+<tr valign=top><td><b>data</b></td><td>
+<p>The current object to destroy.</p>
+</td></tr>
+<tr valign=top><td><b>user</b></td><td>
+<p>A typeless pointer passed to FT_List_Iterate(). It can be used to point to the iteration's state.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_List_Finalize">
+<h4>FT_List_Finalize</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <font color="darkblue">void</font> )
+  <b>FT_List_Finalize</b>( <a href="ft2-list_processing.html#FT_List">FT_List</a>             list,
+                    <a href="ft2-list_processing.html#FT_List_Destructor">FT_List_Destructor</a>  destroy,
+                    <a href="ft2-system_interface.html#FT_Memory">FT_Memory</a>           memory,
+                    <font color="darkblue">void</font>*               user );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Destroys all elements in the list as well as the list itself.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>list</b></td><td>
+<p>A handle to the list.</p>
+</td></tr>
+<tr valign=top><td><b>destroy</b></td><td>
+<p>A list destructor that will be applied to each element of the list.</p>
+</td></tr>
+<tr valign=top><td><b>memory</b></td><td>
+<p>The current memory object which handles deallocation.</p>
+</td></tr>
+<tr valign=top><td><b>user</b></td><td>
+<p>A user-supplied field which is passed as the last argument to the destructor.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

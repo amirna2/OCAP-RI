@@ -1,0 +1,1131 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+        
+        <!-- Unsigned Properties -->
+        <Xlet name="UnsignedProperties" orgID="0x1" appID="0x3231" pauseAfterLast="1000">
+        </Xlet>
+
+        <!-- Signed Properties -->
+        <Xlet name="SignedProperties" orgID="0x1" appID="0x4231" pauseAfterLast="1000">
+        </Xlet>
+
+        <!-- MonApp Properties -->
+        <Xlet name="MonAppProperties" orgID="0x1" appID="0x6231" pauseAfterLast="1000">
+        </Xlet>
+
+        <!-- All Properties -->
+        <Xlet name="AllProperties" orgID="0x1" appID="0x7231" pauseAfterLast="1000">
+        </Xlet>
+
+    <!-- FileAccessPermission (Create Files) -->
+    <Xlet name="FileAccessPermission (Create Files)" orgID="0x01" appID="0x7011" pauseAfterLast="1000">
+        </Xlet>
+
+    <!-- FileAccessPermission (Read Files - same org) -->
+    <Xlet name="FileAccessPermission (Read Files - same org)" orgID="0x01" appID="0x4012" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FileAccessPermission (Read Files - other org) -->
+    <Xlet name="FileAccessPermission (Read Files - other org)" orgID="0x02" appID="0x4014" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FileAccessPermission (Remove Files) -->
+    <Xlet name="FileAccessPermission (Delete Files)" orgID="0x01" appID="0x7015" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- Unsigned Permission -->
+    <Xlet name="UnsignedPermission" orgID="0x1" appID="0x3001" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- Signed Permission -->
+    <Xlet name="SignedPermission" orgID="0x1" appID="0x4001" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- Signed Permission (No PRF) -->
+    <Xlet name="SignedPermission (No PRF)" orgID="0x1" appID="0x4006" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- Dually-Signed Permission -->
+    <Xlet name="DuallySignedPermission" orgID="0x1" appID="0x6001" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- Dually-Signed Permission (No PRF) -->
+    <Xlet name="DuallySignedPermission (No PRF)" orgID="0x1" appID="0x6202" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- HostApp Permission -->
+    <Xlet name="HostAppPermission" orgID="0x1" appID="0x7002" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FocusTestRunner -->
+    <Xlet name="FocusTestRunner" orgID="0x01" appID="0x3600" pauseAfterLast="1000">
+                
+                <!-- Start the Focus1 test xlet -->
+                <RCEvent name="Start Focus1" monitorTimeout="30000">VK_PLAY</RCEvent>
+
+                <!-- Select Focus1-Text2 component -->
+                <RCEvent name="Select Focus1-Text1" pauseBeforeNext="1000">VK_RIGHT</RCEvent>
+                <RCEvent name="Select Focus1-Text2" pauseBeforeNext="1000">VK_RIGHT</RCEvent>
+
+                <!-- requestFocus Focus1-Text2 -->
+                <RCEvent name="requestFocus Focus1-Text2" monitorTimeout="10000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+
+                <!-- Select Focus1-Text1 component and requestFocus -->
+                <RCEvent name="Select Focus1-Text1" pauseBeforeNext="1000">VK_LEFT</RCEvent>
+                <RCEvent name="requestFocus Focus1-Text1" monitorTimeout="5000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+
+                <!-- Select and start the Focus4 test xlet -->
+                <RCEvent name="Select Focus4" pauseBeforeNext="1000">VK_DOWN</RCEvent>
+                <RCEvent name="Start Focus4" monitorTimeout="30000">VK_PLAY</RCEvent>
+
+                <!-- requestFocus Focus4-Text1 -->
+                <RCEvent name="requestFocus Focus4-Text1" monitorTimeout="5000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+
+                <!-- Select Focus4-Scene and setVisible(false) -->
+                <RCEvent name="Select Focus4-Scene" pauseBeforeNext="1000">VK_LEFT</RCEvent>
+                <RCEvent name="setVisible(false) Focus4-Scene" pauseBeforeNext="1000">VK_3</RCEvent>
+
+                <!-- Select Focus3 and start -->
+                <RCEvent name="Select Focus3" pauseBeforeNext="1000">VK_DOWN</RCEvent>
+                <RCEvent name="Start Focus3" monitorTimeout="30000">VK_PLAY</RCEvent>
+
+                <!-- requestFocus Focus3-Scene -->
+                <RCEvent name="requestFocus Focus3-Scene" monitorTimeout="5000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+                
+                <!-- Select Focus4-Scene, setVisible(true), requestFocus -->
+                <RCEvent name="Select Focus4" pauseBeforeNext="1000">VK_UP</RCEvent>
+                <RCEvent name="setVisible(true) Focus4-Scene" pauseBeforeNext="1000">VK_2</RCEvent>
+                <RCEvent name="requestFocus Focus4-Scene" monitorTimeout="5000" pauseBeforeNext="1000" getResultsAfter="true">VK_1</RCEvent>
+    </Xlet>
+
+
+    <!-- Persistemt Storage test -->
+    <Xlet name="PSTestXlet1" orgID="0x1" appID="0x7643" pauseAfterLast="1000">
+    </Xlet>
+
+
+    <!-- User Preferences Test -->
+    <Xlet name="UserPrefs" orgID="0x1" appID="0x4640" pauseAfterLast="7000" startupTimeout="180000">
+
+      <RCEvent name="Read from UserPrefMgr 1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs 2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="display prefs 2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Set Preferences (hardcoded) 3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs 4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Set Preferences (hostApp args) 5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_5</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs 6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Set Preferences (hostApp args) 7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_5</RCEvent>
+      <RCEvent name="Set Preferences (hardcoded)7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs 8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Set Preferences (hardcoded) 9" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 9" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 9" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+
+      <RCEvent name="Set Preferences (hostApp args) A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_5</RCEvent>
+      <RCEvent name="Write to UserPrefMgr A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+    </Xlet>
+
+
+<!-- Obsolete with new JMF mediax implementation until Task 3 
+     (Media Selection) of workset 18x is completed -->
+   <!-- DVBMediaSelectControl -->
+   <!-- Obsolete with new JMF mediax implementation until Task 3 
+        (Media Selection) of workset 18x is completed -->
+   <!--
+   <Xlet name="DVBMediaSelectControl" orgID="0x1" appID="0x4642" pauseAfterLast="1000">
+      <RCEvent name="Add new service component (spanish audio)" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="Remove service component (audio)" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Replace service component (english to spanish)" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Select service component (vidio and spanish audio)" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="Select multiple service component (vidio, english and spanish audio)" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">
+VK_5</RCEvent>
+   </Xlet>
+   -->
+
+
+    <!-- Swak Test -->
+    <Xlet name="Swak" orgID="0x1" appID="0x6002" pauseAfterLast="7000" startupTimeout="380000">
+
+      <RCEvent name="TestBot Menu" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_RIGHT</RCEvent>
+
+      <RCEvent name="Tune Background to Channel 2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Tune Background to Channel 2" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_LAST</RCEvent>
+
+      <RCEvent name="PIP On" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_PINP_TOGGLE</RCEvent>
+
+      <RCEvent name="Tune PIP - Channel UP" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_PINP_UP</RCEvent>
+
+      <RCEvent name="PIP Off" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_PINP_TOGGLE</RCEvent>
+
+      <RCEvent name="Tune Foreground to Channel 14" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="Tune Foreground to Channel 14" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="Tune Foreground to Channel 14" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="PIP On" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_PINP_TOGGLE</RCEvent>
+
+      <RCEvent name="Move PIP - LL" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_PINP_MOVE</RCEvent>
+      <RCEvent name="Move PIP - UL" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_PINP_MOVE</RCEvent>
+      <RCEvent name="Move PIP - UR" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_PINP_MOVE</RCEvent>
+
+      <RCEvent name="Resize PIP - Medium" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_LIST</RCEvent>
+      <RCEvent name="Resize PIP - Large" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_LIST</RCEvent>
+      <RCEvent name="Resize PIP - Small" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_LIST</RCEvent>
+
+      <RCEvent name="Tune Foreground - Channel Down" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_PINP_DOWN</RCEvent>
+
+      <RCEvent name="PIP Swap" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_DISPLAY_SWAP</RCEvent>
+
+      <RCEvent name="Resize PIP - medium" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_LIST</RCEvent>
+
+      <RCEvent name="Tune Foreground - Channel UP" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_PINP_UP</RCEvent>
+
+      <RCEvent name="Tune Background - Channel UP" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_CHANNEL_UP</RCEvent>
+
+      <RCEvent name="PIP Swap Again" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_DISPLAY_SWAP</RCEvent>
+
+      <RCEvent name="Move PIP - LL" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_PINP_MOVE</RCEvent>
+
+      <RCEvent name="Tune Background to Analog Channel (0)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Tune Background to Analog Channel (0)" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_LAST</RCEvent>
+
+      <RCEvent name="PIP Swap (PIP in digital, background in analog)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_DISPLAY_SWAP</RCEvent>
+      <RCEvent name="Resize PIP - Large" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_LIST</RCEvent>
+
+      <RCEvent name="PIP Swap (PIP in analog, background in digital)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_DISPLAY_SWAP</RCEvent>
+      <RCEvent name="Resize PIP - Small" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_LIST</RCEvent>
+      <RCEvent name="Resize PIP - Medium" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_LIST</RCEvent>
+
+      <RCEvent name="PIP Off" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_PINP_TOGGLE</RCEvent>
+
+      <RCEvent name="Tune Foreground - Channel Down" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="true">VK_PINP_DOWN</RCEvent>
+
+      <RCEvent name="PIP On" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_PINP_TOGGLE</RCEvent>
+
+    </Xlet>
+
+
+    <!-- Exclusive Events Test -->
+
+    <Xlet name="ExclusiveEventNoRelease" orgID="0x1" appID="0x3625" pauseAfterLast="7000" startupTimeout="180000">
+      <RCEvent name="reserveUserEvent_Guide" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="reserveUserEvent_Guide" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_ChUp" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="reserveAWTEvent_ChUp" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+   </Xlet>
+
+    <Xlet name="ExclusiveEventLowerPriority" orgID="0x1" appID="0x3621" pauseAfterLast="7000" startupTimeout="180000">
+      <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+      <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+    </Xlet>
+
+    <Xlet name="ExclusiveEventHigherPriority" orgID="0x1" appID="0x3629" pauseAfterLast="7000" startupTimeout="180000">
+      <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="removeUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="removeUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+    </Xlet>
+
+
+    <Xlet name="ExclusiveEventRelease" orgID="0x1" appID="0x3626" pauseAfterLast="7000" startupTimeout="180000">
+      <RCEvent name="reserveUserEvent_Guide" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="reserveUserEvent_Guide" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_ChUp" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="reserveAWTEvent_ChUp" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+   </Xlet>
+
+    <Xlet name="ExclusiveEventLowerPriority" orgID="0x1" appID="0x3621" pauseAfterLast="7000" startupTimeout="180000">
+      <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+      <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="ClearUserRep" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+
+    </Xlet>
+
+    <Xlet name="ExclusiveEventHigherPriority" orgID="0x1" appID="0x3629" pauseAfterLast="7000" startupTimeout="180000">
+      <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="reserveUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="reserveAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="reserveUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="reserveAWTEvent_ChDown" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_PageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="removeUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="reserveAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_GuidePageScroll" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+
+      <RCEvent name="reserveUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="removeUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+      <RCEvent name="removeUserEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_COLORED_KEY_0</RCEvent>
+
+      <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="reserveAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_COLORED_KEY_2</RCEvent>
+      <RCEvent name="removeAWTEvent_Channels" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_EXIT</RCEvent>
+    </Xlet>
+
+    <!-- End of Exclusive Events Test -->
+
+
+    <!-- TransportLocatorTestXlet-->
+    <Xlet name="TransportLocatorTest" orgID="0x1" appID="0x4304" pauseAfterLast="100000">
+    </Xlet>
+
+
+
+    <!-- FrontPanel Resource Test Xlet-->
+    <Xlet name="FPResourceTestRunner" orgID="0x01" appID="0x6610" pauseAfterLast="1000">
+                
+        <!-- Start the FPTest 1 xlet -->
+        <RCEvent name="Start FPTest1" monitorTimeout="1000">VK_PLAY</RCEvent>
+
+        <!-- Start the FPTest 2 xlet -->
+        <RCEvent name="Start FPTest2" monitorTimeout="1000">VK_UP</RCEvent>
+        <RCEvent name="Start FPTest2" monitorTimeout="1000">VK_PLAY</RCEvent>
+
+        <!-- Start the FPTest 3 xlet -->
+        <RCEvent name="Start FPTest3" monitorTimeout="1000">VK_UP</RCEvent>
+        <RCEvent name="Start FPTest3" monitorTimeout="1000">VK_PLAY</RCEvent>
+
+        <!-- Start the FPTest 4 xlet -->
+        <RCEvent name="Start FPTest4" monitorTimeout="1000">VK_UP</RCEvent>
+        <RCEvent name="Start FPTest4" monitorTimeout="1000">VK_PLAY</RCEvent>
+
+        <!-- FPTest 2: turn "willing to release" on-->
+        <RCEvent name="FPTest2 - play nice" monitorTimeout="1000">VK_UP</RCEvent>
+        <RCEvent name="FPTest2 - play nice" monitorTimeout="1000">VK_UP</RCEvent>
+        <RCEvent name="FPTest2 - play nice" monitorTimeout="1000">VK_3</RCEvent>
+        <!-- FPTest 2: reserve indicator-->
+        <!-- OCAP.fp.indicators=message record power text -->
+        <RCEvent name="FPTest2 - reserve 1st indicator" monitorTimeout="1000" getResultsAfter="true">VK_1</RCEvent>
+
+        <!-- FPTest 3: reserve indicator-->
+        <RCEvent name="FPTest3 - release 1st indicator" monitorTimeout="1000">VK_UP</RCEvent>
+        <RCEvent name="FPTest3 - release 1st indicator" monitorTimeout="1000" getResultsAfter="true">VK_2</RCEvent>
+        <RCEvent name="FPTest3 - reserve 1st indicator" monitorTimeout="1000" getResultsAfter="true">VK_1</RCEvent>
+
+        <!-- FPTest 2: reserve indicator-->
+        <RCEvent name="FPTest2 - reserve 1st indicator" monitorTimeout="1000">VK_DOWN</RCEvent>
+        <RCEvent name="FPTest2 - reserve 1st indicator" monitorTimeout="1000" getResultsAfter="true">VK_1</RCEvent>
+
+        <!-- FPTest 1: reserve indicator-->
+        <RCEvent name="FPTest1 - reserve 1st indicator" monitorTimeout="1000">VK_DOWN</RCEvent>
+        <RCEvent name="FPTest1 - reserve 1st indicator" monitorTimeout="1000" getResultsAfter="true">VK_1</RCEvent>
+  
+        <!-- FPTest 4: reserve indicator-->
+        <RCEvent name="FPTest4 - reserve 1st indicator" monitorTimeout="1000">VK_DOWN</RCEvent>
+        <RCEvent name="FPTest4 - reserve 1st indicator" monitorTimeout="1000" getResultsAfter="true">VK_1</RCEvent>
+  
+        <!-- change indicator -->
+        <RCEvent name="change indicator" monitorTimeout="1000">VK_RIGHT</RCEvent>
+
+        <!-- FPTest 1: reserve 2nd indicator-->
+        <RCEvent name="FPTest1 - reserve 2nd indicator" monitorTimeout="1000">VK_UP</RCEvent>
+        <RCEvent name="FPTest1 - reserve 2nd indicator" monitorTimeout="1000" getResultsAfter="true">VK_1</RCEvent>
+
+    </Xlet>
+
+
+    <!-- FrontPanelExtention-->
+    <Xlet name="FrontPanelExt" orgID="0x1" appID="0x6619" pauseAfterLast="7000" startupTimeout="180000">
+        <!-- TextDisplay: change blink rate-->
+        <RCEvent name="Text-change blink rate 1" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink rate 1" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change blink rate 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink rate 2" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink rate 2" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change blink rate 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink rate 3" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink rate 3" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change blink rate 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink rate 4" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink rate 4" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change blink rate 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink rate 5" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink rate 5" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change blink rate 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink rate 6" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink rate 6" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change blink rate 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change blink duration-->
+        <RCEvent name="Text-change blink duration 1" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink duration 1" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change blink duration 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink duration 2" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink duration 2" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change blink duration 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink duration 3" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink duration 3" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change blink duration 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink duration 4" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink duration 4" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change blink duration 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink duration 5" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink duration 5" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change blink duration 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink duration 6" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink duration 6" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change blink duration 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink duration 7" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink duration 7" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change blink duration 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change blink duration 8" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change blink duration 8" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change blink duration 8" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change brightness-->
+        <RCEvent name="Text-change brightness 1" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change brightness 1" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change brightness 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change brightness 2" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change brightness 2" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change brightness 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change brightness 3" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change brightness 3" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change brightness 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change brightness 4" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change brightness 4" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change brightness 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change brightness 5" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change brightness 5" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change brightness 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change brightness 6" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change brightness 6" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change brightness 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change brightness 7" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change brightness 7" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change brightness 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change color-->
+        <RCEvent name="Text-change color 1" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change color 1" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change color 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change color 2" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change color 2" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change color 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change color 3" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change color 3" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change color 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change color 4" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change color 4" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change color 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change color 5" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change color 5" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change color 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: erase text-->
+        <RCEvent name="Text-erase text" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-erase text" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-erase text" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: reset text-->
+        <RCEvent name="Text-reset text 1" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-reset text 1" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="Text-reset text 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-reset text 2" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-reset text 2" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="Text-reset text 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-reset text 3" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-reset text 3" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="Text-reset text 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-reset text 4" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-reset text 4" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="Text-reset text 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change horizontal scroll rate-->
+        <RCEvent name="Text-change horizontal scroll rate 1" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 1" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 2" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 2" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 3" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 3" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 4" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 4" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 5" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 5" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 6" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 6" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 7" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 7" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change horizontal scroll rate 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change vertical scroll rate-->
+        <RCEvent name="Text-change Vertical scroll rate 1" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 1" monitorTimeout="1000">VK_9</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 2" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 2" monitorTimeout="1000">VK_9</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 3" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 3" monitorTimeout="1000">VK_9</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 4" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 4" monitorTimeout="1000">VK_9</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 5" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 5" monitorTimeout="1000">VK_9</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 6" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 6" monitorTimeout="1000">VK_9</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 7" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 7" monitorTimeout="1000">VK_9</RCEvent>
+        <RCEvent name="Text-change Vertical scroll rate 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change scroll duration-->
+        <RCEvent name="Text-change scroll duration 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change scroll duration 1" monitorTimeout="1000">VK_0</RCEvent>
+        <RCEvent name="Text-change scroll duration 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change scroll duration 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change scroll duration 2" monitorTimeout="10000">VK_0</RCEvent>
+        <RCEvent name="Text-change scroll duration 2" monitorTimeout="1000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change scroll duration 3" monitorTimeout="10000">VK_3</RCEvent>
+        <RCEvent name="Text-change scroll duration 3" monitorTimeout="1000">VK_0</RCEvent>
+        <RCEvent name="Text-change scroll duration 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change scroll duration 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change scroll duration 4" monitorTimeout="10000">VK_0</RCEvent>
+        <RCEvent name="Text-change scroll duration 4" monitorTimeout="1000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change scroll duration 5" monitorTimeout="10000">VK_3</RCEvent>
+        <RCEvent name="Text-change scroll duration 5" monitorTimeout="1000">VK_0</RCEvent>
+        <RCEvent name="Text-change scroll duration 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change scroll duration 6" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change scroll duration 6" monitorTimeout="10000">VK_0</RCEvent>
+        <RCEvent name="Text-change scroll duration 6" monitorTimeout="1000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change scroll duration 7" monitorTimeout="10000">VK_3</RCEvent>
+        <RCEvent name="Text-change scroll duration 7" monitorTimeout="1000">VK_0</RCEvent>
+        <RCEvent name="Text-change scroll duration 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change scroll duration 8" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change scroll duration 8" monitorTimeout="10000">VK_0</RCEvent>
+        <RCEvent name="Text-change scroll duration 8" monitorTimeout="1000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- textDisplay: release reservation-->
+        <RCEvent name="Text-release reservation" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-release reservation" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- unreserved TextDisplay: change clock mode-->
+        <RCEvent name="unreserved Text-change clock mode" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="unreserved Text-change clock mode" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="unreserved Text-change clock mode" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- textDisplay: reserve-->
+        <RCEvent name="Text-reserve" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-reserve" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change clock mode-->
+        <RCEvent name="Text-change clock mode 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock mode 1" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="Text-change clock mode 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock mode 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock mode 2" monitorTimeout="10000">VK_1</RCEvent>
+        <RCEvent name="Text-change clock mode 2" monitorTimeout="1000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock mode 3" monitorTimeout="10000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock mode 3" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="Text-change clock mode 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change clock blink rate-->
+        <RCEvent name="Text-change clock blink rate 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink rate 1" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change clock blink rate 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink rate 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink rate 2" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change clock blink rate 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink rate 3" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink rate 3" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change clock blink rate 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink rate 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink rate 4" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change clock blink rate 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink rate 5" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink rate 5" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change clock blink rate 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink rate 6" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink rate 6" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-change clock blink rate 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change clock blink duration-->
+        <RCEvent name="Text-change clock blink duration 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink duration 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink duration 3" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 3" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink duration 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink duration 5" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 5" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink duration 6" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 6" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink duration 7" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 7" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock blink duration 8" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 8" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock blink duration 8" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change clock brightness-->
+        <RCEvent name="Text-change clock brightness 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock brightness 1" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change clock brightness 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock brightness 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock brightness 2" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change clock brightness 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock brightness 3" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock brightness 3" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change clock brightness 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock brightness 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock brightness 4" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change clock brightness 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock brightness 5" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock brightness 5" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change clock brightness 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock brightness 6" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock brightness 6" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change clock brightness 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock brightness 7" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock brightness 7" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="Text-change clock brightness 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change clock color-->
+        <RCEvent name="Text-change clock color 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock color 1" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change clock color 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock color 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock color 2" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change clock color 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock color 3" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock color 3" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change clock color 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock color 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock color 4" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change clock color 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock color 5" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock color 5" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="Text-change clock color 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change clock horizontal scroll rate-->
+        <RCEvent name="Text-change clock horizontal scroll rate 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 1" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 2" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 3" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 3" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 4" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 5" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 5" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 6" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 6" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 7" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 7" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="Text-change clock horizontal scroll rate 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change clock vertical scroll rate-->
+        <RCEvent name="Text-change clock vertical scroll rate 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 1" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 2" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 3" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 3" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 4" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 5" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 5" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 6" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 6" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 7" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 7" monitorTimeout="1000">VK_7</RCEvent>
+        <RCEvent name="Text-change clock vertical scroll rate 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: change clock scroll duration-->
+        <RCEvent name="Text-change clock scroll duration 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 1" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 2" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 3" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 3" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 4" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 5" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 5" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 6" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 6" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 7" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 7" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 8" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 8" monitorTimeout="1000">VK_8</RCEvent>
+        <RCEvent name="Text-change clock scroll duration 8" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- TextDisplay: reset text-->
+        <RCEvent name="Text-reset text A" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-reset text A" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="Text-reset text A" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-reset text B" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-reset text B" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="Text-reset text B" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="Text-reset text C" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="Text-reset text C" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="Text-reset text C" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- message Indicator: release reservation-->
+        <RCEvent name="message-release reservation" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="message-release reservation" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- unreserved message Indicator: change blink rate-->
+        <RCEvent name="unreserved message-change blink rate" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="unreserved message-change blink rate" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="unreserved message-change blink rate" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- unreserved message Indicator: change blink duration -->
+        <RCEvent name="unreserved message-change blink duration" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="unreserved message-change blink duration" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="unreserved message-change blink duration" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- unreserved message Indicator: change brightness-->
+        <RCEvent name="unreserved message-change brightness" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="unreserved message-change brightness" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="unreserved message-change brightness" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- unreserved message Indicator: change color-->
+        <RCEvent name="unreserved message-change color" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="unreserved message-change color" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="unreserved message-change color" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- message Indicator: reserve-->
+        <RCEvent name="message-reserve" monitorTimeout="1000">VK_2</RCEvent>
+        <RCEvent name="message-reserve" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- message Indicator: change blink rate-->
+        <RCEvent name="message-change blink rate 1" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink rate 1" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="message-change blink rate 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink rate 2" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink rate 2" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="message-change blink rate 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink rate 3" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink rate 3" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="message-change blink rate 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink rate 4" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink rate 4" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="message-change blink rate 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink rate 5" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink rate 5" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="message-change blink rate 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink rate 6" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink rate 6" monitorTimeout="1000">VK_3</RCEvent>
+        <RCEvent name="message-change blink rate 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- message Indicator: change blink duration-->
+        <RCEvent name="message-change blink duration 1" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink duration 1" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="message-change blink duration 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink duration 2" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink duration 2" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="message-change blink duration 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink duration 3" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink duration 3" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="message-change blink duration 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink duration 4" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink duration 4" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="message-change blink duration 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink duration 5" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink duration 5" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="message-change blink duration 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink duration 6" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink duration 6" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="message-change blink duration 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink duration 7" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink duration 7" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="message-change blink duration 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change blink duration 8" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change blink duration 8" monitorTimeout="1000">VK_4</RCEvent>
+        <RCEvent name="message-change blink duration 8" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- message Indicator: change brightness-->
+        <RCEvent name="message-change brightness 1" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change brightness 1" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="message-change brightness 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change brightness 2" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change brightness 2" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="message-change brightness 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change brightness 3" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change brightness 3" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="message-change brightness 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change brightness 4" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change brightness 4" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="message-change brightness 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change brightness 5" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change brightness 5" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="message-change brightness 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change brightness 6" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change brightness 6" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="message-change brightness 6" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change brightness 7" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change brightness 7" monitorTimeout="1000">VK_5</RCEvent>
+        <RCEvent name="message-change brightness 7" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+
+        <!-- message Indicator: change color-->
+        <RCEvent name="message-change color 1" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change color 1" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="message-change color 1" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change color 2" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change color 2" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="message-change color 2" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change color 3" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change color 3" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="message-change color 3" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change color 4" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change color 4" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="message-change color 4" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+        <RCEvent name="message-change color 5" monitorTimeout="1000">VK_1</RCEvent>
+        <RCEvent name="message-change color 5" monitorTimeout="1000">VK_6</RCEvent>
+        <RCEvent name="message-change color 5" monitorTimeout="10000" getResultsAfter="true">VK_ENTER</RCEvent>
+    </Xlet>
+
+
+   <!-- HSceneManagerTest (z-order) -->
+    <Xlet name="HSMTestRunner" orgID="0x01" appID="0x6670" pauseAfterLast="1000">
+        <!-- Start the test xlet 1 -->
+        <RCEvent name="Start testXlet1" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!-- Start the test xlet 2 -->
+        <RCEvent name="Start testXlet2" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet2" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!-- Start the test xlet 3 -->
+        <RCEvent name="Start testXlet3" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet3" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!--move xlet2 to front -->
+        <RCEvent name="testXlet2 to Front" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+        <RCEvent name="testXlet2 to Front" monitorTimeout="30000" getResultsAfter="true">VK_2</RCEvent>
+
+        <!-- Start the test xlet 4 -->
+        <RCEvent name="Start testXlet4" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet4" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet4" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!-- Start the test xlet 5 -->
+        <RCEvent name="Start testXlet5" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet5" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!--move xlet4 to front - should not occur-->
+        <RCEvent name="testXlet4 to Front" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+        <RCEvent name="testXlet4 to Front" monitorTimeout="30000" getResultsAfter="true">VK_2</RCEvent>
+
+        <!--move xlet3 to front -->
+        <RCEvent name="testXlet3 to Front" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+        <RCEvent name="testXlet3 to Front" monitorTimeout="30000" getResultsAfter="true">VK_2</RCEvent>
+
+        <!-- Start the test xlet 6 -->
+        <RCEvent name="Start testXlet6" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet6" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet6" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet6" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!--move xlet5 to front -->
+        <RCEvent name="testXlet5 to Front" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+        <RCEvent name="testXlet5 to Front" monitorTimeout="30000" getResultsAfter="true">VK_2</RCEvent>
+    </Xlet>
+
+
+   <!-- DvrTest -->
+   <Xlet name="DVRTest" orgID="0x1" appID="0x7203" pauseAfterLast="7000" startupTimeout="180000">
+
+      <RCEvent name="Test Group 1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Group 1" pauseBeforeNext="10000" monitorTimeout="30000" getResultsAfter="false">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="TestDigitalRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestDigitalRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingPlayback" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestRecordingPlayback" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingPlaybackwithJMFPlayer" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestRecordingPlaybackwithJMFPlayer" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingPlaybackSetMediaTime" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestRecordingPlaybackSetMediaTime" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBasicConsecutiveRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestBasicConsecutiveRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBasicConsecutiveRecordings2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestBasicConsecutiveRecordings2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestSimultaneousRecordings - distinct locators" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestSimultaneousRecordings - distinct locators" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestSimultaneousRecordings - distinct locators" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestAdjacentRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestAdjacentRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestAdjacentRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Basic TSB Recording:ocap0x868" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Basic TSB Recording:ocap0x868" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Test Basic TSB Recording:ocap0x868" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TSBRecording NIRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TSBRecording NIRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TSBRecording NIRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Overlapping Entries" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Overlapping Entries" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="Test Overlapping Entries" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Basic Record and Cancel" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Test Basic Record and Cancel" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Basic Record and Cancel" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+   </Xlet>
+
+    <Xlet name="SoundTestXlet" orgID="0x1" appID="0x3232" pauseAfterLast="3000">
+                <RCEvent name="Other Tests" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+                <RCEvent name="Run Tests" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+    </Xlet>
+    
+    <Xlet name="HostTestXlet" orgID="0x01" appID="0x362A" pauseAfterLast="1000">
+            <RCEvent name="Turn on AC Socket" monitorTimeout="30000">VK_1</RCEvent>
+            <RCEvent name="Turn off AC socket" monitorTimeout="30000">VK_2</RCEvent>
+	    <!-- Turn the light (or what ever you have plugged into the back AC socket)
+	         on and off again just in case you missed it the first time.
+            -->
+            <RCEvent name="Turn on AC Socket" monitorTimeout="30000">VK_1</RCEvent>
+            <RCEvent name="Turn off AC socket" monitorTimeout="30000">VK_2</RCEvent>
+    </Xlet>
+
+    <Xlet name="AutoXletDoneXlet" orgID="0x1" appID="0x4444" pauseAfterLast="3000">
+    </Xlet>
+
+</AutoXlet>

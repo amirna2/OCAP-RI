@@ -1,0 +1,38 @@
+<!-- ANT entity include/definition for project deployed files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory
+
+These need to be included with the build files that depend upon the other
+deployed files.  This helps to declare early in the build file what dependencies
+the project has.
+
+If we find a cyclic dependency occuring, we should split the shared code into
+a new project.
+
+  -->
+<!ENTITY inc._shared.deployed.codecoverage    SYSTEM "../../codecoverage/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.eventbus        SYSTEM "../../eventbus/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.gui             SYSTEM "../../gui/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.jplugin         SYSTEM "../../jplugin/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.pmti            SYSTEM "../../pmti/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.testing-autodoc SYSTEM "../../testing-autodoc/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.testing-junit   SYSTEM "../../testing-junit/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.testing-mbtf    SYSTEM "../../testing-mbtf/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.testing-pmti    SYSTEM "../../testing-pmti/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.testing-tp      SYSTEM "../../testing-tp/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.uicapture       SYSTEM "../../uicapture/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.util-classes    SYSTEM "../../util-classes/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.util-datastruct SYSTEM "../../util-datastruct/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.util-io         SYSTEM "../../util-io/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.util-jdi        SYSTEM "../../util-jdi/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.util-states     SYSTEM "../../util-states/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.util-thread     SYSTEM "../../util-thread/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.util-xml        SYSTEM "../../util-xml/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.xml-resource    SYSTEM "../../xml-resource/deployed.ant-inc.xml">
+<!ENTITY inc._shared.deployed.xml-xdstates    SYSTEM "../../xml-xdstates/deployed.ant-inc.xml">
+
+

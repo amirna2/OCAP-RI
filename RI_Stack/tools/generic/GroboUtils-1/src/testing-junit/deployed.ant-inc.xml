@@ -1,0 +1,8 @@
+<!-- ANT includes for the deployed files in this project -->
+
+    <property name="libs.groboutils.testing-junit"
+            value="${basedir}/../testing-junit/GroboTestingJUnit-1.0.0-core.jar" />
+
+    
+    
+    

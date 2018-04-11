@@ -1,0 +1,22 @@
+--- orig/hrStorage.c	2011-04-11 15:35:51.105080002 -0600
++++ hrStorage.c	2011-04-11 15:45:23.585080001 -0600
+@@ -8,6 +8,8 @@
+ #include <net-snmp/agent/net-snmp-agent-includes.h>
+ #include "hrStorage.h"
+ 
++static unsigned long hrMemorySize;
++
+ /** Initializes the hrStorage module */
+ void
+ init_hrStorage(void)
+@@ -39,8 +41,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) hrMemorySize,
++                                     sizeof(hrMemorySize));
+             break;
+ 
+ 

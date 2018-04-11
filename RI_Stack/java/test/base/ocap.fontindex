@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE fontdirectory 
+          PUBLIC "-//OCAP//DTD Font Directory 1.0//EN" 
+                 "http://www.opencable.com/ocap/dtd/fontdirectory-1-0.dtd">
+
+<fontdirectory>
+
+  <font>
+    <name>Tiresias</name>
+    <fontformat>PFR</fontformat>
+    <filename>fonts/Tires-o_802.pfr</filename>
+    <style>PLAIN</style>
+    <size min="0" max="maxint"/>
+  </font>
+
+</fontdirectory>

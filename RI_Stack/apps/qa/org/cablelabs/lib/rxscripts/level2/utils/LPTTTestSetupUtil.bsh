@@ -1,0 +1,150 @@
+//COPYRIGHT_BEGIN
+// DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+// 
+// Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+// 
+// This software is available under multiple licenses: 
+// 
+// (1) BSD 2-clause 
+//  Redistribution and use in source and binary forms, with or without modification, are
+//  permitted provided that the following conditions are met:
+//       ·Redistributions of source code must retain the above copyright notice, this list 
+//            of conditions and the following disclaimer.
+//       ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//            and the following disclaimer in the documentation and/or other materials provided with the 
+//            distribution.
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//  TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//  PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//  HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// 
+// (2) GPL Version 2
+//  This program is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, version 2. This program is distributed
+//  in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//  even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//  PURPOSE. See the GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License along
+//  with this program.If not, see<http:www.gnu.org/licenses/>.
+// 
+// (3)CableLabs License
+//  If you or the company you represent has a separate agreement with CableLabs
+//  concerning the use of this code, your rights and obligations with respect
+//  to this code shall be as set forth therein. No license is granted hereunder
+//  for any other purpose.
+// 
+//  Please contact CableLabs if you need additional information or 
+//  have any questions.
+// 
+//      CableLabs
+//      858 Coal Creek Cir
+//      Louisville, CO 80027-9750
+//      303 661-9100
+//COPYRIGHT_END
+
+this.interpreter.source ("scripts/level1/DeleteRecordings.bsh");
+this.interpreter.source ("scripts/level1/FindNumRecordingsAndDuration.bsh");
+this.interpreter.source ("scripts/level1/TuneToServiceByIndex.bsh");
+this.interpreter.source ("scripts/level1/RecordTunerContent.bsh");
+this.interpreter.source ("scripts/level1/PublishRecordingToCDS.bsh");
+this.interpreter.source ("scripts/level1/PublishLiveChannelToCDS.bsh");
+
+/**
+* Performs setup for recording scenario.
+*
+* @return  null string if no problems encountered, 
+*          failure reason if problems encountered 
+*/
+
+static final String SCRIPT_NAME = "LPTTTestSetupUtil.bsh : ";
+
+String performLPTTRecordingTestSetup(int nonProtectedRecordings, int protectedRecordings, int recordingLength,
+        int waitTime, int channelToPublish, String[] telnetCommand, String[] telnetResultString)
+{
+    String failureReason = null;
+
+    // Not using existing recording, delete all that currently exist
+    if (!deleteAllRecordings())
+    {
+        // Problems deleting all recording, fail test and return
+        failureReason = "Problems deleting all recordings";
+        rxLog.callTrace("Failure during deleteAllRecordings :", this.callstack);
+        return failureReason;
+    }
+
+    if (!tuneToServiceByIndex(channelToPublish, true, TUNE_TIMEOUT_SECS_EXT))
+    {
+        failureReason = "Failure tuning and waiting for tuned state";
+        rxLog.callTrace("Failure during tune and wait :", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Success in tuning to channel to record content: " + channelToPublish);
+
+    for (int i = 0; i < nonProtectedRecordings; i++)
+    {
+        // Record with Tuner 0 'recordingLength' sec content with no delay
+        // in background mode
+        if (!recordContentOnTuner(SCRIPT_NAME, 0, recordingLength, true, waitTime,
+                rxDriverDVR.COMPLETED_STATE, false))
+        {
+            failureReason = "Recording " + noOfRecordings + ":Failure starting recording";
+            rxLog.callTrace("Failure starting recording " + recState, this.callstack);
+            return failureReason;
+        }
+        if (getRecordingCount() <= 0)
+        {
+            failureReason = "No Recordings created for LPTT tests...";
+            rxLog.callTrace("NO recordings are created  for LPTT tests: ", this.callstack);
+            return failureReason;
+        }
+    }
+    rxLog.info("Success in creating a protected recordings for LPTT tests");
+
+    for (int i = 0; i < protectedRecordings; i++)
+    {
+        // Record with Tuner 0 'recordingLength' sec content with no delay
+        // in foreground (not background) mode
+        if (!recordContentWithCCIChanges(SCRIPT_NAME, 0, recordingLength, false, waitTime,
+                rxDriverDVR.COMPLETED_STATE, telnetCommand, telnetResultString))
+        {
+            failureReason = "Recording " + noOfRecordings + ":Failure starting recording";
+            rxLog.callTrace("Failure starting recording " + recState, this.callstack);
+            return failureReason;
+        }
+        if (getRecordingCount() <= 0)
+        {
+            failureReason = "No Recordings created for LPTT tests...";
+            rxLog.callTrace("NO recordings are created  for LPTT tests: ", this.callstack);
+            return failureReason;
+        }
+    }
+    rxLog.info("Success in creating a protected recordings for LPTT tests");
+
+    // Publish the recording to CDS
+    if (!publishAllRecordingsToCDS())
+    {
+        failureReason = "Failed to publish recording " + i + " to local CDS  for LPTT tests";
+        rxLog.callTrace("Failure during publish of recordings to local CDS  for LPTT tests: ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Successfully published recordings to local CDS for LPTT tests");
+
+    // Publish the channel to CDS.
+    if (!publishChannelToCDS(channelToPublish))
+    {
+        failureReason = "Failure publish channel to CDS";
+        return failureReason;
+    }
+    rxLog.info("Successfully published the current channel :" + channelToPublish);
+
+    return failureReason;
+}

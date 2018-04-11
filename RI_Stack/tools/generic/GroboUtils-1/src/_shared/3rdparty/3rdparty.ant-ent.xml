@@ -1,0 +1,42 @@
+<!-- ANT entity include/definition for 3rd party files -->
+
+
+<!-- Include and execute these from sub-directories -->
+<!ENTITY % ent._shared.3rdparty.ant SYSTEM "ant/ant.ant-ent.xml">
+%ent._shared.3rdparty.ant;
+
+<!ENTITY % ent._shared.3rdparty.bcel SYSTEM "bcel/bcel.ant-ent.xml">
+%ent._shared.3rdparty.bcel;
+
+<!ENTITY % ent._shared.3rdparty.easymock SYSTEM "easymock/easymock.ant-ent.xml">
+%ent._shared.3rdparty.easymock;
+
+<!ENTITY % ent._shared.3rdparty.junit SYSTEM "junit/junit.ant-ent.xml">
+%ent._shared.3rdparty.junit;
+
+<!ENTITY % ent._shared.3rdparty.log4j SYSTEM "log4j/log4j.ant-ent.xml">
+%ent._shared.3rdparty.log4j;
+
+<!ENTITY % ent._shared.3rdparty.mockobjects SYSTEM "mockobjects/mockobjects.ant-ent.xml">
+%ent._shared.3rdparty.mockobjects;
+
+<!ENTITY % ent._shared.3rdparty.sax SYSTEM "sax/sax.ant-ent.xml">
+%ent._shared.3rdparty.sax;
+
+<!ENTITY % ent._shared.3rdparty.xalan SYSTEM "xalan/xalan.ant-ent.xml">
+%ent._shared.3rdparty.xalan;
+
+<!ENTITY % ent._shared.3rdparty.xerces SYSTEM "xerces/xerces.ant-ent.xml">
+%ent._shared.3rdparty.xerces;
+
+<!ENTITY % ent._shared.3rdparty.xml4j SYSTEM "xml4j/xml4j.ant-ent.xml">
+%ent._shared.3rdparty.xml4j;
+
+<!ENTITY % ent._shared.3rdparty.jdk SYSTEM "jdk/jdk.ant-ent.xml">
+%ent._shared.3rdparty.jdk;
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty SYSTEM "3rdparty.ant-inc.xml">
+
+

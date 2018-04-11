@@ -1,0 +1,245 @@
+<html><head><!-- Lotus-Domino (Release 5.0.9 - November 16, 2001 on Windows NT/Intel) -->
+
+
+<title>XML parser for Java - Registration process</title><meta name="LASTUPDATE" content="06/25/2002 09:05:42 PM">
+<meta name="OWNER" type="email" value="goubertm@us.ibm.com">
+<meta name="SECURITY" content="Public">
+<meta name="FORMAT" content="text/xhtml">
+<meta name="CHARSET" content="ISO-8859-1">
+<meta name="DOCUMENTCOUNTRYCODE" content="us">
+<meta name="COPYRIGHT" content="Copyright (c) 2001 by IBM Corporation">
+<meta name="IBM.COUNTRY" content="us">
+<meta http-equiv="PICS-Label" content="(PICS-1.1 &quot;http://www.rsac.org/ratingsv01.html&quot; l gen true comment &quot;RSACi North America Server&quot; by &quot;webmaster@mail.software.ibm.com&quot; for &quot;http://www.ibm.com/software&quot; on &quot;1997.08.13T17:59-0800&quot; r (n 0 s 0 v 0 l 0))">
+<meta http-equiv="Expires" content="0">
+<meta name="ROBOTS" content="noindex,nofollow">
+
+<script language="JavaScript" type="text/javascript" src="xml4j-license_files/style.js"></script><link rel="stylesheet" href="xml4j-license_files/ns1.css" type="text/css">
+<script language="JavaScript" type="text/javascript" src="xml4j-license_files/spinbox.js"></script></head>
+
+<body text="#000000" bgcolor="#ffffff" marginheight="2" marginwidth="2" topmargin="2" leftmargin="2">
+
+<!-- MASTHEAD -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#006699"> 
+<tbody><tr><td width="160" class="tbgc"><a href="http://www.ibm.com/"><img src="xml4j-license_files/ibm-logo.gif" border="0" alt="IBM" width="160" height="47"></a></td><td width="195" class="tbg"><img src="xml4j-license_files/c.gif" border="0" width="195" height="1" alt="-"></td><td width="100%" class="tbgc" align="right" valign="top"><table border="0" cellpadding="0" cellspacing="0"> 
+<form method="post" action="/aws.nsf/Search?CreateDocument" name="_MHSearch"></form>
+<tbody><tr><td colspan="6"><img src="xml4j-license_files/c.gif" border="0" width="390" height="4" alt=""></td></tr>
+<tr valign="middle"><td height="8" class="dwsearch"><select name="SelectScope" class="dwsearch"><option value="aw">All alphaWorks 
+</option><option value="aw">.................
+</option><option value="java"> Java &#8482;
+</option><option value="security"> Security
+</option><option value="webservices"> Web services
+</option><option value="wireless"> Wireless
+</option><option value="xml"> XML
+</option><option value="collaboration"> Collaboration
+</option><option value="aw">.................
+</option><option value="appdev"> Application
+</option><option value="appdev">   Development
+</option><option value="data"> Data Analysis
+</option><option value="data">   /Management
+</option><option value="systemsmgmt"> Systems
+</option><option value="systemsmgmt">   Management
+</option><option value="aw">.................
+</option><option value="dw"> developerWorks
+</option><option value="aw">.................
+</option><option value="all">All of IBM
+</option></select></td><td class="small"><img src="xml4j-license_files/c.gif" width="5" height="1" border="0" alt=""></td><td><input type="text" class="dwsearch" name="Query" height="15" size="15" maxlength="100"></td>
+<td><img src="xml4j-license_files/c.gif" border="0" width="5" height="1" alt=""></td>
+<td width="64"><input type="image" src="xml4j-license_files/search.gif" width="64" height="23" border="0" value="Search" alt="Search button"></td>
+<td valign="top"><img src="xml4j-license_files/c.gif" border="0" width="34" height="1" alt=""></td></tr>
+<tr valign="top">
+<td colspan="6" class="dwsmall"><!-- <a href="http://www-109.ibm.com/redirectdWPS.htm" style="color: #ffffff;" target="_blank" >Advanced search</a> --><img src="xml4j-license_files/c.gif" border="0" width="1" height="1" alt=""></td></tr>
+<tr><td colspan="6"><img src="xml4j-license_files/c.gif" border="0" width="390" height="4" alt=""></td></tr>
+</tbody></table>
+</td></tr> 
+<tr><td width="160" height="21" class="hbg"> </td><td colspan="2" height="21" valign="top" class="bbg">   <a class="mainlink" href="http://www.ibm.com/">IBM home</a><span class="divider">  |  </span><a class="mainlink" href="http://www.ibm.com/products/">Products &amp; services</a><span class="divider">  |  </span><a class="mainlink" href="http://www.ibm.com/support/">Support &amp; downloads</a> <span class="divider">  |  </span><a class="mainlink" href="http://www.ibm.com/account/">My account</a></td></tr> 
+</tbody></table>
+<!-- AW HEAD -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody><tr><td class="awbg" width="160" height="1"><img src="xml4j-license_files/b.gif" height="1" alt=""></td><td width="160" height="1"><img src="xml4j-license_files/c.gif" height="1" alt=""></td><td colspan="5" class="awdv" width="100%" height="1"><img src="xml4j-license_files/c.gif" height="1" alt=""></td></tr>
+<tr><td class="awbg" width="160" height="1"><img src="xml4j-license_files/b.gif" height="2" alt=""></td><td width="160" height="1"><img src="xml4j-license_files/c.gif" height="2" alt=""></td><td colspan="5" class="mdbd" width="100%" height="2"><img src="xml4j-license_files/c.gif" height="2" alt=""></td></tr>
+
+<tr><td class="bbg" width="160" height="21" bgcolor="#000000"><img src="xml4j-license_files/rt-arrow.gif" border="0" width="7" height="5" hspace="2" alt="go to"> <a href="http://www.ibm.com/planetwide/select/" class="mainlink">Select a country</a></td>
+<td class="awdv" width="1" height="21"><img src="xml4j-license_files/c.gif" width="1" height="21" alt=""></td>
+<td class="awbg" rowspan="4" width="100%" height="46" align="left" bgcolor="#000000"><a href="http://www.alphaworks.ibm.com/"><img src="xml4j-license_files/m-awmh.gif" alt="" width="316" height="46" border="0"></a></td>
+<td class="bbg" rowspan="6" width="72" height="50" align="bottom"><img src="xml4j-license_files/tb-wheel.gif" width="72" height="50" border="0"></td>
+<td class="bbg" rowspan="6" width="82" height="50" align="bottom"><a href="http://www.alphaworks.ibm.com/contact" class="top"><img src="xml4j-license_files/tb-ctactaw.gif" width="82" height="50" border="0"></a></td>
+<td class="date" colspan="2" rowspan="3" height="24" width="113" bgcolor="#000000">25 June 2002</td></tr>
+
+<tr><td class="awdv" width="160" height="1"><img src="xml4j-license_files/c.gif" width="160" height="1" alt=""></td>
+<td class="awdv" width="1" height="1"><img src="xml4j-license_files/c.gif" width="1" height="1"></td></tr>
+<tr><td class="mdbd" width="160" height="2"><img src="xml4j-license_files/c.gif" width="160" height="2" alt=""></td>
+<td class="mdbd" width="1" height="2"><img src="xml4j-license_files/c.gif" width="1" height="2"></td></tr>
+
+<tr><td class="bbg" width="160" height="20" bgcolor="#000000"> <img src="xml4j-license_files/lt-arrow.gif" width="7" height="5" alt="go back"> <a href="http://www.ibm.com/developerworks" class="mainlink">developerWorks</a></td>
+<td class="bbg" width="1" height="21"><img src="xml4j-license_files/b.gif" width="1" height="21"></td>
+<td rowspan="3" width="61" height="26"><a href="http://www.alphaworks.ibm.com/about" class="top"><img src="xml4j-license_files/tb-awabout.gif" width="61" height="26" border="0"></a></td>
+<td rowspan="3" width="52" height="26"><a href="http://www.alphaworks.ibm.com/sitemap" class="top"><img src="xml4j-license_files/tb-awsitemap.gif" width="52" height="26" border="0"></a></td></tr>
+
+<tr class="awnv"><td colspan="3" height="4" width="100%"><img src="xml4j-license_files/c.gif" alt="" height="4"></td></tr>
+</tbody></table>
+<!-- END AW HEAD -->
+<!-- START BODY -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody><tr valign="top">
+<td width="160">
+<!-- LEFT NAV -->
+<table width="160" cellspacing="0" cellpadding="0" border="0">
+
+<!-- aw HEAD -->
+<tbody><tr><td colspan="3" background="/i/lt-dshr.gif" repeat="x" height="6"><img src="xml4j-license_files/c.gif" height="6" alt=" "></td></tr>
+<tr><td class="gnav-on" width="8"> </td><td class="gnav-on" width="152"><a href="http://www.alphaworks.ibm.com/" class="gnav-on">alphaWorks</a></td><td width="7"> </td></tr>
+<!-- aw GLOBAL -->
+<tr><td class="gnav" width="8"> </td><td class="gnav" width="152"><a href="http://www.alphaworks.ibm.com/license" class="gnav">Licensing</a></td><td background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" background="/i/lt-dshr.gif" repeat=""><img src="xml4j-license_files/c.gif" height="3" alt=" "></td><td height="3" width="7" background="/i/lt-dscr.gif"><img src="xml4j-license_files/c.gif" width="7" height="3" alt=" "></td></tr>
+<tr><td class="gnav" width="8"> </td><td class="gnav" width="152"><a href="http://www.alphaworks.ibm.com/discussion" class="gnav">Discussion Forums</a></td><td background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" background="/i/lt-dshr.gif" repeat=""><img src="xml4j-license_files/c.gif" height="3" alt=" "></td><td height="3" width="7" background="/i/lt-dscr.gif"><img src="xml4j-license_files/c.gif" width="7" height="3" alt=" "></td></tr>
+<tr><td class="gnav" width="8"> </td><td class="gnav" width="152"><a href="http://www.alphaworks.ibm.com/newsletters" class="gnav">alphaWorks Newsletters</a></td><td background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" background="/i/lt-dshr.gif" repeat=""><img src="xml4j-license_files/c.gif" height="3" alt=" "></td><td height="3" width="7" background="/i/lt-dscr.gif"><img src="xml4j-license_files/c.gif" width="7" height="3" alt=" "></td></tr>
+<tr><td class="gnav" width="8"> </td><td class="gnav" width="152"><a href="http://www.alphaworks.ibm.com/tech/home" class="gnav">Emerging Technologies</a></td><td background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" background="/i/lt-dshr.gif" repeat=""><img src="xml4j-license_files/c.gif" height="3" alt=" "></td><td height="3" width="7" background="/i/lt-dscr.gif"><img src="xml4j-license_files/c.gif" width="7" height="3" alt=" "></td></tr>
+<tr><td class="gnav" width="8"><img src="xml4j-license_files/c.gif" width="8" height="1" alt=" "></td><td valign="top" class="gnav"><img src="xml4j-license_files/dot-yel.gif" width="11" height="11" hspace="2" alt="»"><a href="http://www.alphaworks.ibm.com/techmap/all" class="gnav">All</a></td><td rowspan="2" background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" height="1" width="160"><img src="xml4j-license_files/lt-techbar.gif" width="160" height="1" alt=""></td></tr>
+<tr><td class="gnav" width="8"><img src="xml4j-license_files/c.gif" width="8" height="1" alt=" "></td><td valign="top" class="gnav"><img src="xml4j-license_files/dot-yel.gif" width="11" height="11" hspace="2" alt="»"><a href="http://www.alphaworks.ibm.com/java" class="gnav">Java</a></td><td rowspan="2" background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" height="1" width="160"><img src="xml4j-license_files/lt-techbar.gif" width="160" height="1" alt=""></td></tr>
+<tr><td class="gnav" width="8"><img src="xml4j-license_files/c.gif" width="8" height="1" alt=" "></td><td valign="top" class="gnav"><img src="xml4j-license_files/dot-yel.gif" width="11" height="11" hspace="2" alt="»"><a href="http://www.alphaworks.ibm.com/xml" class="gnav">XML</a></td><td rowspan="2" background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" height="1" width="160"><img src="xml4j-license_files/lt-techbar.gif" width="160" height="1" alt=""></td></tr>
+<tr><td class="gnav" width="8"><img src="xml4j-license_files/c.gif" width="8" height="1" alt=" "></td><td valign="top" class="gnav"><img src="xml4j-license_files/dot-yel.gif" width="11" height="11" hspace="2" alt="»"><a href="http://www.alphaworks.ibm.com/webservices" class="gnav">Web Services</a></td><td rowspan="2" background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" height="1" width="160"><img src="xml4j-license_files/lt-techbar.gif" width="160" height="1" alt=""></td></tr>
+<tr><td class="gnav" width="8"><img src="xml4j-license_files/c.gif" width="8" height="1" alt=" "></td><td valign="top" class="gnav"><img src="xml4j-license_files/dot-yel.gif" width="11" height="11" hspace="2" alt="»"><a href="http://www.alphaworks.ibm.com/wireless" class="gnav">Wireless</a></td><td rowspan="2" background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" height="1" width="160"><img src="xml4j-license_files/lt-techbar.gif" width="160" height="1" alt=""></td></tr>
+<tr><td class="gnav" width="8"><img src="xml4j-license_files/c.gif" width="8" height="1" alt=" "></td><td valign="top" class="gnav"><img src="xml4j-license_files/dot-yel.gif" width="11" height="11" hspace="2" alt="»"><a href="http://www.alphaworks.ibm.com/collaboration" class="gnav">Collaboration</a></td><td rowspan="2" background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td colspan="2" height="1" width="160"><img src="xml4j-license_files/lt-techbar.gif" width="160" height="1" alt=""></td></tr>
+<!-- aw Emerging TECHS -->
+<tr class="awbg"><td class="gnav" colspan="2" width="160" align="right"><i>more...</i></td><td rowspan="5" background="/i/lt-ds.gif" repeat="y" width="7"> </td></tr>
+<tr><td class="gnav" colspan="2" width="160">
+<form name="awnav" action="/aws.nsf/go" method="get">
+<select class="select" name="url" size="1" onchange="redirect(this)"><option value="/tech/">- Select -
+</option><option value="/security/">Security
+</option><option value="/appdev/">Application
+</option><option value="/appdev/">  Development
+</option><option value="/sysmgmt/">Systems
+</option><option value="/sysmgmt/">  Management
+</option><option value="/tech/"> ----------
+</option><option value="/sitemap">Site map
+</option></select>
+</form>
+</td></tr>
+<tr class="awbg"><td class="gnav" colspan="2" width="160" align="right"><a href="http://www.alphaworks.ibm.com/tech/" class="mainlink">find a technology</a><img src="xml4j-license_files/rt-arrow.gif" width="7" height="5" hspace="3" alt="»"></td></tr>
+<tr class="awbg"><td colspan="2" height="6" width="160"><img src="xml4j-license_files/c.gif" width="160" height="6" alt=""></td><td background="/i/lt-ds.gif" repeat="y" width="7"></td></tr>
+<tr class="awbg"><td colspan="2" height="6" width="160"><img src="xml4j-license_files/bar-yel.gif" width="160" height="6" alt="footer"></td><td background="/i/lt-ds.gif" repeat="y" width="7"></td></tr>
+<tr><td colspan="2" background="/i/lt-dshr.gif" repeat="x" height="6"><img src="xml4j-license_files/c.gif" height="6" alt=" "></td><td height="6" width="7"><img src="xml4j-license_files/lt-dscr.gif" width="7" height="6" alt=" "></td></tr>
+</tbody></table>
+
+
+</td>
+<!-- END LEFT NAV -->
+<td width="100%" valign="top">
+<!-- CONTENT AREA  -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<!-- LEFT GUTTER -->
+<tbody><tr valign="top">
+<td class="hil" width="26" height="7" background="/i/tb-ds.gif"><img src="xml4j-license_files/c.gif" width="26" height="7" alt="" border="0"></td>
+<td class="hil" width="100%" height="7" background="/i/tb-ds.gif"><img src="xml4j-license_files/c.gif" width="285" height="7" alt="" border="0"></td>
+<td class="hil" align="right" width="1" height="7" background="/i/tb-ds.gif"><img src="xml4j-license_files/tb-wheelbot.gif" width="63" height="20" border="0" alt=""></td>
+<td border="1" class="hil" align="right" width="198" height="7" background="/i/tb-ds.gif"><img src="xml4j-license_files/c.gif" width="198" height="7" alt="" border="0"></td>
+</tr>
+<tr valign="top">
+<td class="hil" width="26" height="7"><img src="xml4j-license_files/c.gif" width="26" height="7" alt="" border="0"></td>
+<!-- START TECHNOLOGY CONTENT -->
+<td width="100%" colspan="3">
+<!-- FEATURE HEADING -->
+<table cellpadding="0" cellspacing="0" width="100%" border="0">
+<tbody><tr><td height="25" class="btrail">
+<a href="http://www.alphaworks.ibm.com/">alphaWorks</a>
+</td></tr>
+<tr><td width="100%"><img src="xml4j-license_files/c.gif" width="210" height="5" alt=""></td></tr>
+<tr><td class="techbody">
+<!-- >>>>> Start Content -->
+<form method="post" action="/reg/xml4j.nsf/techuser?createdocument" name="_techuser">
+<table border="0" width="100%">
+<tbody><tr valign="top">
+<td colspan="2">
+      
+<h2 align="center">The Apache Software License, Version 1.1</h2>
+
+<p>
+Copyright (c) 1999 The Apache Software Foundation.  All rights reserved.
+
+</p><p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+</p><ol>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. 
+
+</li><li>Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution. </li><li>The end-user documentation included with the redistribution, if any, must include the following acknowledgment:  
+"This product includes software developed by the Apache Software Foundation <a href="http://www.apache.org/" target="new">(http://www.apache.org/</a>)."
+Alternately, this acknowledgment may appear in the software itself, if and
+wherever such third-party acknowledgments normally appear. </li><li>The names "Xerces" and "Apache Software Foundation" must not be
+used to endorse or promote products derived from this software without prior
+written permission. For written permission, please contact <a href="mailto:apache@apache.org">apache@apache.org</a>.
+
+</li><li>Products derived from this software may not be called "Apache",
+nor may "Apache" appear in their name, without prior written  permission
+of the Apache Software Foundation.</li></ol>
+<p>THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE
+APACHE SOFTWARE FOUNDATION OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. ====================================================================
+</p><p>This software consists of voluntary contributions made by many individuals
+on behalf of the Apache Software Foundation and was originally based on software
+copyright (c) 1999, International Business Machines, Inc.  For more information
+on the Apache Software Foundation, please see <a href="http://www.apache.org/" target="new">&lt;http://www.apache.org/&gt;</a>. 
+<br><br>
+
+<tr>
+<td align="left" colspan="2"><br></td>
+</tr>
+</tbody></table>
+</form>
+<!-- >>>>> End Content -->
+</td></tr>
+</tbody></table>
+<!-- END CENTER COLUMN -->
+</td></tr>
+</tbody></table>
+<!-- END CONTENT AREA -->
+</td>
+<!-- START RIGHT COLUMN -->
+<td background="/i/rt-ds6.gif" width="6"><img src="xml4j-license_files/c.gif" border="0" width="6">
+</td>
+<!-- END RIGHT COLUMN -->
+</tr>
+<tr><td colspan="3">
+<!-- COLOR SEPARATOR -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody><tr><td class="gbd" width="100%" height="4"><img src="xml4j-license_files/c.gif" border="0" height="4"></td>
+<td width="6" height="4"><img src="xml4j-license_files/rt-ds.gif" width="6" height="4"></td></tr>
+<tr><td width="100%" background="/i/cb-ds.gif" repeat="x" height="6"><img src="xml4j-license_files/c.gif" height="6"></td>
+<td width="6" height="6"><img src="xml4j-license_files/cb-dscn.gif" width="6" height="6" border="0"></td></tr>
+<tr><td colspan="2" class="rtbg" height="13"><img src="xml4j-license_files/c.gif" height="13"></td></tr>
+<tr><td colspan="2" class="cbbr" height="1"><img src="xml4j-license_files/c.gif" height="1"></td></tr>
+<tr><td colspan="2" class="cbgr" height="1"><img src="xml4j-license_files/c.gif" height="1"></td></tr>
+</tbody></table>
+<!-- IBM FOOTER -->
+<!-- IBM FOOTER -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody><tr>
+<td><img src="xml4j-license_files/c.gif" width="1" height="1" alt=""></td>
+</tr>
+<tr valign="top">
+<td height="21" class="bbg">  <a href="http://www.ibm.com/ibm/?origin=awheader" class="mainlink">About IBM</a><span class="divider">  |  </span><a href="http://www.ibm.com/privacy/?origin=awheader" class="mainlink">Privacy</a><span class="divider">  |  </span><a href="http://www.ibm.com/legal/?origin=awheader" class="mainlink">Legal</a><span class="divider">  |  </span><a href="http://www.ibm.com/contact/?origin=awheader" class="mainlink">Contact</a></td>
+</tr>
+</tbody></table>
+<!-- END IBM FOOTER -->
+<!-- END ALL -->
+</td></tr>
+</tbody></table>
+
+</body></html>

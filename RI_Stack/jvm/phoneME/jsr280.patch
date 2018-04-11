@@ -1,0 +1,309 @@
+diff -Nur jsr280-orig/build/cdc_share/subsystem_rules.gmk jsr280/build/cdc_share/subsystem_rules.gmk
+--- jsr280-orig/build/cdc_share/subsystem_rules.gmk	2008-10-08 08:55:51.000000000 -0600
++++ jsr280/build/cdc_share/subsystem_rules.gmk	2011-02-02 16:12:58.468750000 -0700
+@@ -35,7 +35,7 @@
+ $(JSR_280_INITIALIZER): $(CONFIGURATOR_JAR_FILE)
+ 	$(AT)$(call generateJSRInitializer,$(JSR_280_PROPERTY_FILE),$(JSR_280_GENERATED_DIR),$(JSR_280_INIT_PACKAGE),$@,$(JSR_280_LIB_NAME))
+ 
+-$(JSR_280_JAR):  $(XMLPARSER_JAR)
++$(JSR_280_JAR):  $(XMLPARSER_JAR) $(SUBSYSTEM_JSR_280_JAVA_FILES)
+ 	$(call compileJSROP,jsr280,$(JSR_280_BUILD_DIR)/classes,\
+         $(SUBSYSTEM_JSR_280_JAVA_FILES) $(JSR_280_CONSTANT_CLASS_JAVA_FILES),$(JSR_280_DEPS))
+ 	$(call makeJSROPJar,$(JSR_280_JAR),$(JSR_280_BUILD_DIR)/classes)
+diff -r -c jsr280-orig/src/share/oi/com/sun/ukit/dom/XElm.java jsr280/src/share/oi/com/sun/ukit/dom/XElm.java
+*** jsr280-orig/src/share/oi/com/sun/ukit/dom/XElm.java	Mon Sep 28 05:10:49 2009
+--- jsr280/src/share/oi/com/sun/ukit/dom/XElm.java	Mon Mar 26 08:36:15 2012
+***************
+*** 62,68 ****
+  	 *  attributes for this element or assigned values. */
+  	private int defnum;
+  	/** Attr objects created to represent attributes of this element. */
+! 	private Reference[] attobj;
+  
+  	/**
+  	 * Constructs element object from other element.
+--- 62,69 ----
+  	 *  attributes for this element or assigned values. */
+  	private int defnum;
+  	/** Attr objects created to represent attributes of this element. */
+! 	private Object[] attobj;
+! 
+  
+  	/**
+  	 * Constructs element object from other element.
+***************
+*** 433,439 ****
+  			throw new DOMException(DOMException.INUSE_ATTRIBUTE_ERR, "");
+  
+  		if (attobj == null)
+! 			attobj = new WeakReference[attlst.length >> 2];
+  
+  		XNode ex  = null;
+  		int   idx = _getAttrIdx(null, attr.getNodeName());
+--- 434,440 ----
+  			throw new DOMException(DOMException.INUSE_ATTRIBUTE_ERR, "");
+  
+  		if (attobj == null)
+! 			attobj = new Object[attlst.length >> 2];
+  
+  		XNode ex  = null;
+  		int   idx = _getAttrIdx(null, attr.getNodeName());
+***************
+*** 443,455 ****
+  		} else {
+  			//		Release old object
+  			ex  = _getAttrObj(idx);
+! 			attobj[idx].clear();
+  			ex._setParent(null);
+  			//		Replace attribute
+  			_setAttr(idx, attr.getNodeValue());
+  		}
+  		//		Set new object
+! 		attobj[idx] = new WeakReference(attr);
+  		attr._setParent(this);
+  
+  		return (Attr)ex;
+--- 444,456 ----
+  		} else {
+  			//		Release old object
+  			ex  = _getAttrObj(idx);
+! 			//attobj[idx].clear();
+  			ex._setParent(null);
+  			//		Replace attribute
+  			_setAttr(idx, attr.getNodeValue());
+  		}
+  		//		Set new object
+! 		attobj[idx] = attr;
+  		attr._setParent(this);
+  
+  		return (Attr)ex;
+***************
+*** 494,500 ****
+  		if (idx >= 0) {
+  			ex = _getAttrObj(idx);
+  			//		Release old object
+! 			attobj[idx].clear();
+  			ex._setParent(null);
+  		}
+  
+--- 495,501 ----
+  		if (idx >= 0) {
+  			ex = _getAttrObj(idx);
+  			//		Release old object
+! 			//attobj[idx].clear();
+  			ex._setParent(null);
+  		}
+  
+***************
+*** 506,514 ****
+  			attr._set(attlst[base + 2], attlst[base], attlst[base + 1]);
+  		}
+  		if (attobj == null)
+! 			attobj = new WeakReference[attlst.length >> 2];
+  		//		Set new object
+! 		attobj[idx] = new WeakReference(attr);
+  		attr._setParent(this);
+  
+  		return (Attr)ex;
+--- 507,515 ----
+  			attr._set(attlst[base + 2], attlst[base], attlst[base + 1]);
+  		}
+  		if (attobj == null)
+! 			attobj = new Object[attlst.length >> 2];
+  		//		Set new object
+! 		attobj[idx] = attr;
+  		attr._setParent(this);
+  
+  		return (Attr)ex;
+***************
+*** 756,762 ****
+  		System.arraycopy(attlst, 0, list, 0, attnum << 2);
+  		attlst = list;
+  		if (attobj != null) {
+! 			Reference objs[] = new WeakReference[attobj.length + ATTR_ALLOC_UNIT];
+  			System.arraycopy(attobj, 0, objs, 0, attnum);
+  			attobj = objs;
+  		}
+--- 757,763 ----
+  		System.arraycopy(attlst, 0, list, 0, attnum << 2);
+  		attlst = list;
+  		if (attobj != null) {
+! 			Object objs[] = new Object[attobj.length + ATTR_ALLOC_UNIT];
+  			System.arraycopy(attobj, 0, objs, 0, attnum);
+  			attobj = objs;
+  		}
+***************
+*** 804,811 ****
+  	{
+  		if (attr != null && attobj != null) {
+  			for (int i = 0; i < attnum; i++) {
+! 				Reference ref = attobj[i];
+! 				if (ref != null && ref.get() == attr)
+  					return i;
+  			}
+  		}
+--- 805,812 ----
+  	{
+  		if (attr != null && attobj != null) {
+  			for (int i = 0; i < attnum; i++) {
+! 				Object ref = attobj[i];
+! 				if (ref != null && ref == attr)
+  					return i;
+  			}
+  		}
+***************
+*** 819,835 ****
+  	{
+  		if (idx >= 0 && idx < attnum) {
+  			if (attobj == null)
+! 				attobj = new WeakReference[attlst.length >> 2];
+! 			if (attobj[idx] == null || attobj[idx].get() == null) {
+  				int   base = idx << 2;
+  				XNode attr = (XNode)((attlst[base + 2] != null)? 
+  					_getDoc().createAttributeNS(attlst[base + 2], attlst[base]):
+  					_getDoc().createAttribute(attlst[base]));
+  				attr._setValue(attlst[base + 3]);
+  				attr._setParent(this);
+! 				attobj[idx] = new WeakReference(attr);
+  			}
+! 			return (XNode)attobj[idx].get();
+  		}
+  		return null;
+  	}
+--- 820,836 ----
+  	{
+  		if (idx >= 0 && idx < attnum) {
+  			if (attobj == null)
+! 				attobj = new Object[attlst.length >> 2];
+! 			if (attobj[idx] == null) {
+  				int   base = idx << 2;
+  				XNode attr = (XNode)((attlst[base + 2] != null)? 
+  					_getDoc().createAttributeNS(attlst[base + 2], attlst[base]):
+  					_getDoc().createAttribute(attlst[base]));
+  				attr._setValue(attlst[base + 3]);
+  				attr._setParent(this);
+! 				attobj[idx] = attr;
+  			}
+! 			return (XNode)attobj[idx];
+  		}
+  		return null;
+  	}
+***************
+*** 853,862 ****
+  		XNode attr = null;
+  		//		Release attribute object
+  		if (attobj != null && attobj[idx] != null) {
+! 			attr = (XNode)attobj[idx].get();
+  			if (attr != null) {
+  				attr._setParent(null);
+! 				attobj[idx].clear();
+  				attobj[idx] = null;
+  			}
+  		}
+--- 854,863 ----
+  		XNode attr = null;
+  		//		Release attribute object
+  		if (attobj != null && attobj[idx] != null) {
+! 			attr = (XNode)attobj[idx];
+  			if (attr != null) {
+  				attr._setParent(null);
+! 				//attobj[idx].clear();
+  				attobj[idx] = null;
+  			}
+  		}
+***************
+*** 987,993 ****
+  	/* pkg */ final void _updateAttr(int idx)
+  	{
+  		if (idx >= 0 && idx < attnum && attobj != null && attobj[idx] != null) {
+! 			XNode attr = (XNode)attobj[idx].get();
+  			if (attr != null) {
+  				int base = idx << 2;
+  				attr._set(attlst[base + 2], attlst[base], attlst[base + 1]);
+--- 988,994 ----
+  	/* pkg */ final void _updateAttr(int idx)
+  	{
+  		if (idx >= 0 && idx < attnum && attobj != null && attobj[idx] != null) {
+! 			XNode attr = (XNode)attobj[idx];
+  			if (attr != null) {
+  				int base = idx << 2;
+  				attr._set(attlst[base + 2], attlst[base], attlst[base + 1]);
+***************
+*** 1080,1097 ****
+  		int         old_attnum = attnum;
+  		String[]    old_deflst = _getDefAttrs();
+  		int         old_defnum = defnum;
+! 		Reference[] old_attobj = attobj;
+  		//		Detach all default attribute objects if any
+  		if (old_attobj != null) {
+  			for (int idx = 0; idx < old_defnum; idx++) {
+  				if (old_attobj[idx] != null) {
+! 					XNode attr = (XNode)old_attobj[idx].get();
+  					if (attr != null) {
+  						if (attr.getNodeValue() != old_deflst[(idx << 2) + 3])
+  							continue;  // default value had been replaced
+  						attr._setParent(null);
+! 						attr._clear();
+! 						old_attobj[idx].clear();
+  						old_attobj[idx] = null;
+  					}
+  				}
+--- 1081,1098 ----
+  		int         old_attnum = attnum;
+  		String[]    old_deflst = _getDefAttrs();
+  		int         old_defnum = defnum;
+! 		Object[] old_attobj = attobj;
+  		//		Detach all default attribute objects if any
+  		if (old_attobj != null) {
+  			for (int idx = 0; idx < old_defnum; idx++) {
+  				if (old_attobj[idx] != null) {
+! 					XNode attr = (XNode)old_attobj[idx];
+  					if (attr != null) {
+  						if (attr.getNodeValue() != old_deflst[(idx << 2) + 3])
+  							continue;  // default value had been replaced
+  						attr._setParent(null);
+! 						//attr._clear();
+! 						//old_attobj[idx].clear();
+  						old_attobj[idx] = null;
+  					}
+  				}
+***************
+*** 1106,1112 ****
+  		//		Allocate arrays for new set of attributes
+  		attlst = new String[(defnum + ATTR_ALLOC_UNIT) << 2];
+  		attobj = (old_attobj != null)? 
+! 			new WeakReference[attlst.length >> 2]: null;
+  		//		Copy new default attributes
+  		for (int idx = 0; idx < defnum; idx++) {
+  			int base = idx << 2;
+--- 1107,1113 ----
+  		//		Allocate arrays for new set of attributes
+  		attlst = new String[(defnum + ATTR_ALLOC_UNIT) << 2];
+  		attobj = (old_attobj != null)? 
+! 			new Object[attlst.length >> 2]: null;
+  		//		Copy new default attributes
+  		for (int idx = 0; idx < defnum; idx++) {
+  			int base = idx << 2;
+***************
+*** 1129,1138 ****
+  				old_attlst[base + 2], old_attlst[base], old_attlst[base + 3]);
+  			//		Copy attribute objects
+  			if (old_attobj != null && old_attobj[idx] != null) {
+! 				XNode attr = (XNode)old_attobj[idx].get();
+  				if (attr != null) {
+  					//		Copy only defined attribute objects
+! 					attobj[nidx] = new WeakReference(attr);
+  					attr._setDoc(ownerDoc);
+  				}
+  			}
+--- 1130,1139 ----
+  				old_attlst[base + 2], old_attlst[base], old_attlst[base + 3]);
+  			//		Copy attribute objects
+  			if (old_attobj != null && old_attobj[idx] != null) {
+! 				XNode attr = (XNode)old_attobj[idx];
+  				if (attr != null) {
+  					//		Copy only defined attribute objects
+! 					attobj[nidx] = attr;
+  					attr._setDoc(ownerDoc);
+  				}
+  			}

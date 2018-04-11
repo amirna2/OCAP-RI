@@ -1,0 +1,200 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+Multiple Masters
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FT_MM_Axis">FT_MM_Axis</a></td><td></td><td><a href="#FT_Set_MM_Design_Coordinates">FT_Set_MM_Design_Coordinates</a></td></tr>
+<tr><td></td><td><a href="#FT_Multi_Master">FT_Multi_Master</a></td><td></td><td><a href="#FT_Set_MM_Blend_Coordinates">FT_Set_MM_Blend_Coordinates</a></td></tr>
+<tr><td></td><td><a href="#FT_Get_Multi_Master">FT_Get_Multi_Master</a></td><td></td><td></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>The following types and functions are used to manage Multiple Master fonts, i.e. the selection of specific design instances by setting design axis coordinates.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FT_MM_Axis">
+<h4>FT_MM_Axis</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_MM_Axis_
+  {
+    <a href="ft2-basic_types.html#FT_String">FT_String</a>*  name;
+    <a href="ft2-basic_types.html#FT_Long">FT_Long</a>     minimum;
+    <a href="ft2-basic_types.html#FT_Long">FT_Long</a>     maximum;
+
+  } <b>FT_MM_Axis</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple structure used to model a given axis in design space for Multiple Masters fonts.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>name</b></td><td>
+<p>The axis's name.</p>
+</td></tr>
+<tr valign=top><td><b>minimum</b></td><td>
+<p>The axis's minimum design coordinate.</p>
+</td></tr>
+<tr valign=top><td><b>maximum</b></td><td>
+<p>The axis's maximum design coordinate.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Multi_Master">
+<h4>FT_Multi_Master</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Multi_Master_
+  {
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>     num_axis;
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>     num_designs;
+    <a href="ft2-multiple_masters.html#FT_MM_Axis">FT_MM_Axis</a>  axis[T1_MAX_MM_AXIS];
+
+  } <b>FT_Multi_Master</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to model the axes and space of a Multiple Masters font.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>num_axis</b></td><td>
+<p>Number of axes. Cannot exceed 4.</p>
+</td></tr>
+<tr valign=top><td><b>num_designs</b></td><td>
+<p>Number of designs; should ne normally 2^num_axis even though the Type 1 specification strangely allows for intermediate designs to be present. This number cannot exceed 16.</p>
+</td></tr>
+<tr valign=top><td><b>axis</b></td><td>
+<p>A table of axis descriptors.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Get_Multi_Master">
+<h4>FT_Get_Multi_Master</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_Get_Multi_Master</b>( <a href="ft2-base_interface.html#FT_Face">FT_Face</a>           face,
+                       <a href="ft2-multiple_masters.html#FT_Multi_Master">FT_Multi_Master</a>  *amaster );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Retrieves the Multiple Master descriptor of a given font.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face</b></td><td>
+<p>A handle to the source face.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>amaster</b></td><td>
+<p>The Multiple Masters descriptor.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Set_MM_Design_Coordinates">
+<h4>FT_Set_MM_Design_Coordinates</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_Set_MM_Design_Coordinates</b>( <a href="ft2-base_interface.html#FT_Face">FT_Face</a>   face,
+                                <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>   num_coords,
+                                <a href="ft2-basic_types.html#FT_Long">FT_Long</a>*  coords );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>For Multiple Masters fonts, choose an interpolated font design through design coordinates.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>inout</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face</b></td><td>
+<p>A handle to the source face.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>num_coords</b></td><td>
+<p>The number of design coordinates (must be equal to the number of axes in the font).</p>
+</td></tr>
+<tr valign=top><td><b>coords</b></td><td>
+<p>An array of design coordinates.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Set_MM_Blend_Coordinates">
+<h4>FT_Set_MM_Blend_Coordinates</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_Set_MM_Blend_Coordinates</b>( <a href="ft2-base_interface.html#FT_Face">FT_Face</a>    face,
+                               <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>    num_coords,
+                               <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>*  coords );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>For Multiple Masters fonts, choose an interpolated font design through normalized blend coordinates.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>inout</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face</b></td><td>
+<p>A handle to the source face.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>num_coords</b></td><td>
+<p>The number of design coordinates (must be equal to the number of axes in the font).</p>
+</td></tr>
+<tr valign=top><td><b>coords</b></td><td>
+<p>The design coordinates array (each element must be between 0 and 1.0).</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

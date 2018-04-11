@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+</head>
+<body bgcolor="white">
+
+The <code>org.cablelabs.impl.havi</code> package (and its sub-packages) contains
+additional classes that support the CableLabs HAVi implementation.  This includes
+common support classes as well as CableLabs port-specific implementations.
+
+<h2>Package Specification</h2>
+
+The architecture of the CableLabs HAVi implementation is separated into two
+distinct portions.   These are the core implementation and the 
+support implementation corresponding to the {@link org.havi.ui}
+and <code>org.cablelabs.impl.havi</code> package hierarchies.  
+The <code>org.cablelabs.impl.havi</code> package hierarchy is divided into
+three main subdivisions:
+
+  <ul>
+    <li> implementation support classes
+    <li> porting layer classes
+    <li> port implementation classes
+  </ul>
+
+<h3>Implementation Support Classes</h3>
+
+The implementation support classes are those classes that provide core
+implementation services to core <code>org.havi.ui</code> classes or
+default/standard implementation support to various CableLabs HAVi ports.
+<p>
+The implementation support classes found in this package are:
+
+<ul>
+	<li>{@link org.cablelabs.impl.havi.AwtBackgroundImage}
+	<li>{@link org.cablelabs.impl.havi.AnimationManager}
+	<li>{@link org.cablelabs.impl.havi.DefaultVirtualKeyboard}
+	<li>{@link org.cablelabs.impl.havi.DBFrame}
+	<li>{@link org.cablelabs.impl.havi.DBPanel}
+	<li>{@link org.cablelabs.impl.havi.DVBContainer}
+	<li>{@link org.cablelabs.impl.havi.ImageRender}
+	<li>{@link org.cablelabs.impl.havi.JMFSound}
+	<li>{@link org.cablelabs.impl.havi.JavaxSampledSound}
+	<li>{@link org.cablelabs.impl.havi.MatteCompositor}
+	<li>{@link org.cablelabs.impl.havi.MatteCompositorJava2D}
+	<li>{@link org.cablelabs.impl.havi.MatteCompositorDVB}
+	<li>{@link org.cablelabs.impl.havi.SizingHelper}
+	<li>{@link org.cablelabs.impl.havi.TextSupport}
+</ul>
+
+<h3>Porting Layer Classes</h3>
+
+The porting layer classes are the portion of the CableLabs HAVi architecture
+which make CableLabs's HAVi implementation easily portable.  It contains 
+interface and base class definitions which greatly simplify the task of
+porting HAVi to a new system.  The central figure in the porting layer
+is the <code>HaviToolkit</code> abstract base class.  By specifying a
+particular implementation of <code>HaviToolkit</code> one specifies the
+CableLabs HAVi port implementation to be used.
+<p>
+The classes that make up the porting layer are:
+
+<ul>
+	<li>{@link org.cablelabs.impl.havi.CapabilitiesSupport}
+	<li>{@link org.cablelabs.impl.havi.DefaultScene}
+	<li>{@link org.cablelabs.impl.havi.DefaultSceneFactory}
+	<li>{@link org.cablelabs.impl.havi.DisplayMediator}
+	<li>{@link org.cablelabs.impl.havi.ExtendedBackgroundConfiguration}
+	<li>{@link org.cablelabs.impl.havi.ExtendedBackgroundDevice}
+	<li>{@link org.cablelabs.impl.havi.ExtendedGraphicsConfiguration}
+	<li>{@link org.cablelabs.impl.havi.ExtendedGraphicsDevice}
+	<li>{@link org.cablelabs.impl.havi.ExtendedScreen}
+	<li>{@link org.cablelabs.impl.havi.ExtendedScreenDevice}
+	<li>{@link org.cablelabs.impl.havi.ExtendedStillImageBackgroundConfiguration}
+	<li>{@link org.cablelabs.impl.havi.ExtendedVideoConfiguration}
+	<li>{@link org.cablelabs.impl.havi.ExtendedVideoDevice}
+	<li>{@link org.cablelabs.impl.havi.HaviToolkit}
+</ul>
+
+<h3>Port Implementation Packages</h3>
+
+The generic Java Platform port can be found in the 
+<code>org.cablelabs.impl.havi.port.generic</code> package.  
+
+The port of HAVi to the MPE-based OCAP platform can be found in the
+{@link org.cablelabs.impl.havi.port.mpe} package.
+
+<h2>Related Documentation</h2>
+
+<!-- 
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+-->
+For additional information, please see:
+<ul>
+	<li><i><u>CableLabs HAVi Porting Guide</u></i>
+</ul>
+
+<!-- Put @see and @since tags down here. -->
+
+@since Gear 1.0
+
+@author Aaron Kamienski
+@version $Revision: 1.3 $, $Date: 2002/06/03 21:32:59 $
+
+</body>
+</html>

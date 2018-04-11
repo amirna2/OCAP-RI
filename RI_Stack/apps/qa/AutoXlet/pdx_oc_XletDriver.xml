@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+	
+        <!-- TransportLocatorTestXlet -->
+	<Xlet name="TransportLocatorTest" orgID="0x1" appID="0x4304" pauseAfterLast="100000">
+	</Xlet>
+
+        <!-- Object Carousel Inband -->
+	<Xlet name="ObjectCarouselIB" orgID="0x1" appID="0x4302" pauseAfterLast="200000">
+	</Xlet>
+
+        <!-- Object Carousel OOB -->
+	<Xlet name="ObjectCarouselOOB" orgID="0x1" appID="0x4303" pauseAfterLast="200000">
+	</Xlet>
+
+        <!-- SectionFilteringTestXlet -->
+	<Xlet name="SectionFilteringTest" orgID="0x1" appID="0x4306" pauseAfterLast="1000000" startupTimeout="5000000">
+	</Xlet>
+
+        <!-- OCPERF_IB_CONC_ASYNCH_LOAD -->
+	<Xlet name="OCPERF_IB_CONC_ASYNCH_LOAD" orgID="0x1" appID="0x7300" pauseAfterLast="100000" startupTimeout="1000000">
+	</Xlet>
+
+        <!-- OCPERF_IB_NSAP_PREFETCH -->
+	<Xlet name="OCPERF_IB_NSAP_PREFETCH" orgID="0x1" appID="0x7301" pauseAfterLast="100000" startupTimeout="1000000">
+	</Xlet>
+
+        <!-- OCPERF_OOB_SYNCH_LOAD -->
+	<Xlet name="OCPERF_OOB_SYNCH_LOAD" orgID="0x1" appID="0x7302" pauseAfterLast="100000" startupTimeout="1000000">
+	</Xlet>
+
+        <!-- OCPERF_OOB_CONC_NSAP_PREFETCH -->
+	<Xlet name="OCPERF_OOB_CONC_NSAP_PREFETCH" orgID="0x1" appID="0x7323" pauseAfterLast="100000" startupTimeout="1000000">
+	</Xlet>
+
+        <!-- PATPMTTest -->
+	<Xlet name="PATPMTTest" orgID="0x1" appID="0x4307" pauseAfterLast="100000" startupTimeout="100000">
+
+        <RCEvent name="OOB_PAT"      monitorTimeout="20000" pauseBeforeNext="20000">VK_5</RCEvent>
+        <RCEvent name="OOB_PMT"      monitorTimeout="20000" pauseBeforeNext="20000">VK_6</RCEvent>
+
+        <RCEvent name="Tune_01"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+        
+        <RCEvent name="ChannelUp_02" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_02"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_03" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_03"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+        
+        <RCEvent name="ChannelUp_04" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_04"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_05" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_05"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_06" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_06"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_07" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_07"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_08" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_08"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_09" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_09"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_10" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_10"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_11" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_11"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_12" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_12"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_13" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_13"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_14" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_14"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_15" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_15"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>	
+
+        <RCEvent name="ChannelUp_16" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_16"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_17" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_17"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_18" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_18"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_19" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_19"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_20" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_20"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_21" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_21"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_22" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_22"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_23" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_23"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_24" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_24"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_25" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_25"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        <RCEvent name="ChannelUp_26" monitorTimeout="5000"  pauseBeforeNext="5000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Tune_26"      monitorTimeout="15000" pauseBeforeNext="15000">VK_ENTER</RCEvent>
+
+        </Xlet>
+
+        <!-- PowerKeyTest -->
+	<Xlet name="PowerKeyTest" orgID="0x1" appID="0x6305" pauseAfterLast="100000" startupTimeout="100000">
+
+        <RCEvent name="SyncPowerCall_01"   monitorTimeout="30000" pauseBeforeNext="5000">VK_3</RCEvent>
+        <RCEvent name="RegisterListener"   monitorTimeout="30000" pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="SyncPowerCall_02"   monitorTimeout="30000" pauseBeforeNext="5000">VK_3</RCEvent>
+        <RCEvent name="UnregisterListener" monitorTimeout="30000" pauseBeforeNext="5000">VK_2</RCEvent>
+        <RCEvent name="SyncPowerCall_03"   monitorTimeout="30000" pauseBeforeNext="5000">VK_3</RCEvent>
+
+        </Xlet>
+
+        <!-- PSTestXlet -->
+        <Xlet name="PSTestXlet" orgID="0x1" appID="0x7643" pauseAfterLast="500000" startupTimeout="5000000">
+	</Xlet>
+
+        <!-- Section Filter Resource Test: Case 1 -->
+
+	<Xlet name="SectionFilterResourceTest" orgID="0x1" appID="0x6610" pauseAfterLast="100000" startupTimeout="100000">
+
+        <RCEvent name="TUNE"          monitorTimeout="10000" pauseBeforeNext="10000">VK_SETTINGS</RCEvent>
+        <RCEvent name="START_TEST"    monitorTimeout="10000" pauseBeforeNext="10000">VK_PLAY</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+ 
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="LAST"          monitorTimeout="5000"  pauseBeforeNext="5000">VK_LAST</RCEvent>
+
+        <!-- Section Filter Resource Test: Case 2 -->
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+ 
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="STOP_FILTER"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_6</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        <RCEvent name="LAST"          monitorTimeout="5000"  pauseBeforeNext="5000">VK_LAST</RCEvent>
+
+        <!-- Section Filter Resource Test: Case 3 -->
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="10000" pauseBeforeNext="10000">VK_UP</RCEvent>
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="10000" pauseBeforeNext="10000">VK_UP</RCEvent>
+
+        <RCEvent name="START_TEST"    monitorTimeout="10000" pauseBeforeNext="10000">VK_PLAY</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_DOWN</RCEvent>
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_DOWN</RCEvent>
+
+        <RCEvent name="LAST"          monitorTimeout="5000"  pauseBeforeNext="5000">VK_LAST</RCEvent>
+
+        <!-- Section Filter Resource Test: Case 4 -->
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="10000" pauseBeforeNext="10000">VK_UP</RCEvent>
+        <RCEvent name="START_TEST"    monitorTimeout="10000" pauseBeforeNext="10000">VK_PLAY</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_DOWN</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        
+        <RCEvent name="LAST"          monitorTimeout="5000"  pauseBeforeNext="5000">VK_LAST</RCEvent>
+
+        <!-- Section Filter Resource Test: Case 5 -->
+
+        <RCEvent name="WILLING_ON"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_COLORED_KEY_0</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="10000" pauseBeforeNext="10000">VK_UP</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_7</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_DOWN</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_7</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_UP</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_DOWN</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+
+        <RCEvent name="WILLING_OFF"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_COLORED_KEY_0</RCEvent>
+        
+        <RCEvent name="LAST"          monitorTimeout="5000"  pauseBeforeNext="5000">VK_LAST</RCEvent>
+
+        <!-- Section Filter Resource Test: Case 6 -->
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="10000" pauseBeforeNext="10000">VK_UP</RCEvent>
+        <RCEvent name="LOW_ON"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_COLORED_KEY_2</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="LOW_OFF"       monitorTimeout="5000"  pauseBeforeNext="5000">VK_COLORED_KEY_2</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_7</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_DOWN</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_7</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_UP</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_DOWN</RCEvent>
+
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+
+        <RCEvent name="LAST"          monitorTimeout="5000"  pauseBeforeNext="5000">VK_LAST</RCEvent>
+
+        <!-- Section Filter Resource Test: Case 7 -->
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="10000" pauseBeforeNext="10000">VK_UP</RCEvent>
+
+        <RCEvent name="CREATE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_1</RCEvent>
+        <RCEvent name="ATTACH_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_2</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_DOWN"      monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_DOWN</RCEvent>
+        <RCEvent name="CREATE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_4</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+
+        <RCEvent name="MOUNT_OC"      monitorTimeout="20000" pauseBeforeNext="20000">VK_8</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_DOWN</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_7</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="CHANGE_FILTER" monitorTimeout="5000"  pauseBeforeNext="5000">VK_9</RCEvent>
+        <RCEvent name="PID_UP"        monitorTimeout="5000"  pauseBeforeNext="5000">VK_PINP_UP</RCEvent>
+        <RCEvent name="START_FILTER"  monitorTimeout="15000" pauseBeforeNext="15000">VK_5</RCEvent>
+        <RCEvent name="GET_STATUS"    monitorTimeout="5000"  pauseBeforeNext="5000">VK_INFO</RCEvent>
+
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_UP</RCEvent>
+
+        <RCEvent name="DELETE_GROUP"  monitorTimeout="5000"  pauseBeforeNext="5000">VK_EXIT</RCEvent>
+        <RCEvent name="CHANGE_TEST"   monitorTimeout="5000"  pauseBeforeNext="5000">VK_DOWN</RCEvent>
+
+        <RCEvent name="LAST"          monitorTimeout="5000"  pauseBeforeNext="5000">VK_LAST</RCEvent>
+
+        </Xlet>
+
+        <!-- PSIPTuneTestXlet -->
+	<!-- Xlet name="PSIPTuneTest" orgID="0x1" appID="0x5301" pauseAfterLast="500000" monitorTimeout="500000" pauseBeforeNext="5000" startupTimeout="500000" -->
+	<!-- /Xlet -->
+
+        <Xlet name="AutoXletDoneXlet" orgID="0x1" appID="0x4444" pauseAfterLast="3000">
+        </Xlet>
+
+</AutoXlet>

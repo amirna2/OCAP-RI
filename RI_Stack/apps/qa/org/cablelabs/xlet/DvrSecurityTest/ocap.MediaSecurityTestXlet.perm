@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!DOCTYPE permissionrequestfile PUBLIC "-//OCAP//DTD Permission Request File 1.0//EN" "http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-1-0.dtd">
+
+<permissionrequestfile appid="0x6204" orgid="0x000000001">
+    <tuning />
+    <servicesel />
+    
+    <ocap:monitorapplication name="storage" value="true"/>
+    <ocap:monitorapplication name="recording" value="true"/>
+</permissionrequestfile>
+
+<permissionrequestfile appid="0x4204" orgid="0x000000001">
+    <tuning />
+    <servicesel />
+    
+    <ocap:monitorapplication name="storage" value="false"/>
+    <ocap:monitorapplication name="recording" value="false"/>
+</permissionrequestfile>

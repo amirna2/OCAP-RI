@@ -1,0 +1,33 @@
+--- tools-orig/configurator/xsl/cdc/propertiesJava.xsl	2011-02-10 19:22:33.703125000 -0700
++++ tools/configurator/xsl/cdc/propertiesJava.xsl	2011-02-10 19:00:56.515625000 -0700
+@@ -58,8 +58,6 @@
+ 
+ import java.security.AccessController;
+ import java.security.PrivilegedAction;
+-import com.sun.cdc.config.DynamicProperties;
+-import com.sun.j2me.main.Configuration;
+ 
+ public class Initializer {
+     static {
+--- tools-orig/makefiles/common_defs.gmk	2011-02-10 19:22:33.750000000 -0700
++++ tools/makefiles/common_defs.gmk	2011-02-10 19:00:56.515625000 -0700
+@@ -65,7 +65,7 @@
+ # Macro to pre-process Jpp file into Java file
+ # runjpp(<input_jpp_file>, <output_java_file>)
+ define runjpp
+-    $(JAVA_CMD) -classpath $(TOOLS_OUTPUT_DIR) Jpp $(JPP_DEFS) -o `$(call POSIX2HOST_CMD,$(2))` `$(call POSIX2HOST_CMD,$(1))`
++    $(JAVA_CMD) -classpath `$(call POSIX2HOST_CMD,$(TOOLS_OUTPUT_DIR))` Jpp $(JPP_DEFS) -o `$(call POSIX2HOST_CMD,$(2))` `$(call POSIX2HOST_CMD,$(1))`
+ endef
+ 
+ # compileJavaClasses(outputDir, javaFiles, extraJavacOptions)
+--- tools-orig/makefiles/hostdefs_win32.gmk	2011-02-10 19:22:33.750000000 -0700
++++ tools/makefiles/hostdefs_win32.gmk	2011-02-10 19:21:27.484375000 -0700
+@@ -42,7 +42,7 @@
+ WIN2POSIX_CMD	 = cygpath $(1)
+ WIN2POSIX	 = $(shell $(call WIN2POSIX_CMD,$(1)))
+ WIN2POSIX_FILTER = xargs -r cygpath
+-POSIX2WIN_CMD	 = cygpath -m $(1)
++POSIX2WIN_CMD	 = echo $(1) | sed "s/$(PS)/:/g" | xargs -r cygpath -m -p | sed "s/$(PS)/\\$(PS)/g"
+ POSIX2WIN        = $(shell $(call POSIX2WIN_CMD,$(1)))
+ POSIX2WIN_FILTER = xargs -r cygpath -m
+ CHKWINPATH	 = $(shell ls -d "$(1)" 2>&1)

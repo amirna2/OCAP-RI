@@ -1,0 +1,525 @@
+This file describes the ListAccessMAXlet (LA) Tests
+
+    LA-1 - MonitorAppPermission("handler.recording")
+    LA-2 - MonitorAppPermission("recording")
+
+LA-1
+-----
+PURPOSE:
+    Confirm that Xlet with MonitorAppPermission("handler.recording")
+    can access all RecordingRequests, regardless of the Extended File
+    Access Permissions.
+
+    Xlet Attributes:
+
+    1. Different organization ID than the Test Manager Xlet
+       (which creates recording requests).
+    2. Monitor Application AppID
+
+    re: hostapp.properties application_identifier
+
+FILES:
+    LA-1-ha.properties   --> usr/hostapp.properties
+    LA-1-primary.cfg     --> qa/xlet/
+    ocap.TestMgrXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/
+    ocap.ListAccessMAXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/
+
+PROCEDURE:
+    1. If necessary, modify LA-1-primary.cfg:
+        1a. Provide appropriate Source IDs.
+        1b. Specify appropriate Start Times, durations (msec), and expiration
+            periods (sec).  The recording requests should transition to COMPLETE
+            in rapid fashion, but it is best to not generate "overlapping"
+            events.
+    2. If necessary, modify ocap.ListAccessMAXlet.perm
+        2a. Ensure "handler.recording" is requested
+    3. Boot SA8300HD with files configured as above.
+    4. Wait for TestLauncher menu to be displayed on TV.
+    5. Select the TestMgrXlet for execution.
+    6. Press RC "INFO" button and verify display of usage message
+       in console logs.  For example:
+
++---------------------------------------------------------+
+TestMgrXlet:  Menu:
+<1> - Initialize Recording Requests
+<2> - Display Current List of Recording Requests
+<3> - Delete All Recording Requests
+<4> - Display internal list of LocatorRecordingSpecs
+<5> - Dump Overlapping Entries (PRF-dependent)
+<6> - Dump Entries (no filter; PRF-dependent)
+<7> - Dump Entries (hardcoded PENDING_WITH_CONFLICT_STATE filter; PRF-dependent)
+<8> - Dump Entries and Root Requests
+<9> - Dump Entries and Parent Requests
++---------------------------------------------------------+
+
+    7. Press "3" to delete any extant recording requests.
+    8. Press "1" to create new recording requests.  For example:
+
++---------------------------------------------------------+
+TestMgrXlet: Number of entries: 18
+TestMgrXlet: ocap://0x44d Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x450 Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x450 Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
++---------------------------------------------------------+
+
+    9. Press "MENU".
+   10. Select "LA-1" Xlet for execution.  The console log messages currently include
+       information about the Xlet permissions.  For example:
+
+   (org.ocap.shared.dvr.RecordingPermission * *)
+
+       These permissions correspond to MonitorAppPermission("handler.recording").
+
+   11. Allow the Xlet to run to completion:
+
++---------------------------------------------------------+
+ListAccessMAXlet FINISHED - REVIEW LOG MESSAGES
++---------------------------------------------------------+
+
+   12. Review the console logs, confirming all recording requests,
+       request parents, and request roots were accessible.
+
+ANALYSIS:
+    Refer to the contents of LA-1-primary.cfg.
+
+    See sample console messages at bottom of file.
+
+LA-2
+-----
+PURPOSE:
+    Confirm that Xlet with MonitorAppPermission("recording")
+    can access RecordingRequests based on the Extended File
+    Access Permissions.
+
+    Xlet Attributes:
+
+    1. Different organization ID than the Test Manager Xlet
+       (which creates recording requests).
+    2. Monitor Application AppID
+
+    re: hostapp.properties application_identifier
+
+FILES:
+    LA-2-ha.properties   --> usr/hostapp.properties
+    LA-2-primary.cfg     --> qa/xlet/
+    ocap.TestMgrXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/
+    ocap.ListAccessMAXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/
+
+PROCEDURE:
+    1. If necessary, modify LA-2-primary.cfg:
+        1a. Provide appropriate Source IDs.
+        1b. Specify appropriate Start Times, durations (msec), and expiration
+            periods (sec).  The recording requests should transition to COMPLETE
+            in rapid fashion, but it is best to not generate "overlapping"
+            events.
+    2. If necessary, modify ocap.ListAccessMAXlet.perm
+        2a. Ensure "recording" is requested
+    3. Boot SA8300HD with files configured as above.
+    4. Wait for TestLauncher menu to be displayed on TV.
+    5. Select the TestMgrXlet for execution.
+    6. Press RC "INFO" button and verify display of usage message
+       in console logs.  For example:
+
++---------------------------------------------------------+
+TestMgrXlet:  Menu:
+<1> - Initialize Recording Requests
+<2> - Display Current List of Recording Requests
+<3> - Delete All Recording Requests
+<4> - Display internal list of LocatorRecordingSpecs
+<5> - Dump Overlapping Entries (PRF-dependent)
+<6> - Dump Entries (no filter; PRF-dependent)
+<7> - Dump Entries (hardcoded PENDING_WITH_CONFLICT_STATE filter; PRF-dependent)
+<8> - Dump Entries and Root Requests
+<9> - Dump Entries and Parent Requests
++---------------------------------------------------------+
+
+    7. Press "3" to delete any extant recording requests.
+    8. Press "1" to create new recording requests.  For example:
+
++---------------------------------------------------------+
+TestMgrXlet: Number of entries: 18
+TestMgrXlet: ocap://0x44d Fri Aug 12 10:32:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 10:32:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x450 Fri Aug 12 10:32:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x450 Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 10:36:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 10:36:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44d Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
++---------------------------------------------------------+
+
+    9. Press "MENU".
+   10. Select "LA-2" Xlet for execution.  The console log messages currently include
+       information about the Xlet permissions.  For example:
+
+   (org.ocap.shared.dvr.RecordingPermission read own)
+
+       These permissions correspond to MonitorAppPermission("recording").
+
+   11. Allow the Xlet to run to completion:
+
++---------------------------------------------------------+
+ListAccessMAXlet FINISHED - REVIEW LOG MESSAGES
++---------------------------------------------------------+
+
+   12. Review the console logs, confirming all recording requests,
+       request parents, and request roots were accessible.
+
+ANALYSIS:
+    Refer to the contents of LA-2-primary.cfg.
+
+    See sample console messages at bottom of file.
+
+
+
+SAMPLE LA-1 CONSOLE MESSAGES:
+
+TestUtil +---------------------------------------------------------+
+TestUtil Examining 18 Entries for overlap ...
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Found 2 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Overlapping Entry: ocap://0x450 Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Found 2 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Overlapping Entry: ocap://0x450 Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x450 Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Found 2 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Found 2 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Overlapping Entry: ocap://0x450 Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Found 2 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Overlapping Entry: ocap://0x450 Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x450 Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Found 2 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44e Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 1 Overlapping Entries ...
+TestUtil Overlapping Entry: ocap://0x44d Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil +---------------------------------------------------------+
+TestUtil dumpEntries() filter: null
+TestUtil +---------------------------------------------------------+
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x450 Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x450 Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil +---------------------------------------------------------+
+[Verify org/ocap/shared/dvr/navigation/RecordingListFilter]
+[Verify org/ocap/shared/dvr/navigation/RecordingStateFilter]
+TestUtil dumpEntries() RecordingStateFilter: 2
+TestUtil +---------------------------------------------------------+
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x450 Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x450 Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil +---------------------------------------------------------+
+TestUtil +---------------------------------------------------------+
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4f3
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4fd
+TestUtil Entry: ocap://0x450 Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4fb
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4fa
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4e5
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4e4
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4e7
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4e6
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4e1
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4e0
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4e3
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4e2
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4ed
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: org.cablelabs.impl.manager.recording.RecordingImpl@4ec
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil +---------------------------------------------------------+
+TestUtil +---------------------------------------------------------+
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+190662 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+190697 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x450 Fri Aug 12 09:42:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+190735 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+190770 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+190804 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x450 Fri Aug 12 09:44:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+190841 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+190875 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+190910 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+190948 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:48:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+190990 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+GC191051 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:50:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+192396 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+192515 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:52:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+192584 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+192628 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:54:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+192667 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+192710 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 09:56:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+192748 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil +---------------------------------------------------------+
++---------------------------------------------------------+
+ListAccessMAXlet FINISHED - REVIEW LOG MESSAGES
++---------------------------------------------------------+
+
+SAMPLE LA-2 CONSOLE MESSAGES:
+
+TestUtil +---------------------------------------------------------+
+TestUtil Examining 13 Entries for overlap ...
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x450 Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Found 0 Overlapping Entries ...
+TestUtil +---------------------------------------------------------+
+TestUtil dumpEntries() filter: null
+TestUtil +---------------------------------------------------------+
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x450 Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil +---------------------------------------------------------+
+TestUtil dumpEntries() RecordingStateFilter: 2
+TestUtil +---------------------------------------------------------+
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry: ocap://0x450 Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil +---------------------------------------------------------+
+TestUtil +---------------------------------------------------------+
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x450 Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestUtil Entry Root: null
+TestUtil +---------------------------------------------------------+
+TestUtil +---------------------------------------------------------+
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+137774 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+137818 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x450 Fri Aug 12 10:34:00 MDT 2005 10000 PENDING_WITH_CONFLICT_STATE
+137852 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+137887 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+137923 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+137958 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+137994 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+138046 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:42:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+138081 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+138116 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:44:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+138174 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44d Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+138211 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil Entry: ocap://0x44e Fri Aug 12 10:46:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+138245 [App-26102-4] DEBUG recording.RecordingImpl - getNode() - Requested node specified by calling app is null!
+TestUtil Entry Parent: null
+TestUtil +---------------------------------------------------------+
++---------------------------------------------------------+
+ListAccessMAXlet FINISHED - REVIEW LOG MESSAGES
++---------------------------------------------------------+

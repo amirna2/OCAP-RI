@@ -1,0 +1,178 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+// list of scripts required here
+
+boolean recordContentOnTuner(String testName, int tunerIndex, int recordingLengthMS, boolean backgroundMode, 
+                             int waitForRecStateSecs, int desiredRecordingState, boolean recordRemotely)
+{
+    boolean returnValue = true;
+    
+    rxLog.info(testName + "recordContentOnTuner() - Requested " + recordingLengthMS + 
+            " sec recording, waiting " + waitForRecStateSecs +
+            " secs to enter recording state " + rxDriverDVR.getRecStateStr(desiredRecordingState)); 
+
+    // Submit request recording where length is supplied recording time on specified tuner
+    // with no delay in background if requested
+    if(recordRemotely)
+    {
+        if (rxDriverHNDVR ==  null)
+        {
+            rxLog.info(testName + "  rxDriverDVR.recordTuner() - rxDriverHNDVR is NULL for remote recording creation");
+            returnValue = false;
+            return returnValue;
+        }
+        if (!rxDriverHNDVR.createScheduledRecording(tunerIndex, recordingLengthMS, 0, backgroundMode))
+        {
+            rxLog.info(testName + "  rxDriverDVR.recordTuner() - Failed to create recording");
+            returnValue = false;
+            return returnValue;
+        }
+    }
+    else
+    {
+        if (!rxDriverDVR.recordTuner(tunerIndex, recordingLengthMS, 0, backgroundMode))
+        {
+            rxLog.info(testName + "  rxDriverDVR.recordTuner() - Failed to create recording");
+            returnValue = false;
+            return returnValue;
+        }
+    }
+
+    // If request, segment recording by sending unsync and sync command
+    if ((desiredRecordingState == rxDriverDVR.INCOMPLETE_STATE) ||
+        (desiredRecordingState == rxDriverDVR.IN_PROGRESS_INCOMPLETE_STATE))
+    {
+        rxLog.info(testName + " recordContentOnTuner() - waiting for recording to get started"); 
+
+        // Wait for the recording to get started
+        if (!rxDriverDVR.waitForRecordingState(tunerIndex, waitForRecStateSecs, rxDriverDVR.IN_PROGRESS_STATE))
+        {
+            rxLog.info(testName +  " recordContentOnTuner() - Recording failed to start within allowing timeout secs: " + 
+                    waitForRecStateSecs);
+            returnValue = false;                
+        }
+        
+        Thread.sleep(30000); //wait 30 secs before unsync tuner 
+
+        rxLog.info(testName + "  recordContentOnTuner() - unsyncing tuner to create first segment"); 
+        if (!rxDriverCore.setTunerSyncState(tunerIndex, false))
+        {
+            rxLog.info(testName + "  recordContentOnTuner() - Failed to unsync tuner");
+            returnValue = false;
+            return returnValue;
+        }
+        rxLog.info(testName + "  recordContentOnTuner() - successfully unsynced tuner, creating 15 sec missing segment"); 
+        Thread.sleep(15000); //wait 15 sec before sync tuner again to create 15 sec missing segment
+        
+        rxLog.info(testName + "  recordContentOnTuner() - syncing tuner after first segment to resume recording");             
+        if (!rxDriverCore.setTunerSyncState(tunerIndex, true))
+        {
+            rxLog.info(testName + "  recordContentOnTuner() - Failed to sync tuner");
+            returnValue = false;
+            return returnValue;
+        }
+        rxLog.info(testName + "  recordContentOnTuner() - successfully synced tuner");
+    }
+    else
+    {
+        rxLog.info(testName +  " recordContentOnTuner() - leaving tuner alone");             
+    }
+
+    rxLog.info(testName + " recordContentOnTuner() - waiting for rec state: " + 
+            rxDriverDVR.getRecStateStr(desiredRecordingState));
+    if (!rxDriverDVR.waitForRecordingState(tunerIndex, waitForRecStateSecs, desiredRecordingState))
+    {
+        rxLog.info(testName +  " recordContentOnTuner() - Recording failed to reached expected state " + 
+                desiredRecordingState);
+        returnValue = false;
+    }
+    return returnValue;
+}
+
+boolean recordContentWithCCIChanges(String testName, int tunerIndex, int recordingTime, boolean backgroundMode,
+        int waitTime, int recordingState, String[] telnetCommand, String[] telnetResultString)
+{
+    boolean returnValue = true;
+    if (!recordContentOnTuner(testName, tunerIndex, recordingTime, backgroundMode, waitTime, rxDriverDVR.IN_PROGRESS_STATE, false))
+    {
+        rxLog.info(testName + " Failed to start recording on Tuner with no wait time.");
+        returnValue = false;
+        return returnValue;
+    }
+    if (!rxDriverDVR.waitForRecordingState(tunerIndex, waitTime, rxDriverDVR.IN_PROGRESS_STATE))
+    {
+        rxLog.info(testName + " Failed to wait for Recording state before setting CCI bits.");
+        returnValue = false;
+        return returnValue;
+    }
+    if (!rxDriverHN.setCCIbits(telnetCommand, telnetResultString))
+    {
+        rxLog.info(testName + " Failed to set CCI bits for the current ongoing recording.");
+        returnValue = false;
+        return returnValue;
+    }
+    if (!rxDriverDVR.waitForRecordingState(tunerIndex, waitTime, recordingState))
+    {
+        rxLog.info(testName + " Failed to wait for Recording state after setting CCI bits.");
+        returnValue = false;
+        return returnValue;
+    }
+    if (!rxDriverHN.setCCIbits(telnetCommand, telnetResultString))
+    {
+        rxLog.info(testName + " Failed to reset CCI bits to non protected.");
+        returnValue = false;
+        return returnValue;
+    }
+    return returnValue;
+}

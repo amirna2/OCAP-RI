@@ -1,0 +1,219 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+// List of scripts used by this script
+//
+
+// Incoming event-type can have a value of -1(UNKNOWN),1(CONTROLLER TYPE) or 2(SERVICE_CONTEXT TYPE)
+String ocapAppDriverPlayback(int eventType, int timeOut)
+{
+    String failureReason = null;
+    String logStr = "OcapAppDriverPlayback - ";
+    //tolerance = 1 sec for skipping forward/backward 5-10 secs
+    // The playback position gets skipped backward/forward correctly but while trying to get the 
+    // playback position after skipping fwd/bkwd, the playback position is different due to time reqd.
+    // for logging messages. Tolerance of 1 sec. seems enough.
+    int tolerance = 1; 
+
+    // Check playback Events
+    int lastIndex = rxDriverCore.playbackEventGetLastIndex();
+    if (lastIndex == 0)
+    {
+        failureReason = "playbackEventGetLastIndex() did not updated";
+        rxLog.callTrace ("playbackEventGetLastIndex() did not updated", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("playbackEventGetLastIndex() successful");
+
+    int eventType = rxDriverCore.playbackEventGetType(lastIndex);
+    if (eventType == -1)
+    {
+        failureReason = "playbackEventGetType() returned an error";
+        rxLog.callTrace ("playbackEventGetType() returned an error", this.callstack);
+        return failureReason;
+
+    }   
+    rxLog.info("playbackEventGetType() successful, event type is " + eventType);
+
+    String eventDesc = rxDriverCore.playbackEventGetDescription(lastIndex);
+    if (eventDesc == null)
+    {
+        failureReason = "playbackEventGetDescription() returned an error";
+        rxLog.callTrace ("playbackEventGetDescription() returned an error", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("playbackEventGetDescription() successful, eventDesc is " + eventDesc);
+
+    // OCORI-4378, Not being able to set the playback Position for JMF HN players.
+    // Sometimes for DVR players too 
+    if (!rxDriverCore.setPlaybackPosition((long)(0)))
+    {
+        failureReason = "Problems setting the playback position in seconds";
+        rxLog.callTrace ("Failure to set the playback position in seconds", this.callstack);
+        return failureReason;
+    }
+    // OCORI-4378: Not sure if playback position is returned correctly always. 
+    rxLog.info("Aimed to set playback at 0.00 and actually set the playBack position in seconds to " +  rxDriverCore.getPlaybackPositionSecs());
+    long playbackNS = rxDriverCore.getPlaybackPosition();
+    if (playbackNS == Long.MIN_VALUE)
+    {
+        failureReason = "Problems getting the playback position in nano-seconds";
+        rxLog.callTrace ("Failure to get the playback position in nano-seconds", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Successfully got playbackPosition " + playbackNS);
+  
+    long mediaTime = rxDriverCore.getMediaTime();
+    if (mediaTime == Long.MIN_VALUE) //Long.MIN_VALUE means error
+    {
+        failureReason = "Problems getting the mediaTime";
+        rxLog.callTrace ("Failure to get the media time", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Successfully got MediaTime " + mediaTime);
+    // OCORI-4378??
+    // set the position to 0 secs as we are now going to skip fwd and backward
+    // so setting it to 0 makes sure, we dont over-run recording boundaries
+    // while performing skipping forward and backward operations
+    if (!rxDriverCore.setPlaybackPosition((long)(0)))
+    {
+        failureReason = "Problems setting the playback position in seconds";
+        rxLog.callTrace ("Failure to set the playback position in seconds", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Before setFullScreen, aimed to set playback at 0.00 and actually set the playBack position in seconds to " + rxDriverCore.getPlaybackPosition());
+
+    // Set playback full screen
+    if (!rxDriverCore.setPlaybackFullscreen())
+    {
+        failureReason = "Could not set full screen during playback";
+        rxLog.CallTrace ("Failure to set full screen during playback", this.callback);
+        return failureReason;
+    }
+    rxLog.info("Completed setting full screen during playback");
+
+    //Checking playbackRate
+    float playbackRate = rxDriverCore.getPlaybackRate();
+    if (playbackRate == Float.NaN)
+    {
+        failureReason = "Problems while getting the playback rate";
+        rxLog.callTrace ("Failure to get playback rate", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Successfully got the playBack rate " + playbackRate);
+
+    //Getting playback Duration in seconds
+    double playbackDuration = 0.0;
+    if ((playbackDuration = rxDriverCore.getPlaybackDurationSecs()) == -1)
+    {
+        failureReason = "Problems getting the playback duration in seconds";
+        rxLog.callTrace ("Failure to get the playback duration in seconds", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Successfully got the playBack duration in seconds " + playbackDuration);
+   
+    // OCORI-4378: Not sure if playback position is returned correctly always. 
+    double playbackPos = rxDriverCore.getPlaybackPositionSecs();
+    rxLog.info("playbackPosition before skip fwd 5 sec is " + playbackPos);
+    
+    // skip forward by 10 seconds
+    rxDriverCore.skipForward((int)(playbackPos+10));
+
+    // OCORI-4378: Not sure if playback position is returned correctly always. 
+    double newPlaybackPos = rxDriverCore.getPlaybackPositionSecs();
+    rxLog.info("playbackPosition after skip fwd 5 sec is " + newPlaybackPos);
+    
+    if (((newPlaybackPos - playbackPos) <= (10+tolerance)) || ((newPlaybackPos - playbackPos) > (10+tolerance)))
+    {
+        rxLog.info("Successfully skipped the playback position forward");
+    }
+    else
+    {
+        failureReason = "Problems skipping the playback position forward";
+        rxLog.callTrace ("Failure to skip the playback forward", this.callstack);
+        return failureReason;
+    }
+    
+    // Resume skipping forward and behind
+    // skip backward
+    // OCORI-4378: Not sure if playback position is returned correctly always. 
+    playbackPos = rxDriverCore.getPlaybackPositionSecs();
+    rxLog.info("playbackPosition before skip bkwd 5 sec is " + playbackPos);
+    
+    if (playbackPos > 5)
+    {
+        rxDriverCore.skipBackward((int)5);
+        // OCORI-4378: Not sure if playback position is returned correctly always. 
+        newPlaybackPos = rxDriverCore.getPlaybackPositionSecs();
+        rxLog.info("playbackPosition after skip bkwd 5 sec is " + newPlaybackPos);
+        
+        if (((playbackPos - newPlaybackPos) <= (5+tolerance)) || ((playbackPos - newPlaybackPos) > (5+tolerance))) 
+        {
+            rxLog.info("Successfully skipped the playback position backward");
+        }
+	else
+	{
+            failureReason = "Problems skipping the playback position backward";
+            rxLog.callTrace ("Failure to skip the playback backward", this.callstack);
+            return failureReason;
+        }
+    }
+    else
+    {
+        rxLog.error("Not possible to skip the playback position backward");
+    }
+
+    int numCCIBits= rxDriverCore.getCCIBits(); 
+    rxLog.info("numCCIBits is "+ numCCIBits);
+    return failureReason;
+}

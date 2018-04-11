@@ -1,0 +1,214 @@
+--- orig/system.c	2011-04-11 15:35:56.957080002 -0600
++++ system.c	2011-04-12 10:35:46.413080000 -0600
+@@ -9,6 +9,15 @@
+ #include "system.h"
+ 
+ /** Initializes the system module */
++static char sysDescr[256] = "OCAP-RI";
++static unsigned short sysObjectID[64];
++static unsigned long sysUpTime;
++static char sysContact[256] = "ocap-ri@cablelabs.com";
++static char sysName[256] = "ocapri";
++static char sysLocation[256] = "Lousville, CO";
++static int sysServices;
++static unsigned long sysORLastChange;
++
+ void
+ init_system(void)
+ {
+@@ -81,8 +90,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) sysDescr,
++                                     sizeof(sysDescr));
+             break;
+ 
+ 
+@@ -110,8 +119,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OBJECT_ID,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) sysObjectID,
++                                     sizeof(sysObjectID));
+             break;
+ 
+ 
+@@ -139,8 +148,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_TIMETICKS,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &sysUpTime,
++                                     sizeof(sysUpTime));
+             break;
+ 
+ 
+@@ -169,8 +178,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) sysContact,
++                                     sizeof(sysContact));
+             break;
+ 
+         /*
+@@ -189,7 +198,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -202,14 +211,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -217,7 +226,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }
+@@ -248,8 +257,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) sysName,
++                                     sizeof(sysName));
+             break;
+ 
+         /*
+@@ -268,7 +277,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -281,14 +290,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -296,7 +305,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }
+@@ -327,8 +336,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_OCTET_STR,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) sysLocation,
++                                     sizeof(sysLocation));
+             break;
+ 
+         /*
+@@ -347,7 +356,7 @@
+ 
+         case MODE_SET_RESERVE2:
+             /* XXX malloc "undo" storage buffer */
+-            if (/* XXX if malloc, or whatever, failed: */) {
++            if (1/* XXX if malloc, or whatever, failed: */) {
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
+             }
+             break;
+@@ -360,14 +369,14 @@
+ 
+         case MODE_SET_ACTION:
+             /* XXX: perform the value change here */
+-            if (/* XXX: error? */) {
+-                netsnmp_set_request_error(reqinfo, requests, /* some error */);
++            if (1/* XXX: error? */) {
++                netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_GENERR/* some error */);
+             }
+             break;
+ 
+         case MODE_SET_COMMIT:
+             /* XXX: delete temporary storage */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_COMMITFAILED);
+             }
+@@ -375,7 +384,7 @@
+ 
+         case MODE_SET_UNDO:
+             /* XXX: UNDO and return to previous value for the object */
+-            if (/* XXX: error? */) {
++            if (1/* XXX: error? */) {
+                 /* try _really_really_ hard to never get to this point */
+                 netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_UNDOFAILED);
+             }
+@@ -405,8 +414,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &sysServices,
++                                     sizeof(sysServices));
+             break;
+ 
+ 
+@@ -434,8 +443,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_TIMETICKS,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &sysORLastChange,
++                                     sizeof(sysORLastChange));
+             break;
+ 
+ 

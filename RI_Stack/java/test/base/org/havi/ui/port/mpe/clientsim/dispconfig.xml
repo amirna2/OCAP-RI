@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+<!--
+    Document   : dispconfig.xml
+    Created on : March 31, 2004, 11:20 AM
+    Author     : Aaron Kamienski
+    Description:
+        Describes mpe/ClientSim HAVi configurations.
+-->
+
+<!DOCTYPE screens SYSTEM '../../dispconfig.dtd'>
+<screens default="screen0">
+
+  <screen id="screen0" default="Graphics[0] Video[0] Background[0]">
+     <device type="graphics" id="Graphics[0]" default="gfx0.cfg0">
+         <!-- 480i -->
+         <config id="gfx0.cfg0" 
+                 interlaced="true"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="640" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 480p -->
+         <config id="gfx0.cfg1" 
+                 interlaced="false"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="640" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 720p -->
+         <config id="gfx0.cfg2" 
+                 interlaced="false"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="640" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="4" height="3"/>
+         </config>
+         <!-- 1080i -->
+         <config id="gfx0.cfg3" 
+                 interlaced="true"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="640" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="4" height="3"/>
+         </config>
+     </device>
+     <device type="video" id="Video[0]" default="vid0.cfg0">
+         <!-- 480i -->
+         <config id="vid0.cfg0" 
+                 interlaced="true"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="720" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="8" height="9"/>
+         </config>
+         <!-- 480p -->
+         <config id="vid0.cfg1" 
+                 interlaced="false"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="720" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="8" height="9"/>
+         </config>
+         <!-- 720p -->
+         <config id="vid0.cfg2" 
+                 interlaced="false"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="1280" height="720"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 1080i -->
+         <config id="vid0.cfg3" 
+                 interlaced="true"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="1920" height="1080"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+     </device>
+     <device type="video" id="Video[1]" default="vid1.cfg0">
+         <!-- 480i -->
+         <config id="vid1.cfg0" 
+                 interlaced="true"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="720" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="8" height="9"/>
+         </config>
+         <!-- 480p -->
+         <config id="vid1.cfg1" 
+                 interlaced="false"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="720" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="8" height="9"/>
+         </config>
+         <!-- 720p -->
+         <config id="vid1.cfg2" 
+                 interlaced="false"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="1280" height="720"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 1080i -->
+         <config id="vid1.cfg3" 
+                 interlaced="true"
+                 flicker="false"
+                 vidmix="true">
+             <resolution width="1920" height="1080"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+     </device>
+
+     <device type="background" id="Background[0]" default="bg0.cfg0">
+         <!-- 480i -->
+         <config id="bg0.cfg0" 
+                 interlaced="true"
+                 flicker="false"
+				 color="true"
+				 still="false"
+				 vidmix="true">
+             <resolution width="640" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 480p -->
+         <config id="bg0.cfg1" 
+                 interlaced="false"
+                 flicker="false"
+				 color="true"
+				 still="false"
+				 vidmix="true">
+             <resolution width="640" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 720p -->
+         <config id="bg0.cfg2" 
+                 interlaced="false"
+                 flicker="false"
+				 color="true"
+				 still="false"
+				 vidmix="true">
+             <resolution width="1280" height="720"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 1080i -->
+         <config id="bg0.cfg3" 
+                 interlaced="true"
+                 flicker="false"
+				 color="true"
+				 still="false"
+				 vidmix="true">
+             <resolution width="1920" height="1080"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 480i -->
+         <config id="still0.cfg0" 
+                 interlaced="true"
+                 flicker="false"
+				 color="true"
+				 still="true"
+				 vidmix="true">
+             <resolution width="640" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 480p -->
+         <config id="still0.cfg1" 
+                 interlaced="false"
+                 flicker="false"
+				 color="true"
+				 still="true"
+				 vidmix="true">
+             <resolution width="640" height="480"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 720p -->
+         <config id="still0.cfg2" 
+                 interlaced="false"
+                 flicker="false"
+				 color="true"
+				 still="true"
+				 vidmix="true">
+             <resolution width="1280" height="720"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+         <!-- 1080i -->
+         <config id="still0.cfg3" 
+                 interlaced="true"
+                 flicker="false"
+				 color="true"
+				 still="true"
+				 vidmix="true">
+             <resolution width="1920" height="1080"/>
+             <area x="0" y="0" width="1" height="1"/>
+             <pixelRatio width="1" height="1"/>
+         </config>
+     </device>
+
+     
+     <coherent refid="gfx0.cfg0 vid0.cfg0 vid1.cfg0 bg0.cfg0"/>
+     <coherent refid="gfx0.cfg1 vid0.cfg1 vid1.cfg1 bg0.cfg1"/>
+     <coherent refid="gfx0.cfg2 vid0.cfg2 vid1.cfg2 bg0.cfg2"/>
+     <coherent refid="gfx0.cfg3 vid0.cfg3 vid1.cfg3 bg0.cfg3"/>
+     <coherent refid="gfx0.cfg0 vid0.cfg0 vid1.cfg0 still0.cfg0"/>
+     <coherent refid="gfx0.cfg1 vid0.cfg1 vid1.cfg1 still0.cfg1"/>
+     <coherent refid="gfx0.cfg2 vid0.cfg2 vid1.cfg2 still0.cfg2"/>
+     <coherent refid="gfx0.cfg3 vid0.cfg3 vid1.cfg3 still0.cfg3"/>
+  </screen>
+
+</screens>

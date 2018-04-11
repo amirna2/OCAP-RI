@@ -1,0 +1,70 @@
+--- orig/ocStbHostMemoryInfo.c	2011-11-16 11:07:54.707031965 -0700
++++ ocStbHostMemoryInfo.c	2011-11-16 13:49:55.279031969 -0700
+@@ -9,6 +9,12 @@
+ #include "ocStbHostMemoryInfo.h"
+ 
+ /** Initializes the ocStbHostMemoryInfo module */
++static unsigned long ocStbHostLargestAvailableBlock;
++static unsigned long ocStbHostTotalVideoMemory;
++static unsigned long ocStbHostAvailableVideoMemory;
++static unsigned long ocStbHostTotalSystemMemory;
++static unsigned long ocStbHostAvailableSystemMemory;
++
+ void
+ init_ocStbHostMemoryInfo(void)
+ {
+@@ -63,8 +69,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostLargestAvailableBlock,
++                                     sizeof(ocStbHostLargestAvailableBlock));
+             break;
+ 
+ 
+@@ -92,8 +98,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostTotalVideoMemory,
++                                     sizeof(ocStbHostTotalVideoMemory));
+             break;
+ 
+ 
+@@ -121,8 +127,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostAvailableVideoMemory,
++                                     sizeof(ocStbHostAvailableVideoMemory));
+             break;
+ 
+ 
+@@ -150,8 +156,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostTotalSystemMemory,
++                                     sizeof(ocStbHostTotalSystemMemory));
+             break;
+ 
+ 
+@@ -179,8 +185,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostAvailableSystemMemory,
++                                     sizeof(ocStbHostAvailableSystemMemory));
+             break;
+ 
+ 

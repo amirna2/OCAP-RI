@@ -1,0 +1,3 @@
+ac_cv_getopt_long_only=no
+ac_cv_func_getopt_long_only=no
+

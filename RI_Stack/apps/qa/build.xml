@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+
+<project name="Test Xlets" default="build" >
+    
+    <!-- Pull in target configuration properties -->
+    <property environment="env"/>
+    <property name="srcdir" location="${env.OCAPROOT}/apps/qa"/>
+    <property name="appdir" location="${env.OCAPROOT}/apps"/>
+    <property name="dstdir" location="${env.OCAPROOT}/bin/apps/qa/xlet"/>
+    <property name="autoxletDir" location="${srcdir}/AutoXlet"/>
+
+    <property name="bsh-2.0b4.jar" 
+              location="${env.OCAPROOT}/tools/generic/BeanShell/bsh-2.0b4.jar"/>
+    <property name="ocap-stub.jar" 
+              location="${env.OCAPROOT}/bin/lib/ocap-stub.jar"/>
+    <property name="autoxlet.jar"
+              location="${env.OCAPROOT}/bin/lib/autoxlet.jar"/>
+            
+    <!-- Build -->
+    <target name="build" depends="build.autoxlet, build.xlet, build.regapi" description="Build all code"/>   
+
+    <!-- Clean -->
+    <target name="clean" depends="clean.autoxlet, clean.regapi" description="Clean all targets">
+        <delete quiet="true">
+            <fileset dir="${dstdir}" includes="*.properties"/>
+            <fileset dir="${dstdir}" includes="ocapExt.*"/>
+        </delete>
+        <delete quiet="true" dir="${dstdir}/org"/>
+        <ant antfile="${autoxletDir}/build.xml" target="clean" inheritAll="false"/>
+    </target>    
+
+    <!-- Purge -->
+    <target name="purge" depends="purge.autoxlet, purge.regapi" description="Purge all targets">
+       <delete quiet="true" includeemptydirs="true">
+         <fileset dir="${dstdir}" includes="**/*"/>
+         <fileset dir="${dstdir}/.." includes="xlet"/>
+         <fileset dir="${dstdir}/../.." includes="qa" />
+          </delete>
+          <delete quiet="true" dir="${dstdir}/org"/>  
+    </target>
+
+    <!-- AutoXlet -->
+    <target name="build.autoxlet" depends="init" description="Build AutoXlet Xlet Driver">
+        <ant antfile="${autoxletDir}/build.xml" target="build" inheritAll="false"/>
+    </target>
+    <target name="clean.autoxlet" depends="init" description="Clean AutoXlet Xlet Driver">
+        <ant antfile="${autoxletDir}/build.xml" target="clean" inheritAll="false"/>
+    </target>
+    <target name="purge.autoxlet" depends="init" description="Purge AutoXlet Xlet Driver">
+        <ant antfile="${autoxletDir}/build.xml" target="purge" inheritAll="false"/>
+    </target>
+
+    <!-- Resources that are used by QA, just copy all the !*.java files in ${srcdir} -->
+    <patternset id="resources">
+       <exclude name="**/*.java"/>
+       <include name="**/*.properties"/>
+       <include name="**/*Driver.xml"/>
+       <include name="**/*.gif"/>
+       <include name="**/*.png"/>
+       <include name="**/*.jpg"/>
+       <include name="**/*.jpeg"/>
+       <include name="**/*.mp1"/>
+       <include name="**/*.mp2"/>
+       <include name="**/*.mp3"/>
+       <include name="**/*.ac3"/>
+       <include name="**/*.aiff"/>
+       <include name="**/*.m2v"/>
+       <include name="**/*.perm"/>
+       <include name="*.xml"/>  <!-- scdf's referenced by unit tests -->
+       <exclude name="AutoXlet/**/*.perm"/>
+       <include name="**/swakScript"/>
+       <include name="**/scripts/*"/>
+       <include name="org/cablelabs/xlet/VideoPresentationTest/*.xml" />
+       <include name="org/cablelabs/xlet/VideoPresentationTest/*.xsd" />
+	   <include name="org/cablelabs/xlet/hn/HNIAPP/etc/xml/*.xml" /> <!-- xml referenced by HNIApp -->
+    </patternset>
+
+    <target name="build.xlet" depends="build.lib,init"
+               description="Builds the Xlet tests">
+          <javac target="1.4"
+                 source="1.4"
+                 debug="yes"
+                 srcdir="${srcdir}"
+                 destdir="${dstdir}"
+                 includes="org/cablelabs/xlet/*.java,org/cablelabs/xlet/**/*.java,org/cablelabs/api/**/*.java,org/apache/log4j/**/*.java"
+				 excludes="**/MemoryTest/**"
+                 encoding="ISO-8859-1"
+                 includeantruntime="false">
+                 <bootclasspath>
+                     <pathelement location="${bsh-2.0b4.jar}"/>
+                     <pathelement location="${ocap-stub.jar}"/>
+                     <pathelement location="${autoxlet.jar}"/>
+                 </bootclasspath>
+          </javac>
+          <javac target="1.4"
+                 source="1.4"
+                 debug="yes"
+                 srcdir="${appdir}/config"
+                 destdir="${dstdir}"
+                 includes="org/cablelabs/xlet/*.java,org/cablelabs/xlet/**/*.java,org/apache/log4j/**/*.java"
+                 encoding="ISO-8859-1"
+                 includeantruntime="false">
+                 <bootclasspath>
+                     <pathelement location="${bsh-2.0b4.jar}"/>
+                     <pathelement location="${ocap-stub.jar}"/>
+                     <pathelement location="${autoxlet.jar}"/>
+                 </bootclasspath>
+          </javac>
+
+          <!-- Copy resources like images and such -->
+          <copy todir="${dstdir}">
+                <fileset dir="${srcdir}">
+                       <patternset refid="resources"/>
+                </fileset>
+          </copy>
+          <copy todir="${dstdir}">
+                <fileset dir="${appdir}/config">
+                       <patternset refid="resources"/>
+                </fileset>
+          </copy>
+
+          <unzip src="${env.OCAPROOT}/tools/generic/BeanShell/bsh-2.0b4.jar"
+                   dest="${dstdir}">
+                <patternset>
+                   <include name="**/*.class"/>
+                </patternset>
+          </unzip>
+    </target>
+ 
+    <target name="build.lib" depends="init"
+               description="Builds the Xlet libs">
+          <available file="${ocap-stub.jar}" property="ocap-stub.jar.present"/>
+          <fail message="Requires OCAP-Stub at '${ocap-stub.jar}'"
+                unless="ocap-stub.jar.present" />
+          <javac target="1.4"
+                 source="1.4"
+                 debug="yes"
+                 srcdir="${srcdir}"
+                 destdir="${dstdir}"
+                 includes="org/cablelabs/lib/*.java,org/cablelabs/lib/**/*.java,org/apache/log4j/**/*.java"
+                 encoding="ISO-8859-1"
+                 includeantruntime="false">
+                 <bootclasspath>
+                     <pathelement location="${bsh-2.0b4.jar}"/>
+                     <pathelement location="${ocap-stub.jar}"/>
+                     <pathelement location="${autoxlet.jar}"/>
+                 </bootclasspath>
+          </javac>
+    </target>
+
+    <!-- Defer targets to regapi/build.xml -->
+    <target name="build.regapi" depends="regapi-present" if="regapi-present">
+        <ant dir="regapi" target="build"/>
+    </target>
+    <target name="purge.regapi" depends="regapi-present" if="regapi-present">
+        <ant dir="regapi" target="purge"/>
+    </target>
+    <target name="clean.regapi" depends="regapi-present" if="regapi-present">
+        <ant dir="regapi" target="clean"/>
+    </target>
+    <target name="regapi-present">
+        <available file="regapi/build.xml" property="regapi-present"/>
+    </target>
+
+
+    <!-- Initialize values used by all tasks -->
+    <target name="init">
+      <mkdir dir="${dstdir}"/>
+    </target>
+
+</project>
+

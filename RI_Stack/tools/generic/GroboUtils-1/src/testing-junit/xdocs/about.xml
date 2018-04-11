@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:04 $
+-->
+
+
+<document>
+<head>
+    <name>About JUnit Test Extensions</name>
+</head>
+<body>
+
+<P>
+The testing-junit sub-project of GroboUtils contains extensions to the
+<a href="http://junit.org">JUnit</a> testing framework.
+</P>
+
+<P>
+These are the major issues which this sub-project attempts to tackle:
+<UL>
+    <definition-link href="using_it" term="integration test">
+    There's a series of classes with the purpose of aiding in running
+    integration tests from within the JUnit test framework.  There exists
+    a conflict of interest between JUnit and integration (or functional) tests:
+    JUnit considers any failure reason to terminate the test, while integration
+    tests commonly can report failures while continuing with the test.
+    This JUnit extension allows for an integration test to register a
+    "soft" failure, which reports the failure but does not stop the test.
+    </definition-link>
+    <definition-link href="using_mtt" term="multithreaded test">
+    As one of my professors once said, "the only area of computer programming
+    that requires actual intelligence is thread safety."  Several other
+    projects have attempted to add multi-threaded testing into their JUnit
+    extensions with varying degrees of success.  This extention allows the user
+    to create many routines to run at once.  Though this does not allow for
+    a rigourous assurance of thread safety, it allows the user many options,
+    such as seeing how parts of a unit interact with each other in a
+    multi-threaded environment, and attempting to detect errors in assumptions
+    when a bit of code is executed many times within many threads.
+    </definition-link>
+    <definition-link href="art_hierarchy" term="hierarchy test">
+    Several references show the need to test not only a base class, but also
+    that same base class in the shared context of inherited classes.  This
+    includes both the contracts presented by interfaces and abstract methods,
+    and the code contained in concrete methods.  This framework allows for
+    the developer to write shared tests once, which can be run in all
+    necessary contexts.
+    </definition-link>
+</UL>
+</P>
+
+</body>
+</document>
+

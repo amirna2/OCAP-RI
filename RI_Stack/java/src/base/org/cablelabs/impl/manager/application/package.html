@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+</head>
+<body bgcolor="white">
+
+The <code>org.cablelabs.impl.manager.application</code> package represents the
+main implementation of the {@link org.cablelabs.impl.manager.ApplicationManager} and
+{@link org.cablelabs.impl.manager.CallerContextManager} manager interfaces.  An overview
+of the central classes in the package follows.  
+
+<h2>AppManager</h2>
+
+The {@link org.cablelabs.impl.manager.application.AppManager} class implements 
+both the <code>ApplicationManager</code> and <code>CallerContextManager</code>
+interfaces.  It also serves as a central gateway for maintaing some state information
+for this package.  
+
+<h2>ApiRegistrar</h2>
+
+The {@link org.cablelabs.impl.manager.application.ApiRegistrar} class implements support
+for API registration via the {@link org.ocap.application.AppManagerProxy}.  It provides
+methods for {@link org.cablelabs.impl.manager.application.ApiRegistrar#register registering/storing}
+and {@link org.cablelabs.impl.manager.application.ApiRegistrar#lookup locating} API classes.
+
+<h2>AppClassLoader</h2>
+
+The {@link org.cablelabs.impl.manager.application.AppClassLoader} class implements the 
+<code>ClassLoader</code> used to load applications.  This class is implemented separate
+from <code>DVBClassLoader</code> because it must be capable of handling things that aren't
+otherwise possible via the <code>DVBClassLoader</code> interface.  
+
+<h2>AppContext</h2>
+
+The {@link org.cablelabs.impl.manager.application.AppContext} class implements the 
+<code>CallerContext</code> interface.  It represents an instance of a running application.
+
+<h2>AppDomainImpl</h2>
+
+The {@link org.cablelabs.impl.manager.application.AppDomainImpl} class implements the
+<code>AppDomain</code> interface which is used to implement the application-control
+portion of the <code>ServiceContext</code>.  This class also provides the <code>AppsDatabase</code>
+implementation accessible via the <code>AppManager</code> implementation.  
+
+<h2>XletApp</h2>
+
+The {@link org.cablelabs.impl.manager.application.XletApp} class implements the
+{@link org.dvb.application.DVBJProxy} interface and is responsible for the
+implementation of the Xlet application lifecycle.  It's immediate super-class,
+{@link org.cablelabs.impl.manager.application.Application}, implements the 
+{@link org.dvb.application.AppProxy} interface.
+
+<h2>Asynchronous Execution Support</h2>
+
+Several classes are used to implement asynchronous execution for the 
+<code>CallerContext</code> implementation.
+
+<h3>ExecQueue</h3>
+
+The <code>ExecQueue</code> is simply a queue of <code>Runnable</code> tasks
+that should be serially executed by some thread.  Each application will maintain
+an <code>AppExecQueue</code> which is an extension of <code>ExecQueue</code>.
+Each <code>AppExecQueue</code> has a private <code>Thread</code> that is
+responsible for pulling events from the queue and executing the <code>Runnable</code>.
+
+<h3>Tasks</h3>
+
+A task is an instance of <code>Runnable</code>.  In general they are posted
+to an <code>ExecQueue</code> for subsequent execution by a <code>Thread</code>,
+but being <code>Runnable</code>s may also be executed directly by a <code>Thread</code>.
+<p>
+The <code>WorkerTask</code> is a task that retrieves <code>Runnable</code>s from
+a <code>ExecQueue</code> and executes them.  All threads in a <code>ThreadPool</code>
+directly run a <code>WorkerTask</code>.  To change the queue that a thread operats
+from, simply post a new instance of <code>WorkerTask</code> to the original queue.
+When that task completes, the original <code>WorkerTask</code> and queue will be
+restored.
+<p>
+The <code>ContextTask</code> is a task that executes another task within a specific
+<code>CallerContext</code>.  Generic <code>Runnable</code>s should be wrapped by
+a <code>ContextTask</code> before being posted to a <code>ThreadPool</code>'s queue.
+<p>
+The <code>ContextWorkerTask</code> is a task that performs the work of a 
+<code>WorkerTask</code> within the given <code>CallerContext</code>.  The
+<code>ContextWorkerTask</code> can be used to re-target a given thread to another
+context and queue.  
+
+<h3>ThreadPool</h3>
+
+A <code>ThreadPool</code> is composed of an <code>ExecQueue</code> and a pool
+of threads that pull from that queue.  Threads may be arbitrarily added or 
+removed from the pool.
+
+<!-- Put @see and @since tags down here. -->
+
+@author Aaron Kamienski
+@version $Revision$, $Date$
+
+</body>
+</html>

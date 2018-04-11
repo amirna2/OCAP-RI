@@ -1,0 +1,11 @@
+<!-- ANT entity include/definition for SAX library files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.sax SYSTEM "sax.ant-inc.xml">
+
+<!ENTITY inc.javadoc.sax.2_0_1 SYSTEM "2.0.1/javadoc-links.ant-inc.xml">
+

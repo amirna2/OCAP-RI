@@ -1,0 +1,24 @@
+<!-- Main Entrypoint for defining the EasyMock libraries properties.
+-->
+    <property name="_shared.dirs.3rdparty.easymock"
+            value="${_shared.dirs.3rdparty}/easymock" />
+    
+    
+    <!-- EasyMock libraries -->
+    <property name="libs.easymock.0_8"
+            value="${_shared.dirs.3rdparty.easymock}/0.8/easymock.jar" />
+    
+    <property name="javadoc.package-list.easymock.0_8"
+            value="${_shared.dirs.3rdparty.easymock}/0.8/package-list" />
+    <property name="javadoc.url.easymock.0_8"
+            value="http://easymock.org/api" />
+    
+    <property name="licenses.easymock.5_0"
+            value="${_shared.dirs.3rdparty.easymock}/5.0/license.html" />
+
+            
+    
+    
+    <property name="libs.easymock.current"
+            value="${libs.easymock.0_8}" />
+

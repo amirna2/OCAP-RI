@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:04 $
+-->
+
+
+<document>
+<head>
+    <name>Design of IFTC</name>
+</head>
+<body>
+<P>
+The Interface / Hierarchial Test Classes (IFTC) creates inheritance extensions
+of the commonly used JUnit framework: <tt>TestSuite</tt>, <tt>Test</tt>,
+and <tt>TestCase</tt>.
+</P>
+<P>
+The <tt>InterfaceTestCase</tt> class is the IFTC extension to
+<tt>TestCase</tt>.  It has provisions for allows concrete test classes to
+create factories that create instances for the <tt>InterfaceTestClass</tt>
+to test.  These factories must be of type <tt>ImplFactory</tt>, and its 
+creation method must return a non-null instance of the interface or class
+which the <tt>InterfaceTestClass</tt> is testing.
+</P>
+<P>
+The <tt>InterfaceTestSuite</tt> class extends the JUnit <tt>TestSuite</tt>,
+allowing for the registration of <tt>InterfaceTest</tt>s and <tt>Test</tt>s,
+as well as <tt>ImplFactory</tt> instances for the association with registered
+<tt>InterfaceTest</tt>s.  These <tt>InterfaceTestSuite</tt> instances can
+be chained together, contain multiple <tt>InterfaceTest</tt>s, and be
+contained within <tt>TestSuite</tt>s to create complex test setups
+(see <link name="using_iftc">Using IFTC</link>).
+</P>
+<P>
+<tt>ImplFactory</tt> implementations know how to generate an instance of a
+concrete class which an <tt>InterfaceTestCase</tt> subclass should test.
+Implementations of the subinterface <tt>ICxFactory</tt> can tear down
+instances which were created during InterfaceTestCase's tear down method.
+</P>
+
+<H3>Traceability</H3>
+<P>
+One goal of IFTC (see <link name="requirements_iftc">requirements and
+goals</link>) is to provide an easy way for users to trace errors in the
+hierarchial tests.  Without such traceability, the user has no way of telling
+which context / ImplFactory caused an error in a test; the error
+report will simply tell the user in which inherited class and method the
+error occured.
+</P>
+<P>
+As of version 1.0.0, IFTC supports reporting the name of the factory in the
+<tt>InterfaceTestCase</tt>'s <tt>getName()</tt> method via the factory's
+own <tt>toString()</tt> method.  The <tt>CxFactory</tt> class adds an
+ease-of-use functionality that helps generate a clear <tt>toString()</tt>
+descriptor for each new factory instance.  Optionally,
+<tt>InterfaceTestCase</tt>'s <tt>getName()</tt> method can also add in the
+its instance's class name (without the package) to further specify in which
+test class the test was executed.
+</P>
+<P>
+As current as Ant 1.5.1, Ant JUnit reporter task (specifically,
+XMLJUnitResultFormatter) does not use the <tt>toString()</tt>
+method to describe the tests that ran, but instead uses the TestSuite
+<tt>getName()</tt>, and TestCase <tt>getName()</tt> (or <tt>name()</tt>
+for backwards compatibility).  Therefore, there exists a need to change
+<tt>getName()</tt>, as only changing <tt>toString()</tt> will not solve this
+traceability issue.  If someone finds that this severely breaks something
+else that expects <tt>getName()</tt> to <i>only</i> return the method name,
+then contact the project.
+</P>
+
+<H3>Effects of JUnit 3.8.1</H3>
+<P>
+JUnit 3.8.1 includes a new feature that 3.7 and earlier versions did
+not include: the test constructor no longer requires taking a String
+argument, and instead the test name can be set through the <tt>setName()</tt>
+method.  As a result, the GJE <tt>TestClassParser</tt> class needs to
+imitate the new TestSuite functionality.
+</P>
+<P>
+<tt>InterfaceTestCase</tt> still takes only the factory-expected instance in
+its constructor.  See the JavaDoc for <tt>InterfaceTestCase</tt> as to why this
+route was taken.
+</P>
+</body>
+</document>
+

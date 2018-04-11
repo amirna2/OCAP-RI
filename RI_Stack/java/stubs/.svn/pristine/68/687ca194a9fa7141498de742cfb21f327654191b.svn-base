@@ -1,0 +1,23 @@
+<html>
+    <body>
+        OCAP Bundle and extensions package list.    
+        <br/>
+        It includes:<br/>
+        <ul>
+            <li>PBP ${pbp.version}</li>
+            <li>JavaTV ${javatv.version}</li>
+            <li>MHP ${mhp.version.1}</li>
+            <li>MHP ${mhp.version.2}</li>
+            <li>OCAP ${project.version}</li>
+        </ul>
+        <br/>
+        and Extensions:<br/>
+        <ul>
+            <li>OCAP Device Settings ${ocap.ds.spec.version}</li>
+            <li>OCAP DVR ${ocap.dvr.spec.version}</li>
+            <li>OCAP Front Panel ${ocap.fp.spec.version}</li>
+            <li>OCAP Home Networking ${ocap.hn.spec.version}</li>
+            <li>#org.ocap.shared.* packages are also included</li>
+        </ul>
+    </body>
+</html>

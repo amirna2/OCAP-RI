@@ -1,0 +1,13 @@
+<!-- ANT entity include/definition for JUnit library files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.junit SYSTEM "junit.ant-inc.xml">
+
+<!ENTITY inc.javadoc.junit.3_7 SYSTEM "3.7/javadoc-links.ant-inc.xml">
+
+<!ENTITY inc.javadoc.junit.3_8_1 SYSTEM "3.8.1/javadoc-links.ant-inc.xml">
+

@@ -1,0 +1,130 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+// List of scripts used by this script
+//
+this.interpreter.source ("scripts/level1/OcapAppDriver-Playback.bsh");
+this.interpreter.source ("scripts/level1/PlaybackRecording.bsh");
+this.interpreter.source ("scripts/level2/utils/RecordingTestSetup.bsh");
+this.interpreter.source ("scripts/level1/PublishRecordingToCDS.bsh");
+this.interpreter.source ("scripts/level1/FindMediaServer.bsh");
+
+String CORE_RemoteService_Recording_OADPlaybackHN()
+{
+    String testName = "CORE/RemoteService/Recording_OAD-Playback-HN";
+    String failureReason = null;
+
+    // Setup for the test by creating a recording, publishing to CDS
+    String results = performRecordingTestSetup(testName, false);
+    if (results != null)
+    {
+        // Problems setting up for test
+        failureReason = "Problems during test setup: " + results;
+        rxLog.callTrace("Failure performing recording setup : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName +" - Completed Test setup for playback");
+
+    // Perform test, start playback passing -1 to indicate no duration requested, 
+    // play to end of content
+    // Find the index of the local media server
+    int mediaServerIndex = findLocalMediaServer();
+    if (mediaServerIndex == -1)
+    {
+        failureReason = "Problems getting local media server";
+        rxLog.callTrace("Failure getting media server : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName +" - Found local media server at index: " + mediaServerIndex);
+    // Get the content item index of first and only recording
+    int recContentItem = getContentItemIndexOfFirstRecording(mediaServerIndex);
+    if(recContentItem == -1)
+    {
+        failureReason = "Problems getting recording content item";
+        rxLog.callTrace ("Failure getting recording content item : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Found recording content item to playback");
+
+    // Create HNPlayer to play the recording created during setup, true = Service Context player
+    boolean retVal = startHNPlayback(true,mediaServerIndex,recContentItem);
+    if( retVal == false)
+    {
+        failureReason = "Problems setting up remote player for content";
+        rxLog.callTrace ("Failure setting up remote player : ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Created and started Remote HN Service Context player");
+
+    String retStr = ocapAppDriverPlayback(2, 60); // 2 is for Service context events, wait for 60 secs
+    if (retStr != null)
+    {
+        failureReason = "Problems during " + testName + " tests, returned error is " + retStr;
+        rxLog.callTrace ("Failure during " + testName + " tests : ", this.callstack);
+        stopPlayback();
+        return failureReason;
+    }
+    rxLog.callTrace ("Success : HN_RemoteService_Recording_OADPlayback tests : ", this.callstack);
+
+    //
+    // Stop playback
+    // 
+    if(!stopPlayback())
+    {
+        failureReason = "Problems stopping remote HN playback";
+        rxLog.callTrace ("Failure to stop remote HN playback", this.callstack);
+        return failureReason;
+    }
+    rxLog.info("Completed stopping remote HN playback");
+    return failureReason;
+}

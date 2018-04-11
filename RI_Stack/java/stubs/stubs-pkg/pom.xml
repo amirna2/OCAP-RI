@@ -1,0 +1,137 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>stubs-parent</artifactId>
+        <groupId>com.cablelabs.ocap</groupId>
+        <version>1.3.2-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>stubs-pkg</artifactId>    
+    <name>OCAP RI Stubs Zip</name>
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_ds</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_dvr</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_fp</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_hn</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_api</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+            <type>zip</type>
+            <classifier>src</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_ds</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+            <type>zip</type>
+            <classifier>src</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_dvr</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+            <type>zip</type>
+            <classifier>src</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_fp</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+            <type>zip</type>
+            <classifier>src</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.cablelabs.ocap</groupId>
+            <artifactId>ocap_hn</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+            <type>zip</type>
+            <classifier>src</classifier>
+        </dependency>
+    </dependencies>
+     
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.3</version>
+                <inherited>false</inherited>                
+                <executions>
+                    <execution>
+                        <id>srczip</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assemble/srczip.xml</descriptor>
+                            </descriptors>
+                            <finalName>ocap_stubs-${project.version}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>com.cablelabs.ocap:ocap_api:jar:*</include>
+                            <include>com.cablelabs.ocap:ocap_ds:jar:*</include>
+                            <include>com.cablelabs.ocap:ocap_dvr:jar:*</include>
+                            <include>com.cablelabs.ocap:ocap_fp:jar:*</include>
+                            <include>com.cablelabs.ocap:ocap_hn:jar:*</include>
+                        </includes>
+                    </artifactSet>
+                    <finalName>ocap-stub</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>uberjar</id>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+

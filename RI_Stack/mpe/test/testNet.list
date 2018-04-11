@@ -1,0 +1,8 @@
+###
+### MPE/MPEOS Networking Unit Tests
+###
+test_mpe_netConnectAll
+test_mpe_netLookupAll
+test_mpe_netOptionsAll
+test_mpe_netReadWriteAll
+test_mpe_netSelectAll

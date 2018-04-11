@@ -1,0 +1,53 @@
+# This is the "master security properties file".
+
+# List of providers and their preference orders (see java.security.readme):
+security.provider.1=sun.security.provider.Sun
+security.provider.2=org.metastatic.jessie.provider.Jessie
+security.provider.3=gnu.crypto.jce.GnuCrypto
+
+#Jessie fails client side if empty records are supported
+jessie.emit.empty.records=false
+
+# Class to instantiate as the system Policy. This is the name of the class
+# that will be used as the Policy object.
+policy.provider=sun.security.provider.PolicyFile
+
+# The default is to have a single system-wide policy file,
+# and a policy file in the user's home directory.
+policy.url.1=file:${java.home}/lib/security/java.policy
+policy.url.2=file:${user.home}/.java.policy
+policy.url.3=file:/syscwd/evm/lib/security/java.policy
+
+# Whether or not we expand properties in the policy file. If this is set
+# to false, properties (${...}) will not be expanded in policy files.
+policy.expandProperties=true
+
+# Whether or not we allow an extra policy to be passed on the command line
+# with -Djava.security.policy=somefile.
+policy.allowSystemProperty=true
+
+# Whether or not we look into the IdentityScope for trusted Identities
+# when encountering a 1.1 signed JAR file. If the identity is found
+# and is trusted, we grant it AllPermission.
+policy.ignoreIdentityScope=false
+
+# Default keystore type.
+keystore.type=jks
+
+# Class to instantiate as the system scope:
+system.scope=sun.security.provider.IdentityDatabase
+
+# List of comma-separated packages that start with or equal this string
+# will cause a security exception to be thrown when passed to
+# checkPackageAccess unless the corresponding RuntimePermission
+# ("accessClassInPackage."+package) has been granted.
+package.access=sun.
+
+# List of comma-separated packages that start with or equal this string
+# will cause a security exception to be thrown when passed to
+# checkPackageDefinition unless the corresponding RuntimePermission
+# ("defineClassInPackage."+package) has been granted.
+#
+# By default, no packages are restricted for definition, and none of the
+# class loaders supplied with the EVM call checkPackageDefinition.
+#package.definition=

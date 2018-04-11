@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurations xmlns:tns="http://www.cablelabs.org/VideoPresentationTest/configSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cablelabs.org/VideoPresentationTest/configSchema configSchema.xsd ">
+	<!-- DSM configurations (config settings for DesMoines head-end) -->
+    <vc parHeight="1" parWidth="1" scrHeight="1080" scrWidth="1920">
+    	<source afd="AFD_16_9" ar="ASPECT_RATIO_16_9" sourceId="0x50a">
+    		<result dfc="DFC_PLATFORM">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+		</source>
+    	<source afd="AFD_4_3" ar="ASPECT_RATIO_4_3" sourceId="0x4b0">
+    		<result dfc="DFC_PLATFORM">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_16_9_ZOOM">
+    			<ava height="1.3333" width="1.0" xPosition="0.0" yPosition="-0.1666" />
+	    		<tva height="1.3333" width="1.0" xPosition="0.0" yPosition="-0.1666" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+    </vc>
+    <vc parHeight="1" parWidth="1" scrHeight="720" scrWidth="1280">
+		<source afd="AFD_16_9" ar="ASPECT_RATIO_16_9" sourceId="0x50a">
+    		<result dfc="DFC_PLATFORM">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+		</source>
+		<source afd="AFD_4_3" ar="ASPECT_RATIO_4_3" sourceId="0x4b0">
+    		<result dfc="DFC_PLATFORM">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_16_9_ZOOM">
+    			<ava height="1.3333" width="1.0" xPosition="0.0" yPosition="-0.1666" />
+	    		<tva height="1.3333" width="1.0" xPosition="0.0" yPosition="-0.1666" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+    </vc>
+   	<vc parHeight="1" parWidth="1" scrHeight="480" scrWidth="640">
+		<source afd="AFD_16_9" ar="ASPECT_RATIO_16_9" sourceId="0x50a">
+    		<result dfc="DFC_PLATFORM">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_LB_16_9">
+    			<ava height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tva height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+    			<avaos height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tvaos height="0.75" width="1.0" xPosition="0.0"	yPosition="0.125" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_LB_14_9">
+    			<ava height="0.8571" width="1.1429" xPosition="-0.0714" yPosition="0.0714" />
+	    		<tva height="0.8571" width="1.1429" xPosition="-0.0714" yPosition="0.0714" />
+    			<avaos height="0.8571" width="1.0" xPosition="0.0"	yPosition="0.0714" />
+	    		<tvaos height="0.8571" width="1.0" xPosition="0.0"	yPosition="0.0714" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_CCO">
+    			<ava height="1.0" width="1.3333" xPosition="-0.1666" yPosition="0.0" />
+	    		<tva height="1.0" width="1.3333" xPosition="-0.1666" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+		</source>
+		<source afd="AFD_4_3" ar="ASPECT_RATIO_4_3" sourceId="0x4b0">
+    		<result dfc="DFC_PLATFORM">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+    </vc>
+	<!-- End DSM configurations -->
+</configurations>

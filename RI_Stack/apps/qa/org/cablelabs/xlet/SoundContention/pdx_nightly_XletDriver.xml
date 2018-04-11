@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent+)>
+        <!ATTLIST Xlet 
+        name CDATA #REQUIRED
+        orgID CDATA #REQUIRED
+        appID CDATA #REQUIRED
+        pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+        <!ATTLIST RCEvent 
+        name CDATA #IMPLIED
+        pauseBeforeNext CDATA #IMPLIED
+        monitorTimeout CDATA #IMPLIED
+        getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+
+<AutoXlet>
+	
+    <Xlet name="SoundContention1" orgID="0x1" appID="0x1" pauseAfterLast="3000">
+      <RCEvent name="Left (Plaer1)" pauseBeforeNext="1000" monitorTimeout="3000" pauseBeforeNext="1000" getResultsAfter="true">VK_LEFT</RCEvent>
+      <RCEvent name="Right (Player2)" pauseBeforeNext="1000" monitorTimeout="3000" pauseBeforeNext="1000" getResultsAfter="true">VK_RIGHT</RCEvent>
+
+      <RCEvent name="Left (Plaer2)" pauseBeforeNext="1000" monitorTimeout="3000" pauseBeforeNext="1000" getResultsAfter="true">VK_RIGHT</RCEvent>
+      <RCEvent name="Right (Player1)" pauseBeforeNext="1000" monitorTimeout="3000" pauseBeforeNext="1000" getResultsAfter="true">VK_LEFT</RCEvent>
+    </Xlet>
+   
+
+</AutoXlet>

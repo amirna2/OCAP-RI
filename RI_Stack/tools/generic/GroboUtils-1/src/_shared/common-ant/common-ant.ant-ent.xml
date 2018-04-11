@@ -1,0 +1,22 @@
+<!-- ANT entity include/definition for the license file -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+<!-- Define global entities from this directory
+  -->
+<!ENTITY inc._shared.common-ant SYSTEM "common-ant.ant-inc.xml">
+
+<!-- this is never included from any 'inc' statement -->
+<!ENTITY inc._shared.common-ant-replace SYSTEM "common-ant-replace.ant-inc.xml">
+
+<!-- Tasks, so they can be included one-by-one (er, set-by-set) -->
+<!ENTITY inc._shared.common-ant-tasks-init SYSTEM "common-ant-tasks-init.ant-inc.xml">
+<!ENTITY inc._shared.common-ant-tasks-clean SYSTEM "common-ant-tasks-clean.ant-inc.xml">
+<!ENTITY inc._shared.common-ant-tasks-javac SYSTEM "common-ant-tasks-javac.ant-inc.xml">
+<!ENTITY inc._shared.common-ant-tasks-jar SYSTEM "common-ant-tasks-jar.ant-inc.xml">
+<!ENTITY inc._shared.common-ant-tasks-doc SYSTEM "common-ant-tasks-doc.ant-inc.xml">
+<!ENTITY inc._shared.common-ant-tasks-test SYSTEM "common-ant-tasks-test.ant-inc.xml">
+<!ENTITY inc._shared.common-ant-tasks-jdkdepend SYSTEM "common-ant-tasks-jdkdepend.ant-inc.xml">
+<!ENTITY inc._shared.common-ant-tasks-deploy SYSTEM "common-ant-tasks-deploy.ant-inc.xml">
+

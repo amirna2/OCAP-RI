@@ -1,0 +1,110 @@
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Jay Tracy (Snap2 Corporation) -->
+<!-- structure for organizing tests -->
+<!ELEMENT TestSuite (Object*, Template*, TestClass+)>
+<!ELEMENT TestClass (Test*)>
+<!-- name - name of the test class -->
+<!ATTLIST TestClass
+	name NMTOKEN #REQUIRED
+>
+
+<!ELEMENT Test (TestCase*)>
+<!-- name - name of the test -->
+<!ATTLIST Test
+	name NMTOKEN #REQUIRED
+>
+
+<!ELEMENT TestCase (Setup*, Input*, Result+)>
+<!-- can optionally target a test case to a particular screen or device -->
+<!ATTLIST TestCase
+	targetType (any | screen | device) "any"
+	targetId CDATA "none"
+>
+
+<!-- Main sections of a single test -->
+<!ELEMENT Setup (Template?, Object?)>
+<!-- command -  a string describing what this setup element is for.  The test code is responsible for recognizing 
+				the command, and knowing what to do what to do with any contained template or other object.
+				(example: setcurrentconfig, startvideo, setbackgroundcolor, ...)
+	misc - an optional string used to further clarify the action to take, or to give more context to the  the 
+			template or object
+	templateId - id of a pre-defined template to use (rather than specify a new template element)
+	objectId - id of a pre-defined object to use (rather than specify a new object element) -->
+<!ATTLIST Setup
+	command NMTOKEN #REQUIRED
+	misc CDATA #IMPLIED
+	templateId IDREF #IMPLIED
+	objectId IDREF #IMPLIED
+>
+
+<!ELEMENT Input (Template?, Object?)>
+<!-- command -  a string describing what this input element is for.  The test code is responsible for recognizing 
+				the command, and knowing what to do what to do with any contained template or other object.
+				(example: inputtemplate, resizetemplate, componentbounds, ...)
+	misc - an optional string used to further clarify the action to take, or to give more context to the 
+			template or object
+	templateId - id of a pre-defined template to use (rather than specify a new template element)
+	objectId - id of a pre-defined object to use (rather than specify a new object element) -->
+<!ATTLIST Input
+	command NMTOKEN #REQUIRED
+	misc CDATA #IMPLIED
+	templateId IDREF #IMPLIED
+	objectId IDREF #IMPLIED
+>
+
+<!-- result data to compare against-->
+<!ELEMENT Result (Template?, Object?)>
+<!-- command -  a string describing what this result element is for.  The test code is responsible for recognizing 
+				the command, and knowing what to do what to do with any contained template or other object.
+				(example: compareequal, comparecompatible, comparelarger...)
+	misc - an optional string used to further clarify the action to take, or to give more context to the 
+			template or object
+	templateId - id of a pre-defined template to use (rather than specify a new template element)
+	objectId - id of a pre-defined object to use (rather than specify a new object element) -->
+<!ATTLIST Result
+	command NMTOKEN #REQUIRED
+	misc CDATA #IMPLIED
+	templateId IDREF #IMPLIED
+	objectId IDREF #IMPLIED
+>
+
+<!-- Used to specify the exact actions/data for each section of a test. -->
+<!ELEMENT Template (Preference+)>
+<!-- id - optional unique id allowing the template to be reused elsewhere in the document
+	type - fully qualified class name so the appropriate type of template can be constructed
+	device - optional attribute (used when describing an HScreenConfigTemplate) 	specifying
+			a particular HScreenDevice to use when requesting an HScreenConfiguration
+			with this template. -->
+<!ATTLIST Template
+	id ID #IMPLIED
+	type NMTOKEN #REQUIRED
+	device CDATA #IMPLIED
+>
+
+<!ELEMENT Preference (Object?)>
+<!-- name - preference constant name (as defined in the relevant class)
+	priority - priority constant name (as defined in the relevant class)
+	objectId - id of a pre-defined object to use (rather than specify a new object element)-->
+<!ATTLIST Preference
+	name NMTOKEN #REQUIRED
+	priority NMTOKEN #REQUIRED
+	objectId IDREF #IMPLIED
+>
+
+<!ELEMENT Object (Parameter*, Template?)>
+<!-- type - fully qualified class name so the appropriate type of object can be constructed
+	templateId - id of a pre-defined template to use (rather than specify a new template element) 
+				(used in the case where the "type" attribute is a template type
+	id - optional unique id allowing the object to be reused elsewhere in the document -->
+<!ATTLIST Object
+	type NMTOKEN #REQUIRED
+	templateId IDREF #IMPLIED
+	id ID #IMPLIED
+>
+
+<!-- type - fully qualified class name or primitive type name
+	value - string representation of the value -->
+<!ELEMENT Parameter EMPTY>
+<!ATTLIST Parameter
+	type NMTOKEN #REQUIRED
+	value CDATA #REQUIRED
+>

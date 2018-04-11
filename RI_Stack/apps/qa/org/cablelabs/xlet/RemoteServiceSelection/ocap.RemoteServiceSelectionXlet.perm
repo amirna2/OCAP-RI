@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!DOCTYPE permissionrequestfile PUBLIC "-//OCAP//DTD Permission Request File 1.0//EN" "http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-1-0.dtd">
+
+<permissionrequestfile appid="0x7045" orgid="0x000000001">
+
+    <tuning />
+
+	<network>
+	    <host action="accept,connect,listen,resolve">*</host>
+	</network>
+
+    <ocap:homenetpermission type="contentmanagement" value="true"/>
+    <ocap:homenetpermission type="contentlisting" value="true"/>
+    <ocap:homenetpermission type="recording" value="true"/>
+    <ocap:homenetpermission type="recordinghandler" value="true"/>
+
+</permissionrequestfile>

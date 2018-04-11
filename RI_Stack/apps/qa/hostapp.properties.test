@@ -1,0 +1,935 @@
+##############################################################################
+# This properties file enumerates the applications that are considered to be 
+# "resident host device applications".
+# While it contains information similar to an XAIT, it does not represent 
+# an XAIT.
+##############################################################################
+# This file is generally comprised of application entries, but may contain
+# others.  For more information please see the OCAP Porting Guide.
+#
+# Application entries have the following format:
+#   app.<i>.<key>=<value>
+# Where <i> is a unique index for the given entry.  By default up to 32
+# unique indices may be defined.  
+#
+# Following is the list of required <keys>, along with a description.
+# 
+#  application_identifier
+#     The AppID expressed as a single 48-bit number.
+#     E.g., 0xC001D00D7001
+#  application_control_code
+#     One of AUTOSTART | PRESENT | KILL | DESTROY
+#  application_name
+#     The "eng" representation of the application name.  
+#  base_directory
+#     The path to the application's root directory.
+#     By default, relative paths are relative to /syscwd.
+#  initial_class_name
+#     The initial class name.
+#     E.g., com.yourcompany.apps.YourXlet
+#  priority
+#     Application priority (1-255).
+#        255 = MonApp
+#        100-254=Unbound
+#        1-200=Bound
+#  visibility
+#     On of INVISIBLE, VISIBLE, VISIBLE-TO-APPS-ONLY
+#
+# Following is a list of optional, but common <keys>:
+#  args.<j>
+#     Xlet arguments.
+#  classpath_extension
+#     Semi-colon separated list of classpath extension directories.
+#     Relative to base_directory
+#  service
+#     Abstract service identifier.  Can be used to associate app
+#     with a different abstract service (rather than the default 
+#     which is 0x012345).
+#
+# Some notes on application_identifier's:
+# - They are comprised of a 32-bit OID and 16-bit AID.
+#   E.g.,   0x000000017001: OID=0x00000001, AID=0x7001
+# - The OID is a unique organization ID
+# - The AID determines the type of permissions that the app may have.
+#   The ranges are similar to those defined for OCAP-J apps:
+#     0x0000-0x3fff: unsigned permissions
+#     0x4000-0x5fff: signed permissions (plus PRF if desired)
+#     0x6000-0x6fff: monapp permissions (via PRF if desired)
+#     0x7000-0x7fff: AllPermission
+#
+# Use the following section to keep track of orgID, appID combinations
+# that are already in use in this file:
+#
+##############################################################################
+##============================= Unsigned Apps ==============================##
+##                                                      
+## 0x00000001 0x0006 UnsignedPermission
+## 0x00000001 0x3231 UnsignedProperties
+##
+##############################################################################
+##============================== Signed Apps ===============================##
+##
+## 0x00000001 0x4001 SignedPermission
+## 0x00000001 0x4002 SignedPermission (No PRF)
+## 0x00000001 0x4100 FocusTestXletRunner
+## 0x00000001 0x4101 FocusTestXlet (Focus1)
+## 0x00000001 0x4102 FocusTestXlet (Focus2)
+## 0x00000001 0x4103 FocusTestXlet (Focus3)
+## 0x00000001 0x4104 FocusTestXlet (Focus4)
+## 0x00000001 0x4212 FileAccessPermission (Read Files - same org)
+## 0x00000001 0x4213 FileAccessPermission (Write Files - same org)
+## 0x00000001 0x4231 SignedProperties
+##
+## 0x00000002 0x4212 FileAccessPermission (Read Files - other org)
+##
+##############################################################################
+##================ Dually Signed Apps (MonApp Permissions) =================##
+##
+## 0x00000001 0x6001 DuallySignedPermission
+## 0x00000001 0x6002 DuallySignedPermission (No PRF)
+## 0x00000001 0x6231 MonAppProperties
+##
+##############################################################################
+##================== Dually Signed Apps (All Permissions) ==================##
+##
+## 0x00000001 0x7000 XletDriver
+## 0x00000001 0x7002 HostAppPermission
+## 0x00000001 0x7211 FileAccessPermission (Create Files)
+## 0x00000001 0x7215 FileAccessPermission (Remove Files)
+## 0x00000001 0x7231 AllProperties
+##
+##############################################################################
+
+
+###############################################
+# Number of unique indices when default has 
+# has been exceeded (default = 32) 
+# Increase number as more unique indices are 
+# needed
+###############################################
+maxapps=99
+
+###############################################
+## Application 0
+## The following Xlet arguments are used to configure the XletDriver:
+## 
+##  XletDriverScript=[Path to script file]
+##       -- Specfies the location of the XML script file.
+##  
+##  DebugFile=[Path to debug file]
+##       -- Specifes the location of a local file to which the Xlet driver will write
+##       Xlet debugging log statements
+##       
+##  DebugServer=[IP or name of UDP debug log server]
+##       -- Specifies the IP address or hostname of the UDP log server to which the Xlet
+##       driver will write Xlet debugging log statements.  If DebugFile argument is
+##       present, this argument is ignored.
+##       
+##  DebugPort=[Port]
+##       -- Specifies the port number of the UDP log server to which the Xlet driver
+##       will write Xlet debugging log statements.  If DebugFile argument is present,
+##       this argument is ignored.  If DebugServer argument is present, this argument
+##       must be present. 
+##  
+##  ResultsFile=[Path to results file]
+##       -- Specifes the location of a local file to which the Xlet driver will write
+##       Xlet test results statements
+##       
+##  ResultsServer=[IP or name of UDP results server]
+##       -- Specifies the IP address or hostname of the UDP log server to which the Xlet
+##       driver will write Xlet test results statements.  If ResultsFile argument is
+##       present, this argument is ignored.
+##       
+##  ResultsPort=[Port]
+##       -- Specifies the port number of the UDP log server to which the Xlet driver
+##       will write Xlet test results statements.  If ResultsFile argument is present,
+##       this argument is ignored.  If ResultsServer argument is present, this argument
+##       must be present. 
+## 
+## It is very important to always signal the XletDriver application with the following
+## AppID and OrgID values.  The AutoXletClient object used by each test xlet assumes
+## that XletDriver has a particular set of IDs so that it can establish communication
+## via IXC.
+## 
+## XletDriver:
+##      OrgID = 0x1    AppID = 0x7000
+## 
+###############################################
+app.0.application_identifier=0x000000017000
+app.0.application_control_code=AUTOSTART
+app.0.visibility=VISIBLE
+app.0.priority=220
+app.0.application_name=XletDriver
+app.0.base_directory=/syscwd/qa/xlet
+app.0.initial_class_name=org.cablelabs.test.autoxlet.XletDriver
+app.0.args.0=config_file=/syscwd/qa/xlet/config.properties
+
+
+###############################################
+## AutoXletDone 
+###############################################
+app.1.application_identifier=0x000000014444
+app.1.application_control_code=PRESENT
+app.1.visibility=VISIBLE
+app.1.priority=220
+app.1.application_name=AutoTestDoneXlet
+app.1.base_directory=/syscwd/qa/xlet
+app.1.initial_class_name=org.cablelabs.test.autoxlet.AutoTestDoneXlet
+app.1.args.0=config_file=config.properties
+
+
+
+###############################################
+## Unsigned Properties
+###############################################
+app.2.application_identifier=0x000000013231
+app.2.application_control_code=PRESENT
+app.2.visibility=VISIBLE
+app.2.priority=220
+app.2.application_name=UnsignedProperties
+app.2.base_directory=/syscwd/qa/xlet
+app.2.initial_class_name=org.cablelabs.xlet.PropertiesTest.PropertiesTestXlet
+
+###############################################
+## Signed Properties
+###############################################
+app.3.application_identifier=0x000000014231
+app.3.application_control_code=PRESENT
+app.3.visibility=VISIBLE
+app.3.priority=220
+app.3.application_name=SignedProperties
+app.3.base_directory=/syscwd/qa/xlet
+app.3.initial_class_name=org.cablelabs.xlet.PropertiesTest.PropertiesTestXlet
+
+##############################################
+## MonApp Properties
+##############################################
+app.4.application_identifier=0x000000016231
+app.4.application_control_code=PRESENT
+app.4.visibility=VISIBLE
+app.4.priority=220
+app.4.application_name=MonAppProperties
+app.4.base_directory=/syscwd/qa/xlet
+app.4.initial_class_name=org.cablelabs.xlet.PropertiesTest.MonAppPropertiesTestXlet
+
+##############################################
+## All Properties
+##############################################
+app.5.application_identifier=0x000000017231
+app.5.application_control_code=PRESENT
+app.5.visibility=VISIBLE
+app.5.priority=220
+app.5.application_name=AllProperties
+app.5.base_directory=/syscwd/qa/xlet
+app.5.initial_class_name=org.cablelabs.xlet.PropertiesTest.PropertiesTestXlet
+
+
+################################################
+## Time Test
+###############################################
+app.6.application_identifier=0x000000010201
+app.6.application_control_code=PRESENT
+app.6.visibility=VISIBLE
+app.6.priority=0xff
+app.6.launchOrder=0x0
+app.6.application_name=TimeTest
+app.6.base_directory=/syscwd/qa/xlet
+app.6.initial_class_name=org.cablelabs.xlet.TimeTest.TimeTestXlet
+
+
+################################################
+## FocusTestRunner
+###############################################
+app.7.application_identifier=0x000000014600
+app.7.application_control_code=PRESENT
+app.7.visibility=VISIBLE
+app.7.priority=220
+app.7.application_name=FocusTestRunner
+app.7.base_directory=/syscwd/qa/xlet
+app.7.initial_class_name=org.cablelabs.xlet.FocusTest.FocusTestRunnerXlet
+app.7.args.0=0x000000014601
+app.7.args.1=0x000000014602
+app.7.args.2=0x000000014603
+app.7.args.3=0x000000014604
+
+################################################
+## FocusTestXlet (Focus1)
+###############################################
+app.8.application_identifier=0x000000014601
+app.8.application_control_code=PRESENT
+app.8.visibility=VISIBLE
+app.8.priority=220
+app.8.application_name=Focus1
+app.8.base_directory=/syscwd/qa/xlet
+app.8.initial_class_name=org.cablelabs.xlet.FocusTest.FocusTestXlet
+app.8.args.0=x=0
+app.8.args.1=y=0
+app.8.args.2=width=193
+app.8.args.3=height=240
+app.8.args.4=runner=0x000000014600
+
+################################################
+## FocusTestXlet (Focus2)
+###############################################
+app.9.application_identifier=0x000000014602
+app.9.application_control_code=PRESENT
+app.9.visibility=VISIBLE
+app.9.priority=220
+app.9.application_name=Focus2
+app.9.base_directory=/syscwd/qa/xlet
+app.9.initial_class_name=org.cablelabs.xlet.FocusTest.FocusTestXlet
+app.9.args.0=x=193
+app.9.args.1=y=0
+app.9.args.2=width=193
+app.9.args.3=height=240
+app.9.args.4=runner=0x000000014600
+
+################################################
+## FocusTestXlet (Focus3)
+###############################################
+app.10.application_identifier=0x000000014603
+app.10.application_control_code=PRESENT
+app.10.visibility=VISIBLE
+app.10.priority=220
+app.10.application_name=Focus3
+app.10.base_directory=/syscwd/qa/xlet
+app.10.initial_class_name=org.cablelabs.xlet.FocusTest.FocusTestXlet
+app.10.args.0=x=0
+app.10.args.1=y=240
+app.10.args.2=width=193
+app.10.args.3=height=240
+app.10.args.4=runner=0x000000014600
+
+################################################
+## FocusTestXlet (Focus4)
+###############################################
+app.11.application_identifier=0x000000014604
+app.11.application_control_code=PRESENT
+app.11.visibility=VISIBLE
+app.11.priority=220
+app.11.application_name=Focus4
+app.11.base_directory=/syscwd/qa/xlet
+app.11.initial_class_name=org.cablelabs.xlet.FocusTest.FocusTestXlet
+app.11.args.0=x=193
+app.11.args.1=y=240
+app.11.args.2=width=193
+app.11.args.3=height=240
+app.11.args.4=runner=0x000000014600
+
+
+
+################################################
+## DVRTest
+###############################################
+app.12.application_identifier=0x000000017203
+app.12.application_control_code=PRESENT
+app.12.visibility=VISIBLE
+app.12.priority=0xff
+app.12.launchOrder=0x0
+app.12.app_profiles.0.profile=0x102
+app.12.app_profiles.0.version_major=0x1
+app.12.app_profiles.0.version_minor=0x0
+app.12.app_profiles.0.version_micro=0x0
+app.12.application_version=0x0
+app.12.application_name=DVRTestRunner
+app.12.base_directory=/syscwd/qa/xlet
+app.12.classpath_extension=
+app.12.initial_class_name=org.cablelabs.xlet.DvrTest.DVRTestRunnerXlet
+app.12.args.0=config_file=config.properties
+
+
+
+############################################### 
+## TransportLocatorTest
+###############################################
+app.13.application_identifier=0x000000014304
+app.13.application_control_code=PRESENT
+app.13.visibility=VISIBLE
+app.13.priority=220
+app.13.application_name=TransportLocatorTest
+app.13.base_directory=/syscwd/qa/xlet
+app.13.initial_class_name=org.cablelabs.xlet.TransportLocatorTest.TransportLocatorTestXlet
+app.13.args.0=config.properties
+
+###############################################
+## DVBMediaSelectControlTest
+###############################################
+app.14.application_identifier=0x000000014642
+app.14.application_control_code=PRESENT
+app.14.visibility=VISIBLE
+app.14.priority=220
+app.14.application_name=DVBMediaControl
+app.14.base_directory=/syscwd/qa/xlet
+app.14.initial_class_name=org.cablelabs.xlet.DVBMediaSelectControlTest.DVBMediaSelectControlXlet
+app.14.args.0=config_file=config.properties
+
+###############################################
+## UserPrefs test
+###############################################
+app.15.application_identifier=0x000000014640
+app.15.application_control_code=PRESENT
+app.15.visibility=VISIBLE
+app.15.priority=220
+app.15.application_name=UserPrefs
+app.15.base_directory=/syscwd/qa/xlet
+app.15.initial_class_name=org.cablelabs.xlet.UserPrefs.UserPrefs
+app.15.args.0=language=chi
+app.15.args.1=font=24
+app.15.args.2=country=zh
+app.15.args.3=parentalCtrl=G
+app.15.args.4=email=john.doe@abcd.com
+app.15.args.5=address=1234 abc Street, ABCD ABC 98765
+app.15.args.6=name=John Doe
+
+
+
+###############################################
+## Tune Test
+###############################################
+app.16.application_identifier=0x000000015204
+app.16.application_control_code=PRESENT
+app.16.visibility=VISIBLE
+app.16.priority=249
+app.16.application_name=TuneTest
+app.16.base_directory=/syscwd/qa/xlet
+app.16.initial_class_name=org.cablelabs.xlet.TuneTest.TuneTestXlet
+app.16.args.0=config_file=config.properties
+
+
+
+###############################################
+## Exclusive Event Tests - test runner for
+## AutoXlet mode is app 64 below
+###############################################
+
+################################################
+## Application 1 - ExclusiveEventTestRunner
+################################################
+app.17.application_identifier=0x000000014622
+app.17.application_control_code=PRESENT
+app.17.visibility=VISIBLE
+app.17.priority=220
+app.17.application_name=ExclusiveEventTestRunner
+app.17.base_directory=/syscwd/qa/xlet
+app.17.initial_class_name=org.cablelabs.xlet.EventsTest.ExclusiveEventTestRunnerXlet
+app.17.args.0=0x000000014625
+app.17.args.1=0x000000014626
+app.17.args.2=0x000000014629
+app.17.args.3=0x000000014621
+
+###############################################
+## Application 2 - ExclusiveEventsTest
+###############################################
+app.18.application_identifier=0x000000014625
+app.18.application_control_code=PRESENT
+app.18.visibility=VISIBLE
+app.18.priority=150
+app.18.application_name=ExclusiveEventNoRelease
+app.18.base_directory=/syscwd/qa/xlet
+app.18.initial_class_name=org.cablelabs.xlet.EventsTest.ExclusiveEventXlet
+app.18.args.0=requestRelease=false
+
+###############################################
+## Application 3 - ExclusiveEventsTest
+###############################################
+app.19.application_identifier=0x000000014626
+app.19.application_control_code=PRESENT
+app.19.visibility=VISIBLE
+app.19.priority=150
+app.19.application_name=ExclusiveEventRelease
+app.19.base_directory=/syscwd/qa/xlet
+app.19.initial_class_name=org.cablelabs.xlet.EventsTest.ExclusiveEventXlet
+app.19.args.0=requestRelease=true
+
+###############################################
+## Application 4 - ExclusiveEventsTest
+###############################################
+app.20.application_identifier=0x000000014629
+app.20.application_control_code=PRESENT
+app.20.visibility=VISIBLE
+app.20.priority=200
+app.20.application_name=ExclusiveEventHigherPriority
+app.20.base_directory=/syscwd/qa/xlet
+app.20.initial_class_name=org.cablelabs.xlet.EventsTest.ExclusiveEventXlet
+app.20.args.0=requestRelease=false
+
+###############################################
+## Application 5 - ExclusiveEventsTest
+###############################################
+app.21.application_identifier=0x000000014621
+app.21.application_control_code=PRESENT
+app.21.visibility=VISIBLE
+app.21.priority=100
+app.21.application_name=ExclusiveEventLowerPriority
+app.21.base_directory=/syscwd/qa/xlet
+app.21.initial_class_name=org.cablelabs.xlet.EventsTest.ExclusiveEventXlet
+app.21.args.0=requestRelease=false
+
+###############################################################################
+
+###############################################
+## FrontPanelResourceTest
+###############################################
+app.22.application_identifier=0x000000016610
+app.22.application_control_code=PRESENT
+app.22.visibility=VISIBLE
+app.22.priority=220
+app.22.application_name=FPResourceTestRunner
+app.22.base_directory=/syscwd/qa/xlet
+app.22.initial_class_name=org.cablelabs.xlet.FrontPanelResourceTest.FPTestRunnerXlet
+app.22.args.0=0x000000016611
+app.22.args.1=0x000000016612
+app.22.args.2=0x000000016613
+app.22.args.3=0x000000016614
+
+###############################################
+
+app.23.application_identifier=0x000000016611
+app.23.application_control_code=PRESENT
+app.23.visibility=VISIBLE
+app.23.priority=100
+app.23.application_name=FPTest1
+app.23.base_directory=/syscwd/qa/xlet
+app.23.initial_class_name=org.cablelabs.xlet.FrontPanelResourceTest.FPTest
+app.23.args.0=x=0
+app.23.args.1=y=0
+app.23.args.2=width=213
+app.23.args.3=height=240
+app.23.args.4=runner=0x000000016610
+
+###############################################
+
+app.24.application_identifier=0x000000016612
+app.24.application_control_code=PRESENT
+app.24.visibility=VISIBLE
+app.24.priority=150
+app.24.application_name=FPTest2
+app.24.base_directory=/syscwd/qa/xlet
+app.24.initial_class_name=org.cablelabs.xlet.FrontPanelResourceTest.FPTest2
+app.24.args.0=x=213
+app.24.args.1=y=0
+app.24.args.2=width=213
+app.24.args.3=height=240
+app.24.args.4=runner=0x000000016610
+
+###############################################
+
+app.25.application_identifier=0x000000016613
+app.25.application_control_code=PRESENT
+app.25.visibility=VISIBLE
+app.25.priority=150
+app.25.application_name=FPTest3
+app.25.base_directory=/syscwd/qa/xlet
+app.25.initial_class_name=org.cablelabs.xlet.FrontPanelResourceTest.FPTest3
+app.25.args.0=x=0
+app.25.args.1=y=240
+app.25.args.2=width=213
+app.25.args.3=height=240
+app.25.args.4=runner=0x000000016610
+
+###############################################
+
+app.26.application_identifier=0x000000016614
+app.26.application_control_code=PRESENT
+app.26.visibility=VISIBLE
+app.26.priority=200
+app.26.application_name=FPTest4
+app.26.base_directory=/syscwd/qa/xlet
+app.26.initial_class_name=org.cablelabs.xlet.FrontPanelResourceTest.FPTest4
+app.26.args.0=x=213
+app.26.args.1=y=240
+app.26.args.2=width=213
+app.26.args.3=height=240
+app.26.args.4=runner=0x000000016610
+
+
+
+###############################################
+## PermissionTest - Unsigned
+###############################################
+app.27.application_identifier=0x000000013001
+app.27.application_control_code=PRESENT
+app.27.visibility=VISIBLE
+app.27.priority=220
+app.27.application_name=PermissionTest - Unsigned
+app.27.base_directory=/syscwd/qa/xlet
+app.27.initial_class_name=org.cablelabs.xlet.PermissionTest.UnsignedPermissionTest
+
+###############################################
+## PermissionTest - Signed with PRF
+###############################################
+app.28.application_identifier=0x000000014001
+app.28.application_control_code=PRESENT
+app.28.visibility=VISIBLE
+app.28.priority=220
+app.28.application_name=PermissionTest - Signed (with PRF)
+app.28.base_directory=/syscwd/qa/xlet
+app.28.initial_class_name=org.cablelabs.xlet.PermissionTest.SignedPermissionTestXlet
+
+###############################################
+## PermissionTest - Dually Signed with PRF
+###############################################
+app.29.application_identifier=0x000000016011
+app.29.application_control_code=PRESENT
+app.29.visibility=VISIBLE
+app.29.priority=220
+app.29.application_name=PermissionTest - Dual Signed (with PRF)
+app.29.base_directory=/syscwd/qa/xlet
+app.29.initial_class_name=org.cablelabs.xlet.PermissionTest.DuallySignedPermissionsTestXlet
+
+###############################################
+## PermissionTest - Signed w/o PRF
+###############################################
+app.30.application_identifier=0x000000014006
+app.30.application_control_code=PRESENT
+app.30.visibility=VISIBLE
+app.30.priority=220
+app.30.application_name=PermissionTest - Signed (without PRF)
+app.30.base_directory=/syscwd/qa/xlet
+app.30.initial_class_name=org.cablelabs.xlet.PermissionTest.SignedWithoutPRFPermissionTestXlet
+
+###############################################
+## PermissionTest - Dual Signed w/o PRF
+###############################################
+app.31.application_identifier=0x000000016202
+app.31.application_control_code=PRESENT
+app.31.visibility=VISIBLE
+app.31.priority=220
+app.31.application_name=PermissionTest - Dual Signed (without PRF)
+app.31.base_directory=/syscwd/qa/xlet
+app.31.initial_class_name=org.cablelabs.xlet.PermissionTest.DuallySignedWithoutPRFPermissionTestXlet
+
+###############################################
+## PermissionTest - HostAppPermissions
+###############################################
+app.32.application_identifier=0x000000017002
+app.32.application_control_code=PRESENT
+app.32.visibility=VISIBLE
+app.32.priority=220
+app.32.application_name=PermissionTest - HostApp
+app.32.base_directory=/syscwd/qa/xlet
+app.32.initial_class_name=org.cablelabs.xlet.PermissionTest.HostAppPermissionTestXlet
+
+
+###############################################
+## PowerKey
+###############################################
+app.33.application_identifier=0x000000016305
+app.33.application_control_code=PRESENT
+app.33.visibility=VISIBLE
+app.33.priority=220
+app.33.application_name=PowerKeyTest
+app.33.base_directory=/syscwd/qa/xlet
+app.33.initial_class_name=org.cablelabs.xlet.PowerKeyTest.PowerKeyTestXlet
+
+
+
+
+###############################################
+## FileAccessPermission (create file)
+###############################################
+app.34.application_identifier=0x000000017011
+app.34.application_control_code=PRESENT
+app.34.visibility=VISIBLE
+app.34.priority=220
+app.34.application_name=FAP Create Files
+app.34.base_directory=/syscwd/qa/xlet
+app.34.initial_class_name=org.cablelabs.xlet.FileAccessPermissionTest.FileAccessTest
+app.34.args.0=create
+app.34.args.1=$root/$oid/$aid/app1.txt
+app.34.args.2=create
+app.34.args.3=$root/$oid/$aid/org1.txt
+app.34.args.4=create
+app.34.args.5=$root/$oid/$aid/world1.txt
+app.34.args.6=create
+app.34.args.7=$root/$oid/$aid/other1.txt
+app.34.args.8=fap
+app.34.args.9=----rw
+app.34.args.10=$root/$oid/$aid/app1.txt
+app.34.args.11=fap
+app.34.args.12=--rw
+app.34.args.13=$root/$oid/$aid/org1.txt
+app.34.args.14=fap
+app.34.args.15=rw----
+app.34.args.16=$root/$oid/$aid/world1.txt
+app.34.args.17=xfap
+app.34.args.18=----r-:2:2
+app.34.args.19=$root/$oid/$aid/other1.txt
+
+###############################################
+## FileAccessPermission (remove file same org)
+###############################################
+app.35.application_identifier=0x000000017015
+app.35.application_control_code=PRESENT
+app.35.visibility=VISIBLE
+app.35.priority=220
+app.35.application_name=FAP Remove Files
+app.35.base_directory=/syscwd/qa/xlet
+app.35.initial_class_name=org.cablelabs.xlet.FileAccessPermissionTest.FileAccessTest$Other4013
+app.35.args.0=remove
+app.35.args.1=$root/$oid/7011/app1.txt
+app.35.args.2=remove
+app.35.args.3=$root/$oid/7011/org1.txt
+app.35.args.4=remove
+app.35.args.5=$root/$oid/7011/world1.txt
+app.35.args.6=remove
+app.35.args.7=$root/$oid/7011/other1.txt
+
+###############################################
+## FileAccessPermission (read file - same org)
+###############################################
+app.36.application_identifier=0x000000014012
+app.36.application_control_code=PRESENT
+app.36.visibility=VISIBLE
+app.36.priority=220
+app.36.application_name=FAP Read Files (same org)
+app.36.base_directory=/syscwd/qa/xlet
+app.36.initial_class_name=org.cablelabs.xlet.FileAccessPermissionTest.FileAccessTest$Other4010
+app.36.args.0=fail
+app.36.args.1=read
+app.36.args.2=$root/$oid/7011/app1.txt
+app.36.args.3=ok
+app.36.args.4=read
+app.36.args.5=$root/$oid/7011/org1.txt
+app.36.args.6=ok
+app.36.args.7=read
+app.36.args.8=$root/$oid/7011/world1.txt
+app.36.args.9=fail
+app.36.args.10=read
+app.36.args.11=$root/$oid/7011/other1.txt
+
+###############################################
+## FileAccessPermission (write file - same org)
+###############################################
+app.37.application_identifier=0x000000014013
+app.37.application_control_code=PRESENT
+app.37.visibility=VISIBLE
+app.37.priority=220
+app.37.application_name=FAP Write Files (same org)
+app.37.base_directory=/syscwd/qa/xlet
+app.37.initial_class_name=org.cablelabs.xlet.FileAccessPermissionTest.FileAccessTest$Other4011
+app.37.args.0=fail
+app.37.args.1=write
+app.37.args.2=$root/$oid/7011/app1.txt
+app.37.args.3=ok
+app.37.args.4=write
+app.37.args.5=$root/$oid/7011/org1.txt
+app.37.args.6=ok
+app.37.args.7=write
+app.37.args.8=$root/$oid/7011/world1.txt
+app.37.args.9=fail
+app.37.args.10=write
+app.37.args.11=$root/$oid/7011/other1.txt
+
+###############################################
+## FileAccessPermission (read file - other org)
+###############################################
+app.38.application_identifier=0x000000024014
+app.38.application_control_code=PRESENT
+app.38.visibility=VISIBLE
+app.38.priority=220
+app.38.application_name=FAP Read Files (other org)
+app.38.base_directory=/syscwd/qa/xlet
+app.38.initial_class_name=org.cablelabs.xlet.FileAccessPermissionTest.FileAccessTest$Other4012
+app.38.args.0=fail
+app.38.args.1=read
+app.38.args.2=$root/1/7011/app1.txt
+app.38.args.3=fail
+app.38.args.4=read
+app.38.args.5=$root/1/7011/org1.txt
+app.38.args.6=ok
+app.38.args.7=read
+app.38.args.8=$root/1/7011/world1.txt
+app.38.args.9=ok
+app.38.args.10=read
+app.38.args.11=$root/1/7011/other1.txt
+
+
+###############################################
+## FileAccessPermission (write file - diff org)
+###############################################
+app.39.application_identifier=0x000000024015
+app.39.application_control_code=PRESENT
+app.39.visibility=VISIBLE
+app.39.priority=220
+app.39.application_name=FAP Write Files (other org)
+app.39.base_directory=/syscwd/qa/xlet
+app.39.initial_class_name=org.cablelabs.xlet.FileAccessPermissionTest.FileAccessTest$Other4015
+app.39.args.0=fail
+app.39.args.1=write
+app.39.args.2=$root/1/7011/app1.txt
+app.39.args.3=fail
+app.39.args.4=write
+app.39.args.5=$root/1/7011/org1.txt
+app.39.args.6=ok
+app.39.args.7=write
+app.39.args.8=$root/1/7011/world1.txt
+app.39.args.9=ok
+app..args.10=write
+app..args.11=$root/1/7011/other1.txt
+
+
+###############################################
+## FileAccessPermission (remove file different Org)
+###############################################
+app.40.application_identifier=0x000000027016
+app.40.application_control_code=PRESENT
+app.40.visibility=VISIBLE
+app.40.priority=220
+app.40.application_name=FAP Remove Files (other Org)
+app.40.base_directory=/syscwd/qa/xlet
+app.40.initial_class_name=org.cablelabs.xlet.FileAccessPermissionTest.FileAccessTest$Other4016
+app.40.args.0=fail
+app.40.args.1=remove
+app.40.args.2=$root/1/7011/app1.txt
+app.40.args.3=fail
+app.40.args.4=remove
+app.40.args.5=$root/1/7011/org1.txt
+app.40.args.6=fail
+app.40.args.7=remove
+app.40.args.8=$root/1/7011/world1.txt
+app.40.args.9=fail
+app.40.args.10=remove
+app.40.args.11=$root/1/7011/other1.txt
+
+###############################################
+## EAS
+###############################################
+app.41.application_identifier=0x000000017911
+app.41.application_control_code=PRESENT
+app.41.visibility=VISIBLE
+app.41.priority=254
+app.41.base_directory=/syscwd/qa/xlet
+app.41.application_name=EASHostKeyListenerXlet
+app.41.initial_class_name=org.cablelabs.xlet.eashostkeylistener.EASHostKeyListenerXlet
+app.41.args.0=5
+
+###############################################
+## HSceneManagerTest
+###############################################
+app.42.application_identifier=0x000000016670
+app.42.application_control_code=PRESENT
+app.42.visibility=VISIBLE
+app.42.priority=220
+app.42.application_name=HSMTestRunner
+app.42.base_directory=/syscwd/qa/xlet
+app.42.initial_class_name=org.cablelabs.xlet.HSceneManagerTest.HSMTestRunnerXlet
+app.42.args.0=testXlet1=0x000000014671
+app.42.args.1=testXlet2=0x000000014672
+app.42.args.2=testXlet3=0x000000014673
+app.42.args.3=testXlet4=0x000000014674
+app.42.args.4=testXlet5=0x000000014675
+app.42.args.5=testXlet6=0x000000014676
+app.42.args.6=noShow=0x000000014675
+app.42.args.7=noOrder=0x000000014674
+app.42.args.8=noMove=0x000000014673
+
+###############################################
+
+app.43.application_identifier=0x000000014671
+app.43.application_control_code=PRESENT
+app.43.visibility=VISIBLE
+app.43.priority=100
+app.43.application_name=HSMTest1
+app.43.base_directory=/syscwd/qa/xlet
+app.43.initial_class_name=org.cablelabs.xlet.HSceneManagerTest.HSMTestXlet
+app.43.args.0=x=25
+app.43.args.1=y=25
+app.43.args.2=width=250
+app.43.args.3=height=250
+app.43.args.4=runner=0x000000016670
+app.43.args.5=color=green
+
+###############################################
+
+app.44.application_identifier=0x000000014672
+app.44.application_control_code=PRESENT
+app.44.visibility=VISIBLE
+app.44.priority=150
+app.44.application_name=HSMTest2
+app.44.base_directory=/syscwd/qa/xlet
+app.44.initial_class_name=org.cablelabs.xlet.HSceneManagerTest.HSMTestXlet
+app.44.args.0=x=50
+app.44.args.1=y=50
+app.44.args.2=width=250
+app.44.args.3=height=250
+app.44.args.4=runner=0x000000016670
+app.44.args.5=color=cyan
+
+###############################################
+
+app.45.application_identifier=0x000000014673
+app.45.application_control_code=PRESENT
+app.45.visibility=VISIBLE
+app.45.priority=150
+app.45.application_name=HSMTest3
+app.45.base_directory=/syscwd/qa/xlet
+app.45.initial_class_name=org.cablelabs.xlet.HSceneManagerTest.HSMTestXlet
+app.45.args.0=x=75
+app.45.args.1=y=75
+app.45.args.2=width=250
+app.45.args.3=height=250
+app.45.args.4=runner=0x000000016670
+app.45.args.5=color=orange
+
+###############################################
+
+app.46.application_identifier=0x000000014674
+app.46.application_control_code=PRESENT
+app.46.visibility=VISIBLE
+app.46.priority=200
+app.46.application_name=HSMTest4
+app.46.base_directory=/syscwd/qa/xlet
+app.46.initial_class_name=org.cablelabs.xlet.HSceneManagerTest.HSMTestXlet
+app.46.args.0=x=100
+app.46.args.1=y=100
+app.46.args.2=width=250
+app.46.args.3=height=250
+app.46.args.4=runner=0x000000016670
+app.46.args.5=color=yellow
+
+###############################################
+
+app.47.application_identifier=0x000000014675
+app.47.application_control_code=PRESENT
+app.47.visibility=VISIBLE
+app.47.priority=200
+app.47.application_name=HSMTest5
+app.47.base_directory=/syscwd/qa/xlet
+app.47.initial_class_name=org.cablelabs.xlet.HSceneManagerTest.HSMTestXlet
+app.47.args.0=x=125
+app.47.args.1=y=125
+app.47.args.2=width=250
+app.47.args.3=height=250
+app.47.args.4=runner=0x000000016670
+app.47.args.5=color=white
+
+###############################################
+
+app.48.application_identifier=0x000000014676
+app.48.application_control_code=PRESENT
+app.48.visibility=VISIBLE
+app.48.priority=200
+app.48.application_name=HSMTest6
+app.48.base_directory=/syscwd/qa/xlet
+app.48.initial_class_name=org.cablelabs.xlet.HSceneManagerTest.HSMTestXlet
+app.48.args.0=x=150
+app.48.args.1=y=150
+app.48.args.2=width=250
+app.48.args.3=height=250
+app.48.args.4=runner=0x000000016670
+app.48.args.5=color=pink
+
+
+###############################################
+## FrontPanelTest
+###############################################
+app.49.application_identifier=0x000000016619
+app.49.application_control_code=PRESENT
+app.49.visibility=VISIBLE
+app.49.priority=220
+app.49.application_name=FrontPanelExt
+app.49.base_directory=/syscwd/qa/xlet
+app.49.initial_class_name=org.cablelabs.xlet.FrontPanelExtTest.FrontPanelExtXlet
+
+

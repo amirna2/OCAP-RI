@@ -1,0 +1,8 @@
+# files excluded from the hn junit compilation (with DVR support)
+org/cablelabs/impl/ocap/hn/util/xml/miniDom/adb-didllite.xml
+org/cablelabs/impl/ocap/hn/util/xml/miniDom/cisco-didllite.xml
+org/cablelabs/impl/ocap/hn/util/xml/miniDom/didllite-adb.xml
+org/cablelabs/impl/ocap/hn/util/xml/miniDom/moto-didllite.xml
+org/ocap/hn/upnp/server/UPnPDeviceManagerTest.java
+org/ocap/hn/upnp/server/UPnPManagedDeviceTest.java
+org/ocap/hn/upnp/server/UPnPManagedStateVariableTest.java

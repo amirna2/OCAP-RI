@@ -1,0 +1,159 @@
+# COPYRIGHT_BEGIN
+#  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+#  
+#  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+#  
+#  This software is available under multiple licenses: 
+#  
+#  (1) BSD 2-clause 
+#   Redistribution and use in source and binary forms, with or without modification, are
+#   permitted provided that the following conditions are met:
+#        ·Redistributions of source code must retain the above copyright notice, this list 
+#             of conditions and the following disclaimer.
+#        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+#             and the following disclaimer in the documentation and/or other materials provided with the 
+#             distribution.
+#   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+#   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+#   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+#   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+#   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+#   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+#   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+#   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+#   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+#   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+#   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#  
+#  (2) GPL Version 2
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, version 2. This program is distributed
+#   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+#   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#   PURPOSE. See the GNU General Public License for more details.
+#  
+#   You should have received a copy of the GNU General Public License along
+#   with this program.If not, see<http:www.gnu.org/licenses/>.
+#  
+#  (3)CableLabs License
+#   If you or the company you represent has a separate agreement with CableLabs
+#   concerning the use of this code, your rights and obligations with respect
+#   to this code shall be as set forth therein. No license is granted hereunder
+#   for any other purpose.
+#  
+#   Please contact CableLabs if you need additional information or 
+#   have any questions.
+#  
+#       CableLabs
+#       858 Coal Creek Cir
+#       Louisville, CO 80027-9750
+#       303 661-9100
+# COPYRIGHT_END
+
+org.dvb.lang.DVBClassLoaderTest
+
+org.ocap.service.ServiceTypePermissionTest
+
+org.ocap.application.AppFilterTest
+org.ocap.application.AppPatternTest
+#org.ocap.application.AppManagerProxyTest# Needs update
+
+org.dvb.application.AppIDTest
+org.dvb.application.AppStateChangeEventTest
+org.dvb.application.AppsControlPermissionTest
+org.dvb.application.AppsDatabaseEventTest
+#org.dvb.application.AppsDatabaseTest# Needs update
+org.dvb.application.CurrentServiceFilterTest
+org.dvb.application.IllegalProfileParameterExceptionTest
+org.dvb.application.RunningApplicationsFilterTest
+
+org.cablelabs.impl.manager.application.AppClassLoaderTest
+org.cablelabs.impl.manager.application.AppContextTest
+org.cablelabs.impl.manager.application.AppDomainImplTest
+org.cablelabs.impl.manager.application.AppEventQueueTest
+org.cablelabs.impl.manager.application.AppIconImplTest
+#org.cablelabs.impl.manager.application.AppManagerProxyImplTest #Needs update
+#org.cablelabs.impl.manager.application.AppManagerTest # Needs update
+org.cablelabs.impl.manager.application.AppStateTest
+org.cablelabs.impl.manager.application.AppThreadGroupTest
+org.cablelabs.impl.manager.application.XletAppContextTest
+org.cablelabs.impl.manager.application.XletAppTest
+
+org.cablelabs.impl.manager.auth.AuthManagerTest
+
+org.cablelabs.impl.awt.MPEToolkitTest
+org.ocap.system.EASModuleRegistrarTest
+org.cablelabs.impl.manager.eas.EASMgrImplTest
+org.cablelabs.impl.manager.eas.TextScrollTest
+org.cablelabs.impl.manager.eas.EASParserTest
+org.cablelabs.impl.manager.eas.BasicSectionTest
+org.cablelabs.impl.manager.ManagerManagerTest
+org.cablelabs.impl.manager.ResourceManagerClientTest
+org.cablelabs.impl.manager.CallerContextMulticasterTest
+#org.cablelabs.impl.ocap.hardware.HostImplTest
+javax.tv.util.TVTimerSpecTest
+javax.tv.util.TVTimerTest
+javax.tv.util.TVTimerWentOffEventTest
+org.dvb.ui.DVBAlphaCompositeTest
+#org.dvb.ui.DVBBufferedImageTest
+org.dvb.ui.DVBColorTest
+#org.dvb.ui.DVBGraphicsTest
+org.dvb.ui.DVBRasterFormatExceptionTest
+org.dvb.ui.DVBRasterFormatExceptionTest
+#org.dvb.ui.DVBTextLayoutManagerTest
+#org.dvb.ui.FontFactoryTest
+org.dvb.ui.FontFormatExceptionTest
+org.dvb.ui.FontNotAvailableExceptionTest
+org.dvb.ui.UnsupportedDrawingOperationExceptionTest
+org.dvb.dsmcc.DSMCCExceptionTest
+#org.dvb.dsmcc.DSMCCObjectTest
+org.dvb.dsmcc.DSMCCStreamEventTest
+org.dvb.dsmcc.DSMCCStreamTest
+org.dvb.dsmcc.IllegalObjectTypeExceptionTest
+org.dvb.dsmcc.InsufficientResourcesExceptionTest
+org.dvb.dsmcc.InvalidAddressExceptionTest
+org.dvb.dsmcc.InvalidFormatEventTest
+org.dvb.dsmcc.InvalidFormatExceptionTest
+org.dvb.dsmcc.InvalidPathnameEventTest
+org.dvb.dsmcc.InvalidPathNameExceptionTest
+org.dvb.dsmcc.LoadingAbortedEventTest
+org.dvb.dsmcc.MPEGDeliveryErrorEventTest
+org.dvb.dsmcc.MPEGDeliveryExceptionTest
+org.dvb.dsmcc.NotEntitledEventTest
+org.dvb.dsmcc.NotEntitledExceptionTest
+org.dvb.dsmcc.NothingToAbortExceptionTest
+org.dvb.dsmcc.NotLoadedExceptionTest
+org.dvb.dsmcc.NPTDiscontinuityEventTest
+org.dvb.dsmcc.NPTPresentEventTest
+org.dvb.dsmcc.NPTRateChangeEventTest
+org.dvb.dsmcc.NPTRateTest
+org.dvb.dsmcc.NPTRemovedEventTest
+org.dvb.dsmcc.ObjectChangeEventTest
+org.dvb.dsmcc.ServerDeliveryErrorEventTest
+org.dvb.dsmcc.ServerDeliveryExceptionTest
+#org.dvb.dsmcc.ServiceDomainTest
+org.dvb.dsmcc.ServiceXFRErrorEventTest
+org.dvb.dsmcc.ServiceXFRExceptionTest
+org.dvb.dsmcc.ServiceXFRReferenceTest
+org.dvb.dsmcc.StreamEventTest
+org.dvb.dsmcc.SuccessEventTest
+org.dvb.dsmcc.UnknownEventExceptionTest
+org.dvb.io.persistent.FileAccessPermissionsTest
+org.dvb.io.persistent.FileAttributesTest
+org.ocap.mpeg.PODExtendedChannelTest
+org.ocap.hardware.HostTest
+#org.ocap.hardware.pod.PODTest   -  This test is unavailable until PTV makes POD apis fully available.
+org.ocap.media.ClosedCaptioningAttributeTest
+#org.davic.mpeg.sections.ObjectCreationTests
+#org.davic.mpeg.sections.TableSectionFilterStartingStopping_1
+#org.davic.mpeg.sections.SectionFilterGroupTest_1
+#org.davic.mpeg.sections.TSFDataValidationTest
+#org.davic.mpeg.sections.SSF_SectionAvailableEventTest
+#org.davic.mpeg.sections.SFG_FilterResourceExceptionTest
+#org.davic.mpeg.sections.PosNegThreeBytes_Bugzilla1289
+org.davic.mpeg.sections.PosNegTSFTest_1
+org.ocap.OcapSystemTest
+org.ocap.test.OCAPTestTest
+# DVR Scheduler Entries
+# org.cablelabs.impl.manager.dvrmgr.SchedulerTests

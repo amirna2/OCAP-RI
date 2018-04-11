@@ -1,0 +1,15 @@
+<!-- ANT entity include/definition for Log4j library files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.log4j SYSTEM "log4j.ant-inc.xml">
+
+<!ENTITY inc.javadoc.log4j.1_2_4 SYSTEM "1.2.4/javadoc-links.ant-inc.xml">
+
+<!ENTITY inc.javadoc.log4j.1_2_5 SYSTEM "1.2.5/javadoc-links.ant-inc.xml">
+
+<!ENTITY inc.javadoc.log4j.1_2_6 SYSTEM "1.2.6/javadoc-links.ant-inc.xml">
+

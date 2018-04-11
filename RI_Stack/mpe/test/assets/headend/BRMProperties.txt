@@ -1,0 +1,55 @@
+#########################################################
+#
+# Properties File for BRM
+#
+#########################################################
+
+
+
+
+#########################################################
+## Change this to whatever host name you'd like:
+#########################################################
+
+hostName=localhost
+
+
+#########################################################
+## Change this to any legal port number:
+#########################################################
+
+portNumber=5
+
+
+#########################################################
+## The time (in milliseconds) between transmissions:
+#########################################################
+
+timeBetweenPosts=5000
+
+
+#########################################################
+## If "safe" you can NOT edit read-only values:
+## If "dangerous", you CAN edit read-only values:
+#########################################################
+
+mode=safe
+# mode=dangerous
+
+#########################################################
+## Change these to configure the UI:
+#########################################################
+
+
+fieldHeightRender=30
+borderSizeRender=7
+labelWidthRender=250
+editWidthRender=500
+fontSizeRender=16
+
+fieldHeightEdit=40
+borderSizeEdit=10
+labelWidthEdit=350
+editWidthEdit=600
+fontSizeEdit=24
+

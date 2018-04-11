@@ -1,0 +1,32 @@
+The following copyright notice applies to our implementation of Unicode Compression 
+encoding & decoding routines, currently used for EAS (Cable Emergency Alert) messages.  
+
+See <http://oss.software.ibm.com/icu4j/>.  
+
+
+
+License Information
+The ICU projects (ICU4C and ICU4J) use the X license.  The X license is a non-viral and recommended free software license that is compatible with the GNU GPL license.  This became effective with release 1.8.1 of ICU4C and release 1.3.1 of ICU4J in mid-2001. All new ICU releases will adopt the X license; previous ICU releases continue to utilize the IPL (IBM Public License).  Users of previous releases of ICU who want to adopt new ICU releases will need to accept the terms and conditions of the X license. 
+
+The main effect of the change is to provide GPL compatibility.  The X license is listed as GPL compatible, see the gnu page at http://www.gnu.org/philosophy/license-list.html#GPLCompatibleLicenses. This means that GPL projects can now use ICU code, it does not mean that projects using ICU become subject to GPL. 
+
+The text of the X license is available at http://www.x.org/terms.htm. The IBM version contains the essential text of the license, omitting the X-specific trademarks and copyright notices. The full copy of ICU's license is included in the download package. 
+
+
+
+ICU4J license - ICU4J 1.3.1 and later
+COPYRIGHT AND PERMISSION NOTICE
+
+Copyright (c) 1995-2001 International Business Machines Corporation and others 
+
+All rights reserved. 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, provided that the above copyright notice(s) and this permission notice appear in all copies of the Software and that both the above copyright notice(s) and this permission notice appear in supporting documentation. 
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. 
+
+Except as contained in this notice, the name of a copyright holder shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Software without prior written authorization of the copyright holder. 
+
+
+--------------------------------------------------------------------------------
+All trademarks and registered trademarks mentioned herein are the property of their respective owners. 

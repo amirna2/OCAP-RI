@@ -1,0 +1,34 @@
+--- orig/ocStbHostPower.c	2011-04-11 15:35:54.797080002 -0600
++++ ocStbHostPower.c	2011-04-12 09:35:34.753080000 -0600
+@@ -9,6 +9,9 @@
+ #include "ocStbHostPower.h"
+ 
+ /** Initializes the ocStbHostPower module */
++static int ocStbHostPowerStatus;
++static int ocStbHostAcOutletStatus;
++
+ void
+ init_ocStbHostPower(void)
+ {
+@@ -45,8 +48,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostPowerStatus,
++                                     sizeof(ocStbHostPowerStatus));
+             break;
+ 
+ 
+@@ -74,8 +77,8 @@
+ 
+         case MODE_GET:
+             snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
+-                                     (u_char *) /* XXX: a pointer to the scalar's data */,
+-                                     /* XXX: the length of the data in bytes */);
++                                     (u_char *) &ocStbHostAcOutletStatus,
++                                     sizeof(ocStbHostAcOutletStatus));
+             break;
+ 
+ 

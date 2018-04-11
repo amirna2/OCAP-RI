@@ -1,0 +1,33 @@
+<!-- Common properties/tasks that are shared by all projects
+
+However, for possible overrides, these are all prefixed by
+"_shared.common."
+
+ -->
+    
+    <!-- the goal for the clean target is to fix the sub-project directory
+         such that it looks identical to the CVS version of the directory.
+         Bascially, that means remove any created files or directories. -->
+    <target name="_shared.common.clean"
+            description="Clean all generated files" >
+        <delete dir="${dirs.classes}" failonerror="no" />
+        <delete dir="${dirs.deploy-base}" failonerror="no" />
+        <delete dir="${dirs.test-output}" failonerror="no" />
+        <!--
+        <delete file="${output.jar-name.dev.root}" />
+        -->
+        <delete>
+            <fileset dir="${basedir}">
+                <!-- on a version change, there are some remnants left
+                     over, unless you are careful.  This will help to clean
+                     up those remnants. -->
+                <include name="${product}-*-core.jar" />
+                
+                <!-- JUnit tests that were killed before the task finishes can
+                     leave behind some property files in this name format. -->
+                <include name="junit*.properties" />
+            </fileset>
+        </delete>
+    </target>
+    
+

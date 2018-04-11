@@ -1,0 +1,57 @@
+<!-- Main Entrypoint for defining all 3rd party libraries.
+-->
+    <property name="_shared.dirs.3rdparty.ant"
+            value="${_shared.dirs.3rdparty}/ant" />
+    
+    
+    <!-- ANT libraries -->
+    <property name="libs.ant.1_4_1.core"
+            value="${_shared.dirs.3rdparty.ant}/1.4.1/ant.jar" />
+    <property name="libs.ant.1_4_1.optional"
+            value="${_shared.dirs.3rdparty.ant}/1.4.1/optional.jar" />
+    
+    <property name="javadoc.package-list.ant.1_4_1"
+            value="${_shared.dirs.3rdparty.ant}/1.4.1/package-list" />
+    <property name="javadoc.url.ant.1_4_1"
+            value="http://jakarta.apache.org/ant/manual/api" />
+    
+    <property name="licenses.ant.1_4_1"
+            value="${_shared.dirs.3rdparty.ant}/1.4.1/LICENSE.txt" />
+    
+
+    
+    <property name="libs.ant.1_5.core"
+            value="${_shared.dirs.3rdparty.ant}/1.5/ant.jar" />
+    <property name="libs.ant.1_5.optional"
+            value="${_shared.dirs.3rdparty.ant}/1.5/optional.jar" />
+    
+    <property name="javadoc.package-list.ant.1_5"
+            value="${_shared.dirs.3rdparty.ant}/1.5/package-list" />
+    <property name="javadoc.url.ant.1_5"
+            value="http://jakarta.apache.org/ant/manual/api" />
+    
+    <property name="licenses.ant.1_5"
+            value="${_shared.dirs.3rdparty.ant}/1.5/LICENSE" />
+    
+
+    
+    <property name="libs.ant.1_5_1.core"
+            value="${_shared.dirs.3rdparty.ant}/1.5.1/ant.jar" />
+    <property name="libs.ant.1_5_1.optional"
+            value="${_shared.dirs.3rdparty.ant}/1.5.1/optional.jar" />
+    
+    <property name="javadoc.package-list.ant.1_5_1"
+            value="${_shared.dirs.3rdparty.ant}/1.5.1/package-list" />
+    <property name="javadoc.url.ant.1_5_1"
+            value="http://jakarta.apache.org/ant/manual/api" />
+    
+    <property name="licenses.ant.1_5_1"
+            value="${_shared.dirs.3rdparty.ant}/1.5.1/LICENSE" />
+    
+    
+    
+    <property name="libs.ant.current.core"
+            value="${libs.ant.1_5_1.core}" />
+    <property name="libs.ant.current.optional"
+            value="${libs.ant.1_5_1.optional}" />
+

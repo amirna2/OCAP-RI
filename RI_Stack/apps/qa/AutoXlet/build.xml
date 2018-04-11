@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+
+<project name="AutoXlet" default="build" >
+    
+    <!-- Pull in target configuration properties -->
+    <property environment="env"/>
+    <property file="${env.OCAPROOT}/java/javadoc.properties" />
+    <property name="srcdir" location="${env.OCAPROOT}/apps/qa/AutoXlet"/>
+    <property name="javadocs" location="${env.OCAPROOT}/docs/javadoc/AutoXlet"/>
+    <property name="dstdir" location="${env.OCAPROOT}/bin/apps/qa/xlet"/>
+    <property name="jarfile" location="${env.OCAPROOT}/bin/lib/autoxlet.jar"/>
+    <property name="xmljar" location="${env.OCAPROOT}/tools/generic/NanoXML-2.2.3/lib/nanoxml.jar"/>
+    <property name="ocap-stub.jar" location="${env.OCAPROOT}/bin/lib/ocap-stub.jar"/>
+			
+    <!-- Build -->
+    <target name="build" depends="build.javac,build.jar,build.doc" description="Build AutoXlet"/>   
+
+	<!-- Build Java -->
+	<target name="build.javac" depends="init" description="Compile Java Code">
+		<javac target="1.4"
+               source="1.4"
+               debug="yes"
+               srcdir="${srcdir}"
+               destdir="${dstdir}"
+               includes="**/*.java"
+               encoding="ISO-8859-1"
+               includeantruntime="false">
+            <bootclasspath>
+            	<pathelement location="${ocap-stub.jar}"/>
+            	<pathelement location="${xmljar}"/>
+            </bootclasspath>
+        </javac>
+
+        <copy todir="${dstdir}">
+              <fileset dir="${srcdir}">
+                  <include name="**/*.perm"/>
+              </fileset>
+        </copy>
+	</target>
+
+	<!-- Install AutoXlet class/jar files -->
+	<target name="build.jar" depends="build.javac" description="Install AutoXlet files">
+		<jar destfile="${jarfile}" basedir="${dstdir}" includes="**/*.class"
+			excludes="**/ArgParser.class,**/UDPLogServer.class,**/XletDriver.class"/>
+		<unjar src="${xmljar}" dest="${dstdir}"/>
+	</target>
+
+	<!-- Generate Javadoc -->
+	<target name="build.doc" depends="init,build.javac" description="Generate Javadocs">
+		<javadoc
+			destdir="${javadocs}"
+			packagenames="org.cablelabs.test.autoxlet"
+        	use="true"
+            access="${build.doc.ACCESS}"
+            version="${build.doc.VERSION}"
+            author="${build.doc.AUTHOR}"
+            windowtitle="${build.doc.TITLE}"
+            header="${build.doc.TITLE}&lt;br>${DATE}"
+            footer="${build.doc.TITLE}&lt;br>${DATE}"
+            bottom="&lt;font size=-1 color=#999999>${build.doc.COPYRIGHT}&lt;/font>"
+            group="${build.doc.GROUP}"
+             encoding="ISO-8859-1"
+            failonerror="true"
+            breakiterator="true" >
+
+            <tag name="uml.property"/>
+			<fileset dir="${srcdir}" defaultexcludes="yes">
+				<include name="**/*.java" />
+			</fileset>
+            <bootclasspath>
+            	<pathelement location="${ocap-stub.jar}"/>
+            	<pathelement location="${xmljar}"/>
+            </bootclasspath>
+		</javadoc>
+	</target>
+
+    <!-- Clean -->
+    <target name="clean" depends="clean.doc" description="Clean all targets">
+    </target>
+
+    <target name="clean.doc" description="Cleans javadoc created as part of build">
+        <delete dir="${javadocs}" quiet="true" />
+    </target>
+    
+    <!-- Purge -->
+    <target name="purge" depends="purge.doc" description="Purge all targets">
+        <delete quiet="false" file="${jarfile}" dir="${dstdir}/org/cablelabs/test/autoxlet"/>
+    </target>
+
+    <target name="purge.doc" description="Purges javadoc created as part of build">
+        <delete dir="${javadocs}" quiet="true" />
+    </target>
+
+    <!-- Initialize values used by all tasks -->
+    <target name="init">
+      <mkdir dir="${javadocs}"/>
+      <mkdir dir="${dstdir}"/>
+    </target>
+
+</project>
+

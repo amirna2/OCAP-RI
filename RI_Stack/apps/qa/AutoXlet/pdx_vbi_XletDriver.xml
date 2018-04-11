@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent+)>
+	<!ATTLIST Xlet 
+	name CDATA #REQUIRED
+	orgID CDATA #REQUIRED
+	appID CDATA #REQUIRED
+	pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+	<!ATTLIST RCEvent 
+	name CDATA #IMPLIED
+	pauseBeforeNext CDATA #IMPLIED
+	monitorTimeout CDATA #IMPLIED
+	getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+   <!-- VbiTestRunner -->
+   <Xlet name="VbiTest" orgID="0x1" appID="0x6213" pauseAfterLast="7000">
+
+      <RCEvent name="Group 1 - VBI Tests" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Group 1 - VBI Tests" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="false">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBasicVBIFiltering : TestVBIBasicFilterFormat1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestBasicVBIFiltering : TestVBIBasicFilterFormat1" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBasicVBIFiltering : TestVBIBasicFilterFormat2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestBasicVBIFiltering : TestVBIBasicFilterFormat2" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestNullFiltering : TestNullFiltering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestNullFiltering : TestNullFiltering" pauseBeforeNext="1000" monitorTimeout="120000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestCCFiltering : TestGroup4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestCCFiltering : TestGroup4" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestCCFiltering : TestGroup5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestCCFiltering : TestGroup5" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestXDSFiltering : TestGroup6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestXDSFiltering : TestGroup6" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestXDSFiltering : TestGroup7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestXDSFiltering : TestGroup7" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestXDSFiltering : TestGroup8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestXDSFiltering : TestGroup8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestXDSFiltering : TestGroup8" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestXDSFiltering : TestGroup9" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestXDSFiltering : TestGroup9" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestXDSFiltering : TestGroup9" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestXDSFiltering : TestGroup10" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestXDSFiltering : TestGroup10" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestXDSFiltering : TestGroup10" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestMultipleFilters : TestGroup11" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestMultipleFilters : TestGroup11" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestMultipleFilters : TestGroup11" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestClearFiltering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestClearFiltering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestClearFiltering" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestNegFiltering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestNegFiltering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestNegFiltering" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRestartFiltering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRestartFiltering" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestRestartFiltering" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+ <!--     
+      <RCEvent name="Group 2 - VBI Tests" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_GUIDE</RCEvent>
+      <RCEvent name="Group 2 - VBI Tests" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Group 2 - VBI Tests" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="false">VK_ENTER</RCEvent>
+      
+      <RCEvent name="TestVBIGroupMethods" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestVBIGroupMethods" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBINotification : TestTimeout12" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestVBINotification : TestTimeout12" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBINotification : TestTimeout13" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestVBINotification : TestTimeout13" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBINotification : TestTimeout14" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestVBINotification : TestTimeout14" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBINotification : TestTimeout15" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestVBINotification : TestTimeout15" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBIZeroNotification" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestVBIZeroNotification" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 17" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 17" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 18" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 18" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 18" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 19" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 19" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 19" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 20" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 20" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 20" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 21" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 21" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestVBITimeNotification : TimeNotifyGroup 21" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 22" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 22" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 22" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 23" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 23" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 23" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+      
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 24" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 24" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 24" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 25" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 25" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 25" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 26" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 26" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestVBIDataNotification : DataNotifyGroup 26" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Group 3 - VBI Tests" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_GUIDE</RCEvent>
+      <RCEvent name="Group 3 - VBI Tests" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="Group 3 - VBI Tests" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="false">VK_ENTER</RCEvent>
+      
+      <RCEvent name="TestRapidXDSFiltering: Group 27" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestRapidXDSFiltering: Group 27" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRapidXDSFiltering on Multiple Filters" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestRapidXDSFiltering on Multiple Filters" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestFiltering On Seperate Services" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestFiltering On Seperate Services" pauseBeforeNext="1000" monitorTimeout="1200000" getResultsAfter="true">VK_ENTER</RCEvent>
+     --> 
+      <RCEvent name="TestExceptionBySetNotoficationByDataUnits" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestExceptionBySetNotoficationByDataUnits" pauseBeforeNext="1000" monitorTimeout="120000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestEventCodeVideoSourceChanged" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestEventCodeVideoSourceChanged" pauseBeforeNext="1000" monitorTimeout="120000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+   </Xlet>
+</AutoXlet>

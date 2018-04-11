@@ -1,0 +1,67 @@
+
+###############################################
+## PermissionTest - Unsigned
+###############################################
+app.0.application_identifier=0x000000013001
+app.0.application_control_code=PRESENT
+app.0.visibility=VISIBLE
+app.0.priority=220
+app.0.application_name=PermissionTest - Unsigned
+app.0.base_directory=/syscwd/qa/xlet
+app.0.initial_class_name=org.cablelabs.xlet.PermissionTest.UnsignedPermissionTest
+
+###############################################
+## PermissionTest - Signed with PRF
+###############################################
+app.1.application_identifier=0x000000014001
+app.1.application_control_code=PRESENT
+app.1.visibility=VISIBLE
+app.1.priority=220
+app.1.application_name=PermissionTest - Signed (with PRF)
+app.1.base_directory=/syscwd/qa/xlet
+app.1.initial_class_name=org.cablelabs.xlet.PermissionTest.SignedPermissionTestXlet
+
+###############################################
+## PermissionTest - Signed w/o PRF
+###############################################
+app.2.application_identifier=0x000000014006
+app.2.application_control_code=PRESENT
+app.2.visibility=VISIBLE
+app.2.priority=220
+app.2.application_name=PermissionTest - Signed (withOUT PRF)
+app.2.base_directory=/syscwd/qa/xlet
+app.2.initial_class_name=org.cablelabs.xlet.PermissionTest.SignedWithoutPRFPermissionTestXlet
+
+###############################################
+## PermissionTest - Dually Signed with PRF
+###############################################
+app.3.application_identifier=0x000000016011
+app.3.application_control_code=PRESENT
+app.3.visibility=VISIBLE
+app.3.priority=220
+app.3.application_name=PermissionTest - Dual Signed (with PRF)
+app.3.base_directory=/syscwd/qa/xlet
+app.3.initial_class_name=org.cablelabs.xlet.PermissionTest.DuallySignedPermissionsTestXlet
+
+###############################################
+## PermissionTest - Dual Signed w/o PRF
+###############################################
+app.4.application_identifier=0x000000016202
+app.4.application_control_code=PRESENT
+app.4.visibility=VISIBLE
+app.4.priority=220
+app.4.application_name=PermissionTest - Dual Signed (withOUT PRF)
+app.4.base_directory=/syscwd/qa/xlet
+app.4.initial_class_name=org.cablelabs.xlet.PermissionTest.DuallySignedWithoutPRFPermissionTestXlet
+
+###############################################
+## PermissionTest - HostAppPermissions
+###############################################
+app.5.application_identifier=0x000000017002
+app.5.application_control_code=PRESENT
+app.5.visibility=VISIBLE
+app.5.priority=220
+app.5.application_name=PermissionTest - HostApp
+app.5.base_directory=/syscwd/qa/xlet
+app.5.initial_class_name=org.cablelabs.xlet.PermissionTest.HostAppPermissionTestXlet
+

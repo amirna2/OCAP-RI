@@ -1,0 +1,9 @@
+<!-- Javadoc links for this version
+    To be included in a <javadoc> tag.
+-->
+    
+    <link offline="true"
+        href="${javadoc.url.sax.2_0_1}"
+        packagelistLoc="${javadoc.package-list.sax.2_0_1}"
+    />
+

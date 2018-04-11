@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+	<specVersion>
+		<major>1</major>
+		<minor>0</minor>
+	</specVersion>
+	<device>
+		<deviceType>urn:schemas-opencable-com:device:OCAP_TERMINAL:1</deviceType>
+		<friendlyName>OCAP Home Networking Simulator</friendlyName>
+		<manufacturer>Cablelabs</manufacturer>
+		<manufacturerURL>www.cablelabs.com</manufacturerURL>
+		<modelDescription>UPnP Simulator: description</modelDescription>
+		<modelName>UPnP Simulator Turbo</modelName>
+		<modelNumber>upnpsim-trb-324</modelNumber>
+		<modelURL>www.upnpsim.com/trb</modelURL>
+		<serialNumber>SN:918273645-001</serialNumber>
+		<UDN>uuid:__ROOT_DEVICE_UUID__</UDN>
+		<UPC>123581320401</UPC>
+		<ocap:X_MiddlewareProfile xmlns:ocap="urn:schemas-cablelabs-com:device-1-0">1.0.2</ocap:X_MiddlewareProfile>
+		<ocap:X_MiddlewareVersion xmlns:ocap="urn:schemas-cablelabs-com:device-1-0">1a.2.3</ocap:X_MiddlewareVersion>
+		<iconList>
+			<icon>
+				<mimetype>image/png</mimetype>
+				<width>64</width>
+				<height>48</height>
+				<depth>16</depth>
+				<url>simulatorIcon.png</url>
+			</icon>
+		</iconList>
+		<deviceList>
+			<device>
+				<deviceType>urn:schemas-upnp-org:device:MediaServer:2</deviceType>
+				<ocap:X_OCAPHN xmlns:ocap="urn:schemas-cablelabs-com:device-1-0">OC-DMS-1.0</ocap:X_OCAPHN>
+				<dlna:X_DLNADOC xmlns:dlna="urn:schemas-dlna-org:device-1-0">DMS-1.50</dlna:X_DLNADOC>
+				<UDN>uuid:__MEDIA_SERVER_UUID__</UDN>
+				<friendlyName>Simulator Media Server</friendlyName>
+				<manufacturer>Cablelabs</manufacturer>
+				<manufacturerURL>www.cablelabs.com</manufacturerURL>
+				<modelDescription>UPnP Simulator Media Server</modelDescription>
+				<modelName>UPnP Simulator Media Server</modelName>
+				<modelNumber>1.0</modelNumber>
+				<modelURL>none</modelURL>
+				<serialNumber>1.0</serialNumber>
+				<presentationURL>none</presentationURL>
+				<ocap:X_PacingSupported xmlns:ocap="urn:schemas-cablelabs-com:device-1-0">No</ocap:X_PacingSupported>
+				<serviceList>
+					<service>
+						<serviceType>urn:schemas-upnp-org:service:ConnectionManager:2</serviceType>
+						<serviceId>urn:upnp-org:serviceId:ConnectionManager</serviceId>
+						<SCPDURL>ConnectionManager.xml</SCPDURL>
+						<eventSubURL>ConnectionManager/Event</eventSubURL>
+						<controlURL>ConnectionManager/Control</controlURL>
+					</service>
+					<service>
+						<serviceType>urn:schemas-upnp-org:service:ContentDirectory:3</serviceType>
+						<serviceId>urn:upnp-org:serviceId:ContentDirectory</serviceId>
+						<SCPDURL>ContentDirectory.xml</SCPDURL>
+						<eventSubURL>ContentDirectory/Event</eventSubURL>
+						<controlURL>ContentDirectory/Control</controlURL>
+					</service>
+					<service>
+						<serviceType>urn:schemas-upnp-org:service:ScheduledRecording:1</serviceType>
+						<serviceId>urn:upnp-org:serviceId:ScheduledRecording</serviceId>
+						<SCPDURL>ScheduledRecording.xml</SCPDURL>
+						<eventSubURL>ScheduledRecording/Event</eventSubURL>
+						<controlURL>ScheduledRecording/Control</controlURL>
+					</service>
+				</serviceList>
+			</device>
+		</deviceList>
+		<presentationURL>none</presentationURL>
+	</device>
+</root>

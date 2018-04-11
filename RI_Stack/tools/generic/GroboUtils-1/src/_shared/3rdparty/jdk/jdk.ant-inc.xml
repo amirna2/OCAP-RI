@@ -1,0 +1,35 @@
+<!-- Main Entrypoint for defining JDK library javadoc.
+-->
+    <property name="_shared.dirs.3rdparty.jdk"
+            value="${_shared.dirs.3rdparty}/jdk" />
+    
+    <property name="javadoc.package-list.jdk.1_1"
+            value="${_shared.dirs.3rdparty.jdk}/1.1/package-list.jdk" />
+    <property name="javadoc.url.jdk.1_1"
+            value="http://java.sun.com/products/jdk/1.1/docs/api" />
+    
+    <property name="javadoc.package-list.jdk.1_2"
+            value="${_shared.dirs.3rdparty.jdk}/1.2/package-list.jdk" />
+    <property name="javadoc.url.jdk.1_2"
+            value="http://java.sun.com/j2se/1.2/docs/api" />
+
+    <property name="javadoc.package-list.jdk.1_3"
+            value="${_shared.dirs.3rdparty.jdk}/1.3/package-list.jdk" />
+    <property name="javadoc.url.jdk.1_3"
+            value="http://java.sun.com/j2se/1.3/docs/api" />
+
+    <property name="javadoc.package-list.jdk.1_3.jdi"
+            value="${_shared.dirs.3rdparty.jdk}/1.3/package-list.jdi" />
+    <property name="javadoc.url.jdk.1_3.jdi"
+            value="http://java.sun.com/j2se/1.3/docs/guide/jpda/jdi" />
+    
+    <property name="javadoc.package-list.jdk.1_4"
+            value="${_shared.dirs.3rdparty.jdk}/1.4/package-list.jdk" />
+    <property name="javadoc.url.jdk.1_4"
+            value="http://java.sun.com/j2se/1.4/docs/api" />
+
+    <property name="javadoc.package-list.jdk.1_4.jdi"
+            value="${_shared.dirs.3rdparty.jdk}/1.4/package-list.jdi" />
+    <property name="javadoc.url.jdk.1_4.jdi"
+            value="http://java.sun.com/j2se/1.4/docs/guide/jpda/jdi" />
+

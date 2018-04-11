@@ -1,0 +1,30 @@
+diff -Naur ffmpeg-0.5-orig/configure ffmpeg-0.5/configure
+--- ffmpeg-0.5-orig/configure	2009-03-01 10:57:14.000000000 -0700
++++ ffmpeg-0.5/configure	2009-03-24 11:01:00.904510500 -0600
+@@ -1561,7 +1561,7 @@
+             VHOOKLIBS="$VHOOKLIBS -lswscale\$(BUILDSUF)"
+         fi
+         disable ffserver
+-        SLIBPREF=""
++        SLIBPREF="lib"
+         SLIBSUF=".dll"
+         SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)-$(LIBVERSION)$(SLIBSUF)'
+         SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)-$(LIBMAJOR)$(SLIBSUF)'
+diff -Naur ffmpeg-0.5-orig/subdir.mak ffmpeg-0.5/subdir.mak
+--- ffmpeg-0.5-orig/subdir.mak	2008-12-13 08:31:30.000000000 -0700
++++ ffmpeg-0.5/subdir.mak	2009-03-24 10:59:51.108975600 -0600
+@@ -39,12 +39,8 @@
+ 
+ install-lib$(NAME)-shared: $(SUBDIR)$(SLIBNAME)
+ 	install -d "$(SHLIBDIR)"
+-	install -m 755 $(SUBDIR)$(SLIBNAME) "$(SHLIBDIR)/$(SLIBNAME_WITH_VERSION)"
+-	$(STRIP) "$(SHLIBDIR)/$(SLIBNAME_WITH_VERSION)"
+-	cd "$(SHLIBDIR)" && \
+-		$(LN_S) $(SLIBNAME_WITH_VERSION) $(SLIBNAME_WITH_MAJOR)
+-	cd "$(SHLIBDIR)" && \
+-		$(LN_S) $(SLIBNAME_WITH_VERSION) $(SLIBNAME)
++	install -m 755 $(SUBDIR)$(SLIBNAME) "$(SHLIBDIR)/$(SLIBNAME_WITH_MAJOR)"
++	$(STRIP) "$(SHLIBDIR)/$(SLIBNAME_WITH_MAJOR)"
+ 	$(SLIB_INSTALL_EXTRA_CMD)
+ 
+ install-lib$(NAME)-static: $(SUBDIR)$(LIBNAME)

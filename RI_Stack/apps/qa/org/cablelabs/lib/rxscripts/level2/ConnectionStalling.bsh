@@ -1,0 +1,300 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+//
+///////////////////////////////////////////////////////////////////////////////
+ 
+// List of scripts used by this script
+//
+this.interpreter.source ("scripts/level2/utils/LiveStreamingTestSetup.bsh");
+this.interpreter.source ("scripts/level2/utils/PlayerRateChangeUtil.bsh");
+this.interpreter.source ("scripts/level1/FindMediaServer.bsh");
+this.interpreter.source ("scripts/level1/PublishLiveChannelToCDS.bsh");
+this.interpreter.source ("scripts/level1/PlaybackRecording.bsh");
+this.interpreter.source ("scripts/level1/TuneToServiceByIndex.bsh");
+this.interpreter.source ("scripts/level2/utils/RecordingTestSetup.bsh");
+
+/**
+ * Main method to perform connection stalling scenario.
+ *
+ *
+ * @return  null string if no problems encountered, 
+ *          failure reason if problems encountered 
+ */
+String connectionStalling(boolean useRemoteServicePlayer, int contentType)
+{
+    String failureReason = null;
+    String results = null;
+    String testName = "connectionStalling";
+    String liveStreamChannelName = CHANNEL_NAME_1;
+    
+    if (contentType == rxDriverHN.HN_CONTENT_TYPE_LIVE_STREAM)
+    {
+        results = performLiveStreamingSetup(false, GOLF_CHANNEL_IDX, false);
+        if (results != null)
+        {
+            // Problems setting up for test
+            failureReason = testName + " Problems during test setup: " + results;
+            rxLog.callTrace("Failure performing LiveStreaming setup : ", this.callstack);
+            return failureReason;
+        }
+        rxLog.info(testName + " - Completed Test setup for live streaming");                
+    }
+    else if (contentType == rxDriverHN.HN_CONTENT_TYPE_RECORDING)
+    { 
+        rxLog.info(testName +  " - Setup of recording");
+        int recLengthSecs = 120;
+        boolean backgroundRec = false;
+        String results = performRecordingTestSetup(testName, false, recLengthSecs, 
+                            recLengthSecs + TOLERANCE_SECS,
+                            false, rxDriverDVR.COMPLETED_STATE, backgroundRec);
+        if (results != null)
+        {
+            // Problems setting up for test
+            failureReason = "Problems during test setup: " + results;
+            rxLog.callTrace ("Failure performing recording setup : ", this.callstack);
+            return failureReason;
+        }
+        rxLog.info(testName +  " - Completed Test setup for recording");
+    }
+    else
+    {
+        // No other content types are supported, return fail
+        failureReason = testName + " Failed due to Non-supported content type";
+        rxLog.callTrace("Failure performing connection stalling test : ", this.callstack);
+        return failureReason;
+    }
+    
+    // Find the index of the local media server
+    int mediaServerIndex = findLocalMediaServer();
+    if (mediaServerIndex == -1)
+    {
+        failureReason = "Problems getting local media server";
+        rxLog.callTrace ("Failure getting local media server", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Found media local media server");
+    
+    int contentItemIndex = -1;
+    if (contentType == rxDriverHN.HN_CONTENT_TYPE_LIVE_STREAM)
+    {
+        contentItemIndex = getPublishedChannelItemByName(mediaServerIndex, liveStreamChannelName);
+        if (contentItemIndex == -1)
+        {
+            failureReason = "Problems getting index for the published channel item.";
+            rxLog.info("Problems getting index for the published channel item.");
+            return failureReason;
+        }
+        rxLog.info(testName + " Got Index for the published channel item: " + contentItemIndex);        
+
+        // Stop broadcast service selection so tuner is available for live streaming
+        tuneToServiceStop();                
+    }
+    else // contentType == rxDriverHN.HN_CONTENT_TYPE_RECORDING
+    {
+        // Get the content item index of first and only recording
+        contentItemIndex = getContentItemIndexOfFirstRecording(mediaServerIndex);
+        if (contentItemIndex == -1)
+        {
+            failureReason = "Problems getting recording content item";
+            rxLog.callTrace ("Failure getting recording content item : ", this.callstack);
+            return failureReason;
+        }
+        rxLog.info(testName + " - Found recording content item to playback");
+    }
+    
+    if (!useRemoteServicePlayer)
+    {
+        // Stop broadcast service selection so video device is available for playback        
+        tuneToServiceStop();                
+    }
+    
+    // Create Player for hn playback
+    if (!startHNPlayback(useRemoteServicePlayer, mediaServerIndex, contentItemIndex))
+    {
+        failureReason = testName + " - Problems starting HN playback";
+        rxLog.callTrace(failureReason, this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Created and started hn player");
+
+    int toleranceSecs = TOLERANCE_SECS;
+    int pauseTimeSecs = 15;
+    
+    // Get starting media time
+    int startTimeSecs = getMediaTimeSecs();
+    
+    // Play at 1x for 10 secs
+    int playTimeSecs = 10;
+    if (!waitForSecs(playTimeSecs))
+    {
+        failureReason = testName + " - Problems playing for " + playTimeSecs + " secs at 1x";
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;    
+    }
+
+    rxLog.info(testName + " - Played for 10 secs, getting media time");
+    
+    // Verify current media time is within tolerance of expected time
+    int expectedTimeSecs = playTimeSecs;
+    int curTimeSecs = getMediaTimeSecs();
+    if (((curTimeSecs - TOLERANCE_SECS)  > expectedTimeSecs) ||
+        ((curTimeSecs + TOLERANCE_SECS) < expectedTimeSecs))
+    {
+        failureReason = testName + " - Expected media time of " + expectedTimeSecs + 
+                        " current at media time " + curTimeSecs + 
+                        ", using tolerance secs " + toleranceSecs;
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;            
+    }
+    
+    // Perform first pause playback
+    if (null != (failureReason = rateChangeHelper(testName, (float)0.0)))
+    {
+        failureReason = testName + " - Problems with pause rate change";
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;
+    }
+    rxLog.info(testName +  " - pause rate change complete");
+    
+    // Pause for 15 secs which is less than connection stalling time out 
+    // which should be configured to be 30 sec
+    int pauseTimeSecs = 15;
+    if (!waitForSecs(pauseTimeSecs))
+    {
+        failureReason = testName + " - Problems pausing for " + pauseTimeSecs + " secs";
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;    
+    }
+
+    // Resume playback after 1st pause at 1x 
+    if (null != (failureReason = rateChangeHelper(testName, (float)1.0)))
+    {
+        failureReason = testName + " - Problems with 1x rate change";
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;
+    }
+    rxLog.info(testName +  " - resume playback at 1x complete");
+    
+    // Get starting media time after first pause
+    startTimeSecs = getMediaTimeSecs();
+    
+    // Play at 1x for 10 secs
+    playTimeSecs = 10;
+    if (!waitForSecs(playTimeSecs))
+    {
+        failureReason = testName + " - Problems playing for " + playTimeSecs + " secs at 1x";
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;    
+    }
+    
+    // Verify media time has elapsed by at least 10 secs
+    expectedTimeSecs = startTimeSecs + (1 * playTimeSecs);
+    curTimeSecs = getMediaTimeSecs();
+    if (((curTimeSecs - TOLERANCE_SECS)  > expectedTimeSecs) ||
+        ((curTimeSecs + TOLERANCE_SECS) < expectedTimeSecs))
+    {
+        failureReason = testName + " - Expected media time of " + expectedTimeSecs + 
+                        " current at media time " + curTimeSecs + 
+                        ", using tolerance secs " + toleranceSecs;
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;            
+    }
+    
+    // Perform second pause playback
+    if (null != (failureReason = rateChangeHelper(testName, (float)0.0)))
+    {
+        failureReason = testName + " - Problems with pause rate change";
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;
+    }
+    rxLog.info(testName +  " - pause rate change complete");
+    
+    // Pause for 130 secs which is greater than connection stalling time out 
+    // which should be configured to be 30 sec
+    // Note this long pause is needed to Window specific throughput issue on
+    // on local interfaces
+    int pauseTimeSecs = 130;
+    if (!waitForSecs(pauseTimeSecs))
+    {
+        failureReason = testName + " - Problems pausing for " + pauseTimeSecs + " secs";
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;    
+    }
+
+    // Attempt to resume playback and verify playback fails to start due to inactivity timeout
+    rateChangeHelper(testName, (float)1.0);
+    if (!waitForState(60, rxDriverCore.PLAYBACK_STATE_FAILED))
+    {
+        failureReason = testName + " - Playback did not fail due to inactivity";
+        rxLog.callTrace(failureReason, this.callstack);
+        stopPlayback();
+        return failureReason;
+    }
+
+    // Clean up by stopping player
+    stopPlayback();
+    
+    rxLog.info(testName +  " - complete");
+    
+    return failureReason;
+}

@@ -1,0 +1,49 @@
+<!-- Main Entrypoint for defining the Log4j libraries properties.
+-->
+    <property name="_shared.dirs.3rdparty.log4j"
+            value="${_shared.dirs.3rdparty}/log4j" />
+    
+    
+    <!-- Log4j libraries -->
+    <property name="libs.log4j.1_2_4"
+            value="${_shared.dirs.3rdparty.log4j}/1.2.4/log4j-1.2.4.jar" />
+    
+    <property name="javadoc.package-list.log4j.1_2_4"
+            value="${_shared.dirs.3rdparty.log4j}/1.2.4/package-list" />
+    <property name="javadoc.url.log4j.1_2_4"
+            value="http://jakarta.apache.org/log4j/docs/api" />
+    
+    <property name="licenses.log4j.1_2_4"
+            value="${_shared.dirs.3rdparty.log4j}/1.2.4/LICENSE.txt" />
+    
+    
+
+    <property name="libs.log4j.1_2_5"
+            value="${_shared.dirs.3rdparty.log4j}/1.2.5/log4j-1.2.5.jar" />
+    
+    <property name="javadoc.package-list.log4j.1_2_5"
+            value="${_shared.dirs.3rdparty.log4j}/1.2.5/package-list" />
+    <property name="javadoc.url.log4j.1_2_5"
+            value="http://jakarta.apache.org/log4j/docs/api" />
+    
+    <property name="licenses.log4j.1_2_5"
+            value="${_shared.dirs.3rdparty.log4j}/1.2.5/LICENSE.txt" />
+
+            
+    <property name="libs.log4j.1_2_7"
+            value="${_shared.dirs.3rdparty.log4j}/1.2.7/log4j-1.2.7.jar" />
+    
+    <property name="javadoc.package-list.log4j.1_2_7"
+            value="${_shared.dirs.3rdparty.log4j}/1.2.7/package-list" />
+    <property name="javadoc.url.log4j.1_2_7"
+            value="http://jakarta.apache.org/log4j/docs/api" />
+    
+    <property name="licenses.log4j.1_2_7"
+            value="${_shared.dirs.3rdparty.log4j}/1.2.7/LICENSE.txt" />
+
+            
+    <property name="libs.log4j.current"
+            value="${libs.log4j.1_2_7}" />
+    
+    
+

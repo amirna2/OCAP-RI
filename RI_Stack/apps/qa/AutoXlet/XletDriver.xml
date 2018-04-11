@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent+)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+
+    <!-- FAP Create Files -->
+    <Xlet name="FAP Create Files" orgID="0x1" appID="0x7011" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Read Files (same org) -->
+    <Xlet name="FAP Read Files (same org)" orgID="0x1" appID="0x4012" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Write Files (same org) -->
+    <Xlet name="FAP Write Files (same org)" orgID="0x1" appID="0x4013" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Read Files (other org) -->
+    <Xlet name="FAP Read Files (other org)" orgID="0x2" appID="0x4014" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Write Files (other org) -->
+    <Xlet name="FAP Write Files (other org)" orgID="0x2" appID="0x4015" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Remove Files (other org) -->
+    <Xlet name="FAP Remove Files (other org)" orgID="0x2" appID="0x7016" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- FAP Remove Files -->
+    <Xlet name="FAP Remove Files" orgID="0x1" appID="0x7015" pauseAfterLast="1000">
+    </Xlet>
+
+
+
+    <!-- ############################################################## -->
+
+    <!-- Signed Perm (No PRF) -->
+    <Xlet name="SignedPermission (No PRF)" orgID="0x1" appID="0x4006" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- Signed Perm (With PRF) -->
+    <Xlet name="SignedPermission (With PRF)" orgID="0x1" appID="0x4001" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- Dual Signed Perm (No PRF) -->
+    <Xlet name="DuallySignedPermission (No PRF)" orgID="0x1" appID="0x6202" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- Dual Signed Perm (With PRF) -->
+    <Xlet name="DuallySignedPermission (With PRF)" orgID="0x1" appID="0x6001" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- HostApp Perm -->
+    <Xlet name="HostAppPermission" orgID="0x1" appID="0x7002" pauseAfterLast="1000">
+    </Xlet>
+
+
+    <!-- ############################################################## -->
+    <!-- Tune Test -->
+    <Xlet name="TuneTest" orgID="0x01" appID="0x5204" pauseAfterLast="1000">
+
+        <!-- Channel Up twice -->
+        <RCEvent name="Channel Up 1" monitorTimeout="3000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Channel Up 2" monitorTimeout="3000">VK_CHANNEL_UP</RCEvent>
+
+        <!-- Channel down twice -->
+        <RCEvent name="Channel Down 1" monitorTimeout="3000">VK_CHANNEL_DOWN</RCEvent>
+        <RCEvent name="Channel Down 2" monitorTimeout="3000">VK_CHANNEL_DOWN</RCEvent>
+    </Xlet>
+
+
+
+
+    <!-- ############################################################## -->
+    <!-- Signed Properties -->
+    <Xlet name="SignedProperties" orgID="0x1" appID="0x4231" pauseAfterLast="1000">
+    </Xlet>
+
+    <!-- MonitorApp Properties -->
+    <Xlet name="MonitorAppProperties" orgID="0x1" appID="0x6231" pauseAfterLast="1000">
+    </Xlet>
+
+
+
+
+    <!-- ############################################################## -->
+    <Xlet name="AutoXletDoneXlet" orgID="0x1" appID="0x4444" pauseAfterLast="3000">
+    </Xlet>
+
+</AutoXlet>

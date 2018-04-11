@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+  <head>
+    <title></title>
+    <!-- Edited by Robin Kargoll -->
+  </head>
+
+  <body>
+    <h1>org.ocap.resource</h1>
+
+    <P>The Resource Management API allows a monitor application to refuse a 
+    reservation of limited resources unconditionally and to resolve a resource 
+    reservation contention after negotiation. The monitor application can 
+    implement a subclass of the <CODE>org.dvb.application.AppsDatabaseFilter</CODE> 
+    class to refuse a reservation, and a concrete class that implements the 
+    <CODE>org.ocap.resource.ResourceContentionHandler</CODE> interface to
+    resolve a contention. See Section 18 Resource Management for more details.</P>
+
+    <H2>Example of Monitor Application</H2>
+
+    <P>This sample code shows how the monitor application implements this 
+    package. The class ResourceHandler is one of the classes of the monitor 
+    application. It prevents an application that has an organization ID of 
+    REJECTED_ORGANIZATION from reserving a section filter resource, and gives 
+    a higher priority for resource reservation to an application that has an 
+    organization ID of PRIORITIZED_ORGANIZATION.</P>
+
+<pre>import org.ocap.resource.*;
+import org.dvb.application.*;
+import org.davic.resources.*;
+import org.davic.mpeg.sections.*;
+
+public class ResourceHandler extends AppsDatabaseFilter
+        implements ResourceContentionHandler {
+
+    private static final int REJECTED_ORGANIZATION = 0xABCD;
+    private static final int PRIORITIZED_ORGANIZATION = 0x1234;
+
+    /*
+     * This is Constructor. 
+     * Set a ResourceFilter and a ResourceContentionManager for a resource 
+     * handling when constructing. 
+     */
+    public ResourceHandler() {
+        super();
+        ResourceContentionManager rcManager = ResourceContentionManager.getInstance();
+        rcManager.setResourceFilter(this, "org.davic.mpeg.sections.SectionFilterGroup");
+        rcManager.setResourceContentionHandler(this);
+    }
+
+    /*
+     * Check if the application is allowed to reserve a resource or not. 
+     */
+
+    public boolean accept(AppID appid) {
+        if(appid.getOID() == REJECTED_ORGANIZATION) {
+            return(false);
+        }
+        return(true);
+    }
+
+    /*
+     * Resolve a resource contention.
+     */
+
+     public ResourceUsage[] resolveResourceContention(
+                        ResourceUsage newRequest,
+                        ResourceUsage currentReservations[]) {
+                ResourceUsage result[] = new ResourceUsage[currentReservations.length + 1];
+                if(newRequest.getAppID().getOID() == PRIORITIZED_ORGANIZATION) {
+                        result[0] = newRequest;
+                        for(int i=0; i&lt;currentReservations.length; i++) {
+                                result[i+1] = currentReservations[i];
+                        }
+                } else {
+                        for(int i=0; i&lt;currentReservations.length; i++) {
+                                result[i] = currentReservations[i];
+                        }
+                        result[currentReservations.length] = newRequest;
+                }
+                return(result);
+      }
+}
+
+}
+</pre>
+
+  </body>
+</html>
+

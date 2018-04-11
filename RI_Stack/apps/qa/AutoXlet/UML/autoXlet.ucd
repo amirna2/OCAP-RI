@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="autoXlet" size="1552,1801" id="org.cablelabs.test.autoxlet" metadata="uml2-1.0" initialized="true" tag="1000" key="3230303530393036204175746F586C65742F67726567">
+  <children xsi:type="editmodel:ClassEditModel" name="TestFailure" location="303,1292" size="190,175" id="org.cablelabs.test.autoxlet/TestFailure" runTimeClassModel="trace(),toString(),thrownException(),isFailure(),fThrownException,TestFailure(Ljava.lang.Throwable;),exceptionMessage()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="166,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="fThrownException" id="org.cablelabs.test.autoxlet/TestFailure#fThrownException"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="135,108">
+      <children xsi:type="editmodel:MethodEditModel" name="TestFailure" id="org.cablelabs.test.autoxlet/TestFailure#TestFailure(Ljava.lang.Throwable;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="thrownException" id="org.cablelabs.test.autoxlet/TestFailure#thrownException()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="toString" id="org.cablelabs.test.autoxlet/TestFailure#toString()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="trace" id="org.cablelabs.test.autoxlet/TestFailure#trace()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="exceptionMessage" id="org.cablelabs.test.autoxlet/TestFailure#exceptionMessage()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="isFailure" id="org.cablelabs.test.autoxlet/TestFailure#isFailure()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="Driveable" location="304,1553" size="229,81" stereotype="interface" id="org.cablelabs.test.autoxlet/Driveable" runTimeClassModel="dispatchEvent(Ljava.awt.event.KeyEvent;ZI)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="205,18">
+      <children xsi:type="editmodel:MethodEditModel" name="dispatchEvent" id="org.cablelabs.test.autoxlet/Driveable#dispatchEvent(Ljava.awt.event.KeyEvent;ZI)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Monitor" location="50,1706" size="115,75" id="org.cablelabs.test.autoxlet/Monitor" runTimeClassModel="timeout,ready">
+    <children xsi:type="editmodel:CompartmentEditModel" size="92,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="ready" id="org.cablelabs.test.autoxlet/Monitor#ready"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="timeout" id="org.cablelabs.test.autoxlet/Monitor#timeout"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="RcEventDispatcher" location="50,1553" size="204,103" id="org.cablelabs.test.autoxlet/RcEventDispatcher" runTimeClassModel="RcEventDispatcher(Ljava.awt.event.KeyListener;),dispatchEvent(Ljava.awt.event.KeyEvent;),keyListener">
+    <children xsi:type="editmodel:CompartmentEditModel" size="139,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="keyListener" id="org.cablelabs.test.autoxlet/RcEventDispatcher#keyListener"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="180,36">
+      <children xsi:type="editmodel:MethodEditModel" name="RcEventDispatcher" id="org.cablelabs.test.autoxlet/RcEventDispatcher#RcEventDispatcher(Ljava.awt.event.KeyListener;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="dispatchEvent" id="org.cablelabs.test.autoxlet/RcEventDispatcher#dispatchEvent(Ljava.awt.event.KeyEvent;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Test" location="266,50" size="259,787" id="org.cablelabs.test.autoxlet/Test" runTimeClassModel="assertEquals(Ljava.lang.String;BB),assertNotNull(Ljava.lang.String;Ljava.lang.Object;),assertEquals(Ljava.lang.String;Ljava.lang.String;),assertEquals(BB),assertFalse(Z),failNotEquals(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;),assertSame(Ljava.lang.Object;Ljava.lang.Object;),assertNotNull(Ljava.lang.Object;),assertNotSame(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;),assertEquals(Ljava.lang.String;JJ),assertSame(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;),assertEquals(Ljava.lang.String;ZZ),assertTrue(Z),assertNull(Ljava.lang.Object;),assertEquals(II),fail(),assertEquals(Ljava.lang.String;DDD),assertEquals(FFF),format(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;),assertEquals(Ljava.lang.String;II),assertNotSame(Ljava.lang.Object;Ljava.lang.Object;),assertEquals(JJ),failNotSame(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;),fail(Ljava.lang.String;),assertEquals(Ljava.lang.String;FFF),assertTrue(Ljava.lang.String;Z),failSame(Ljava.lang.String;),assertEquals(ZZ),assertFalse(Ljava.lang.String;Z),Test(),assertEquals(SS),assertEquals(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;),assertEquals(DDD),assertEquals(Ljava.lang.String;SS),assertNull(Ljava.lang.String;Ljava.lang.Object;),assertEquals(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;),assertEquals(CC),result,assertEquals(Ljava.lang.String;CC),getTestResult(),assertEquals(Ljava.lang.Object;Ljava.lang.Object;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="103,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="result" id="org.cablelabs.test.autoxlet/Test#result"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="235,720">
+      <children xsi:type="editmodel:MethodEditModel" name="Test" id="org.cablelabs.test.autoxlet/Test#Test()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTestResult" id="org.cablelabs.test.autoxlet/Test#getTestResult()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertTrue" id="org.cablelabs.test.autoxlet/Test#assertTrue(Ljava.lang.String;Z)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertTrue" id="org.cablelabs.test.autoxlet/Test#assertTrue(Z)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertFalse" id="org.cablelabs.test.autoxlet/Test#assertFalse(Ljava.lang.String;Z)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertFalse" id="org.cablelabs.test.autoxlet/Test#assertFalse(Z)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="fail" id="org.cablelabs.test.autoxlet/Test#fail(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="fail" id="org.cablelabs.test.autoxlet/Test#fail()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.Object;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;DDD)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(DDD)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;FFF)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(FFF)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;JJ)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(JJ)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;ZZ)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(ZZ)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;BB)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(BB)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;CC)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(CC)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;SS)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(SS)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(Ljava.lang.String;II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertEquals" id="org.cablelabs.test.autoxlet/Test#assertEquals(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertNotNull" id="org.cablelabs.test.autoxlet/Test#assertNotNull(Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertNotNull" id="org.cablelabs.test.autoxlet/Test#assertNotNull(Ljava.lang.String;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertNull" id="org.cablelabs.test.autoxlet/Test#assertNull(Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertNull" id="org.cablelabs.test.autoxlet/Test#assertNull(Ljava.lang.String;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertSame" id="org.cablelabs.test.autoxlet/Test#assertSame(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertSame" id="org.cablelabs.test.autoxlet/Test#assertSame(Ljava.lang.Object;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertNotSame" id="org.cablelabs.test.autoxlet/Test#assertNotSame(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="assertNotSame" id="org.cablelabs.test.autoxlet/Test#assertNotSame(Ljava.lang.Object;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="failSame" id="org.cablelabs.test.autoxlet/Test#failSame(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="failNotSame" id="org.cablelabs.test.autoxlet/Test#failNotSame(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="failNotEquals" id="org.cablelabs.test.autoxlet/Test#failNotEquals(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="format" id="org.cablelabs.test.autoxlet/Test#format(Ljava.lang.String;Ljava.lang.Object;Ljava.lang.Object;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="TestCollector" location="583,1553" size="126,81" stereotype="interface" id="org.cablelabs.test.autoxlet/TestCollector" runTimeClassModel="getTestResults()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="103,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getTestResults" id="org.cablelabs.test.autoxlet/TestCollector#getTestResults()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="TestResult" location="50,1292" size="203,211" id="org.cablelabs.test.autoxlet/TestResult" runTimeClassModel="TestResult(),fFailures,addFailure(Lorg.cablelabs.test.autoxlet.AssertionFailedError;),runCount(),failures(),failureCount(),runTest(),runCount,wasSuccessful()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="100,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="fFailures" id="org.cablelabs.test.autoxlet/TestResult#fFailures"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="runCount" id="org.cablelabs.test.autoxlet/TestResult#runCount"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="179,126">
+      <children xsi:type="editmodel:MethodEditModel" name="TestResult" id="org.cablelabs.test.autoxlet/TestResult#TestResult()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addFailure" id="org.cablelabs.test.autoxlet/TestResult#addFailure(Lorg.cablelabs.test.autoxlet.AssertionFailedError;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="failureCount" id="org.cablelabs.test.autoxlet/TestResult#failureCount()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="runTest" id="org.cablelabs.test.autoxlet/TestResult#runTest()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="runCount" id="org.cablelabs.test.autoxlet/TestResult#runCount()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="failures" id="org.cablelabs.test.autoxlet/TestResult#failures()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="wasSuccessful" id="org.cablelabs.test.autoxlet/TestResult#wasSuccessful()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ResultPrinter" location="50,887" size="223,355" id="org.cablelabs.test.autoxlet/ResultPrinter" runTimeClassModel="printDefect(Lorg.cablelabs.test.autoxlet.TestFailure;I),printDefectHeader(Lorg.cablelabs.test.autoxlet.TestFailure;I),printWaitPrompt(),print(Lorg.cablelabs.test.autoxlet.TestResult;J),fColumn,printDefectTrace(Lorg.cablelabs.test.autoxlet.TestFailure;),getWriter(),ResultPrinter(Ljava.io.PrintStream;),getFilteredTrace(Ljava.lang.String;),printHeader(J),filterLine(Ljava.lang.String;),printFooter(Lorg.cablelabs.test.autoxlet.TestResult;),printFailures(Lorg.cablelabs.test.autoxlet.TestResult;),fWriter,getFilteredTrace(Ljava.lang.Throwable;),printDefects(Ljava.util.Enumeration;ILjava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="114,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="fWriter" id="org.cablelabs.test.autoxlet/ResultPrinter#fWriter"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="fColumn" id="org.cablelabs.test.autoxlet/ResultPrinter#fColumn"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="199,252">
+      <children xsi:type="editmodel:MethodEditModel" name="ResultPrinter" id="org.cablelabs.test.autoxlet/ResultPrinter#ResultPrinter(Ljava.io.PrintStream;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="print" id="org.cablelabs.test.autoxlet/ResultPrinter#print(Lorg.cablelabs.test.autoxlet.TestResult;J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="printWaitPrompt" id="org.cablelabs.test.autoxlet/ResultPrinter#printWaitPrompt()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="printHeader" id="org.cablelabs.test.autoxlet/ResultPrinter#printHeader(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="printFailures" id="org.cablelabs.test.autoxlet/ResultPrinter#printFailures(Lorg.cablelabs.test.autoxlet.TestResult;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="printDefects" id="org.cablelabs.test.autoxlet/ResultPrinter#printDefects(Ljava.util.Enumeration;ILjava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="printDefect" id="org.cablelabs.test.autoxlet/ResultPrinter#printDefect(Lorg.cablelabs.test.autoxlet.TestFailure;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="printDefectHeader" id="org.cablelabs.test.autoxlet/ResultPrinter#printDefectHeader(Lorg.cablelabs.test.autoxlet.TestFailure;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFilteredTrace" id="org.cablelabs.test.autoxlet/ResultPrinter#getFilteredTrace(Ljava.lang.Throwable;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFilteredTrace" id="org.cablelabs.test.autoxlet/ResultPrinter#getFilteredTrace(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="filterLine" id="org.cablelabs.test.autoxlet/ResultPrinter#filterLine(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="printDefectTrace" id="org.cablelabs.test.autoxlet/ResultPrinter#printDefectTrace(Lorg.cablelabs.test.autoxlet.TestFailure;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="printFooter" id="org.cablelabs.test.autoxlet/ResultPrinter#printFooter(Lorg.cablelabs.test.autoxlet.TestResult;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getWriter" id="org.cablelabs.test.autoxlet/ResultPrinter#getWriter()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="UDPLogServer" location="543,1292" size="170,157" id="org.cablelabs.test.autoxlet/UDPLogServer" runTimeClassModel="main([Ljava.lang.String;),execute(),socket,port,fwriter,UDPLogServer(ILjava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="136,54">
+      <children xsi:type="editmodel:AttributeEditModel" name="port" id="org.cablelabs.test.autoxlet/UDPLogServer#port"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="socket" id="org.cablelabs.test.autoxlet/UDPLogServer#socket"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="fwriter" id="org.cablelabs.test.autoxlet/UDPLogServer#fwriter"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="146,54">
+      <children xsi:type="editmodel:MethodEditModel" name="UDPLogServer" id="org.cablelabs.test.autoxlet/UDPLogServer#UDPLogServer(ILjava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="main" id="org.cablelabs.test.autoxlet/UDPLogServer#main([Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="execute" id="org.cablelabs.test.autoxlet/UDPLogServer#execute()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="UDPLogger" location="50,471" size="162,229" id="org.cablelabs.test.autoxlet/UDPLogger" runTimeClassModel="UDPLogger(Ljava.lang.String;I),portdest,getTimestamp(),send(Ljava.lang.String;),write([CII),flush(),sender,getIPFromString(Ljava.lang.String;),close(),ipdest">
+    <children xsi:type="editmodel:CompartmentEditModel" size="139,54">
+      <children xsi:type="editmodel:AttributeEditModel" name="ipdest" id="org.cablelabs.test.autoxlet/UDPLogger#ipdest"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="portdest" id="org.cablelabs.test.autoxlet/UDPLogger#portdest"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="sender" id="org.cablelabs.test.autoxlet/UDPLogger#sender"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="134,126">
+      <children xsi:type="editmodel:MethodEditModel" name="UDPLogger" id="org.cablelabs.test.autoxlet/UDPLogger#UDPLogger(Ljava.lang.String;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getIPFromString" id="org.cablelabs.test.autoxlet/UDPLogger#getIPFromString(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="send" id="org.cablelabs.test.autoxlet/UDPLogger#send(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTimestamp" id="org.cablelabs.test.autoxlet/UDPLogger#getTimestamp()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="close" id="org.cablelabs.test.autoxlet/UDPLogger#close()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="write" id="org.cablelabs.test.autoxlet/UDPLogger#write([CII)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="flush" id="org.cablelabs.test.autoxlet/UDPLogger#flush()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="org.cablelabs.test.autoxlet/UDPLogger@udpLogger+org.cablelabs.test.autoxlet/XletLogger@xletLogger" source="//@children.9" target="//@children.10" targetEnd="//@children.9/@sourceConnections.0/@children.1" label="//@children.9/@sourceConnections.0/@children.2" sourceEnd="//@children.9/@sourceConnections.0/@children.0" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" name="udpLogger" location="81,0" id="org.cablelabs.test.autoxlet/UDPLogger@udpLogger+org.cablelabs.test.autoxlet/XletLogger@xletLogger|org.cablelabs.test.autoxlet/UDPLogger#udpLogger" attachSource="true" multiplicityLabel="//@children.9/@sourceConnections.0/@children.0/@children.1" roleLabel="//@children.9/@sourceConnections.0/@children.0/@children.0" aggregationKind="Composition" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - udpLogger" location="138,450" size="62,14" fontInfo="Arial-8-0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="106,450" size="18,14" fontInfo="Arial-8-0" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="xletLogger" location="75,139" id="org.cablelabs.test.autoxlet/UDPLogger@udpLogger+org.cablelabs.test.autoxlet/XletLogger@xletLogger|org.cablelabs.test.autoxlet/XletLogger#xletLogger"/>
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.9/@sourceConnections.0" name="XletLogger" location="56,260" size="151,139" id="org.cablelabs.test.autoxlet/XletLogger" runTimeClassModel="log(Ljava.lang.String;),XletLogger(),XletLogger(Ljava.lang.String;),log(Lorg.cablelabs.test.autoxlet.TestResult;),XletLogger(Ljava.lang.String;I)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="128,90">
+      <children xsi:type="editmodel:MethodEditModel" name="XletLogger" id="org.cablelabs.test.autoxlet/XletLogger#XletLogger()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="XletLogger" id="org.cablelabs.test.autoxlet/XletLogger#XletLogger(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="XletLogger" id="org.cablelabs.test.autoxlet/XletLogger#XletLogger(Ljava.lang.String;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="log" id="org.cablelabs.test.autoxlet/XletLogger#log(Lorg.cablelabs.test.autoxlet.TestResult;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="log" id="org.cablelabs.test.autoxlet/XletLogger#log(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" name="logger" autoLocated="true" id="org.cablelabs.test.autoxlet/XletLogger@logger+org.cablelabs.test.autoxlet/XletDriver@xletDriver" source="//@children.10" target="//@children.11" targetEnd="//@children.10/@sourceConnections.0/@children.1" label="//@children.10/@sourceConnections.0/@children.2" sourceEnd="//@children.10/@sourceConnections.0/@children.0" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" name="logger" location="75,0" id="org.cablelabs.test.autoxlet/XletLogger@logger+org.cablelabs.test.autoxlet/XletDriver@xletDriver|org.cablelabs.test.autoxlet/XletLogger#logger" attachSource="true" multiplicityLabel="//@children.10/@sourceConnections.0/@children.0/@children.0" roleLabel="//@children.10/@sourceConnections.0/@children.0/@children.1" aggregationKind="Composition" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name="1" location="118,239" size="6,14" fontInfo="Arial-8-0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name=" - logger" location="138,239" size="40,14" fontInfo="Arial-8-0" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="xletDriver" location="73,121" id="org.cablelabs.test.autoxlet/XletLogger@logger+org.cablelabs.test.autoxlet/XletDriver@xletDriver|org.cablelabs.test.autoxlet/XletDriver#xletDriver"/>
+      <children xsi:type="editmodel:WireLabelEditModel" name="logger" size="30,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.10/@sourceConnections.0" name="XletDriver" location="58,50" size="147,121" id="org.cablelabs.test.autoxlet/XletDriver" runTimeClassModel="destroyXlet(Z),pauseXlet(),startXlet(),initXlet(Ljavax.tv.xlet.XletContext;)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="124,72">
+      <children xsi:type="editmodel:MethodEditModel" name="initXlet" id="org.cablelabs.test.autoxlet/XletDriver#initXlet(Ljavax.tv.xlet.XletContext;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="startXlet" id="org.cablelabs.test.autoxlet/XletDriver#startXlet()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="pauseXlet" id="org.cablelabs.test.autoxlet/XletDriver#pauseXlet()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="destroyXlet" id="org.cablelabs.test.autoxlet/XletDriver#destroyXlet(Z)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.13/@sourceConnections.0" name="AssertionFailedError" location="352,887" size="181,85" id="org.cablelabs.test.autoxlet/AssertionFailedError" runTimeClassModel="AssertionFailedError(Ljava.lang.String;),AssertionFailedError()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="158,36">
+      <children xsi:type="editmodel:MethodEditModel" name="AssertionFailedError" id="org.cablelabs.test.autoxlet/AssertionFailedError#AssertionFailedError()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="AssertionFailedError" id="org.cablelabs.test.autoxlet/AssertionFailedError#AssertionFailedError(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ComparisonFailure" location="323,1022" size="239,121" id="org.cablelabs.test.autoxlet/ComparisonFailure" runTimeClassModel="fExpected,fActual,getMessage(),ComparisonFailure(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="103,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="fExpected" id="org.cablelabs.test.autoxlet/ComparisonFailure#fExpected"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="fActual" id="org.cablelabs.test.autoxlet/ComparisonFailure#fActual"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="216,36">
+      <children xsi:type="editmodel:MethodEditModel" name="ComparisonFailure" id="org.cablelabs.test.autoxlet/ComparisonFailure#ComparisonFailure(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getMessage" id="org.cablelabs.test.autoxlet/ComparisonFailure#getMessage()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="org.cablelabs.test.autoxlet/AssertionFailedError&lt;-org.cablelabs.test.autoxlet/ComparisonFailure" source="//@children.13" target="//@children.12" targetEnd="//@children.13/@sourceConnections.0/@children.1" sourceEnd="//@children.13/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="119,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="90,85"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=3" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="10,10" gridOrigin="0,0" rulerUnit="pixel">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" innerClassSorter="Natural" showPrivateAttributes="true" showProtectedAttributes="true" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showInterfaceStereotype="true" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

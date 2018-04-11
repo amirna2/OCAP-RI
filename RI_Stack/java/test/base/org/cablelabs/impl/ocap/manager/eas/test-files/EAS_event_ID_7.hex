@@ -1,0 +1,122 @@
+# COPYRIGHT_BEGIN
+#  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+#  
+#  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+#  
+#  This software is available under multiple licenses: 
+#  
+#  (1) BSD 2-clause 
+#   Redistribution and use in source and binary forms, with or without modification, are
+#   permitted provided that the following conditions are met:
+#        ·Redistributions of source code must retain the above copyright notice, this list 
+#             of conditions and the following disclaimer.
+#        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+#             and the following disclaimer in the documentation and/or other materials provided with the 
+#             distribution.
+#   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+#   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+#   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+#   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+#   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+#   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+#   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+#   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+#   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+#   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+#   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#  
+#  (2) GPL Version 2
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, version 2. This program is distributed
+#   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+#   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#   PURPOSE. See the GNU General Public License for more details.
+#  
+#   You should have received a copy of the GNU General Public License along
+#   with this program.If not, see<http:www.gnu.org/licenses/>.
+#  
+#  (3)CableLabs License
+#   If you or the company you represent has a separate agreement with CableLabs
+#   concerning the use of this code, your rights and obligations with respect
+#   to this code shall be as set forth therein. No license is granted hereunder
+#   for any other purpose.
+#  
+#   Please contact CableLabs if you need additional information or 
+#   have any questions.
+#  
+#       CableLabs
+#       858 Coal Creek Cir
+#       Louisville, CO 80027-9750
+#       303 661-9100
+# COPYRIGHT_END
+
+####
+# Simple text+audio alert with an indefinite display time. Alert text should be
+# scrolled across the top of the screen indefinitely with alert audio playing in
+# the background. The EASHostKeyListener application should be started if
+# defined in mpeenv.ini and signaled.
+#
+#   table_ID = 0xD8
+#   section_syntax_indicator = 0x1
+#   Reserved bit field
+#   section_length = 0x076
+#   Section 
+#       table_id_extension = 0x0000
+#       Reserved bit field
+#       sequence_number = 0x07
+#       current_next_indicator = 0x1
+#       section_number = 0x00
+#       last_section_number = 0x00
+#       protocol_version = 0x00
+#       EAS_Event_ID = 0x0007
+#       EAS_originator_code = "EAS"
+#       EAS_event_code_length = 0x03
+#       EAS_event_code = "DMO"
+#       nature_of_activation_text_length = 0x1D
+#       nature_of_activation_text 
+#           number_strings = 0x01
+#           Strings 
+#           [0] ISO_639_language_code = "eng"
+#               number_segments = 0x01
+#               Segments 
+#               [0] compression_type = No Compression [0x00]
+#                   mode = ASCII, ISO Latin-1 (Roman) [0x00]
+#                   number_bytes = 0x15
+#                   string = "Practice/Demo Warning"
+#       alert_message_time_remaining = 0x00
+#       event_start_time = 0x00000000
+#       event_duration = 0x000F
+#       Reserved bit field
+#       alert_priority = High priority [0xB]
+#       details_OOB_source_ID = 0x0000
+#       Reserved bit field
+#       details_major_channel_number = 0x000
+#       Reserved bit field
+#       details_minor_channel_number = 0x000
+#       audio_OOB_source_ID = 0x044D            (1101)      <-- new value
+#       alert_text_length = 0x002B
+#       alert_text 
+#           number_strings = 0x01
+#           Strings 
+#           [0] ISO_639_language_code = "eng"
+#               number_segments = 0x01
+#               Segments 
+#               [0] compression_type = No Compression [0x00]
+#                   mode = ASCII, ISO Latin-1 (Roman) [0x00]
+#                   number_bytes = 0x23
+#                   string = "Text alert appears with alert audio"
+#       location_code_count = 0x01
+#       location_code 
+#           [0] state_code = 0x08               (Colorado)
+#               county_subdivision = 0x9        (Southeast)
+#               Reserved bit field
+#               county_code = 0x00D             (Boulder County)
+#       exception_count = 0x00
+#       exception (empty array) 
+#       Reserved bit field
+#       descriptors_length = 0x000
+#       descriptors (empty array) 
+#       CRC_32 = 0xF3F3D7E4                                 <-- recalculate
+#
+D8B0760000CF000000000745415303444D4F1D01656E670100001550726163746963652F44656D6F205761726E696E670000000000000FFFFB0000FC00FC00044D002B01656E67010000235465787420616C6572742061707065617273207769746820616C65727420617564696F01089C0D00FC00095AA744

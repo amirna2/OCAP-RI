@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:05 $
+-->
+
+
+<document>
+<head>
+    <name>Using IFTC</name>
+</head>
+<body>
+<!--
+The code in this document were generated with the jEdit "Code2HTML" plugin.
+-->
+<P>
+This document will build a fairly complex and very contrived example
+application, along with simple sample tests to show how to use the IFTC
+in complicated and simple hierarchies.
+</P>
+<P>
+Our example app will attempt to find all CVS registered files in a path.
+CVS is a common Source Control Repository used in this project and many
+other open source projects, but the description of its files beyond what this
+document uses is beyond this document's scope.  This app will not recurse
+directories, but rather scan a depth of directories, as if the user was
+navigating through them in a shell via the "chdir" command ala UN*X or DOS.
+</P>
+<P>
+I won't follow the XP methodology in this article.  I'll present the project
+source code, then follow it up with the tests.  One could just as easily
+show the tests first, then the code, but I feel that it makes the tests
+clearer by showing the code first.  This is important to this article because
+the focus is on tests, not the project source it tests.
+</P>
+
+<H3>The IFileVisitor Interface</H3>
+<P>
+We start by creating an interface that does something with each discovered
+CVS file.  We will, however, make it generic enough that the visitor pattern
+it represents can be used by any project.
+<!--
+public interface IFileVisitor {
+    public void visitFile( String fileName );
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">interface</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitor<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">visitFile</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>fileName<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+We'll put a "contract" on this interface such that all implementations should
+throw an <tt>IllegalArgumentException</tt> whenever a <tt>null</tt> or invalid
+file name is encountered.  Since this interface can be used by any application,
+not just our CVS application, we'll make our interface test be usable by any
+application that conforms to our contract.
+</P>
+<P>
+<!--
+public class IFileVisitorTestI extends InterfaceTestCase {
+    private static final Class THIS_CLASS = IFileVisitorTestI.class;
+
+    public IFileVisitorTestI( String name, ImplFactory f ) {
+        super( name, IFileVisitor.class, f );
+    }
+
+    protected IFileVisitor createIFileVisitor(){
+        return (IFileVisitor)createImplObject();
+    }
+    
+    public void testVisitFile1() {
+        IFileVisitor fv = createIFileVisitor();
+        try {
+            fv.visitFile( "" );
+            fail( "Did not throw IllegalArgumentException." );
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    public void testVisitFile2() {
+        IFileVisitor fv = createIFileVisitor();
+        try {
+            fv.visitFile( null );
+            fail( "Did not throw IllegalArgumentException." );
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    public static InterfaceTestSuite suite() {
+        return new InterfaceTestSuite( THIS_CLASS );
+    }
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitorTestI<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">extends</SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestCase<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">final</SPAN><SPAN CLASS="syntax125"> </SPAN>Class<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitorTestI.<SPAN CLASS="syntax8">class</SPAN>;
+<SPAN CLASS="gutter">   3:</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">IFileVisitorTestI</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>name,<SPAN CLASS="syntax125"> </SPAN>ImplFactory<SPAN CLASS="syntax125"> </SPAN>f<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">A  5:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">super</SPAN>(<SPAN CLASS="syntax125"> </SPAN>name,<SPAN CLASS="syntax125"> </SPAN>IFileVisitor.<SPAN CLASS="syntax8">class</SPAN>,<SPAN CLASS="syntax125"> </SPAN>f<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">protected</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitor<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIFileVisitor</SPAN>()<SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">B  9:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN>(IFileVisitor)<SPAN CLASS="syntax9">createImplObject</SPAN>();
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testVisitFile1</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  13:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitor<SPAN CLASS="syntax125"> </SPAN>fv<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIFileVisitor</SPAN>();
+<SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">try</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>fv.<SPAN CLASS="syntax9">visitFile</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">fail</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">Did</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">not</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">IllegalArgumentException.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  17:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">catch</SPAN><SPAN CLASS="syntax125"> </SPAN>(IllegalArgumentException<SPAN CLASS="syntax125"> </SPAN>iae)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  18:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  19:</SPAN>
+<SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testVisitFile2</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  21:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitor<SPAN CLASS="syntax125"> </SPAN>fv<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIFileVisitor</SPAN>();
+<SPAN CLASS="gutter">  22:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">try</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  23:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>fv.<SPAN CLASS="syntax9">visitFile</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  24:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">fail</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">Did</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">not</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">IllegalArgumentException.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  25:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">catch</SPAN><SPAN CLASS="syntax125"> </SPAN>(IllegalArgumentException<SPAN CLASS="syntax125"> </SPAN>iae)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  26:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  27:</SPAN>
+<SPAN CLASS="gutter">  28:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestSuite<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">suite</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">C 29:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">InterfaceTestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  30:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  31:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+There are three things to note about this test:
+<UL>
+    <definition term="A"> The constructor must follow this signature.  It calls
+    to the super class' constructor with the passed-in information, along with
+    the class of the interface or class that this test will expect from the
+    <tt>createImplObject</tt> method.</definition>
+    <definition term="B"> Usage of a helper method to perform casting on the
+    owned factory.</definition>
+    <definition term="C"> The new format of the <tt>suite()</tt> method may
+    take any form the test writer likes, since interface tests cannot be
+    directly instantiated and tested by JUnit.  In this case, it makes sense
+    to have the <tt>suite()</tt> method take the standard JUnit form, so that
+    users can more easily use the familiar form.  Also, the returned type is a
+    <tt>InterfaceTestSuite</tt>, so that no unnecessary casting needs to be
+    done.</definition>
+</UL>
+</P>
+
+<H3>A Class To Help Debugging</H3>
+<P>
+For the sake of example, we'll create a prototype visitor of the above
+interface to help users test and debug their code.
+<!--
+public class LoggingFileVisitor implements IFileVisitor {
+    private PrintStream out;
+    public LoggingFileVisitor( PrintStream ps ) {
+        if (ps == null) throw new IllegalArgumentException();
+        this.out = ps;
+    }
+
+    public void visitFile( String s ) {
+        if (s == null || s.length() <= 0) throw new IllegalArgumentException();
+        this.out.println( "Visited " + s );
+    }
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>LoggingFileVisitor<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">implements</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitor<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN>PrintStream<SPAN CLASS="syntax125"> </SPAN>out;
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">LoggingFileVisitor</SPAN>(<SPAN CLASS="syntax125"> </SPAN>PrintStream<SPAN CLASS="syntax125"> </SPAN>ps<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(ps<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">IllegalArgumentException</SPAN>();
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.out<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>ps;
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">visitFile</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>s<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(s<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax125"> </SPAN>s.<SPAN CLASS="syntax9">length</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">&lt;=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax12">0</SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">IllegalArgumentException</SPAN>();
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.out.<SPAN CLASS="syntax9">println</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">Visited</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax11">+</SPAN>s<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+</P>
+<P>
+The test for this code can use the interface's tests to aid in ensuring that
+the new class conforms to the interface's contract.
+<!--
+public class LoggingFileVisitorTest extends TestCase {
+    private static final Class THIS_CLASS = LoggingFileVisitorTest.class;
+        
+    public void testConstructor1() {
+        try {
+            new LoggingFileVisitor( null );
+            fail( "Did not throw IllegalArgumentException." );
+        } catch (IllegalArgumentException) {}
+    }
+
+    public void testVisitFile1() {
+        StringWriter sw = new StringWriter();
+        LoggingFileVisitor fv = new LoggingFileVisitor( new PrintStream(
+            sw, true ) );
+        fv.visitFile( "a" );
+        assertEquals( sw.toString(), "Visited a" );
+    }
+    
+    public static Test suite() {
+        InterfaceTestSuite suite = IFileVisitorTestI.suite();
+        suite.addFactory( new ImplFactory() {
+            public Object createImplObject() {
+                return new LoggingFileVisitor( System.out );
+            } } );
+        suite.addTestSuite( THIS_CLASS );
+        return suite;
+    }
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>LoggingFileVisitorTest<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">extends</SPAN><SPAN CLASS="syntax125"> </SPAN>TestCase<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">final</SPAN><SPAN CLASS="syntax125"> </SPAN>Class<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>LoggingFileVisitorTest.<SPAN CLASS="syntax8">class</SPAN>;
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">LoggingFileVisitorTest</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>name<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">super</SPAN>(<SPAN CLASS="syntax125"> </SPAN>name<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testConstructor1</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">try</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">LoggingFileVisitor</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">fail</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">Did</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">not</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">IllegalArgumentException.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">catch</SPAN><SPAN CLASS="syntax125"> </SPAN>(IllegalArgumentException)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  13:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testVisitFile1</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>StringWriter<SPAN CLASS="syntax125"> </SPAN>sw<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">StringWriter</SPAN>();
+<SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>LoggingFileVisitor<SPAN CLASS="syntax125"> </SPAN>fv<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">LoggingFileVisitor</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">PrintStream</SPAN>(
+<SPAN CLASS="gutter">  17:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>sw,<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">true</SPAN><SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  18:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>fv.<SPAN CLASS="syntax9">visitFile</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">assertEquals</SPAN>(<SPAN CLASS="syntax125"> </SPAN>sw.<SPAN CLASS="syntax9">toString</SPAN>(),<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">Visited</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">a</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  21:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  22:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN>Test<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">suite</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">A 23:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestSuite<SPAN CLASS="syntax125"> </SPAN>suite<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitorTestI.<SPAN CLASS="syntax9">suite</SPAN>();
+<SPAN CLASS="gutter">  24:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>suite.<SPAN CLASS="syntax9">addFactory</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">ImplFactory</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">B 25:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN>Object<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createImplObject</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  26:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">LoggingFileVisitor</SPAN>(<SPAN CLASS="syntax125"> </SPAN>System.out<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  27:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">C 28:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>suite.<SPAN CLASS="syntax9">addTestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  29:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN>suite;
+<SPAN CLASS="gutterH">  30:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  31:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+The three points of interest in this test class are:
+<UL>
+    <definition term="A"> Since <tt>LoggingFileVisitor</tt> inherits from
+    ("implements" technically) <tt>IFileVisitor</tt>, the concrete test
+    "inherits" the tests from <tt>IFileVisitorTestI</tt> by pulling in its
+    test suite. 
+    </definition>
+    <definition term="B"> These inherited tests are executed in the
+    context of <tt>LoggingFileVisitor</tt> by 
+    </definition>
+    <definition term="C"> The tests defined in the concrete test class are
+    added to the suite, and interpreted just like the standard JUnit
+    <tt>TestSuite</tt> does.
+    </definition>
+</UL>
+</P>
+
+<H3>The IDirectoryVisitor Interface</H3>
+<P>
+Now we'll create an interface to handle the visitor pattern for directories.
+Since CVS stores the listing of checked-out files locally in a file called
+"CVS/Entries" under each module directory, the final implementation will use
+this to check if the entered directory is a valid CVS module dir.  Also, to
+add double-duty and bad design, this interface will handle the state of the
+current directory the user is in.  Any non-null, non-empty directory can be
+pushed, put only the valid ones will be processed.
+<!--
+public interface IDirectoryVisitor {
+    public void pushDir( String name );
+    public void popDir();
+    public String getCurrentDirectory();
+    public void visitCurrentDir();
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">interface</SPAN><SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">pushDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN>Stirng<SPAN CLASS="syntax125"> </SPAN>name<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">popDir</SPAN>();
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">getCurrentDirectory</SPAN>();
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">visitCurrentDir</SPAN>();
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+</P>
+<P>
+Here's the test:
+<!--
+public class IDirectoryVisitorTestI extends InterfaceTestCase {
+    private static final THIS_CLASS = IDirectoryVisitorTestI.class;
+    public IDirectoryVisitorTestI( String name, ImplFactory f ) {
+        super( name, IDirectoryVisitor.class, f );
+    }
+    
+    protected IDirectoryVisitor createIDirectoryVisitor() {
+        return (IDirectoryVisitor)createImplObject();
+    }
+    
+    public void testPushDir1() {
+        IDirectoryVisitor dv = createIDirectoryVisitor();
+        try {
+            dv.pushDir( null );
+            fail( "Did not throw IllegalArgumentException." );
+        } catch (IllegalArgumentException e) {}
+    }
+    
+    public void testPushDir2() {
+        IDirectoryVisitor dv = createIDirectoryVisitor();
+        try {
+            dv.pushDir( "" );
+            fail( "Did not throw IllegalArgumentException." );
+        } catch (IllegalArgumentException e) {}
+    }
+    
+    public void testPopDir1() {
+        IDirectoryVisitor dv = createIDirectoryVisitor();
+        try {
+            dv.popDir();
+            fail( "Did not throw IllegalArgumentException." );
+        } catch (IllegalArgumentException e) {}
+    }
+    
+    public void testPopDir2() {
+        IDirectoryVisitor dv = createIDirectoryVisitor();
+        String s = dv.getCurrentDir();
+        dv.pushDir( "A" );
+        dv.popDir();
+        assertEquals( s, dv.getCurrentDir() );
+    }
+    
+    public static InterfaceTestSuite suite() {
+        return new InterfaceTestSuite( THIS_CLASS );
+    }
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitorTestI<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">extends</SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestCase<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">final</SPAN><SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitorTestI.<SPAN CLASS="syntax8">class</SPAN>;
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">IDirectoryVisitorTestI</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>name,<SPAN CLASS="syntax125"> </SPAN>ImplFactory<SPAN CLASS="syntax125"> </SPAN>f<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">super</SPAN>(<SPAN CLASS="syntax125"> </SPAN>name,<SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitor.<SPAN CLASS="syntax8">class</SPAN>,<SPAN CLASS="syntax125"> </SPAN>f<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">protected</SPAN><SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIDirectoryVisitor</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN>(IDirectoryVisitor)<SPAN CLASS="syntax9">createImplObject</SPAN>();
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testPushDir1</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN>dv<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIDirectoryVisitor</SPAN>();
+<SPAN CLASS="gutter">  13:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">try</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>dv.<SPAN CLASS="syntax9">pushDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">fail</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">Did</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">not</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">IllegalArgumentException.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">catch</SPAN><SPAN CLASS="syntax125"> </SPAN>(IllegalArgumentException<SPAN CLASS="syntax125"> </SPAN>e)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  17:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  18:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testPushDir2</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN>dv<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIDirectoryVisitor</SPAN>();
+<SPAN CLASS="gutter">  21:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">try</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  22:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>dv.<SPAN CLASS="syntax9">pushDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  23:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">fail</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">Did</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">not</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">IllegalArgumentException.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  24:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">catch</SPAN><SPAN CLASS="syntax125"> </SPAN>(IllegalArgumentException<SPAN CLASS="syntax125"> </SPAN>e)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutterH">  25:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  26:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  27:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testPopDir1</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  28:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN>dv<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIDirectoryVisitor</SPAN>();
+<SPAN CLASS="gutter">  29:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">try</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">  30:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>dv.<SPAN CLASS="syntax9">popDir</SPAN>();
+<SPAN CLASS="gutter">  31:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">fail</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">Did</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">not</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">IllegalArgumentException.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  32:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">catch</SPAN><SPAN CLASS="syntax125"> </SPAN>(IllegalArgumentException<SPAN CLASS="syntax125"> </SPAN>e)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  33:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  34:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutterH">  35:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testPopDir2</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  36:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN>dv<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIDirectoryVisitor</SPAN>();
+<SPAN CLASS="gutter">  37:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>s<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>dv.<SPAN CLASS="syntax9">getCurrentDir</SPAN>();
+<SPAN CLASS="gutter">  38:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>dv.<SPAN CLASS="syntax9">pushDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">A</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  39:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>dv.<SPAN CLASS="syntax9">popDir</SPAN>();
+<SPAN CLASS="gutterH">  40:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">assertEquals</SPAN>(<SPAN CLASS="syntax125"> </SPAN>s,<SPAN CLASS="syntax125"> </SPAN>dv.<SPAN CLASS="syntax9">getCurrentDir</SPAN>()<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  41:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  42:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  43:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestSuite<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">suite</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  44:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">InterfaceTestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  45:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  46:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+This class is very similar in structure to <tt>IFileVisitorTestI</tt>, but
+this test has more complex logic it can perform that allows for more
+interesting tests.
+</P>
+
+<H3>IFileDirectoryVisitor Interface</H3>
+<P>
+The next interface has a lot of assumptions about implementations.  Since it
+combines a directory and file visitor together with a bad design, it expects
+visited directories to visit each file in that directory.
+<!--
+public interface IFileDirectoryVisitor
+        extends IFileVisitor, IDirectoryVisitor {
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">interface</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileDirectoryVisitor
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">extends</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitor,<SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+</P>
+<P>
+Since this does not define any new explicit functionality, the tests are
+relatively simple.  Again, remember that this design is contrived for the
+sake of example.
+<!--
+public class IFileDirectoryVisitorTestI extends InterfaceTestCase {
+    private static final Class THIS_CLASS = IFileDirectoryVisitorTestI.class;
+    public IFileDirectoryVisitorTestI( String name, ImplFactory f ) {
+        super( name, IFileDirectoryVisitor.class, f );
+    }
+    
+    protected IFileDirectoryVisitor createIFileDirectoryVisitor() {
+        return (IFileDirectoryVisitor)createImplObject();
+    }
+    
+    public void testToString1() {
+        IFileDirectoryVisitor fdv = createIFileDirectoryVisitor();
+        assertNotNull( fdv.toString() );
+    }
+    
+    public static InterfaceTestSuite suite() {
+        InterfaceTestSuite suite = IFileVisitorTestI.suite();
+        suite.addTestSuite( IDirectoryVisitorTestI.suite() );
+        suite.addTestSuite( THIS_CLASS );
+        return suite;
+    }
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileDirectoryVisitorTestI<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">extends</SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestCase<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">final</SPAN><SPAN CLASS="syntax125"> </SPAN>Class<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileDirectoryVisitorTestI.<SPAN CLASS="syntax8">class</SPAN>;
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">IFileDirectoryVisitorTestI</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>name,<SPAN CLASS="syntax125"> </SPAN>ImplFactory<SPAN CLASS="syntax125"> </SPAN>f<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">super</SPAN>(<SPAN CLASS="syntax125"> </SPAN>name,<SPAN CLASS="syntax125"> </SPAN>IFileDirectoryVisitor.<SPAN CLASS="syntax8">class</SPAN>,<SPAN CLASS="syntax125"> </SPAN>f<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">protected</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIFileDirectoryVisitor</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN>(IFileDirectoryVisitor)<SPAN CLASS="syntax9">createImplObject</SPAN>();
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">A 11:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testToString1</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>IFileDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN>fdv<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createIFileDirectoryVisitor</SPAN>();
+<SPAN CLASS="gutter">  13:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">assertNotNull</SPAN>(<SPAN CLASS="syntax125"> </SPAN>fdv.<SPAN CLASS="syntax9">toString</SPAN>()<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestSuite<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">suite</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  17:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestSuite<SPAN CLASS="syntax125"> </SPAN>suite<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>IFileVisitorTestI.<SPAN CLASS="syntax9">suite</SPAN>();
+<SPAN CLASS="gutter">B 18:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>suite.<SPAN CLASS="syntax9">addTestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitorTestI.<SPAN CLASS="syntax9">suite</SPAN>()<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>suite.<SPAN CLASS="syntax9">addTestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN>suite;
+<SPAN CLASS="gutter">  21:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  22:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+<UL>
+    <definition term="A">
+    If we did not add at least one test, then the IFTC
+    would register this test class without tests as a failure.
+    </definition>
+    <definition term="B">
+    Here, since the interface extends two interfaces, we
+    simply register each's test in turn to imitate the test "inheritance"
+    language defined by the framework.  The current test is registered, and
+    the completed hierarchy suite is returned.  Since both inherited tests
+    define in their constructor that they test classes which complement
+    the <tt>IFileDirectoryVisitorTestI</tt>'s class-under-test, all suites can
+    share the same registered <tt>ImplFactory</tt> instances.
+    </definition>
+</UL>
+</P>
+
+<H3>AbstractDirectoryParser</H3>
+<P>
+Now, let's move to an abstract, common implementation of IDirectoryVisitor.
+This will parse the equivalent of the "chdir" command, translating it into
+a "push", "pop", or do-nothing.  It will call out to an abstract method to
+see if the entered dir is "special", and will call the visit method if it is.
+<!--
+public abstract class AbstractDirectoryParser implements IDirectoryVisitor {
+    private Stack stack = new Stack();
+    private String currDir, parentDir, sep;
+    
+    public AbstractDirectoryParser( String current, String parent,
+            String seperator ) {
+        if (current == null || parent == null || seperator == null ||
+            current.length() <= 0 || parent.length() <= 0 ||
+            seperator.length() <= 0 ) throw new IllegalArgumentException();
+        this.currDir = current;
+        this.parentDir = parent;
+        this.sep = seperator;
+    }
+    
+    public String getCurrentDir() {
+        StringBuffer sb = new StringBuffer();
+        Enumeration enum = this.stack.elements();
+        boolean isFirst = true;
+        while (enum.hasMoreElements()) {
+            if (isFirst) isFirst = false;
+            else sb.append( this.sep );
+            
+            sb.append( enum.nextElement() );
+        }
+        return sb.toString();
+    }
+    
+    public void enterDir( String s ) {
+        if (s == null || s.length() <= 0) throw IllegalArgumentException();
+        if (s.equals( this.parentDir )) popDir();
+        else if (!s.equals( this.currDir )) pushDir( s );
+        if (isSpecial( getCurrentDir() )) visitCurrentDir();
+    }
+    
+    public void pushDir( String s ) {
+        if (s == null || s.length() <= 0 || s.equals( this.parentDir ) ||
+            s.equals( this.currDir ) || s.equals( this.sep ))
+            throw new IllegalArgumentException();
+        
+        this.stack.push( s );
+    }
+    
+    public void popDir() {
+        if (this.stack.size() <= 0) throw new IllegalStateException();
+        this.stack.pop();
+    }
+    
+    public abstract boolean isSpecial( String aDir );
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">abstract</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParser<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">implements</SPAN><SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitor<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN>Stack<SPAN CLASS="syntax125"> </SPAN>stack<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">Stack</SPAN>();
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>currDir,<SPAN CLASS="syntax125"> </SPAN>parentDir,<SPAN CLASS="syntax125"> </SPAN>sep;
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">AbstractDirectoryParser</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>current,<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>parent,
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>seperator<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(current<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax125"> </SPAN>parent<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax125"> </SPAN>seperator<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>current.<SPAN CLASS="syntax9">length</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">&lt;=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax12">0</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax125"> </SPAN>parent.<SPAN CLASS="syntax9">length</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">&lt;=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax12">0</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN>
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>seperator.<SPAN CLASS="syntax9">length</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">&lt;=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax12">0</SPAN><SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">IllegalArgumentException</SPAN>();
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.currDir<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>current;
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.parentDir<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>parent;
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.sep<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>seperator;
+<SPAN CLASS="gutter">  13:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">getCurrentDir</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>StringBuffer<SPAN CLASS="syntax125"> </SPAN>sb<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">StringBuffer</SPAN>();
+<SPAN CLASS="gutter">  17:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>Enumeration<SPAN CLASS="syntax125"> </SPAN>enum<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.stack.<SPAN CLASS="syntax9">elements</SPAN>();
+<SPAN CLASS="gutter">  18:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">boolean</SPAN><SPAN CLASS="syntax125"> </SPAN>isFirst<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">true</SPAN>;
+<SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">while</SPAN><SPAN CLASS="syntax125"> </SPAN>(enum.<SPAN CLASS="syntax9">hasMoreElements</SPAN>())<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(isFirst)<SPAN CLASS="syntax125"> </SPAN>isFirst<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">false</SPAN>;
+<SPAN CLASS="gutter">  21:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">else</SPAN><SPAN CLASS="syntax125"> </SPAN>sb.<SPAN CLASS="syntax9">append</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.sep<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  22:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  23:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>sb.<SPAN CLASS="syntax9">append</SPAN>(<SPAN CLASS="syntax125"> </SPAN>enum.<SPAN CLASS="syntax9">nextElement</SPAN>()<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  24:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutterH">  25:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN>sb.<SPAN CLASS="syntax9">toString</SPAN>();
+<SPAN CLASS="gutter">  26:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  27:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  28:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>s<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  29:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(s<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax125"> </SPAN>s.<SPAN CLASS="syntax9">length</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">&lt;=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax12">0</SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">IllegalArgumentException</SPAN>();
+<SPAN CLASS="gutterH">  30:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(s.<SPAN CLASS="syntax9">equals</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.parentDir<SPAN CLASS="syntax125"> </SPAN>))<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">popDir</SPAN>();
+<SPAN CLASS="gutter">  31:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">else</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(<SPAN CLASS="syntax11">!</SPAN>s.<SPAN CLASS="syntax9">equals</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.currDir<SPAN CLASS="syntax125"> </SPAN>))<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">pushDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN>s<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  32:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(<SPAN CLASS="syntax9">isSpecial</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">getCurrentDir</SPAN>()<SPAN CLASS="syntax125"> </SPAN>))<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">visitCurrentDir</SPAN>();
+<SPAN CLASS="gutter">  33:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  34:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutterH">  35:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">pushDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>s<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  36:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(s<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">null</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax125"> </SPAN>s.<SPAN CLASS="syntax9">length</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">&lt;=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax12">0</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax125"> </SPAN>s.<SPAN CLASS="syntax9">equals</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.parentDir<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN>
+<SPAN CLASS="gutter">  37:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>s.<SPAN CLASS="syntax9">equals</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.currDir<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax11">|</SPAN><SPAN CLASS="syntax125"> </SPAN>s.<SPAN CLASS="syntax9">equals</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.sep<SPAN CLASS="syntax125"> </SPAN>))
+<SPAN CLASS="gutter">  38:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">IllegalArgumentException</SPAN>();
+<SPAN CLASS="gutter">  39:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutterH">  40:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.stack.<SPAN CLASS="syntax9">push</SPAN>(<SPAN CLASS="syntax125"> </SPAN>s<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  41:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  42:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  43:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">popDir</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  44:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">if</SPAN><SPAN CLASS="syntax125"> </SPAN>(<SPAN CLASS="syntax4">this</SPAN>.stack.<SPAN CLASS="syntax9">size</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">&lt;=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax12">0</SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">throw</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">IllegalStateException</SPAN>();
+<SPAN CLASS="gutterH">  45:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">this</SPAN>.stack.<SPAN CLASS="syntax9">pop</SPAN>();
+<SPAN CLASS="gutter">  46:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  47:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  48:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">abstract</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">boolean</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">isSpecial</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>aDir<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  49:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+</P>
+<P>
+We can create two test classifications for this: one that performs
+"mock-object"-like testing, by creating an internal concrete class, and an
+inheritable test class.  Let's start with the inheritable one.
+<!--
+public class AbstractDirectoryParserTestI extends InterfaceTestClass {
+    private static final Class THIS_CLASS = AbstractDirectoryParserTestI.class;
+    
+    public interface AbstractDirectoryParserImplFactory {
+        public AbstractDirectoryParser createAbstractDirectoryParser(
+            String c, String p, String s );
+    }
+    
+    public AbstractDirectoryParserTestI( String name, ImplFactory f ) {
+        super( name, AbstractDirectoryParserImplFactory.class, f );
+    }
+    
+    protected AbstractDirectoryParser createAbstractDirectoryParser(
+            String curr, String parent, String sep ) {
+        return ((AbstractDirectoryParserImplFactory)createImplObject()).
+            createAbstractDirectoryParser( curr, parent, sep );
+    }
+    
+    public void testGetCurrentDir1() {
+        AbstractDirectoryParser adp = createAbstractDirectoryParser(
+            ".", "..", "_" );
+        assertEquals(
+            "",
+            adp.getCurrentDir() );
+    }
+    
+    public void testGetCurrentDir2() {
+        AbstractDirectoryParser adp = createAbstractDirectoryParser(
+            "1", "12", "123" );
+        adp.enterDir( "A" );
+        adp.enterDir( "B" );
+        adp.enterDir( "2" );
+        adp.enterDir( "12" );
+        adp.enterDir( "C" );
+        adp.enterDir( "1" );
+        adp.enterDir( "D" );
+        assertEquals( "A123B123C123D", adp.getCurrentDir() );
+    }
+    
+    public static void suite( InterfaceTestSuite stdFactorySuite,
+            InterfaceTestSuite adpFactorySuite ) {
+        stdFactorySuite.addTestSuite( IDirectoryVisitorTestI.suite() );
+        adpFactorySuite.addTestSuite( THIS_CLASS );
+    }
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParserTestI<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">extends</SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestClass<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">final</SPAN><SPAN CLASS="syntax125"> </SPAN>Class<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParserTestI.<SPAN CLASS="syntax8">class</SPAN>;
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">interface</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParserImplFactory<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParser<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createAbstractDirectoryParser</SPAN>(
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>c,<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>p,<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>s<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">AbstractDirectoryParserTestI</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>name,<SPAN CLASS="syntax125"> </SPAN>ImplFactory<SPAN CLASS="syntax125"> </SPAN>f<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">A 10:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">super</SPAN>(<SPAN CLASS="syntax125"> </SPAN>name,<SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParserImplFactory.<SPAN CLASS="syntax8">class</SPAN>,<SPAN CLASS="syntax125"> </SPAN>f<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  13:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">protected</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParser<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createAbstractDirectoryParser</SPAN>(
+<SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>curr,<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>parent,<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>sep<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">B 15:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN>((AbstractDirectoryParserImplFactory)<SPAN CLASS="syntax9">createImplObject</SPAN>()).
+<SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createAbstractDirectoryParser</SPAN>(<SPAN CLASS="syntax125"> </SPAN>curr,<SPAN CLASS="syntax125"> </SPAN>parent,<SPAN CLASS="syntax125"> </SPAN>sep<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  17:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  18:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testGetCurrentDir1</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParser<SPAN CLASS="syntax125"> </SPAN>adp<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createAbstractDirectoryParser</SPAN>(
+<SPAN CLASS="gutter">  21:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">..</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">_</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  22:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">assertEquals</SPAN>(
+<SPAN CLASS="gutter">  23:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,
+<SPAN CLASS="gutter">  24:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">getCurrentDir</SPAN>()<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  25:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  26:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  27:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testGetCurrentDir2</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  28:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParser<SPAN CLASS="syntax125"> </SPAN>adp<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createAbstractDirectoryParser</SPAN>(
+<SPAN CLASS="gutter">  29:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">1</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">12</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">123</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  30:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">A</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  31:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">B</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  32:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">2</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  33:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">12</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  34:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">C</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  35:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">1</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  36:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">D</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  37:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">assertEquals</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">A123B123C123D</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,<SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">getCurrentDir</SPAN>()<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  38:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  39:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutterH">  40:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">suite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>InterfaceTestSuite<SPAN CLASS="syntax125"> </SPAN>stdFactorySuite,
+<SPAN CLASS="gutter">  41:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestSuite<SPAN CLASS="syntax125"> </SPAN>adpFactorySuite<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">C 42:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>stdFactorySuite.<SPAN CLASS="syntax9">addTestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>IDirectoryVisitorTestI.<SPAN CLASS="syntax9">suite</SPAN>()<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  43:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adpFactorySuite.<SPAN CLASS="syntax9">addTestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  44:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutterH">  45:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+Like most of these tests, this one has three points of interest:
+<UL>
+    <definition term="A">
+    Since the tests, to be "interesting", require additional knowledge of the
+    starting state for the <tt>AbstractDirectoryParser</tt> under test, it
+    requires subclass tests to construct an AbstractDirectoryParserImplFactory
+    rather than an AbstractDirectoryParser directly.  The method
+    <tt>testGetCurrentDir2()</tt> shows why this can be powerful.  Note that
+    these factories may have multiple construction methods for different
+    kinds of setup.
+    </definition>
+    <definition term="B">
+    Since the test uses a factory to create <tt>AbstractDirectoryParser</tt>
+    instances, the helper builder method changes accordingly.
+    </definition>
+    <definition term="C">
+    <!-- this paragraph needs improvements -->
+    Since <tt>AbstractDirectoryParser</tt> implements
+    <tt>IDirectoryVisitor</tt>, <tt>AbstractDirectoryParserTestI</tt> should
+    "inherit" the tests from <tt>IDirectoryVisitorTestI</tt>.  And,
+    <tt>AbstractDirectoryParserTestI</tt> is an interface test, so it merely
+    constructs the suite to test, but does not add factories itself.  However,
+    <tt>IDirectoryVisitorTestI</tt> and <tt>AbstractDirectoryParserTestI</tt>
+    use different implementation classes which are not directly related to
+    each other, and as such they cannot share <tt>ImplFactory</tt> instances.
+    So, <tt>AbstractDirectoryParserTestI</tt> resolves this by requiring the
+    two different suites to be passed in, allowing the user of the suites to
+    make the differentiation when adding the specialized factory
+    implementations.  Remember, since the Interface test classes are not
+    directly run by the JUnit framework, we can form the suite method however
+    we want.
+    </definition>
+</UL>
+</P>
+<P>
+The mock-object version of the test follows.  Note that both the above
+inheritable test and the below concrete test can co-exist in the same test
+class path due to the naming convention used in this document.
+<!--
+public class AbstractDirectoryParserTest extends TestCase {
+    private static final Class THIS_CLASS = AbstractDirectoryParserTest.class;
+    public AbstractDirectoryParserTest( String name ) {
+        super( name );
+    }
+    
+    private class MyADP extends AbstractDirectoryParser {
+        String specialDirName = " ";
+        public boolean isSpecial( String name ) {
+            return name.endsWith( specialDirName );
+        }
+        
+        int visitCount = 0;
+        public void visitCurrentDir() {
+            ++visitCount;
+        }
+    }
+    
+    public void testVisit1() {
+        MyADP adp = new MyADP( ".", "..", "/" );
+        adp.enterDir( " " );
+        adp.enterDir( "." );
+        adp.enterDir( "A" );
+        adp.enterDir( ".." );
+        adp.enterDir( " " );
+        assertEquals( 4, adp.visitCount );
+    }
+    
+    private class MyADPImplFactory
+            implements AbstractDirectoryParserImplFactory {
+        public AbstractDirectoryParser createAbstractDirectoryParser(
+                String c, String p, String s ) {
+            return new MyADP( c, p, s );
+        }
+    }
+    
+    public static Test suite() {
+        InterfaceTestSuite std = new InterfaceTestSuite();
+        InterfaceTestSuite dif = new InterfaceTestSuite();
+        std.addFactory( new ImplFactory() {
+            public Object createImplObject() {
+                return new MyADP( ".", "..", "/" );
+            }
+        } } );
+        dif.addFactory( new ImplFactory() {
+            public Object createImplObject() {
+                return new MyADPImplFactory();
+        } } );
+        AbstractDirectoryParserTestI.suite( std, dif );
+        TestSuite ts = new TestSuite( THIS_CLASS );
+        ts.addTestSuite( std );
+        ts.addTestSuite( dif );
+        return ts;
+    }
+}
+-->
+<PRE CLASS="javaCode">
+<SPAN CLASS="gutter">   1:</SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParserTest<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">extends</SPAN><SPAN CLASS="syntax125"> </SPAN>TestCase<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   2:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">final</SPAN><SPAN CLASS="syntax125"> </SPAN>Class<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParserTest.<SPAN CLASS="syntax8">class</SPAN>;
+<SPAN CLASS="gutter">   3:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">AbstractDirectoryParserTest</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>name<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   4:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax4">super</SPAN>(<SPAN CLASS="syntax125"> </SPAN>name<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">   5:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">   6:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">   7:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>MyADP<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">extends</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParser<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">   8:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>specialDirName<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN>;
+<SPAN CLASS="gutter">   9:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">boolean</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">isSpecial</SPAN>(<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>name<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">  10:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN>name.<SPAN CLASS="syntax9">endsWith</SPAN>(<SPAN CLASS="syntax125"> </SPAN>specialDirName<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  11:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  12:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  13:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">int</SPAN><SPAN CLASS="syntax125"> </SPAN>visitCount<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax12">0</SPAN>;
+<SPAN CLASS="gutter">  14:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">visitCurrentDir</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">  15:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">+</SPAN><SPAN CLASS="syntax11">+</SPAN>visitCount;
+<SPAN CLASS="gutter">  16:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  17:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  18:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  19:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">void</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">testVisit1</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutterH">  20:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>MyADP<SPAN CLASS="syntax125"> </SPAN>adp<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">MyADP</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">..</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  21:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  22:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  23:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">A</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  24:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">..</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  25:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>adp.<SPAN CLASS="syntax9">enterDir</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  26:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">assertEquals</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax12">4</SPAN>,<SPAN CLASS="syntax125"> </SPAN>adp.visitCount<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  27:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  28:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  29:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">private</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax8">class</SPAN><SPAN CLASS="syntax125"> </SPAN>MyADPImplFactory
+<SPAN CLASS="gutterH">  30:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">implements</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParserImplFactory<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  31:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParser<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createAbstractDirectoryParser</SPAN>(
+<SPAN CLASS="gutter">  32:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>c,<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>p,<SPAN CLASS="syntax125"> </SPAN>String<SPAN CLASS="syntax125"> </SPAN>s<SPAN CLASS="syntax125"> </SPAN>)<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">A 33:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">MyADP</SPAN>(<SPAN CLASS="syntax125"> </SPAN>c,<SPAN CLASS="syntax125"> </SPAN>p,<SPAN CLASS="syntax125"> </SPAN>s<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  34:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutterH">  35:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  36:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>
+<SPAN CLASS="gutter">  37:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">static</SPAN><SPAN CLASS="syntax125"> </SPAN>Test<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">suite</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">B 38:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestSuite<SPAN CLASS="syntax125"> </SPAN>std<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">InterfaceTestSuite</SPAN>();
+<SPAN CLASS="gutter">  39:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>InterfaceTestSuite<SPAN CLASS="syntax125"> </SPAN>dif<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">InterfaceTestSuite</SPAN>();
+<SPAN CLASS="gutterH">  40:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>std.<SPAN CLASS="syntax9">addFactory</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">ImplFactory</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  41:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN>Object<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createImplObject</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  42:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">MyADP</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">.</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">..</SPAN><SPAN CLASS="syntax3">&quot;</SPAN>,<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax3">/</SPAN><SPAN CLASS="syntax3">&quot;</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  43:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutter">  44:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">  45:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>dif.<SPAN CLASS="syntax9">addFactory</SPAN>(<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">ImplFactory</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  46:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">public</SPAN><SPAN CLASS="syntax125"> </SPAN>Object<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">createImplObject</SPAN>()<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">{</SPAN>
+<SPAN CLASS="gutter">  47:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">MyADPImplFactory</SPAN>();
+<SPAN CLASS="gutter">  48:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN><SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  49:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>AbstractDirectoryParserTestI.<SPAN CLASS="syntax9">suite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>std,<SPAN CLASS="syntax125"> </SPAN>dif<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutterH">C 50:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>TestSuite<SPAN CLASS="syntax125"> </SPAN>ts<SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">=</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">new</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax9">TestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>THIS_CLASS<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  51:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>ts.<SPAN CLASS="syntax9">addTestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>std<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  52:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN>ts.<SPAN CLASS="syntax9">addTestSuite</SPAN>(<SPAN CLASS="syntax125"> </SPAN>dif<SPAN CLASS="syntax125"> </SPAN>);
+<SPAN CLASS="gutter">  53:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax6">return</SPAN><SPAN CLASS="syntax125"> </SPAN>ts;
+<SPAN CLASS="gutter">  54:</SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax125"> </SPAN><SPAN CLASS="syntax11">}</SPAN>
+<SPAN CLASS="gutterH">  55:</SPAN><SPAN CLASS="syntax11">}</SPAN>
+</PRE>
+<UL>
+    <definition term="A">
+    We need to provide an <tt>AbstractDirectoryParserImplFactory</tt> instance,
+    so this is the test's verson for the mock-object <tt>MyADP</tt>.  We could
+    have just as easily provided an anonymous innner class.
+    </definition>
+    <definition term="B">
+    We create two new <tt>InterfaceTestSuite</tt>s, load each with its own
+    factory type, then pass this into the
+    <tt>AbstractDirectoryParserTestI</tt> suite so it can add its appropriate
+    test suites.
+    </definition>
+    <definition term="C">
+    We join these two seperate suites inside a single <tt>TestSuite</tt>,
+    then add the current test class to the suite, and return it.  Since the
+    two seperate <tt>InterfaceTestSuite</tt>s remain seperate inside the
+    <tt>TestSuite</tt>, they will not share factories, and there will be no
+    test construction problems.
+    </definition>
+</UL>
+</P>
+</body>
+</document>
+

@@ -1,0 +1,36 @@
+<!-- Main Entrypoint for defining the BCEL libraries properties.
+-->
+    <property name="_shared.dirs.3rdparty.junit"
+            value="${_shared.dirs.3rdparty}/junit" />
+    
+    
+    <!-- JUnit libraries -->
+    <property name="libs.junit.3_7"
+            value="${_shared.dirs.3rdparty.junit}/3.7/junit.jar" />
+    
+    <property name="javadoc.package-list.junit.3_7"
+            value="${_shared.dirs.3rdparty.junit}/3.7/package-list" />
+    <property name="javadoc.url.junit.3_7"
+            value="http://www.junit.org/junit/javadoc/3.7" />
+    
+    <property name="licenses.junit.3_7"
+            value="${_shared.dirs.3rdparty.junit}/3.7/license-cpl.html" />
+    
+    
+    <property name="libs.junit.3_8_1"
+            value="${_shared.dirs.3rdparty.junit}/3.8.1/junit.jar" />
+    
+    <property name="javadoc.package-list.junit.3_8_1"
+            value="${_shared.dirs.3rdparty.junit}/3.8.1/package-list" />
+    <property name="javadoc.url.junit.3_8_1"
+            value="http://www.junit.org/junit/javadoc/3.8.1" />
+    
+    <property name="licenses.junit.3_8_1"
+            value="${_shared.dirs.3rdparty.junit}/3.8.1/license-cpl.html" />
+    
+    
+    
+    
+    <property name="libs.junit.current"
+            value="${libs.junit.3_8_1}" />
+

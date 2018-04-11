@@ -1,0 +1,214 @@
+.dwbg { background-color : #ffcc66 }
+.dwg3 { background-color : #333333 }
+.dwg6 { background-color : #666666 }
+.dwr1 { background-color : #cc6633 } 
+.dwb1 { background-color : #99ccff }
+.ddb1 { background-color : #cccccc }
+.ddbkg { background-image: url(http://www-106.ibm.com/developerworks/i/m-dd-repeat.gif) ;background-repeat: repeat; }
+a.rightnav:link { text-decoration: none; color: #006699; font-family: Arial, sans-serif; font-size: 9pt; }
+a.rightnav:visited { text-decoration: none; color: #006699; font-family: Arial, sans-serif; font-size: 9pt; }
+a.rightnav:hover { text-decoration: underline; color: #006699; font-family: Arial, sans-serif; font-size: 9pt; }
+.title2 { font-family: Arial, sans-serif; font-weight: bold; font-size: 13pt; }
+.title3 { font-family: Arial, sans-serif; font-weight: bold; font-size: 10pt; }
+.homehead1 { font-family: Helvetica, sans-serif; font-weight: bold; font-size: 12pt; }
+.homehead2 { font-family: Helvetica, sans-serif; font-weight: bold; font-size: 12pt; }
+.homehead2red { font-family: Helvetica, sans-serif; font-weight: bold; color: #cc6633; font-size: 12pt; }
+.homehead3 { font-family: Helvetica, sans-serif; font-weight: bold; font-size: 10pt; }
+.homehead3red { font-family: Helvetica, sans-serif; font-weight: bold; color: #cc6633; font-size: 10pt; }
+.dwsmall { font-family: Verdana, sans-serif; font-size: 8pt; }
+.dwsearch { font-family: Verdana, sans-serif; color: #000000; font-size: 8pt; }  
+.poweredby { font-family: Verdana, sans-serif; font-weight: bold; color: #006699; font-size: 8pt; }
+.dwinput { font-family: Verdana, sans-serif; font-size: 8pt; width: 124; }
+code {font-family: courier, monospace; font-size: 10pt;}
+.boldcode {font-family: courier, monospace; font-size: 10pt; font-weight: bold} 
+.rboldcode {font-family: courier, monospace; font-size: 10pt; font-weight: bold; color: #ff0000} 
+.gboldcode {font-family: courier, monospace; font-size: 10pt; font-weight: bold; color: #009966} 
+.bboldcode {font-family: courier, monospace; font-size: 10pt; font-weight: bold; color: #0000ff} 
+.atitle { font-family: Arial, sans-serif; font-weight: bold; font-size: 17pt; }
+.astitle { font-family: Arial, sans-serif; font-weight: bold; font-size: 17pt; color: #CC6633}
+.atitle2 { font-family: Arial, sans-serif; font-weight: bold; font-size: 13pt; }
+.atitle3 { font-family: Arial, sans-serif; font-weight: bold; font-size: 10pt; }
+
+.hbg { background-color: #006699; background-image: url(http://www-106.ibm.com/developerworks/i/lines.gif) ;background-repeat: repeat; }
+.tbg { background-color: #006699; background-image: url(http://www-106.ibm.com/developerworks/i/gr760.gif); }
+.tbgc { background-color: #006699; }
+.bbg { background-color: #000000; vertical-align: middle; }
+.dbg { background-color: #6699cc; }
+.mbg { background-color: #99ccff; }
+.lbg { background-color: #cce5ff; }
+.hil { background-color: #ffffff; font-family: Arial, sans-serif; font-size: 9pt }
+.country { color: #99ccff; font-family: Verdana, sans-serif; font-size: 8pt; font-weight: bold; }
+.related { color: #ffffff; font-family: Arial, sans-serif; font-size: 9pt; font-weight: bold; }
+
+a:link { color: #006699; }
+a:visited { color: #996699; }
+a:hover  { color: #006699 }
+
+a.rlinks:link { text-decoration: none; color: #ffffff; font-family: Arial, sans-serif; font-size: 9pt; }
+a.rlinks:visited { text-decoration: none; color: #ffffff; font-family: Arial, sans-serif; font-size: 9pt; }
+a.rlinks:hover { text-decoration: underline; color: #ffffff; font-family: Arial, sans-serif; font-size: 9pt; }
+
+a.highlight:link { text-decoration: none; color: #ffcc00; font-family: Verdana, Arial, sans-serif; font-size: 8pt; font-weight: bold; }
+a.highlight:visited { text-decoration: none; color: #ffcc00; font-family: Verdana, Arial, sans-serif; font-size: 8pt; font-weight: bold; }
+a.highlight:hover { text-decoration: underline; color: #ffcc00; font-family: Verdana, Arial, sans-serif; font-size: 8pt; font-weight: bold; }
+
+a.mainlink:link { text-decoration: none; color: #ffffff; font-family: Verdana, Arial, sans-serif; font-size: 8pt; font-weight: bold; }
+a.mainlink:visited { text-decoration: none; color: #ffffff; font-family: Verdana, Arial, sans-serif; font-size: 8pt; font-weight: bold; }
+a.mainlink:hover { text-decoration: underline; color: #ffffff; font-family: Verdana, Arial, sans-serif; font-size: 8pt; font-weight: bold; }
+
+a.parent:link { text-decoration: none; color: #000000; font-family: Verdana, Arial, sans-serif; font-size: 8pt; }
+a.parent:visited { text-decoration: none; color: #000000; font-family: Verdana, Arial, sans-serif; font-size: 8pt; }
+a.parent:hover { text-decoration: underline; color: #000000; font-family: Verdana, Arial, sans-serif; font-size: 8pt; }
+
+a.nav:link { text-decoration: none; color: #000000; font-family: Arial, sans-serif; font-size: 9pt; }
+a.nav:visited { text-decoration: none; color: #000000; font-family: Arial, sans-serif; font-size: 9pt; }
+a.nav:hover { text-decoration: underline; color: #000000; font-family: Arial, sans-serif; font-size: 9pt; }
+
+a.fbox:link { text-decoration: none; color: #006699; font-family: Arial, sans-serif; font-size: 9pt; }
+a.fbox:visited { text-decoration: none; color: #996699; font-family: Arial, sans-serif; font-size: 9pt; }
+a.fbox:hover { text-decoration: underline; color: #006699; font-family: Arial, sans-serif; font-size: 9pt; }
+
+a.bctl:link { text-decoration: none; color: #000000; font-family: Arial, sans-serif; font-size: 8pt; }
+a.bctl:visited { text-decoration: none; color: #000000; font-family: Arial, sans-serif; font-size: 8pt; }
+a.bctl:hover { text-decoration: underline; color: #000000; font-family: Arial, sans-serif; font-size: 8pt; }
+
+.divider { color: #999999; font-family: Verdana, Arial, sans-serif; font-size: 9pt; font-weight: normal; }
+.input { color: #000000; font-weight: normal; font-size: 8pt; width: 150; }
+.iform { color: #000000; background: #cccc99; font-weight: normal; font-size: 8pt; }
+
+body,dt,dd,dl,sl,th,td,tr,select,option,form,font,ul,ol,p,blockquote { font-family: Arial, sans-serif; font-size: 9pt; }
+
+ul { list-style: square; margin-top: 2px; margin-bottom: 2px; padding-top: 2px; padding-bottom: 2px }
+ol { margin-top: 2px; margin-bottom: 2px; padding-top: 2px; padding-bottom: 2px }
+
+u,em,blink,b,strong,i,p,li,div { font-family: Arial, sans-serif; }
+
+.small { font-family: Verdana, sans-serif; font-size: 8pt; }
+.title1 { font-family: Arial, sans-serif; font-size: 19pt; }
+
+.tblue { color: #ffffff; background: #6699cc; font-family: Arial, sans-serif; font-weight: bold; font-size: 9pt; }
+.tdblue { color: #ffffff; background: #006699; font-family: Arial, sans-serif; font-weight: bold; font-size: 9pt; }
+.tgray { color: #ffffff; background: #666666; font-family: Arial, sans-serif; font-weight: bold; font-size: 9pt; }
+.bct { color: #000000; font-family: Arial, sans-serif; font-weight: normal; font-size: 8pt; }
+.fnt { font-family: Verdana, sans-serif; font-size: 8pt; }
+
+------- Add additional Style Guides below ---------------------------
+
+.dwbg { background-color : #FFFFFF}
+.awg6 { background-color : #CCCCCC}
+.awdv { background-color : #FFFFFF}
+.awbg { background-color : #000000}
+.awnv { background-color : #FFCC00}
+.awbd { background-color : #FECE02}
+.drbd { background-color : #666666}
+.mdbd { background-color : #999999}
+.ltbd { background-color : #DFDFDF}
+.rtbg { background-color : #FFFFCC}
+.gbd  { background-color : #FFCF00}
+.cbbr { background-color : #806000}
+.cbgr { background-color : #989582}
+
+.smallnew { font-family: Verdana, sans-serif; font-size: 72%; color:#FF0000; }
+.smallupd { font-family: Verdana, sans-serif; font-size: 72%; color:#0000FF; }
+.select {background-color: #FFFFFF; color: #000000; font-family: Verdana, sans-serif; font-size: 77%; margin: 0.25em; width: 120; }
+.etech {background-color: #000000; color: #FFFFFF; font-family: Arial, sans-serif; font-weight: normal; font-size: 77%;}
+
+pre { word-wrap:break-word; font-family: "Lucida Console", "Courier New", Courier, monotype; }
+
+dt { font-weight: bold; margin: 0.2em }
+dd { font-size: 87%; margin: 0.2em 1em; }
+
+h1 { font-family: Arial, sans-serif; font-weight: normal; font-size: 240% }
+
+h2 {color: #000000; font-family: "Arial Narrow", sans-serif; font-size: 155%; letter-spacing: -0.1ex; vertical-align: middle; }
+h3 {color: #666666; font-family: "Arial Narrow", sans-serif; font-size: 130%; letter-spacing: -0.1ex; margin: 0em; }
+h4 {color: #006699; font-family: Arial, sans-serif; font-size: 110%; font-weight: bold; letter-spacing: -0.1ex; margin: 0.2em 0em;}
+
+.title-old { font-family: Arial, sans-serif; font-weight: bold; font-size: 17pt; }
+.title {color: #000000; font-family: "Arial Narrow", sans-serif; font-size: 155%; font-weight: bold; letter-spacing: -0.1ex; vertical-align: middle; }
+td.hd { font-family: Helvetica, sans-serif; font-weight: bold;font-size: 78%; text-align: left;}
+td.mainhd { color: #006699; font-family: Arial, sans-serif; font-size: 78%; font-weight: bold;}
+td.relatedhd {background-color: #FEFECE; font-family: Arial; font-weight:bold; sans-serif; font-size: 87%; text-align:center; }
+td.spechd {color: #000000; font-family: ArialNarrow, sans-serif; font-size: 100%; font-weight: bold}
+td.techhd {color: #000000; font-family: "Arial Narrow", sans-serif; font-size: 155%; letter-spacing: -0.1ex; vertical-align: middle; }
+td.datehd {color: #000000; font-family: Arial, sans-serif; font-size: 70%; letter-spacing: -0.2ex; padding: 0em 0.2em;  }
+td.techbody { font-family: Arial, sans-serif; font-size: 77%; }
+td.awnewtd { padding: 0.1em 0em; }
+td.rlhd { color: #333333; background-color: #ffcc00; text-align: center; font-family: "Arial Narrow", Arial, sans-serif; font-weight: bold; font-size: 80%; }
+td.tiletd {color: #000000; border-spacing: 0px 2px; border: 2px dotted #FFFFCC; vertical-align: middle; }
+td.technav {background-color: #000000; color: #FFFFFF; font-family: Arial, sans-serif; font-size: 77%; font-weight: bold;}
+td.notemsg {color: #FF0000; font-family: Arial, sans-serif; font-size: 60%; font-weight: bold}
+td.promotd { font-family: sans-serif; padding: 4px; }
+
+td.date { color: #FFFFFF; background-color: #000000; font-style: italic; font-family: Arial, sans-serif; font-size: 67%;}
+
+td.errorhd { color: #333333; font-family: Helvetica, sans-serif; font-weight: bold; font-size: 120%; }
+.btrail {color: #000000; font-family: Arial, sans-serif; font-size: 70%; font-style: italic; }
+.btrail a:link { text-decoration: underline; color: #000000; font-family: Arial, sans-serif; }
+.btrail a:visited { text-decoration: underline; color: #000000;font-family: Arial, sans-serif; }
+.btrail a:hover { text-decoration: underline; color: #000000; font-family: Arial, sans-serif; }
+
+a.rmainnav:link { text-align: left; text-decoration: none; color: #001BFD; font-family: Arial, sans-serif; font-size: 84%; }
+a.rmainnav:visited { text-align: left; text-decoration: none; color: #001BFD;font-family: Arial, sans-serif; font-size: 84% }
+a.rmainnav:hover { text-align: left; text-decoration: underline; color: #001BFD; font-family: Arial, sans-serif; font-size: 84% }
+
+
+.mtbox { font-family: Verdana, sans-serif; font-size: 70%; width: 100; }
+.contactin { font-family: Helvetica, sans-serif; font-size: 79%; text-align: left;}
+
+td.technav {background-color: #000000; color: #FFFFFF; font-family: Arial, sans-serif; font-size: 77%; font-weight: bold;}
+
+a.rnav-on { color: #000000; font-family: Verdana, Arial, sans-serif; font-weight: bold; font-size: 75%; letter-spacing: -0.2ex; }
+a.rnav { color: #0000FF; font-family: Verdana, Arial, sans-serif; font-weight: normal; font-size: 75%; letter-spacing: -0.2ex; }
+a.rnav:link { text-decoration: underline; color: #0000FF; }
+a.rnav:visited { text-decoration: underline; color: #FFCC00; }
+a.rnav:hover { text-decoration: underline; color: #0000FF; }
+
+a.rlnav { font-family: Arial, sans-serif; }
+td.rlnav a:link { text-decoration: none; color: #006699; }
+td.rlnav a:visited { text-decoration: none; color: #666666; }
+td.rlnav a:hover { text-decoration: underline; color: #006699; }
+td.rlnav ul { list-style: url(/i/rt-lwarrow.gif) square; margin-top: 0.5em; margin-left: 16px; margin-bottom: 0.5em; margin-right: 10px; }
+
+td.homehd2 { font-family: Helvetica, sans-serif; font-weight: bold; color: #000000; font-size: 95%; }
+
+td.gnav  {background-color: #000000; color: #FFFFFF; font-family: Arial, sans-serif; font-size: 77%; text-decoration: none; }
+td.gnav-on {background-color: #FFFFFF; color: #000000; font-family: Arial, sans-serif; font-size: 77%; text-decoration: none; font-weight: bold; }
+td.gnav-aw {background-color: #FFCC00; color: #000000; font-family: Arial, sans-serif; font-size: 77%; text-decoration: none; font-weight: bold; }
+
+a.gnav { text-decoration: none; color: #FFFFFF; padding: 0.2em 0em; }
+a.gnav:link { text-decoration: none; color: #FFFFFF; }
+a.gnav-aw:visited { text-decoration: none; color: #FFFFFF; }
+a.gnav:hover { text-decoration: underline; color: #FFFFFF; }
+
+a.gnav-on  { text-decoration: none; color: #000000; padding: 0.2em 0em; }
+a.gnav-on:link  { text-decoration: none; color: #000000; }
+a.gnav-on:visited { text-decoration: none; color: #000000; }
+a.gnav-on:hover { text-decoration: underline; color: #000000; }
+
+a.gnav-aw { text-decoration: none; color: #000000; padding: 0.2em 0em; }
+a.gnav-aw:link { text-decoration: none; color: #000000; }
+a.gnav-aw:visited { text-decoration: none; color: #000000; }
+a.gnav-aw:hover { text-decoration: underline; color: #000000; }
+
+a.more:link { text-decoration: none; color: #FFFFFF; }
+a.more:visited { text-decoration: none; color: #FFFFFF; }
+a.more:hover { text-decoration: underline; color: #FFFFFF; }
+
+td.mainnav a:link { text-decoration: none; color: #FFFFFF; }
+td.mainnav a:visited { text-decoration: none; color: #FFFFFF; }
+td.mainnav a:hover { text-decoration: underline; color: #FFFFFF; }
+
+a.centernav:link { color: #000000; font-style:italic; font-family: Arial, sans-serif; font-size: 77%; }
+a.centernav:visited { text-decoration: none; color: #000000; font-family: Arial, sans-serif; font-size: 77%}
+
+a.topnav:link { color: #000000; font-style:italic; font-family: Arial, sans-serif; font-size: 77%; }
+a.topnav:visited { text-decoration: none; color: #000000; font-family: Arial, sans-serif; font-size: 77%}
+
+a.top:link { text-decoration: none; color: #FFFFFF; font-style:italic; font-family: Arial, sans-serif; font-size: 77%; }
+a.top:visited { text-decoration: none; color: #FFFFFF; font-family: Arial, sans-serif; font-size: 77%}
+
+td.bck {background-image:url(tb-dropshadow.gif;}
+tr.bck {background-image:url(tb-dropshadow.gif;}
+td.rtshadow { background-image:url("/i/rt-dropshadow3.gif");}
+td.btshadow { background-image:url(/i/tb-dropshadow.gif);}

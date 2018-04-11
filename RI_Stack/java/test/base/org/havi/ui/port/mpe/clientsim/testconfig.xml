@@ -1,0 +1,1594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Jay Tracy (Snap2 Corporation) -->
+<!DOCTYPE TestSuite SYSTEM "../../testconfig.dtd">
+<TestSuite>
+	<!-- OBJECT DEFINITIONS FOR REUSE -->
+	<Object type="null" id="null"/>
+	<Object type="org.havi.ui.HScreenRectangle" id="HSR_fullscreen">
+		<Parameter type="float" value="0.0"/>
+		<Parameter type="float" value="0.0"/>
+		<Parameter type="float" value="1.0"/>
+		<Parameter type="float" value="1.0"/>
+	</Object>
+	<Object type="org.havi.ui.HScreenDimension" id="HSD_1_1">
+		<Parameter type="float" value="1.0"/>
+		<Parameter type="float" value="1.0"/>
+	</Object>
+	<Object type="org.havi.ui.HScreenPoint" id="HSP_0_0">
+		<Parameter type="float" value="0.0"/>
+		<Parameter type="float" value="0.0"/>
+	</Object>
+	<Object type="java.awt.Dimension" id="dim_1920_1080">
+		<Parameter type="int" value="1920"/>
+		<Parameter type="int" value="1080"/>
+	</Object>
+	<Object type="java.awt.Dimension" id="dim_1280_720">
+		<Parameter type="int" value="1280"/>
+		<Parameter type="int" value="720"/>
+	</Object>
+	<Object type="java.awt.Dimension" id="dim_640_480">
+		<Parameter type="int" value="640"/>
+		<Parameter type="int" value="480"/>
+	</Object>
+	<Object type="java.awt.Point" id="point_0_0">
+		<Parameter type="int" value="0"/>
+		<Parameter type="int" value="0"/>
+	</Object>
+	<!-- TEMPLATE DEFINITIONS FOR REUSE -->
+	<!-- Graphics Configurations -->
+	<!-- 480i -->
+	<Template type="org.havi.ui.HGraphicsConfigTemplate" id="gfx0.cfg0" device="Graphics[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="1"/>
+				<Parameter type="int" value="1"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+		<Preference name="MATTE_SUPPORT" priority="DONT_CARE"/>
+		<Preference name="IMAGE_SCALING_SUPPORT" priority="DONT_CARE"/>
+	</Template>
+	<!-- 480p -->
+	<Template type="org.havi.ui.HGraphicsConfigTemplate" id="gfx0.cfg1" device="Graphics[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED_NOT"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="1"/>
+				<Parameter type="int" value="1"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+		<Preference name="MATTE_SUPPORT" priority="DONT_CARE"/>
+		<Preference name="IMAGE_SCALING_SUPPORT" priority="DONT_CARE"/>
+	</Template>
+	<!-- 720p -->
+	<Template type="org.havi.ui.HGraphicsConfigTemplate" id="gfx0.cfg2" device="Graphics[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED_NOT"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="4"/>
+				<Parameter type="int" value="3"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+		<Preference name="MATTE_SUPPORT" priority="DONT_CARE"/>
+		<Preference name="IMAGE_SCALING_SUPPORT" priority="DONT_CARE"/>
+	</Template>
+	<!-- 1080i -->
+	<Template type="org.havi.ui.HGraphicsConfigTemplate" id="gfx0.cfg2" device="Graphics[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="4"/>
+				<Parameter type="int" value="3"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+		<Preference name="MATTE_SUPPORT" priority="DONT_CARE"/>
+		<Preference name="IMAGE_SCALING_SUPPORT" priority="DONT_CARE"/>
+	</Template>
+	<!-- Video Configurations -->
+	<!-- 480i -->
+	<Template type="org.havi.ui.HVideoConfigTemplate" id="vid0.cfg0" device="Video[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="1"/>
+				<Parameter type="int" value="1"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+	</Template>
+	<!-- 480p -->
+	<Template type="org.havi.ui.HVideoConfigTemplate" id="vid0.cfg1" device="Video[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED_NOT"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="1"/>
+				<Parameter type="int" value="1"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+	</Template>
+	<!-- 720p -->
+	<Template type="org.havi.ui.HVideoConfigTemplate" id="vid0.cfg2" device="Video[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED_NOT"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="1"/>
+				<Parameter type="int" value="1"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_1280_720"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+	</Template>
+	<!-- 1080i -->
+	<Template type="org.havi.ui.HVideoConfigTemplate" id="vid0.cfg3" device="Video[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="1"/>
+				<Parameter type="int" value="1"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_1920_1080"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+	</Template>
+	<!-- Background Configurations -->
+	<!-- None -->
+	<Template type="org.havi.ui.HBackgroundConfigTemplate" id="background1_config1" device="Background[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED_NOT"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="1"/>
+				<Parameter type="int" value="1"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+		<Preference name="CHANGEABLE_SINGLE_COLOR" priority="REQUIRED"/>
+		<Preference name="STILL_IMAGE" priority="REQUIRED_NOT"/>
+	</Template>
+	<!--
+	<Template type="org.havi.ui.HBackgroundConfigTemplate" id="background1_config2" device="Background[0]">
+		<Preference name="FLICKER_FILTERING" priority="REQUIRED_NOT"/>
+		<Preference name="INTERLACED_DISPLAY" priority="REQUIRED_NOT"/>
+		<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+			<Object type="java.awt.Dimension">
+				<Parameter type="int" value="1"/>
+				<Parameter type="int" value="1"/>
+			</Object>
+		</Preference>
+		<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+		<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+		<Preference name="CHANGEABLE_SINGLE_COLOR" priority="REQUIRED"/>
+		<Preference name="STILL_IMAGE" priority="REQUIRED"/>
+	</Template>
+	-->
+
+	<!-- START OF TEST DEFINITIONS -->
+	<TestClass name="org.havi.ui.HSceneFactoryTest">
+		<Test name="besttemplate">
+			<TestCase>
+				<!-- SUCCESS - tests pixel size required over screen size, checks calculated screen dimension, and 
+						     tests that a HGraphicsConfiguration specified in the template is used if possible. -->
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.88888889"/>
+								<Parameter type="float" value="0.83333333"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests that if no HGraphicsConfiguration preference is specified, the current config on the default
+							HGraphicsDevice is used.  Also tests that the "largest" pixel dimension is used correctly.-->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="LARGEST_PIXEL_DIMENSION"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests that if no HGraphicsConfiguration preference is specified, the current config on the default
+							HGraphicsDevice is used.  Also tests that given the same priority, the screen size 
+							preferences are used.-->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="PREFERRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- FAILURE - tests failure due to unavailable pixel size requirements. -->
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="800"/>
+								<Parameter type="int" value="600"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal" objectId="null"/>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests that if a preferred size requirement can't be met, the factory returns a scene with the size as close as possible -->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="PREFERRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED">
+							<Object type="java.awt.Point">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED">
+							<Object type="java.awt.Point">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenPoint">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests that if a preferred screen size requirement can't be met, 
+								the factory returns a scene with the size as close as possible -->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenPoint">
+								<Parameter type="float" value="0.25"/>
+								<Parameter type="float" value="0.25"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="540"/>
+								<Parameter type="int" value="432"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED">
+							<Object type="java.awt.Point">
+								<Parameter type="int" value="180"/>
+								<Parameter type="int" value="144"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.75"/>
+								<Parameter type="float" value="0.75"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenPoint">
+								<Parameter type="float" value="0.25"/>
+								<Parameter type="float" value="0.25"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Result>
+			</TestCase>
+		</Test>
+		<Test name="bestscene">
+			<TestCase>
+				<!-- SUCCESS - tests pixel size required over screen size, checks calculated screen dimension, and 
+						     tests that a HGraphicsConfiguration specified in the template is used if possible. -->
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.88888889"/>
+								<Parameter type="float" value="0.83333333"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests that if no HGraphicsConfiguration preference is specified, the current config on the default
+							HGraphicsDevice is used.  Also tests that the "largest" pixel dimension is used correctly.-->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="LARGEST_PIXEL_DIMENSION"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests that if no HGraphicsConfiguration preference is specified, the current config on the default
+							HGraphicsDevice is used.  Also tests that given the same priority, the screen size 
+							preferences are used.-->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="PREFERRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- FAILURE - tests failure due to unavailable pixel size requirements. -->
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="800"/>
+								<Parameter type="int" value="600"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal" objectId="null"/>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests that if a preferred size requirement can't be met, the factory returns a scene with the size as close as possible -->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="PREFERRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED">
+							<Object type="java.awt.Point">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED">
+							<Object type="java.awt.Point">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenPoint">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests that if a preferred screen size requirement can't be met, 
+								the factory returns a scene with the size as close as possible -->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenPoint">
+								<Parameter type="float" value="0.25"/>
+								<Parameter type="float" value="0.25"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="540"/>
+								<Parameter type="int" value="432"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED">
+							<Object type="java.awt.Point">
+								<Parameter type="int" value="180"/>
+								<Parameter type="int" value="144"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.75"/>
+								<Parameter type="float" value="0.75"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenPoint">
+								<Parameter type="float" value="0.25"/>
+								<Parameter type="float" value="0.25"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Result>
+			</TestCase>
+		</Test>
+		<Test name="defaultscene">
+			<!-- Assumes "Graphics[0]" is the default graphics device -->
+			<TestCase>
+				<!-- set default config as current config -->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+		</Test>
+		<Test name="defaultsceneforscreen">
+			<TestCase>
+				<Input command="usescreen">
+					<Object type="java.lang.Integer">
+						<Parameter type="int" value="0"/>
+					</Object>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+		</Test>
+		<Test name="resize">
+			<TestCase>
+				<!-- SUCCESS - tests successful resize to smaller size using pixel size requirements. -->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="LARGEST_PIXEL_DIMENSION"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Input command="resizetemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="PREFERRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.88888889"/>
+								<Parameter type="float" value="0.83333333"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests successful resize to smaller size using screen size requirements. -->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="LARGEST_PIXEL_DIMENSION"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Input command="resizetemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests successful resize to larger size using pixel size requirements.
+								Also tests that LARGEST_PIXEL_DIMENSION works correctly for resize. -->
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Input command="resizetemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="PREFERRED">
+							<Object type="LARGEST_PIXEL_DIMENSION"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="PREFERRED" objectId="point_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- SUCCESS - tests successful resize to larger size using screen size requirements. -->
+				<Setup command="setcurrentconfig" templateId="gfx0.cfg0"/>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Input command="resizetemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED" objectId="HSD_1_1"/>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- FAILURE - tests unsuccessful resize to larger size using pixel size requirements (dimension too large). -->
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Input command="resizetemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="800"/>
+								<Parameter type="int" value="600"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- FAILURE - tests unsuccessful resize to larger size using pixel size requirements (dimension + location too large). -->
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Input command="resizetemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="640"/>
+								<Parameter type="int" value="480"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED">
+							<Object type="java.awt.Point">
+								<Parameter type="int" value="100"/>
+								<Parameter type="int" value="100"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<!-- FAILURE - tests unsuccessful resize to larger size using screen size requirements (dimension + location too large). -->
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="PREFERRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="PREFERRED" objectId="HSP_0_0"/>
+					</Template>
+				</Input>
+				<Input command="resizetemplate">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.75"/>
+								<Parameter type="float" value="0.75"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenPoint">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Input>
+				<Result command="compareequal">
+					<Template type="org.havi.ui.HSceneTemplate">
+						<Preference name="GRAPHICS_CONFIGURATION" priority="REQUIRED">
+							<Object type="org.havi.ui.HGraphicsConfiguration" templateId="gfx0.cfg0"/>
+						</Preference>
+						<Preference name="SCENE_PIXEL_DIMENSION" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="360"/>
+								<Parameter type="int" value="288"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_PIXEL_LOCATION" priority="REQUIRED" objectId="point_0_0"/>
+						<Preference name="SCENE_SCREEN_DIMENSION" priority="REQUIRED">
+							<Object type="org.havi.ui.HScreenDimension">
+								<Parameter type="float" value="0.5"/>
+								<Parameter type="float" value="0.5"/>
+							</Object>
+						</Preference>
+						<Preference name="SCENE_SCREEN_LOCATION" priority="REQUIRED" objectId="HSP_0_0"/>
+					</Template>
+				</Result>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HBackgroundDeviceTest">
+		<Test name="bestconfig">
+			<TestCase targetType="device" targetId="Background[0]">
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HBackgroundConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="REQUIRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="REQUIRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+						<Preference name="CHANGEABLE_SINGLE_COLOR" priority="REQUIRED"/>
+						<Preference name="STILL_IMAGE" priority="PREFERRED"/>
+					</Template>
+				</Input>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HBackgroundConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="PREFERRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="PREFERRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+						<Preference name="CHANGEABLE_SINGLE_COLOR" priority="PREFERRED"/>
+						<Preference name="STILL_IMAGE" priority="REQUIRED_NOT"/>
+					</Template>
+				</Input>
+				<Result command="compareequal" misc="best" templateId="background1_config1"/>
+			</TestCase>
+			<TestCase targetType="device" targetId="Background[0]">
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HBackgroundConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED_NOT"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+						<Preference name="CHANGEABLE_SINGLE_COLOR" priority="REQUIRED"/>
+						<Preference name="STILL_IMAGE" priority="REQUIRED"/>
+					</Template>
+				</Input>
+				<Result command="compareequal" misc="best" templateId="background1_config2"/>
+			</TestCase>
+		</Test>
+		<Test name="allconfigs">
+			<TestCase targetType="device" targetId="Background[0]">
+				<Result command="compareequal" templateId="background1_config1"/>
+				<Result command="compareequal" templateId="background1_config2"/>
+			</TestCase>
+		</Test>
+		<Test name="defaultconfig">
+			<TestCase targetType="device" targetId="Background[0]">
+				<Result command="compareequal" templateId="background1_config1"/>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HBackgroundConfigurationTest">
+		<Test name="convertto">
+			<!--The computation of the expected result is based on the
+                following formula.
+                ss = screen bounds for source configuration
+                ds = screen bounds for destination configuration
+                sp = pixel bounds for source point
+                dp = pixel bounds for destination point
+
+                dp.x = (((((sp.x  / sp.width)  * ss.width) + ss.x)
+                                               - ds.x) / ds.width)  * dp.width
+                dp.y = (((((sp.y  / sp.height) * ss.height) + ss.y)
+                                               - ds.y) / ds.height) * dp.height
+
+                Note that dp.x and dp.y should be rounded to the nearest
+                integer value.
+            -->
+			<TestCase>
+				<Input command="srcconfig" templateId="background1_config1"/>
+				<Input command="testpoint">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Input>
+				<Input command="testconfig" templateId="gfx0.cfg0"/>
+				<Result command="compareequal" misc="converted">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="srcconfig" templateId="background1_config1"/>
+				<Input command="testpoint">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Input>
+				<Input command="testconfig" templateId="vid0.cfg0"/>
+				<Result command="compareequal" misc="converted">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+		<Test name="offset">
+			<!--The computation of the expected result is based on the
+                following formula.
+                ss = screen bounds for source configuration
+                ds = screen bounds for destination configuration
+                sd = source dimensions in pixels
+                dd = destination dimensions in pixels
+                offset = offset in pixels
+
+                offset.width  = ((ds.x - ss.x) / ss.width ) * sd.width
+                offset.height = ((ds.y - ss.y) / ss.height) * sd.height
+
+                Note that offset.width and offset.height should be rounded to
+                the nearest integer value.
+            -->
+			<TestCase>
+				<Input command="srcconfig" templateId="background1_config1"/>
+				<Input command="testconfig" templateId="gfx0.cfg0"/>
+				<Result command="compareequal" misc="offset">
+					<Object type="java.awt.Dimension">
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="0"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="srcconfig" templateId="background1_config1"/>
+				<Input command="testconfig" templateId="vid0.cfg0"/>
+				<Result command="compareequal" misc="offset">
+					<Object type="java.awt.Dimension">
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="0"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HBackgroundConfigTemplateTest">
+		<Test name="supported">
+			<TestCase>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HBackgroundConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+						<Preference name="CHANGEABLE_SINGLE_COLOR" priority="REQUIRED"/>
+						<Preference name="STILL_IMAGE" priority="PREFERRED"/>
+					</Template>
+				</Input>
+				<Input command="compareconfig" templateId="background1_config1"/>
+				<Result command="compareequal" misc="supported">
+					<Object type="java.lang.Boolean">
+						<Parameter type="boolean" value="true"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HBackgroundConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="REQUIRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+						<Preference name="CHANGEABLE_SINGLE_COLOR" priority="REQUIRED"/>
+						<Preference name="STILL_IMAGE" priority="PREFERRED"/>
+					</Template>
+				</Input>
+				<Input command="compareconfig" templateId="background1_config1"/>
+				<Result command="compareequal" misc="supported">
+					<Object type="java.lang.Boolean">
+						<Parameter type="boolean" value="false"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HGraphicsDeviceTest">
+		<Test name="bestconfig">
+			<TestCase targetType="device" targetId="Graphics[0]">
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HGraphicsConfigTemplate" id="gfx0.cfg0" device="Graphics[0]">
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+					</Template>
+				</Input>
+				<Result command="compareequal" misc="best" templateId="gfx0.cfg0"/>
+			</TestCase>
+			<TestCase targetType="device" targetId="Graphics[0]">
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HGraphicsConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="REQUIRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="PREFERRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+						<Preference name="MATTE_SUPPORT" priority="PREFERRED"/>
+						<Preference name="IMAGE_SCALING_SUPPORT" priority="REQUIRED_NOT"/>
+					</Template>
+				</Input>
+				<Result command="compareequal" misc="best" templateId="gfx0.cfg0"/>
+			</TestCase>
+		</Test>
+		<Test name="allconfigs">
+			<TestCase targetType="device" targetId="Graphics[0]">
+				<Result command="compareequal" templateId="gfx0.cfg0"/>
+				<Result command="compareequal" templateId="gfx0.cfg1"/>
+				<Result command="compareequal" templateId="gfx0.cfg2"/>
+				<Result command="compareequal" templateId="gfx0.cfg3"/>
+			</TestCase>
+		</Test>
+		<Test name="defaultconfig">
+			<TestCase targetType="device" targetId="Graphics[0]">
+				<Result command="compareequal" templateId="gfx0.cfg0"/>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HGraphicsConfigurationTest">
+		<Test name="convertto">
+			<!-- See background testcase for formula used to compute results -->
+			<TestCase>
+				<Input command="srcconfig" templateId="gfx0.cfg0"/>
+				<Input command="testpoint">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Input>
+				<Input command="testconfig" templateId="background1_config1"/>
+				<Result command="compareequal" misc="converted">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="srcconfig" templateId="gfx0.cfg0"/>
+				<Input command="testpoint">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Input>
+				<Input command="testconfig" templateId="vid0.cfg0"/>
+				<Result command="compareequal" misc="converted">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="srcconfig" templateId="gfx0.cfg0"/>
+				<Input command="testpoint">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Input>
+				<Input command="testconfig" templateId="vid0.cfg0"/>
+				<Result command="compareequal" misc="converted">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+		<Test name="offset">
+			<!-- See background testcase for formula used to compute results -->
+			<TestCase>
+				<Input command="srcconfig" templateId="gfx0.cfg0"/>
+				<Input command="testconfig" templateId="background1_config2"/>
+				<Result command="compareequal" misc="offset">
+					<Object type="java.awt.Dimension">
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="0"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="srcconfig" templateId="gfx0.cfg0"/>
+				<Input command="testconfig" templateId="vid0.cfg0"/>
+				<Result command="compareequal" misc="offset">
+					<Object type="java.awt.Dimension">
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="0"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+		<Test name="allfonts">
+			<TestCase targetType="device" targetId="Graphics[0]">
+				<Input command="srcconfig" templateId="gfx0.cfg0"/>
+				<Result command="compareequal" misc="font">
+					<Object type="java.awt.Font">
+						<Parameter type="String" value="Dialog"/>
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="1"/>
+					</Object>
+				</Result>
+				<Result command="compareequal" misc="font">
+					<Object type="java.awt.Font">
+						<Parameter type="String" value="SansSerif"/>
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="1"/>
+					</Object>
+				</Result>
+				<Result command="compareequal" misc="font">
+					<Object type="java.awt.Font">
+						<Parameter type="String" value="Serif"/>
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="1"/>
+					</Object>
+				</Result>
+				<Result command="compareequal" misc="font">
+					<Object type="java.awt.Font">
+						<Parameter type="String" value="Monospaced"/>
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="1"/>
+					</Object>
+				</Result>
+				<Result command="compareequal" misc="font">
+					<Object type="java.awt.Font">
+						<Parameter type="String" value="DialogInput"/>
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="1"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HGraphicsConfigTemplateTest">
+		<Test name="supported">
+			<TestCase>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HGraphicsConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+						<Preference name="MATTE_SUPPORT" priority="REQUIRED"/>
+						<Preference name="IMAGE_SCALING_SUPPORT" priority="PREFERRED"/>
+					</Template>
+				</Input>
+				<Input command="compareconfig" templateId="gfx0.cfg0"/>
+				<Result command="compareequal" misc="supported">
+					<Object type="java.lang.Boolean">
+						<Parameter type="boolean" value="true"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HGraphicsConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+						<Preference name="MATTE_SUPPORT" priority="REQUIRED"/>
+						<Preference name="IMAGE_SCALING_SUPPORT" priority="REQUIRED"/>
+					</Template>
+				</Input>
+				<Input command="compareconfig" templateId="gfx0.cfg0"/>
+				<Result command="compareequal" misc="supported">
+					<Object type="java.lang.Boolean">
+						<Parameter type="boolean" value="false"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HVideoDeviceTest">
+		<Test name="bestconfig">
+			<TestCase targetType="device" targetId="Video[0]">
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HVideoConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="PREFERRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+					</Template>
+				</Input>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HVideoConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="PREFERRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+					</Template>
+				</Input>
+				<Result command="compareequal" misc="best" templateId="vid0.cfg0"/>
+			</TestCase>
+			<TestCase targetType="device" targetId="Video[0]">
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HVideoConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="PREFERRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+					</Template>
+				</Input>
+				<Result command="compareequal" misc="best" templateId="vid0.cfg0"/>
+			</TestCase>
+		</Test>
+		<Test name="allconfigs">
+			<TestCase targetType="device" targetId="Video[0]">
+				<Result command="compareequal" templateId="vid0.cfg0"/>
+			</TestCase>
+		</Test>
+		<Test name="defaultconfig">
+			<TestCase targetType="device" targetId="Video[0]">
+				<Result command="compareequal" templateId="vid0.cfg0"/>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HVideoConfigurationTest">
+		<Test name="convertto">
+			<!-- See background testcase for formula used to compute results -->
+			<TestCase>
+				<Input command="srcconfig" templateId="vid0.cfg0"/>
+				<Input command="testpoint">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Input>
+				<Input command="testconfig" templateId="gfx0.cfg0"/>
+				<Result command="compareequal" misc="converted">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="srcconfig" templateId="vid0.cfg0"/>
+				<Input command="testpoint">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Input>
+				<Input command="testconfig" templateId="background1_config1"/>
+				<Result command="compareequal" misc="converted">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="200"/>
+						<Parameter type="int" value="200"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+		<Test name="offset">
+			<!-- See background testcase for formula used to compute results -->
+			<TestCase>
+				<Input command="srcconfig" templateId="vid0.cfg0"/>
+				<Input command="testconfig" templateId="gfx0.cfg0"/>
+				<Result command="compareequal" misc="offset">
+					<Object type="java.awt.Dimension">
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="0"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="srcconfig" templateId="vid0.cfg0"/>
+				<Input command="testconfig" templateId="background1_config2"/>
+				<Result command="compareequal" misc="offset">
+					<Object type="java.awt.Dimension">
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="0"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HVideoConfigTemplateTest">
+		<Test name="supported">
+			<TestCase>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HVideoConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="PREFERRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+					</Template>
+				</Input>
+				<Input command="compareconfig" templateId="vid0.cfg0"/>
+				<Result command="compareequal" misc="supported">
+					<Object type="java.lang.Boolean">
+						<Parameter type="boolean" value="true"/>
+					</Object>
+				</Result>
+			</TestCase>
+			<TestCase>
+				<Input command="inputtemplate">
+					<Template type="org.havi.ui.HVideoConfigTemplate">
+						<Preference name="FLICKER_FILTERING" priority="REQUIRED"/>
+						<Preference name="INTERLACED_DISPLAY" priority="PREFERRED"/>
+						<Preference name="PIXEL_ASPECT_RATIO" priority="PREFERRED">
+							<Object type="java.awt.Dimension">
+								<Parameter type="int" value="1"/>
+								<Parameter type="int" value="1"/>
+							</Object>
+						</Preference>
+						<Preference name="PIXEL_RESOLUTION" priority="REQUIRED" objectId="dim_640_480"/>
+						<Preference name="SCREEN_RECTANGLE" priority="REQUIRED" objectId="HSR_fullscreen"/>
+						<Preference name="ZERO_BACKGROUND_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_VIDEO_IMPACT" priority="PREFERRED"/>
+						<Preference name="ZERO_GRAPHICS_IMPACT" priority="PREFERRED"/>
+					</Template>
+				</Input>
+				<Input command="compareconfig" templateId="vid0.cfg0"/>
+				<Result command="compareequal" misc="supported">
+					<Object type="java.lang.Boolean">
+						<Parameter type="boolean" value="false"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+	</TestClass>
+	<TestClass name="org.havi.ui.HRangeLookTest">
+		<Test name="hittest">
+			<TestCase>
+				<Input command="range">
+					<Object type="org.havi.ui.HRangeValue">
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="0"/>
+						<Parameter type="int" value="100"/>
+						<Parameter type="int" value="20"/>
+						<Parameter type="int" value="100"/>
+						<Parameter type="int" value="100"/>
+						<Parameter type="int" value="100"/>
+						<Parameter type="int" value="100"/>
+					</Object>
+				</Input>
+				<Input command="hitpoint">
+					<Object type="java.awt.Point">
+						<Parameter type="int" value="10"/>
+						<Parameter type="int" value="10"/>
+					</Object>
+				</Input>
+				<Result command="compareequal" misc="hitvalue">
+					<Object type="java.lang.Integer">
+						<Parameter type="int" value="2"/>
+					</Object>
+				</Result>
+			</TestCase>
+		</Test>
+	</TestClass>
+</TestSuite>

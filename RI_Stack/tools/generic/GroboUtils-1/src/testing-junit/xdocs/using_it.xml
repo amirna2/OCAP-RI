@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+version $Date: 2002/12/11 04:41:05 $
+-->
+
+
+<document>
+<head>
+    <name>Using Integration Tests</name>
+</head>
+<body>
+<!--
+The code in this document were generated with the jEdit "Code2HTML" plugin.
+-->
+<P>
+Integration tests, also known as system tests, pose a different problem to
+testers than the standard unit tests.  JUnit was designed with unit tests
+in mind: if any part of the test fails, then the unit as a whole fails.
+Likewise, JUnit works best when the tests are broken into the smallest possible
+minutae for better granularity and clarity into where a unit breaks.
+</P>
+<P>
+On the other hand, integration tests lie in a different realm in testing.
+Each test generally takes some part of the application for a spin, examining
+how each part influences each other, and looking for places where this
+communication happens incorrectly.  These tests can bring in user input and
+other outside events to the application.
+</P>
+<P>
+An integration test may fail at some point in the run, but that generally
+doesn't mean that the run itself needs to stop.  Integration tests introduce
+the concept of <I>failure severity</I>.  One can break failures into two
+general categories: failures that immediately stop the run, and those that
+allow the test to continue.  The JUnit concept of failures falls into the
+former.
+</P>
+<P>
+The GroboUtils JUnit extention class
+<tt>net.sourceforge.groboutils.junit.v1.IntegrationTestCase</tt>
+introduces "soft" failures; those that are a failure, but don't stop the
+test.  The underlying design creates a new test object that runs the
+specified test, but it is executed outside the context of the owning test run,
+so that the new test object's failure status will be recorded on its own.
+This also allows for a more accurate depiction of the number of tests actually
+executed, as opposed to the number of runs executed.
+</P>
+</body>
+</document>
+

@@ -1,0 +1,11 @@
+<!-- ANT entity include/definition for the xdocs file -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory
+  -->
+<!ENTITY inc._shared.xdocs SYSTEM "xdocs.ant-inc.xml">
+
+

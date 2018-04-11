@@ -1,0 +1,50 @@
+<!-- Common properties/tasks that are shared by all projects
+
+However, for possible overrides, these are all prefixed by
+"_shared.common."
+
+ -->
+    
+    <!-- JDK Dependency Checks -->
+
+    <!-- _shared.common.depend.jdk-checker can be found in
+        common-ant-tasks-init.ant-inc.xml -->
+    
+    <target name="_shared.common.depend.jdk.1_1"
+            depends="_shared.common.depend.jdk-checker"
+            unless="_shared.common.depend.has-jdk11" >
+        <!-- fail - require JDK 1.1 -->
+        <fail message="You must compile ${product} with a compiler that
+supports JDK 1.1 or higher." />
+    </target>
+
+    
+    <target name="_shared.common.depend.jdk.1_2"
+            depends="_shared.common.depend.jdk-checker,
+                _shared.common.depend.jdk.1_1"
+            unless="_shared.common.depend.has-jdk12" >
+        <!-- fail - require JDK 1.2 -->
+        <fail message="You must compile ${product} with a compiler that
+supports JDK 1.2 or higher." />
+    </target>
+
+    
+    <target name="_shared.common.depend.jdk.1_3"
+            depends="_shared.common.depend.jdk-checker,
+                _shared.common.depend.jdk.1_2"
+            unless="_shared.common.depend.has-jdk13" >
+        <!-- fail - require JDK 1.3 -->
+        <fail message="You must compile ${product} with a compiler that
+supports JDK 1.3 or higher." />
+    </target>
+
+     
+    <target name="_shared.common.depend.jdk.1_4"
+            depends="_shared.common.depend.jdk-checker,
+                _shared.common.depend.jdk.1_3"
+            unless="_shared.common.depend.has-jdk14">
+        <fail message="You must compile ${product} with a compiler that
+supports JDK 1.4 or higher." />
+    </target>
+    
+

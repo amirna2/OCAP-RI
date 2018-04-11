@@ -1,0 +1,133 @@
+This file describes the RecordingAlertListener (RAL) Tests
+
+    RAL-1 - vanilla FileAccessPermissions (i.e., no "other" Org IDs)
+    RAL-2 - ExtendedFileAccessPermissions (i.e., "other" Org IDs)
+
+RAL-1
+-----
+PURPOSE:
+    Confirm that listener Xlet receives RecordingAlertEvents based on
+    accessibility, as defined by the ExtendedFileAccessPermissions
+    associated with each OcapRecordingRequest.  In this case, no
+    other-org IDs are listed in the ExtendedFileAccessPermissions.
+
+    Listener Xlet Attributes:
+
+    1. Shares organization ID with the Test Manager Xlet
+       (which creates recording requests).
+    2. Non-MA, Non-Super-App
+
+    re: hostapp.properties application_identifier
+
+FILES:
+    RAL-1-ha.properties   --> usr/hostapp.properties
+    RAL-1-primary.cfg     --> qa/xlet/RAL-1-primary.cfg
+    ocap.TestMgrXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/ocap.TestMgrXlet.perm
+
+PROCEDURE:
+    1. If necessary, modify RAL-1-primary.cfg:
+        1a. Provide appropriate Source IDs.
+        1b. Specify appropriate Start Times.  The recording requests should
+            transition to COMPLETE in rapid fashion.
+    2. Boot SA8300HD with files configured as above.
+    3. Wait for TestLauncher menu to be displayed on TV.
+    4. Select the TestMgrXlet for execution.
+    5. Press RC "INFO" button and verify display of usage message
+       in console logs.  For example:
+
++---------------------------------------------------------+
+TestMgrXlet:  Menu:
+<1> - Initialize Recording Requests
+<2> - Display Current List of Recording Requests
+<3> - Delete All Recording Requests
+<4> - Display internal list of LocatorRecordingSpecs
+<5> - Dump Overlapping Entries (PRF-dependent)
+<6> - Dump Entries (no filter; PRF-dependent)
+<7> - Dump Entries (hardcoded PENDING_WITH_CONFLICT_STATE filter; PRF-dependent)
+<8> - Dump Entries and Root Requests
+<9> - Dump Entries and Parent Requests
++---------------------------------------------------------+
+
+    6. Press "3" to delete any extant recording requests.
+    7. Press "1" to create new recording requests.  For example:
+
++---------------------------------------------------------+
+TestMgrXlet: Number of entries: 4
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:10:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:11:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:12:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:13:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
++---------------------------------------------------------+
+
+    8. Press "MENU".
+    9. Select "RAL-1" Xlet for execution.
+   10. Allow all recording requests transition to "in progress"
+       (or beyond).
+   11. Review the console logs, confirming proper delivery of events
+       to the listener Xlet (see below)
+
+ANALYSIS:
+    Request ID    Event Delivery to Listener
+    ----------------------------------------
+    "----rw:1"    NOT DELIVERED
+    "--r-rw:1"    delivered (org access)
+    "r---rw:1"    NOT DELIVERED
+    "r-r-rw:1"    delivered (world access)
+
+    There may be a simpler way to check this, but I look for the occurrence
+    of the following console message to indicate start of a recording:
+
+    MEDIA: received kEt_TvpActivateProgram, tvpId 18
+
+    Then I look for occurrence of the following console message to indicate
+    the listener Xlet method was invoked:
+
+    recordingAlert: org.ocap.dvr.RecordingAlertEvent
+
+RAL-2
+-----
+PURPOSE:
+    Confirm that listener Xlet receives RecordingAlertEvents based on
+    accessibility, as defined by the ExtendedFileAccessPermissions
+    associated with each OcapRecordingRequest.  In this case, some
+    of the recording requests ExtendedFileAccessPermissions include
+    other-org IDs.
+
+    Listener Xlet Attributes:
+
+    1. Different organization ID than the Test Manager Xlet
+       (which creates recording requests).
+    2. Non-MA, Non-Super-App
+
+    re: hostapp.properties application_identifier
+
+FILES:
+    RAL-2-ha.properties   --> usr/hostapp.properties
+    RAL-2-primary.cfg     --> qa/xlet/RAL-2-primary.cfg
+    ocap.TestMgrXlet.perm --> qa/xlet/org/cablelabs/xlet/DvrSecurityTest/ocap.TestMgrXlet.perm
+
+PROCEDURE:
+    Refer to RAL-1 PROCEDURE.  Select "RAL-2" Xlet for execution.
+
+    The list of recording requests should be similar to the following:
+
++---------------------------------------------------------+
+TestMgrXlet: Number of entries: 6
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:35:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:36:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:37:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:38:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:39:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
+TestMgrXlet: ocap://0x44e Wed Aug 10 16:40:00 MDT 2005 10000 PENDING_NO_CONFLICT_STATE
++---------------------------------------------------------+
+
+ANALYSIS:
+    Request ID    Event Delivery to Listener
+    ----------------------------------------
+    "----rw:1"    NOT DELIVERED
+    "----rw:2"    delivered (OrgID '2' appears in list)
+    "----rw:3"    NOT DELIVERED
+    "--r-rw:1"    NOT DELIVERED
+    "r---rw:1"    delivered (world access)
+    "r-r-rw:1"    delivered (world access)
+

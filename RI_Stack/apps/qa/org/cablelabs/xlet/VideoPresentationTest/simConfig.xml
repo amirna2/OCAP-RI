@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurations xmlns:tns="http://www.cablelabs.org/VideoPresentationTest/configSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cablelabs.org/VideoPresentationTest/configSchema configSchema.xsd ">
+	
+	<!-- Simulator configurations - settings for stand alone client sim.
+	
+		 Currently, the simulator does not support any DFC or AFD processing, so 
+		 the tests included below is a large subset of the full tests used by
+		 the JUnit infrastructure.   
+		 See <projectroot>java\test\base\org\cablelabs\impl\media\player\VPCTestConfig.xml
+		 
+		 **** This implies that most tests cases below will not even execute on
+		 the simulator.   The only tests that will execute are those will DFC_NONE
+		 and AFD_NOT_PRESENT  ****
+	-->
+		
+	<!-- Test Approach / Test Cases:
+		 
+		 There are four basic factors that impact the VPC area calculations:
+		 - DFC
+		 - AFD
+		 - MPEG Aspect Ratio (AR - aspect ratio for input video)
+		 - Display Aspect Ratio (DAR - aspect ratio for screen)\
+		 
+		 Note that DAR is not currently used in the VPC implemenation after the
+		 incorporation of ECN 1008.   The DAR would be considered when computing
+		 a generic conversion from any given input aspect ratio to any given
+		 output aspect ratio.   ECN 1008 defines specific DFC processing as
+		 indicated by the VideoFormatControl DFC constants which imply specific
+		 aspect ratios for input(AR) and output (DAR).
+
+		 The test approach for the cases below is two fold:
+		 - Test a set of expected digital TV settings
+		 - Test the remaining set of unexpected digital TV settings
+	-->
+    
+    <!-- Expected Digital TV Test Cases
+    
+    	 The following ARs are commonly expected (16:9, 4:3)
+    	 The following DARs are commonly expected (16:9, 4:3)
+    	 The following AFDs are commonly expected (NOT PRESENT, SAME, 16:9, 4:3)
+    	 The following DFCs are commonl expected (16:9 ZOOM, CCO, FULL, LB 16:9, 
+    	 											NONE, 4:3 PILLAR, 4:3 WIDE)
+
+ 		 16:9 input to 16:9 output - no DFC conversions expected 
+    	 4:3 input to 16:9 output - pillar, wide, or zoom conversions expected
+		 4:3 input to 4:3 output - no DFC conversions expected
+      	 16:9 input to 4:3 output - letterbox and center cut out expected
+    -->
+
+    <vc parHeight="1" parWidth="1" scrHeight="1080" scrWidth="1920">
+
+		<!-- 	16:9 input to 16:9 output - no DFC conversions expected 
+				8 Tests
+	    	DAR					AR		AFD					DFC
+	    	==============		====	=================	=================
+	    	16:9 (1920x1080)	16:9	NOT PRESENT			FULL
+	    	16:9 (1920x1080)	16:9	NOT PRESENT			NONE
+	    	16:9 (1920x1080)	16:9	SAME				FULL
+	    	16:9 (1920x1080)	16:9	SAME				NONE
+	    	16:9 (1920x1080)	16:9	16:9				FULL
+	    	16:9 (1920x1080)	16:9	16:9				NONE
+	    	16:9 (1920x1080)	16:9	4:3					FULL
+	    	16:9 (1920x1080)	16:9	4:3					NONE
+	    -->
+    	<source afd="AFD_NOT_PRESENT" ar="ASPECT_RATIO_16_9" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+		</source>
+
+    	<source afd="AFD_SAME" ar="ASPECT_RATIO_16_9" sourceId="0x7d2">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+		</source>
+    	<source afd="AFD_16_9" ar="ASPECT_RATIO_16_9" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+		</source>
+    	<source afd="AFD_4_3" ar="ASPECT_RATIO_16_9" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="0.75" xPosition="0.125"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="0.75" xPosition="0.125"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+		</source>
+
+		<!--     4:3 input to 16:9 output - pillar, wide, or zoom expected
+				 15 Tests
+	    	DAR					AR		AFD					DFC
+	    	==============		====	=================	=================
+	    	16:9 (1920x1080)	4:3 	NOT PRESENT			FULL
+	    	16:9 (1920x1080)	4:3 	NOT PRESENT			NONE
+	    	16:9 (1920x1080)	4:3 	NOT PRESENT			PILLAR_4_3
+	    	16:9 (1920x1080)	4:3 	NOT PRESENT			WIDE_4_3
+	    	16:9 (1920x1080)	4:3 	SAME         		FULL
+	    	16:9 (1920x1080)	4:3 	SAME          		NONE
+	    	16:9 (1920x1080)	4:3 	SAME           		PILLAR_4_3
+	    	16:9 (1920x1080)	4:3 	SAME           		WIDE_4_3
+	    	16:9 (1920x1080)	4:3 	4:3					FULL
+	    	16:9 (1920x1080)	4:3 	4:3					NONE
+	    	16:9 (1920x1080)	4:3 	4:3					PILLAR_4_3
+	    	16:9 (1920x1080)	4:3 	4:3					WIDE_4_3
+	    	16:9 (1920x1080)	4:3		16:9				FULL
+	    	16:9 (1920x1080)	4:3 	16:9				NONE
+	    	16:9 (1920x1080)	4:3 	16:9				16_9_ZOOM
+		-->
+    	<source afd="AFD_NOT_PRESENT" ar="ASPECT_RATIO_4_3" sourceId="0x7d2">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_PILLARBOX_4_3">
+    			<ava height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+	    		<tva height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+    			<avaos height="1.0" width="0.75" xPosition="0.125"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="0.75" xPosition="0.125"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_WIDE_4_3">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+   
+    	<source afd="AFD_SAME" ar="ASPECT_RATIO_4_3" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_PILLARBOX_4_3">
+    			<ava height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+	    		<tva height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+    			<avaos height="1.0" width="0.75" xPosition="0.125"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="0.75" xPosition="0.125"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_WIDE_4_3">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+    	<source afd="AFD_4_3" ar="ASPECT_RATIO_4_3" sourceId="0x7d2">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_PILLARBOX_4_3">
+    			<ava height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+	    		<tva height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+    			<avaos height="1.0" width="0.75" xPosition="0.125"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="0.75" xPosition="0.125"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_WIDE_4_3">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+    	<source afd="AFD_16_9" ar="ASPECT_RATIO_4_3" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="0.75" width="1.0" xPosition="0.0"	yPosition="0.125" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="0.75" width="1.0" xPosition="0.0"	yPosition="0.125" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_16_9_ZOOM">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.3333" width="1.0" xPosition="0.0" yPosition="-0.1666" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+    </vc>
+    
+
+   	<vc parHeight="1" parWidth="1" scrHeight="480" scrWidth="640">
+
+		<!--    4:3 input to 4:3 output - no DFC conversions expected
+				8 Tests
+		   	DAR					AR		AFD					DFC
+	    	==============		====	=================	=================
+	    	4:3 (640x480)  		4:3 	NOT PRESENT			FULL
+	    	4:3 (640x480)  		4:3 	NOT PRESENT			NONE
+	    	4:3 (640x480)  		4:3		SAME				FULL
+	    	4:3 (640x480)  		4:3		SAME				NONE
+	    	4:3 (640x480)  		4:3 	16:9				FULL
+	    	4:3 (640x480)  		4:3 	16:9				NONE
+	    	4:3 (640x480)  		4:3 	4:3					FULL
+	    	4:3 (640x480)  		4:3 	4:3					NONE		
+		-->
+		<source afd="AFD_NOT_PRESENT" ar="ASPECT_RATIO_4_3" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+
+		<source afd="AFD_SAME" ar="ASPECT_RATIO_4_3" sourceId="0x7d2">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+		<source afd="AFD_16_9" ar="ASPECT_RATIO_4_3" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="0.75" width="1.0" xPosition="0.0"	yPosition="0.125" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="0.75" width="1.0" xPosition="0.0"	yPosition="0.125" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+		<source afd="AFD_4_3" ar="ASPECT_RATIO_4_3" sourceId="0x7d2">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    	</source>
+
+      	<!--    16:9 input to 4:3 output - letterbox and center cut out expected
+      			17 Tests
+	    	DAR					AR		AFD					DFC
+	    	==============		====	=================	=================
+	    	4:3 (640x480)  		16:9 	NOT PRESENT			FULL
+	    	4:3 (640x480)  		16:9 	NOT PRESENT			NONE
+	    	4:3 (640x480)  		16:9 	NOT PRESENT			LB_16_9
+	    	4:3 (640x480)  		16:9 	NOT PRESENT			LB_14_9
+	    	4:3 (640x480)  		16:9 	SAME         		FULL
+	    	4:3 (640x480)  		16:9 	SAME          		NONE
+	    	4:3 (640x480)  		16:9 	SAME           		LB_16_9
+	    	4:3 (640x480)  		16:9 	SAME				LB_14_9
+	    	4:3 (640x480)  		16:9	16:9				FULL
+	    	4:3 (640x480)  		16:9 	16:9				NONE
+	    	4:3 (640x480)  		16:9 	16:9				LB_16_9
+	    	4:3 (640x480)  		16:9 	16:9				LB_14_9
+	    	4:3 (640x480)  		16:9 	4:3					FULL
+	    	4:3 (640x480)  		16:9 	4:3					NONE
+	    	4:3 (640x480)  		16:9 	4:3					LB_16_9
+	    	4:3 (640x480)  		16:9 	4:3					LB_14_9
+	    	4:3 (640x480)  		16:9 	4:3					CCO
+		-->
+		<source afd="AFD_NOT_PRESENT" ar="ASPECT_RATIO_16_9" sourceId="0x7d2">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_LB_16_9">
+    			<ava height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tva height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+    			<avaos height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tvaos height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_LB_14_9">
+    			<ava height="0.8571" width="1.0" xPosition="0.0" yPosition="0.0714" />
+	    		<tva height="0.8571" width="1.0" xPosition="0.0" yPosition="0.0714" />
+    			<avaos height="0.8571" width="1.0" xPosition="0.0"	yPosition="0.0714" />
+	    		<tvaos height="0.8571" width="1.0" xPosition="0.0"	yPosition="0.0714" />
+    		</result>
+		</source>
+
+		<source afd="AFD_SAME" ar="ASPECT_RATIO_16_9" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_LB_16_9">
+    			<ava height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tva height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+    			<avaos height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tvaos height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_LB_14_9">
+    			<ava height="0.8571" width="1.0" xPosition="0.0" yPosition="0.0714" />
+	    		<tva height="0.8571" width="1.0" xPosition="0.0" yPosition="0.0714" />
+    			<avaos height="0.8571" width="1.0" xPosition="0.0"	yPosition="0.0714" />
+	    		<tvaos height="0.8571" width="1.0" xPosition="0.0"	yPosition="0.0714" />
+    		</result>
+		</source>
+		<source afd="AFD_16_9" ar="ASPECT_RATIO_16_9" sourceId="0x7d2">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_LB_16_9">
+    			<ava height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tva height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+    			<avaos height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+	    		<tvaos height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_LB_14_9">
+    			<ava height="0.8571" width="1.0" xPosition="0.0" yPosition="0.0714" />
+	    		<tva height="0.8571" width="1.0" xPosition="0.0" yPosition="0.0714" />
+    			<avaos height="0.8571" width="1.0" xPosition="0.0"	yPosition="0.0714" />
+	    		<tvaos height="0.8571" width="1.0" xPosition="0.0"	yPosition="0.0714" />
+    		</result>
+		</source>
+		<source afd="AFD_4_3" ar="ASPECT_RATIO_16_9" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_FULL">
+    			<ava height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_NONE">
+    			<ava height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+	    		<tva height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+    			<avaos height="1.0" width="0.75" xPosition="0.125" yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+     		<result dfc="DFC_PROCESSING_LB_16_9">
+    			<ava height="0.75" width="0.75" xPosition="0.125" yPosition="0.125" />
+	    		<tva height="0.75" width="1.0" xPosition="0.0" yPosition="0.125" />
+    			<avaos height="0.75" width="0.75" xPosition="0.125" yPosition="0.125" />
+	    		<tvaos height="0.75" width="1.0" xPosition="0.0"	yPosition="0.125" />
+    		</result>
+    		<result dfc="DFC_PROCESSING_LB_14_9">
+    			<ava height="0.8571" width="0.75" xPosition="0.125" yPosition="0.0714" />
+	    		<tva height="0.8571" width="1.0" xPosition="0.0" yPosition="0.0714" />
+    			<avaos height="0.8571" width="0.75" xPosition="0.125" yPosition="0.0714" />
+	    		<tvaos height="0.8571" width="1.0" xPosition="0.0"	yPosition="0.0714" />
+    		</result>    		
+    		<result dfc="DFC_PROCESSING_CCO">
+    			<ava height="1.0" width="1.0" xPosition="0.0" yPosition="0.0" />
+	    		<tva height="1.0" width="1.3333" xPosition="-0.1666" yPosition="0.0" />
+    			<avaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+	    		<tvaos height="1.0" width="1.0" xPosition="0.0"	yPosition="0.0" />
+    		</result>
+		</source>
+    </vc>
+
+	<!-- Expected cases for additional letter box DFCs.  These tests cover any 
+	     remaining DFCs not covered in the expected Digital TV cases. -->
+	     
+    <vc parHeight="1" parWidth="1" scrHeight="1080" scrWidth="1920">
+
+		<!-- 	2.21:1 input to 16:9 output - letterboxing expected
+				2 Tests
+		    	DAR					AR		AFD					DFC
+		    	==============		====	=================	=================
+		    	16:9 (1920x1080)	2.21:1 	NOT PRESENT			LB_2_21_1_ON_16_9
+		    	16:9 (1920x1080)	2.21:1 	SAME				LB_2_21_1_ON_16_9
+		-->
+    	<source afd="AFD_NOT_PRESENT" ar="ASPECT_RATIO_2_21_1" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_LB_2_21_1_ON_16_9">
+    			<ava height="0.80442" width="1.0" xPosition="0.0" yPosition="0.09779" />
+	    		<tva height="0.80442" width="1.0" xPosition="0.0" yPosition="0.09779" />
+    			<avaos height="0.80442" width="1.0" xPosition="0.0"	yPosition="0.09779" />
+	    		<tvaos height="0.80442" width="1.0" xPosition="0.0"	yPosition="0.09779" />
+    		</result>
+		</source>
+
+    	<source afd="AFD_SAME" ar="ASPECT_RATIO_2_21_1" sourceId="0x7d2">
+    		<result dfc="DFC_PROCESSING_LB_2_21_1_ON_16_9">
+    			<ava height="0.80442" width="1.0" xPosition="0.0" yPosition="0.09779" />
+	    		<tva height="0.80442" width="1.0" xPosition="0.0" yPosition="0.09779" />
+    			<avaos height="0.80442" width="1.0" xPosition="0.0"	yPosition="0.09779" />
+	    		<tvaos height="0.80442" width="1.0" xPosition="0.0"	yPosition="0.09779" />
+    		</result>
+		</source>
+    </vc>
+
+    <vc parHeight="1" parWidth="1" scrHeight="480" scrWidth="640">
+
+		<!-- 	2.21:1 input to 4:3 output - letterboxing expected
+				2 Tests
+		    	DAR					AR		AFD					DFC
+		    	==============		====	=================	=================
+		    	4:3 (640x480)  		2.21:1 	NOT PRESENT			LB_2_21_1_ON_4_3
+		    	4:3 (640x480)  		2.21:1 	SAME				LB_2_21_1_ON_4_3
+		-->
+    	<source afd="AFD_NOT_PRESENT" ar="ASPECT_RATIO_2_21_1" sourceId="0x7d2">
+    		<result dfc="DFC_PROCESSING_LB_2_21_1_ON_4_3">
+    			<ava height="0.60332" width="1.0" xPosition="0.0" yPosition="0.19834" />
+	    		<tva height="0.60332" width="1.0" xPosition="0.0" yPosition="0.19834" />
+    			<avaos height="0.60332" width="1.0" xPosition="0.0"	yPosition="0.19834" />
+	    		<tvaos height="0.60332" width="1.0" xPosition="0.0"	yPosition="0.19834" />
+    		</result>
+		</source>
+
+    	<source afd="AFD_SAME" ar="ASPECT_RATIO_2_21_1" sourceId="0x7d1">
+    		<result dfc="DFC_PROCESSING_LB_2_21_1_ON_4_3">
+    			<ava height="0.60332" width="1.0" xPosition="0.0" yPosition="0.19834" />
+	    		<tva height="0.60332" width="1.0" xPosition="0.0" yPosition="0.19834" />
+    			<avaos height="0.60332" width="1.0" xPosition="0.0"	yPosition="0.19834" />
+	    		<tvaos height="0.60332" width="1.0" xPosition="0.0"	yPosition="0.19834" />
+    		</result>
+		</source>
+    </vc>
+
+
+
+</configurations>

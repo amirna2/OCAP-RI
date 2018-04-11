@@ -1,0 +1,13 @@
+<!-- ANT entity include/definition for xml4j library files -->
+
+
+<!-- Include and execute these from sub-directories -->
+
+
+<!-- Define global entities from this directory -->
+<!ENTITY inc._shared.3rdparty.xml4j SYSTEM "xml4j.ant-inc.xml">
+
+<!ENTITY inc.javadoc.xml4j.2_0_4 SYSTEM "2.0.4/javadoc-links.ant-inc.xml">
+
+<!ENTITY inc.javadoc.xml4j.4_0_1 SYSTEM "4.0.1/javadoc-links.ant-inc.xml">
+

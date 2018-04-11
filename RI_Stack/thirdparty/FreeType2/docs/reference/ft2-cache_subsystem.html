@@ -1,0 +1,1204 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+Cache Sub-System
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FTC_Manager">FTC_Manager</a></td><td></td><td><a href="#FTC_CMapType">FTC_CMapType</a></td><td></td><td><a href="#FTC_ManagerRec">FTC_ManagerRec</a></td></tr>
+<tr><td></td><td><a href="#FTC_FaceID">FTC_FaceID</a></td><td></td><td><a href="#FTC_CMapIdRec">FTC_CMapIdRec</a></td><td></td><td><a href="#FTC_Manager_Compress">FTC_Manager_Compress</a></td></tr>
+<tr><td></td><td><a href="#FTC_Face_Requester">FTC_Face_Requester</a></td><td></td><td><a href="#FTC_CMapDescRec">FTC_CMapDescRec</a></td><td></td><td><a href="#FTC_Node_Unref">FTC_Node_Unref</a></td></tr>
+<tr><td></td><td><a href="#FTC_FontRec">FTC_FontRec</a></td><td></td><td><a href="#FTC_CMapCache_New">FTC_CMapCache_New</a></td><td></td><td><a href="#FTC_SBit">FTC_SBit</a></td></tr>
+<tr><td></td><td><a href="#FTC_Font">FTC_Font</a></td><td></td><td><a href="#FTC_CMapCache_Lookup">FTC_CMapCache_Lookup</a></td><td></td><td><a href="#FTC_SBitRec">FTC_SBitRec</a></td></tr>
+<tr><td></td><td><a href="#FTC_Node">FTC_Node</a></td><td></td><td><a href="#FTC_ImageTypeRec">FTC_ImageTypeRec</a></td><td></td><td><a href="#FTC_SBitCache">FTC_SBitCache</a></td></tr>
+<tr><td></td><td><a href="#FTC_Manager_New">FTC_Manager_New</a></td><td></td><td><a href="#FTC_ImageCache">FTC_ImageCache</a></td><td></td><td><a href="#FTC_SBit_Cache">FTC_SBit_Cache</a></td></tr>
+<tr><td></td><td><a href="#FTC_Manager_Reset">FTC_Manager_Reset</a></td><td></td><td><a href="#FTC_ImageCache_New">FTC_ImageCache_New</a></td><td></td><td><a href="#FTC_SBitCache_New">FTC_SBitCache_New</a></td></tr>
+<tr><td></td><td><a href="#FTC_Manager_Done">FTC_Manager_Done</a></td><td></td><td><a href="#FTC_ImageCache_Lookup">FTC_ImageCache_Lookup</a></td><td></td><td><a href="#FTC_SBitCache_Lookup">FTC_SBitCache_Lookup</a></td></tr>
+<tr><td></td><td><a href="#FTC_Manager_Lookup_Face">FTC_Manager_Lookup_Face</a></td><td></td><td><a href="#FTC_Image_Desc">FTC_Image_Desc</a></td><td></td><td><a href="#FTC_SBit_Cache_New">FTC_SBit_Cache_New</a></td></tr>
+<tr><td></td><td><a href="#FTC_Manager_Lookup_Size">FTC_Manager_Lookup_Size</a></td><td></td><td><a href="#FTC_Image_Cache">FTC_Image_Cache</a></td><td></td><td><a href="#FTC_SBit_Cache_Lookup">FTC_SBit_Cache_Lookup</a></td></tr>
+<tr><td></td><td><a href="#FTC_CmapCache">FTC_CmapCache</a></td><td></td><td><a href="#FTC_Image_Cache_New">FTC_Image_Cache_New</a></td><td></td><td></td></tr>
+<tr><td></td><td><a href="#FTC_CMapDesc">FTC_CMapDesc</a></td><td></td><td><a href="#FTC_Image_Cache_Lookup">FTC_Image_Cache_Lookup</a></td><td></td><td></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>This section describes the FreeType 2 cache sub-system which is stile in beta.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FTC_Manager">
+<h4>FTC_Manager</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FTC_ManagerRec_*  <b>FTC_Manager</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This object is used to cache one or more <a href="ft2-base_interface.html#FT_Face">FT_Face</a> objects, along with corresponding <a href="ft2-base_interface.html#FT_Size">FT_Size</a> objects.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_FaceID">
+<h4>FTC_FaceID</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-basic_types.html#FT_Pointer">FT_Pointer</a>  <b>FTC_FaceID</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A generic pointer type that is used to identity face objects. The contents of such objects is application-dependent.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Face_Requester">
+<h4>FTC_Face_Requester</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-basic_types.html#FT_Error">FT_Error</a>
+  (*<b>FTC_Face_Requester</b>)( <a href="ft2-cache_subsystem.html#FTC_FaceID">FTC_FaceID</a>  face_id,
+                         <a href="ft2-base_interface.html#FT_Library">FT_Library</a>  library,
+                         <a href="ft2-basic_types.html#FT_Pointer">FT_Pointer</a>  request_data,
+                         <a href="ft2-base_interface.html#FT_Face">FT_Face</a>*    aface );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A callback function provided by client applications. It is used to translate a given <a href="ft2-cache_subsystem.html#FTC_FaceID">FTC_FaceID</a> into a new valid <a href="ft2-base_interface.html#FT_Face">FT_Face</a> object.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face_id</b></td><td>
+<p>The face ID to resolve.</p>
+</td></tr>
+<tr valign=top><td><b>library</b></td><td>
+<p>A handle to a FreeType library object.</p>
+</td></tr>
+<tr valign=top><td><b>data</b></td><td>
+<p>Application-provided request data.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>aface</b></td><td>
+<p>A new <a href="ft2-base_interface.html#FT_Face">FT_Face</a> handle.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The face requester should not perform funny things on the returned face object, like creating a new <a href="ft2-base_interface.html#FT_Size">FT_Size</a> for it, or setting a transformation through <a href="ft2-base_interface.html#FT_Set_Transform">FT_Set_Transform</a></p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_FontRec">
+<h4>FTC_FontRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FTC_FontRec_
+  {
+    <a href="ft2-cache_subsystem.html#FTC_FaceID">FTC_FaceID</a>  face_id;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>   pix_width;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>   pix_height;
+
+  } <b>FTC_FontRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple structure used to describe a given `font' to the cache manager. Note that a `font' is the combination of a given face with a given character size.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face_id</b></td><td>
+<p>The ID of the face to use.</p>
+</td></tr>
+<tr valign=top><td><b>pix_width</b></td><td>
+<p>The character width in integer pixels.</p>
+</td></tr>
+<tr valign=top><td><b>pix_height</b></td><td>
+<p>The character height in integer pixels.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Font">
+<h4>FTC_Font</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-cache_subsystem.html#FTC_FontRec">FTC_FontRec</a>*  <b>FTC_Font</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple handle to an <a href="ft2-cache_subsystem.html#FTC_FontRec">FTC_FontRec</a> structure.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Node">
+<h4>FTC_Node</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FTC_NodeRec_*  <b>FTC_Node</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>An opaque handle to a cache node object. Each cache node is reference-counted. A node with a count of 0 might be flushed out of a full cache whenever a lookup request is performed.</p>
+<p>If you lookup nodes, you have the ability to "acquire" them, i.e., to increment their reference count. This will prevent the node from being flushed out of the cache until you explicitly "release" it (see ?FTC_Node_Release?</p>
+<p>See also ?FTC_BitsetCache_Lookup? and <a href="ft2-cache_subsystem.html#FTC_ImageCache_Lookup">FTC_ImageCache_Lookup</a></p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Manager_New">
+<h4>FTC_Manager_New</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_Manager_New</b>( <a href="ft2-base_interface.html#FT_Library">FT_Library</a>          library,
+                   <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>             max_faces,
+                   <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>             max_sizes,
+                   <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>            max_bytes,
+                   <a href="ft2-cache_subsystem.html#FTC_Face_Requester">FTC_Face_Requester</a>  requester,
+                   <a href="ft2-basic_types.html#FT_Pointer">FT_Pointer</a>          req_data,
+                   <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>        *amanager );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Creates a new cache manager.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>library</b></td><td>
+<p>The parent FreeType library handle to use.</p>
+</td></tr>
+<tr valign=top><td><b>max_faces</b></td><td>
+<p>Maximum number of faces to keep alive in manager. Use 0 for defaults.</p>
+</td></tr>
+<tr valign=top><td><b>max_sizes</b></td><td>
+<p>Maximum number of sizes to keep alive in manager. Use 0 for defaults.</p>
+</td></tr>
+<tr valign=top><td><b>max_bytes</b></td><td>
+<p>Maximum number of bytes to use for cached data. Use 0 for defaults.</p>
+</td></tr>
+<tr valign=top><td><b>requester</b></td><td>
+<p>An application-provided callback used to translate face IDs into real <a href="ft2-base_interface.html#FT_Face">FT_Face</a> objects.</p>
+</td></tr>
+<tr valign=top><td><b>req_data</b></td><td>
+<p>A generic pointer that is passed to the requester each time it is called (see <a href="ft2-cache_subsystem.html#FTC_Face_Requester">FTC_Face_Requester</a></p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>amanager</b></td><td>
+<p>A handle to a new manager object. 0 in case of failure.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Manager_Reset">
+<h4>FTC_Manager_Reset</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <font color="darkblue">void</font> )
+  <b>FTC_Manager_Reset</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>  manager );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Empties a given cache manager. This simply gets rid of all the currently cached <a href="ft2-base_interface.html#FT_Face">FT_Face</a> and <a href="ft2-base_interface.html#FT_Size">FT_Size</a> objects within the manager.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>inout</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>A handle to the manager.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Manager_Done">
+<h4>FTC_Manager_Done</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <font color="darkblue">void</font> )
+  <b>FTC_Manager_Done</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>  manager );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Destroys a given manager after emptying it.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>A handle to the target cache manager object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Manager_Lookup_Face">
+<h4>FTC_Manager_Lookup_Face</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_Manager_Lookup_Face</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>  manager,
+                           <a href="ft2-cache_subsystem.html#FTC_FaceID">FTC_FaceID</a>   face_id,
+                           <a href="ft2-base_interface.html#FT_Face">FT_Face</a>     *aface );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Retrieves the <a href="ft2-base_interface.html#FT_Face">FT_Face</a> object that corresponds to a given face ID through a cache manager.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>A handle to the cache manager.</p>
+</td></tr>
+<tr valign=top><td><b>face_id</b></td><td>
+<p>The ID of the face object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>aface</b></td><td>
+<p>A handle to the face object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The returned <a href="ft2-base_interface.html#FT_Face">FT_Face</a> object is always owned by the manager. You should never try to discard it yourself.</p>
+<p>The <a href="ft2-base_interface.html#FT_Face">FT_Face</a> object doesn't necessarily have a current size object (i.e., face-&gt;size can be 0). If you need a specific `font size', use <a href="ft2-cache_subsystem.html#FTC_Manager_Lookup_Size">FTC_Manager_Lookup_Size</a> instead.</p>
+<p>Never change the face's transformation matrix (i.e., never call the <a href="ft2-base_interface.html#FT_Set_Transform">FT_Set_Transform</a> function) on a returned face! If you need to transform glyphs, do it yourself after glyph loading.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Manager_Lookup_Size">
+<h4>FTC_Manager_Lookup_Size</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_Manager_Lookup_Size</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>  manager,
+                           <a href="ft2-cache_subsystem.html#FTC_Font">FTC_Font</a>     font,
+                           <a href="ft2-base_interface.html#FT_Face">FT_Face</a>     *aface,
+                           <a href="ft2-base_interface.html#FT_Size">FT_Size</a>     *asize );
+
+
+FT_END_HEADER
+
+#endif /* __FTCACHE_H__ */
+
+
+/* END */
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Retrieves the <a href="ft2-base_interface.html#FT_Face">FT_Face</a> and <a href="ft2-base_interface.html#FT_Size">FT_Size</a> objects that correspond to a given ?FTC_SizeID?</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>A handle to the cache manager.</p>
+</td></tr>
+<tr valign=top><td><b>size_id</b></td><td>
+<p>The ID of the `font size' to use.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>aface</b></td><td>
+<p>A pointer to the handle of the face object. Set it to zero if you don't need it.</p>
+</td></tr>
+<tr valign=top><td><b>asize</b></td><td>
+<p>A pointer to the handle of the size object. Set it to zero if you don't need it.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The returned <a href="ft2-base_interface.html#FT_Face">FT_Face</a> object is always owned by the manager. You should never try to discard it yourself.</p>
+<p>Never change the face's transformation matrix (i.e., never call the <a href="ft2-base_interface.html#FT_Set_Transform">FT_Set_Transform</a> function) on a returned face! If you need to transform glyphs, do it yourself after glyph loading.</p>
+<p>Similarly, the returned <a href="ft2-base_interface.html#FT_Size">FT_Size</a> object is always owned by the manager. You should never try to discard it, and never change its settings with <a href="ft2-base_interface.html#FT_Set_Pixel_Sizes">FT_Set_Pixel_Sizes</a> or <a href="ft2-base_interface.html#FT_Set_Char_Size">FT_Set_Char_Size</a></p>
+<p>The returned size object is the face's current size, which means that you can call <a href="ft2-base_interface.html#FT_Load_Glyph">FT_Load_Glyph</a> with the face if you need to.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_CmapCache">
+<h4>FTC_CmapCache</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FTC_CMapCacheRec_*  FTC_CMapCache;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>An opaque handle used to manager a charmap cache. This cache is to hold character codes -&gt; glyph indices mappings.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_CMapDesc">
+<h4>FTC_CMapDesc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FTC_CMapDescRec_*  <b>FTC_CMapDesc</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A handle to an <a href="ft2-cache_subsystem.html#FTC_CMapDescRec">FTC_CMapDescRec</a> structure used to describe a given charmap in a charmap cache.</p>
+<p>Each <a href="ft2-cache_subsystem.html#FTC_CMapDesc">FTC_CMapDesc</a> describes which charmap (of which ?FTC_Face? we want to use in <a href="ft2-cache_subsystem.html#FTC_CMapCache_Lookup">FTC_CMapCache_Lookup</a></p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_CMapType">
+<h4>FTC_CMapType</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">enum</font>  FTC_CMapType_
+  {
+    <a href="ft2-cache_subsystem.html#FTC_CMapType">FTC_CMAP_BY_INDEX</a>    = 0,
+    <a href="ft2-cache_subsystem.html#FTC_CMapType">FTC_CMAP_BY_ENCODING</a> = 1,
+    <a href="ft2-cache_subsystem.html#FTC_CMapType">FTC_CMAP_BY_ID</a>       = 2
+
+  } <b>FTC_CMapType</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>The list of valid ?FTC_CMap? types. They indicate how we want to address a charmap within an <a href="ft2-cache_subsystem.html#FTC_FaceID">FTC_FaceID</a></p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>FTC_CMAP_BY_INDEX</b></td><td>
+<p>Address a charmap by its index in the corresponding <a href="ft2-base_interface.html#FT_Face">FT_Face</a></p>
+</td></tr>
+<tr valign=top><td><b>FTC_CMAP_BY_ENCODING</b></td><td>
+<p>Use a <a href="ft2-base_interface.html#FT_Face">FT_Face</a> charmap that corresponds to a given encoding.</p>
+</td></tr>
+<tr valign=top><td><b>FTC_CMAP_BY_ID</b></td><td>
+<p>Use an <a href="ft2-base_interface.html#FT_Face">FT_Face</a> charmap that corresponds to a given (platform,encoding) ID. See <a href="ft2-cache_subsystem.html#FTC_CMapIdRec">FTC_CMapIdRec</a></p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_CMapIdRec">
+<h4>FTC_CMapIdRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FTC_CMapIdRec_
+  {
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>  platform;
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>  encoding;
+
+  } <b>FTC_CMapIdRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A short structure to identify a charmap by a (platform,encoding) pair of values.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>platform</b></td><td>
+<p>The platform ID.</p>
+</td></tr>
+<tr valign=top><td><b>encoding</b></td><td>
+<p>The encoding ID.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_CMapDescRec">
+<h4>FTC_CMapDescRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FTC_CMapDescRec_
+  {
+    <a href="ft2-cache_subsystem.html#FTC_FaceID">FTC_FaceID</a>    face_id;
+    <a href="ft2-cache_subsystem.html#FTC_CMapType">FTC_CMapType</a>  type;
+
+    <font color="darkblue">union</font>
+    {
+      <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>        index;
+      <a href="ft2-base_interface.html#FT_Encoding">FT_Encoding</a>    encoding;
+      <a href="ft2-cache_subsystem.html#FTC_CMapIdRec">FTC_CMapIdRec</a>  id;
+
+    } u;
+
+  } <b>FTC_CMapDescRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure to describe a given charmap to ?FTC_CMapCache?</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face_id</b></td><td>
+<p><a href="ft2-cache_subsystem.html#FTC_FaceID">FTC_FaceID</a> of the face this charmap belongs to.</p>
+</td></tr>
+<tr valign=top><td><b>type</b></td><td>
+<p>The type of charmap, see <a href="ft2-cache_subsystem.html#FTC_CMapType">FTC_CMapType</a></p>
+<p>u.index :: For <a href="ft2-cache_subsystem.html#FTC_CMapType">FTC_CMAP_BY_INDEX</a> types, this is the charmap index (within a <a href="ft2-base_interface.html#FT_Face">FT_Face</a> we want to use.</p>
+<p>u.encoding :: For <a href="ft2-cache_subsystem.html#FTC_CMapType">FTC_CMAP_BY_ENCODING</a> types, this is the charmap encoding we want to use. see <a href="ft2-base_interface.html#FT_Encoding">FT_Encoding</a></p>
+<p>u.id :: For <a href="ft2-cache_subsystem.html#FTC_CMapType">FTC_CMAP_BY_ID</a> types, this is the (platform,encoding) pair we want to use. see <a href="ft2-cache_subsystem.html#FTC_CMapIdRec">FTC_CMapIdRec</a> and <a href="ft2-base_interface.html#FT_CharMapRec">FT_CharMapRec</a></p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_CMapCache_New">
+<h4>FTC_CMapCache_New</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_CMapCache_New</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>     manager,
+                     FTC_CMapCache  *acache );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Creates a new charmap cache.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>A handle to the cache manager.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>acache</b></td><td>
+<p>A new cache handle. NULL in case of error.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>Like all other caches, this one will be destroyed with the cache manager.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_CMapCache_Lookup">
+<h4>FTC_CMapCache_Lookup</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a> )
+  <b>FTC_CMapCache_Lookup</b>( FTC_CMapCache  cache,
+                        <a href="ft2-cache_subsystem.html#FTC_CMapDesc">FTC_CMapDesc</a>   cmap_desc,
+                        FT_UInt32      <font color="darkblue">char_code</font> );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Translates a character code into a glyph index, using the charmap cache.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>cache</b></td><td>
+<p>A charmap cache handle.</p>
+</td></tr>
+<tr valign=top><td><b>cmap_desc</b></td><td>
+<p>A charmap descriptor handle.</p>
+</td></tr>
+<tr valign=top><td><b>char_code</b></td><td>
+<p>The character code (in the corresponding charmap).</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>Glyph index. 0 means "no glyph".</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>This function doesn't return <a href="ft2-cache_subsystem.html#FTC_Node">FTC_Node</a> handles, since there is no real use for them with typical uses of charmaps.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_ImageTypeRec">
+<h4>FTC_ImageTypeRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FTC_ImageTypeRec_
+  {
+    <a href="ft2-cache_subsystem.html#FTC_FontRec">FTC_FontRec</a>  font;
+    FT_Int32     flags;
+
+  } <b>FTC_ImageTypeRec</b>;
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FTC_ImageTypeRec_*   FTC_ImageType;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple structure used to describe the type of glyph image to be loaded into the cache.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>font</b></td><td>
+<p>An <a href="ft2-cache_subsystem.html#FTC_FontRec">FTC_FontRec</a> used to describe the glyph's face and size.</p>
+</td></tr>
+<tr valign=top><td><b>flags</b></td><td>
+<p>The load flags to be applied when loading the glyph; see the <a href="ft2-base_interface.html#FT_LOAD_XXX">FT_LOAD_XXX</a> constants for details.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>This type completely replaces the <a href="ft2-cache_subsystem.html#FTC_Image_Desc">FTC_Image_Desc</a> structure which is now obsolete.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_ImageCache">
+<h4>FTC_ImageCache</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FTC_ImageCacheRec_*  <b>FTC_ImageCache</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A handle to an glyph image cache object. They are designed to hold many distinct glyph images while not exceeding a certain memory threshold.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_ImageCache_New">
+<h4>FTC_ImageCache_New</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_ImageCache_New</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>      manager,
+                      <a href="ft2-cache_subsystem.html#FTC_ImageCache">FTC_ImageCache</a>  *acache );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Creates a new glyph image cache.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>The parent manager for the image cache.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>acache</b></td><td>
+<p>A handle to the new glyph image cache object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_ImageCache_Lookup">
+<h4>FTC_ImageCache_Lookup</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_ImageCache_Lookup</b>( <a href="ft2-cache_subsystem.html#FTC_ImageCache">FTC_ImageCache</a>  cache,
+                         FTC_ImageType   type,
+                         <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>         gindex,
+                         <a href="ft2-glyph_management.html#FT_Glyph">FT_Glyph</a>       *aglyph,
+                         <a href="ft2-cache_subsystem.html#FTC_Node">FTC_Node</a>       *anode );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Retrieves a given glyph image from a glyph image cache.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>cache</b></td><td>
+<p>A handle to the source glyph image cache.</p>
+</td></tr>
+<tr valign=top><td><b>type</b></td><td>
+<p>A pointer to a glyph image type descriptor.</p>
+</td></tr>
+<tr valign=top><td><b>gindex</b></td><td>
+<p>The glyph index to retrieve.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>aglyph</b></td><td>
+<p>The corresponding <a href="ft2-glyph_management.html#FT_Glyph">FT_Glyph</a> object. 0 in case of failure.</p>
+</td></tr>
+<tr valign=top><td><b>anode</b></td><td>
+<p>Used to return the address of of the corresponding cache node after incrementing its reference count (see note below).</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The returned glyph is owned and managed by the glyph image cache. Never try to transform or discard it manually! You can however create a copy with <a href="ft2-glyph_management.html#FT_Glyph_Copy">FT_Glyph_Copy</a> and modify the new one.</p>
+<p>If "anode" is <i>not</i> NULL, it receives the address of the cache node containing the glyph image, after increasing its reference count. This ensures that the node (as well as the FT_Glyph) will always be kept in the cache until you call <a href="ft2-cache_subsystem.html#FTC_Node_Unref">FTC_Node_Unref</a> to "release" it.</p>
+<p>If "anode" is NULL, the cache node is left unchanged, which means that the FT_Glyph could be flushed out of the cache on the next call to one of the caching sub-system APIs. Don't assume that it is persistent!</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Image_Desc">
+<h4>FTC_Image_Desc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FTC_Image_Desc_
+  {
+    <a href="ft2-cache_subsystem.html#FTC_FontRec">FTC_FontRec</a>  font;
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>      image_type;
+
+  } <b>FTC_Image_Desc</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>THIS TYPE IS DEPRECATED. Use ?FTC_ImageDesc? instead.</p>
+<p>A simple structure used to describe a given glyph image category.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>size</b></td><td>
+<p>An ?FTC_SizeRec? used to describe the glyph's face and size.</p>
+</td></tr>
+<tr valign=top><td><b>image_type</b></td><td>
+<p>The glyph image's type.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Image_Cache">
+<h4>FTC_Image_Cache</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-cache_subsystem.html#FTC_ImageCache">FTC_ImageCache</a>  <b>FTC_Image_Cache</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>THIS TYPE IS DEPRECATED. Use <a href="ft2-cache_subsystem.html#FTC_ImageCache">FTC_ImageCache</a> instead.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Image_Cache_New">
+<h4>FTC_Image_Cache_New</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_Image_Cache_New</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>       manager,
+                       <a href="ft2-cache_subsystem.html#FTC_Image_Cache">FTC_Image_Cache</a>  *acache );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>THIS FUNCTION IS DEPRECATED. Use <a href="ft2-cache_subsystem.html#FTC_ImageCache_New">FTC_ImageCache_New</a> instead.</p>
+<p>Creates a new glyph image cache.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>The parent manager for the image cache.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>acache</b></td><td>
+<p>A handle to the new glyph image cache object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Image_Cache_Lookup">
+<h4>FTC_Image_Cache_Lookup</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_Image_Cache_Lookup</b>( <a href="ft2-cache_subsystem.html#FTC_Image_Cache">FTC_Image_Cache</a>  cache,
+                          <a href="ft2-cache_subsystem.html#FTC_Image_Desc">FTC_Image_Desc</a>*  desc,
+                          <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>          gindex,
+                          <a href="ft2-glyph_management.html#FT_Glyph">FT_Glyph</a>        *aglyph );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>THIS FUNCTION IS DEPRECATED. Use <a href="ft2-cache_subsystem.html#FTC_ImageCache_Lookup">FTC_ImageCache_Lookup</a> instead.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>cache</b></td><td>
+<p>A handle to the source glyph image cache.</p>
+</td></tr>
+<tr valign=top><td><b>desc</b></td><td>
+<p>A pointer to a glyph image descriptor.</p>
+</td></tr>
+<tr valign=top><td><b>gindex</b></td><td>
+<p>The glyph index to retrieve.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>aglyph</b></td><td>
+<p>The corresponding <a href="ft2-glyph_management.html#FT_Glyph">FT_Glyph</a> object. 0 in case of failure.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The returned glyph is owned and managed by the glyph image cache. Never try to transform or discard it manually! You can however create a copy with <a href="ft2-glyph_management.html#FT_Glyph_Copy">FT_Glyph_Copy</a> and modify the new one.</p>
+<p>Because the glyph image cache limits the total amount of memory taken by the glyphs it holds, the returned glyph might disappear on a later invocation of this function! It is a cache after all...</p>
+<p>Use this function to "lock" the glyph as long as it is needed.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_ManagerRec">
+<h4>FTC_ManagerRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FTC_ManagerRec_
+  {
+    <a href="ft2-base_interface.html#FT_Library">FT_Library</a>          library;
+    FT_LruList          faces_list;
+    FT_LruList          sizes_list;
+
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>            max_weight;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>            cur_weight;
+    
+    <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>             num_nodes;
+    <a href="ft2-cache_subsystem.html#FTC_Node">FTC_Node</a>            nodes_list;
+    
+    FTC_Cache           caches[FTC_MAX_CACHES];
+
+    <a href="ft2-basic_types.html#FT_Pointer">FT_Pointer</a>          request_data;
+    <a href="ft2-cache_subsystem.html#FTC_Face_Requester">FTC_Face_Requester</a>  request_face;
+
+    FTC_FamilyTableRec  families;
+
+  } <b>FTC_ManagerRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>The cache manager structure.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>library</b></td><td>
+<p>A handle to a FreeType library instance.</p>
+</td></tr>
+<tr valign=top><td><b>faces_list</b></td><td>
+<p>The lru list of <a href="ft2-base_interface.html#FT_Face">FT_Face</a> objects in the cache.</p>
+</td></tr>
+<tr valign=top><td><b>sizes_list</b></td><td>
+<p>The lru list of <a href="ft2-base_interface.html#FT_Size">FT_Size</a> objects in the cache.</p>
+</td></tr>
+<tr valign=top><td><b>max_weight</b></td><td>
+<p>The maximum cache pool weight.</p>
+</td></tr>
+<tr valign=top><td><b>cur_weight</b></td><td>
+<p>The current cache pool weight.</p>
+</td></tr>
+<tr valign=top><td><b>num_nodes</b></td><td>
+<p>The current number of nodes in the manager.</p>
+</td></tr>
+<tr valign=top><td><b>nodes_list</b></td><td>
+<p>The global lru list of all cache nodes.</p>
+</td></tr>
+<tr valign=top><td><b>caches</b></td><td>
+<p>A table of installed/registered cache objects.</p>
+</td></tr>
+<tr valign=top><td><b>request_data</b></td><td>
+<p>User-provided data passed to the requester.</p>
+</td></tr>
+<tr valign=top><td><b>request_face</b></td><td>
+<p>User-provided function used to implement a mapping between abstract <a href="ft2-cache_subsystem.html#FTC_FaceID">FTC_FaceID</a> values and real <a href="ft2-base_interface.html#FT_Face">FT_Face</a> objects.</p>
+</td></tr>
+<tr valign=top><td><b>families</b></td><td>
+<p>Global table of families.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Manager_Compress">
+<h4>FTC_Manager_Compress</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <font color="darkblue">void</font> )
+  <b>FTC_Manager_Compress</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>  manager );
+
+
+  /* this must be used <font color="darkblue">internally</font> for the moment */
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  FTC_Manager_Register_Cache( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>      manager,
+                              FTC_Cache_Class  clazz,
+                              FTC_Cache       *acache );
+
+
+  /* can be called to increment a node's reference count */
+  FT_EXPORT( <font color="darkblue">void</font> )
+  FTC_Node_Ref( <a href="ft2-cache_subsystem.html#FTC_Node">FTC_Node</a>     node,
+                <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>  manager );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This function is used to check the state of the cache manager if its `num_bytes' field is greater than its `max_bytes' field. It will flush as many old cache nodes as possible (ignoring cache nodes with a non-zero reference count).</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>inout</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>A handle to the cache manager.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>Client applications should not call this function directly. It is normally invoked by specific cache implementations.</p>
+<p>The reason this function is exported is to allow client-specific cache classes.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_Node_Unref">
+<h4>FTC_Node_Unref</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <font color="darkblue">void</font> )
+  <b>FTC_Node_Unref</b>( <a href="ft2-cache_subsystem.html#FTC_Node">FTC_Node</a>     node,
+                  <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>  manager );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Decrement a cache node's internal reference count. When the count reaches 0, it is not destroyed but becomes eligible for subsequent cache flushes.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>node</b></td><td>
+<p>The cache node handle.</p>
+</td></tr>
+<tr valign=top><td><b>manager</b></td><td>
+<p>The cache manager handle.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_SBit">
+<h4>FTC_SBit</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FTC_SBitRec_*  <b>FTC_SBit</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A handle to a small bitmap descriptor. See the <a href="ft2-cache_subsystem.html#FTC_SBitRec">FTC_SBitRec</a> structure for details.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_SBitRec">
+<h4>FTC_SBitRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FTC_SBitRec_
+  {
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>   width;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>   height;
+    <a href="ft2-basic_types.html#FT_Char">FT_Char</a>   left;
+    <a href="ft2-basic_types.html#FT_Char">FT_Char</a>   top;
+
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>   format;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>   max_grays;
+    <a href="ft2-basic_types.html#FT_Short">FT_Short</a>  pitch;
+    <a href="ft2-basic_types.html#FT_Char">FT_Char</a>   xadvance;
+    <a href="ft2-basic_types.html#FT_Char">FT_Char</a>   yadvance;
+
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>*  buffer;
+
+  } <b>FTC_SBitRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A very compact structure used to describe a small glyph bitmap.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>width</b></td><td>
+<p>The bitmap width in pixels.</p>
+</td></tr>
+<tr valign=top><td><b>height</b></td><td>
+<p>The bitmap height in pixels.</p>
+</td></tr>
+<tr valign=top><td><b>left</b></td><td>
+<p>The horizontal distance from the pen position to the left bitmap border (a.k.a. `left side bearing', or `lsb').</p>
+</td></tr>
+<tr valign=top><td><b>top</b></td><td>
+<p>The vertical distance from the pen position (on the baseline) to the upper bitmap border (a.k.a. `top side bearing'). The distance is positive for upwards Y coordinates.</p>
+</td></tr>
+<tr valign=top><td><b>format</b></td><td>
+<p>The format of the glyph bitmap (monochrome or gray).</p>
+</td></tr>
+<tr valign=top><td><b>max_grays</b></td><td>
+<p>Maximum gray level value (in the range 1 to 255).</p>
+</td></tr>
+<tr valign=top><td><b>pitch</b></td><td>
+<p>The number of bytes per bitmap line. May be positive or negative.</p>
+</td></tr>
+<tr valign=top><td><b>xadvance</b></td><td>
+<p>The horizontal advance width in pixels.</p>
+</td></tr>
+<tr valign=top><td><b>yadvance</b></td><td>
+<p>The vertical advance height in pixels.</p>
+</td></tr>
+<tr valign=top><td><b>buffer</b></td><td>
+<p>A pointer to the bitmap pixels.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_SBitCache">
+<h4>FTC_SBitCache</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FTC_SBitCacheRec_*  <b>FTC_SBitCache</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A handle to a small bitmap cache. These are special cache objects used to store small glyph bitmaps (and anti-aliased pixmaps) in a much more efficient way than the traditional glyph image cache implemented by <a href="ft2-cache_subsystem.html#FTC_ImageCache">FTC_ImageCache</a></p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_SBit_Cache">
+<h4>FTC_SBit_Cache</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-cache_subsystem.html#FTC_SBitCache">FTC_SBitCache</a>  <b>FTC_SBit_Cache</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>DEPRECATED. Use <a href="ft2-cache_subsystem.html#FTC_SBitCache">FTC_SBitCache</a> instead.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_SBitCache_New">
+<h4>FTC_SBitCache_New</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_SBitCache_New</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>     manager,
+                     <a href="ft2-cache_subsystem.html#FTC_SBitCache">FTC_SBitCache</a>  *acache );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Creates a new cache to store small glyph bitmaps.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>A handle to the source cache manager.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>acache</b></td><td>
+<p>A handle to the new sbit cache. NULL in case of error.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_SBitCache_Lookup">
+<h4>FTC_SBitCache_Lookup</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_SBitCache_Lookup</b>( <a href="ft2-cache_subsystem.html#FTC_SBitCache">FTC_SBitCache</a>    cache,
+                        FTC_ImageType    type,
+                        <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>          gindex,
+                        <a href="ft2-cache_subsystem.html#FTC_SBit">FTC_SBit</a>        *sbit,
+                        <a href="ft2-cache_subsystem.html#FTC_Node">FTC_Node</a>        *anode );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Looks up a given small glyph bitmap in a given sbit cache and "lock" it to prevent its flushing from the cache until needed</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>cache</b></td><td>
+<p>A handle to the source sbit cache.</p>
+</td></tr>
+<tr valign=top><td><b>type</b></td><td>
+<p>A pointer to the glyph image type descriptor.</p>
+</td></tr>
+<tr valign=top><td><b>gindex</b></td><td>
+<p>The glyph index.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>sbit</b></td><td>
+<p>A handle to a small bitmap descriptor.</p>
+</td></tr>
+<tr valign=top><td><b>anode</b></td><td>
+<p>Used to return the address of of the corresponding cache node after incrementing its reference count (see note below).</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The small bitmap descriptor and its bit buffer are owned by the cache and should never be freed by the application. They might as well disappear from memory on the next cache lookup, so don't treat them as persistent data.</p>
+<p>The descriptor's `buffer' field is set to 0 to indicate a missing glyph bitmap.</p>
+<p>If "anode" is <i>not</i> NULL, it receives the address of the cache node containing the bitmap, after increasing its reference count. This ensures that the node (as well as the image) will always be kept in the cache until you call <a href="ft2-cache_subsystem.html#FTC_Node_Unref">FTC_Node_Unref</a> to "release" it.</p>
+<p>If "anode" is NULL, the cache node is left unchanged, which means that the bitmap could be flushed out of the cache on the next call to one of the caching sub-system APIs. Don't assume that it is persistent!</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_SBit_Cache_New">
+<h4>FTC_SBit_Cache_New</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_SBit_Cache_New</b>( <a href="ft2-cache_subsystem.html#FTC_Manager">FTC_Manager</a>      manager,
+                      <a href="ft2-cache_subsystem.html#FTC_SBit_Cache">FTC_SBit_Cache</a>  *acache );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>DEPRECATED. Use <a href="ft2-cache_subsystem.html#FTC_SBitCache_New">FTC_SBitCache_New</a> instead.</p>
+<p>Creates a new cache to store small glyph bitmaps.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>manager</b></td><td>
+<p>A handle to the source cache manager.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>acache</b></td><td>
+<p>A handle to the new sbit cache. NULL in case of error.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FTC_SBit_Cache_Lookup">
+<h4>FTC_SBit_Cache_Lookup</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FTC_SBit_Cache_Lookup</b>( <a href="ft2-cache_subsystem.html#FTC_SBit_Cache">FTC_SBit_Cache</a>   cache,
+                         <a href="ft2-cache_subsystem.html#FTC_Image_Desc">FTC_Image_Desc</a>*  desc,
+                         <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>          gindex,
+                         <a href="ft2-cache_subsystem.html#FTC_SBit">FTC_SBit</a>        *sbit );
+
+
+FT_END_HEADER
+
+#endif /* __FTCSBITS_H__ */
+
+
+/* END */
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>DEPRECATED. Use <a href="ft2-cache_subsystem.html#FTC_SBitCache_Lookup">FTC_SBitCache_Lookup</a> instead.</p>
+<p>Looks up a given small glyph bitmap in a given sbit cache.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>cache</b></td><td>
+<p>A handle to the source sbit cache.</p>
+</td></tr>
+<tr valign=top><td><b>desc</b></td><td>
+<p>A pointer to the glyph image descriptor.</p>
+</td></tr>
+<tr valign=top><td><b>gindex</b></td><td>
+<p>The glyph index.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>sbit</b></td><td>
+<p>A handle to a small bitmap descriptor.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The small bitmap descriptor and its bit buffer are owned by the cache and should never be freed by the application. They might as well disappear from memory on the next cache lookup, so don't treat them as persistent data.</p>
+<p>The descriptor's `buffer' field is set to 0 to indicate a missing glyph bitmap.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

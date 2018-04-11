@@ -1,0 +1,749 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+Scanline converter
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FT_Raster">FT_Raster</a></td><td></td><td><a href="#FT_Raster_RenderFunc">FT_Raster_RenderFunc</a></td></tr>
+<tr><td></td><td><a href="#FT_Span">FT_Span</a></td><td></td><td><a href="#FT_Raster_Funcs">FT_Raster_Funcs</a></td></tr>
+<tr><td></td><td><a href="#FT_SpanFunc">FT_SpanFunc</a></td><td></td><td><a href="#FT_Incremental">FT_Incremental</a></td></tr>
+<tr><td></td><td><a href="#FT_Raster_BitTest_Func">FT_Raster_BitTest_Func</a></td><td></td><td><a href="#FT_Incremental_Metrics">FT_Incremental_Metrics</a></td></tr>
+<tr><td></td><td><a href="#FT_Raster_BitSet_Func">FT_Raster_BitSet_Func</a></td><td></td><td><a href="#FT_Incremental_GetGlyphDataFunc">FT_Incremental_GetGlyphDataFunc</a></td></tr>
+<tr><td></td><td><a href="#FT_Raster_Flag">FT_Raster_Flag</a></td><td></td><td><a href="#FT_Incremental_FreeGlyphDataFunc">FT_Incremental_FreeGlyphDataFunc</a></td></tr>
+<tr><td></td><td><a href="#FT_Raster_Params">FT_Raster_Params</a></td><td></td><td><a href="#FT_Incremental_GetGlyphMetricsFunc">FT_Incremental_GetGlyphMetricsFunc</a></td></tr>
+<tr><td></td><td><a href="#FT_Raster_NewFunc">FT_Raster_NewFunc</a></td><td></td><td><a href="#FT_Incremental_FuncsRec">FT_Incremental_FuncsRec</a></td></tr>
+<tr><td></td><td><a href="#FT_Raster_DoneFunc">FT_Raster_DoneFunc</a></td><td></td><td><a href="#FT_Incremental_InterfaceRec">FT_Incremental_InterfaceRec</a></td></tr>
+<tr><td></td><td><a href="#FT_Raster_ResetFunc">FT_Raster_ResetFunc</a></td><td></td><td><a href="#FT_PARAM_TAG_INCREMENTAL">FT_PARAM_TAG_INCREMENTAL</a></td></tr>
+<tr><td></td><td><a href="#FT_Raster_SetModeFunc">FT_Raster_SetModeFunc</a></td><td></td><td></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>This section contains technical definitions.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FT_Raster">
+<h4>FT_Raster</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FT_RasterRec_*  <b>FT_Raster</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A handle (pointer) to a raster object. Each object can be used independently to convert an outline into a bitmap or pixmap.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Span">
+<h4>FT_Span</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Span_
+  {
+    <font color="darkblue">short</font>           x;
+    <font color="darkblue">unsigned</font> <font color="darkblue">short</font>  len;
+    <font color="darkblue">unsigned</font> <font color="darkblue">char</font>   coverage;
+
+  } <b>FT_Span</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to model a single span of gray (or black) pixels when rendering a monochrome or anti-aliased bitmap.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>x</b></td><td>
+<p>The span's horizontal start position.</p>
+</td></tr>
+<tr valign=top><td><b>len</b></td><td>
+<p>The span's length in pixels.</p>
+</td></tr>
+<tr valign=top><td><b>coverage</b></td><td>
+<p>The span color/coverage, ranging from 0 (background) to 255 (foreground). Only used for anti-aliased rendering.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>This structure is used by the span drawing callback type named FT_SpanFunc which takes the y-coordinate of the span as a a parameter.</p>
+<p>The coverage value is always between 0 and 255, even if the number of gray levels have been set through FT_Set_Gray_Levels().</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_SpanFunc">
+<h4>FT_SpanFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>
+  (*<b>FT_SpanFunc</b>)( <font color="darkblue">int</font>       y,
+                  <font color="darkblue">int</font>       count,
+                  <a href="ft2-raster.html#FT_Span">FT_Span</a>*  spans,
+                  <font color="darkblue">void</font>*     user );
+
+#define FT_Raster_Span_Func   <b>FT_SpanFunc</b>
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function used as a call-back by the anti-aliased renderer in order to let client applications draw themselves the gray pixel spans on each scan line.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>y</b></td><td>
+<p>The scanline's y-coordinate.</p>
+</td></tr>
+<tr valign=top><td><b>count</b></td><td>
+<p>The number of spans to draw on this scanline.</p>
+</td></tr>
+<tr valign=top><td><b>spans</b></td><td>
+<p>A table of `count' spans to draw on the scanline.</p>
+</td></tr>
+<tr valign=top><td><b>user</b></td><td>
+<p>User-supplied data that is passed to the callback.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>This callback allows client applications to directly render the gray spans of the anti-aliased bitmap to any kind of surfaces.</p>
+<p>This can be used to write anti-aliased outlines directly to a given background bitmap, and even perform translucency.</p>
+<p>Note that the `count' field cannot be greater than a fixed value defined by the FT_MAX_GRAY_SPANS configuration macro in ftoption.h. By default, this value is set to 32, which means that if there are more than 32 spans on a given scanline, the callback will be called several times with the same `y' parameter in order to draw all callbacks.</p>
+<p>Otherwise, the callback is only called once per scan-line, and only for those scanlines that do have `gray' pixels on them.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_BitTest_Func">
+<h4>FT_Raster_BitTest_Func</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">int</font>
+  (*<b>FT_Raster_BitTest_Func</b>)( <font color="darkblue">int</font>    y,
+                             <font color="darkblue">int</font>    x,
+                             <font color="darkblue">void</font>*  user );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>THIS TYPE IS DEPRECATED. DO NOT USE IT.</p>
+<p>A function used as a call-back by the monochrome scan-converter to test whether a given target pixel is already set to the drawing `color'. These tests are crucial to implement drop-out control per-se the TrueType spec.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>y</b></td><td>
+<p>The pixel's y-coordinate.</p>
+</td></tr>
+<tr valign=top><td><b>x</b></td><td>
+<p>The pixel's x-coordinate.</p>
+</td></tr>
+<tr valign=top><td><b>user</b></td><td>
+<p>User-supplied data that is passed to the callback.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>1 if the pixel is `set', 0 otherwise.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_BitSet_Func">
+<h4>FT_Raster_BitSet_Func</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>
+  (*<b>FT_Raster_BitSet_Func</b>)( <font color="darkblue">int</font>    y,
+                            <font color="darkblue">int</font>    x,
+                            <font color="darkblue">void</font>*  user );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>THIS TYPE IS DEPRECATED. DO NOT USE IT.</p>
+<p>A function used as a call-back by the monochrome scan-converter to set an individual target pixel. This is crucial to implement drop-out control according to the TrueType specification.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>y</b></td><td>
+<p>The pixel's y-coordinate.</p>
+</td></tr>
+<tr valign=top><td><b>x</b></td><td>
+<p>The pixel's x-coordinate.</p>
+</td></tr>
+<tr valign=top><td><b>user</b></td><td>
+<p>User-supplied data that is passed to the callback.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>1 if the pixel is `set', 0 otherwise.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_Flag">
+<h4>FT_Raster_Flag</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font>  <font color="darkblue">enum</font>
+  {
+    <a href="ft2-raster.html#FT_Raster_Flag">FT_RASTER_FLAG_DEFAULT</a> = 0,
+    <a href="ft2-raster.html#FT_Raster_Flag">FT_RASTER_FLAG_AA</a>      = 1,
+    <a href="ft2-raster.html#FT_Raster_Flag">FT_RASTER_FLAG_DIRECT</a>  = 2,
+    <a href="ft2-raster.html#FT_Raster_Flag">FT_RASTER_FLAG_CLIP</a>    = 4
+
+  } <b>FT_Raster_Flag</b>;
+
+#define ft_raster_flag_default  <a href="ft2-raster.html#FT_Raster_Flag">FT_RASTER_FLAG_DEFAULT</a>
+#define ft_raster_flag_aa       <a href="ft2-raster.html#FT_Raster_Flag">FT_RASTER_FLAG_AA</a>
+#define ft_raster_flag_direct   <a href="ft2-raster.html#FT_Raster_Flag">FT_RASTER_FLAG_DIRECT</a>
+#define ft_raster_flag_clip     <a href="ft2-raster.html#FT_Raster_Flag">FT_RASTER_FLAG_CLIP</a>
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>An enumeration to list the bit flags as used in the `flags' field of a FT_Raster_Params structure.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>FT_RASTER_FLAG_DEFAULT</b></td><td>
+<p>This value is 0.</p>
+</td></tr>
+<tr valign=top><td><b>FT_RASTER_FLAG_AA</b></td><td>
+<p>This flag is set to indicate that an anti-aliased glyph image should be generated. Otherwise, it will be monochrome (1-bit)</p>
+</td></tr>
+<tr valign=top><td><b>FT_RASTER_FLAG_DIRECT</b></td><td>
+<p>This flag is set to indicate direct rendering. In this mode, client applications must provide their own span callback. This lets them directly draw or compose over an existing bitmap. If this bit is not set, the target pixmap's buffer <i>must</i> be zeroed before rendering.</p>
+<p>Note that for now, direct rendering is only possible with anti-aliased glyphs.</p>
+</td></tr>
+<tr valign=top><td><b>FT_RASTER_FLAG_CLIP</b></td><td>
+<p>This flag is only used in direct rendering mode. If set, the output will be clipped to a box specified in the "clip_box" field of the FT_Raster_Params structure.</p>
+<p>Note that by default, the glyph bitmap is clipped to the target pixmap, except in direct rendering mode where all spans are generated if no clipping box is set.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_Params">
+<h4>FT_Raster_Params</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Raster_Params_
+  {
+    <a href="ft2-basic_types.html#FT_Bitmap">FT_Bitmap</a>*              target;
+    <font color="darkblue">void</font>*                   source;
+    <font color="darkblue">int</font>                     flags;
+    <a href="ft2-raster.html#FT_SpanFunc">FT_SpanFunc</a>             gray_spans;
+    <a href="ft2-raster.html#FT_SpanFunc">FT_SpanFunc</a>             black_spans;
+    <a href="ft2-raster.html#FT_Raster_BitTest_Func">FT_Raster_BitTest_Func</a>  bit_test;     /* doesn't work! */
+    <a href="ft2-raster.html#FT_Raster_BitSet_Func">FT_Raster_BitSet_Func</a>   bit_set;      /* doesn't work! */
+    <font color="darkblue">void</font>*                   user;
+    <a href="ft2-basic_types.html#FT_BBox">FT_BBox</a>                 clip_box;
+
+  } <b>FT_Raster_Params</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure to hold the arguments used by a raster's render function.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>target</b></td><td>
+<p>The target bitmap.</p>
+</td></tr>
+<tr valign=top><td><b>source</b></td><td>
+<p>A pointer to the source glyph image (e.g. an FT_Outline).</p>
+</td></tr>
+<tr valign=top><td><b>flags</b></td><td>
+<p>The rendering flags.</p>
+</td></tr>
+<tr valign=top><td><b>gray_spans</b></td><td>
+<p>The gray span drawing callback.</p>
+</td></tr>
+<tr valign=top><td><b>black_spans</b></td><td>
+<p>The black span drawing callback.</p>
+</td></tr>
+<tr valign=top><td><b>bit_test</b></td><td>
+<p>The bit test callback. UNIMPLEMENTED!</p>
+</td></tr>
+<tr valign=top><td><b>bit_set</b></td><td>
+<p>The bit set callback. UNIMPLEMENTED!</p>
+</td></tr>
+<tr valign=top><td><b>user</b></td><td>
+<p>User-supplied data that is passed to each drawing callback.</p>
+</td></tr>
+<tr valign=top><td><b>clip_box</b></td><td>
+<p>An optional clipping box. It is only used in direct rendering mode. Note that coordinates here should be expressed in <i>integer</i> pixels (and not in 26.6 fixed-point units).</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>An anti-aliased glyph bitmap is drawn if the FT_RASTER_FLAG_AA bit flag is set in the `flags' field, otherwise a monochrome bitmap will be generated.</p>
+<p>If the FT_RASTER_FLAG_DIRECT bit flag is set in `flags', the raster will call the `gray_spans' callback to draw gray pixel spans, in the case of an aa glyph bitmap, it will call `black_spans', and `bit_test' and `bit_set' in the case of a monochrome bitmap. This allows direct composition over a pre-existing bitmap through user-provided callbacks to perform the span drawing/composition.</p>
+<p>Note that the `bit_test' and `bit_set' callbacks are required when rendering a monochrome bitmap, as they are crucial to implement correct drop-out control as defined in the TrueType specification.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_NewFunc">
+<h4>FT_Raster_NewFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">int</font>
+  (*<b>FT_Raster_NewFunc</b>)( <font color="darkblue">void</font>*       memory,
+                        <a href="ft2-raster.html#FT_Raster">FT_Raster</a>*  raster );
+
+#define  FT_Raster_New_Func    <b>FT_Raster_NewFunc</b>
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function used to create a new raster object.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>memory</b></td><td>
+<p>A handle to the memory allocator.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>raster</b></td><td>
+<p>A handle to the new raster object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>Error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The `memory' parameter is a typeless pointer in order to avoid un-wanted dependencies on the rest of the FreeType code. In practice, it is a FT_Memory, i.e., a handle to the standard FreeType memory allocator. However, this field can be completely ignored by a given raster implementation.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_DoneFunc">
+<h4>FT_Raster_DoneFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>
+  (*<b>FT_Raster_DoneFunc</b>)( <a href="ft2-raster.html#FT_Raster">FT_Raster</a>  raster );
+
+#define  FT_Raster_Done_Func   <b>FT_Raster_DoneFunc</b>
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function used to destroy a given raster object.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>raster</b></td><td>
+<p>A handle to the raster object.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_ResetFunc">
+<h4>FT_Raster_ResetFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>
+  (*<b>FT_Raster_ResetFunc</b>)( <a href="ft2-raster.html#FT_Raster">FT_Raster</a>       raster,
+                          <font color="darkblue">unsigned</font> <font color="darkblue">char</font>*  pool_base,
+                          <font color="darkblue">unsigned</font> <font color="darkblue">long</font>   pool_size );
+
+#define  FT_Raster_Reset_Func   <b>FT_Raster_ResetFunc</b>
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>FreeType provides an area of memory called the `render pool', available to all registered rasters. This pool can be freely used during a given scan-conversion but is shared by all rasters. Its content is thus transient.</p>
+<p>This function is called each time the render pool changes, or just after a new raster object is created.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>raster</b></td><td>
+<p>A handle to the new raster object.</p>
+</td></tr>
+<tr valign=top><td><b>pool_base</b></td><td>
+<p>The address in memory of the render pool.</p>
+</td></tr>
+<tr valign=top><td><b>pool_size</b></td><td>
+<p>The size in bytes of the render pool.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>Rasters can ignore the render pool and rely on dynamic memory allocation if they want to (a handle to the memory allocator is passed to the raster constructor). However, this is not recommended for efficiency purposes.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_SetModeFunc">
+<h4>FT_Raster_SetModeFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">int</font>
+  (*<b>FT_Raster_SetModeFunc</b>)( <a href="ft2-raster.html#FT_Raster">FT_Raster</a>      raster,
+                            <font color="darkblue">unsigned</font> <font color="darkblue">long</font>  mode,
+                            <font color="darkblue">void</font>*          args );
+
+#define  FT_Raster_Set_Mode_Func  <b>FT_Raster_SetModeFunc</b>
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This function is a generic facility to change modes or attributes in a given raster. This can be used for debugging purposes, or simply to allow implementation-specific `features' in a given raster module.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>raster</b></td><td>
+<p>A handle to the new raster object.</p>
+</td></tr>
+<tr valign=top><td><b>mode</b></td><td>
+<p>A 4-byte tag used to name the mode or property.</p>
+</td></tr>
+<tr valign=top><td><b>args</b></td><td>
+<p>A pointer to the new mode/property to use.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_RenderFunc">
+<h4>FT_Raster_RenderFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">int</font>
+  (*<b>FT_Raster_RenderFunc</b>)( <a href="ft2-raster.html#FT_Raster">FT_Raster</a>          raster,
+                           <a href="ft2-raster.html#FT_Raster_Params">FT_Raster_Params</a>*  params );
+
+#define  FT_Raster_Render_Func    <b>FT_Raster_RenderFunc</b>
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Invokes a given raster to scan-convert a given glyph image into a target bitmap.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>raster</b></td><td>
+<p>A handle to the raster object.</p>
+</td></tr>
+<tr valign=top><td><b>params</b></td><td>
+<p>A pointer to a FT_Raster_Params structure used to store the rendering parameters.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>Error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The exact format of the source image depends on the raster's glyph format defined in its FT_Raster_Funcs structure. It can be an FT_Outline or anything else in order to support a large array of glyph formats.</p>
+<p>Note also that the render function can fail and return a FT_Err_Unimplemented_Feature error code if the raster used does not support direct composition.</p>
+<p>XXX: For now, the standard raster doesn't support direct composition but this should change for the final release (see the files demos/src/ftgrays.c and demos/src/ftgrays2.c for examples of distinct implementations which support direct composition).</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Raster_Funcs">
+<h4>FT_Raster_Funcs</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Raster_Funcs_
+  {
+    <a href="ft2-basic_types.html#FT_Glyph_Format">FT_Glyph_Format</a>         glyph_format;
+    <a href="ft2-raster.html#FT_Raster_NewFunc">FT_Raster_NewFunc</a>       raster_new;
+    <a href="ft2-raster.html#FT_Raster_ResetFunc">FT_Raster_ResetFunc</a>     raster_reset;
+    <a href="ft2-raster.html#FT_Raster_SetModeFunc">FT_Raster_SetModeFunc</a>   raster_set_mode;
+    <a href="ft2-raster.html#FT_Raster_RenderFunc">FT_Raster_RenderFunc</a>    raster_render;
+    <a href="ft2-raster.html#FT_Raster_DoneFunc">FT_Raster_DoneFunc</a>      raster_done;
+
+  } <b>FT_Raster_Funcs</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to describe a given raster class to the library.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>glyph_format</b></td><td>
+<p>The supported glyph format for this raster.</p>
+</td></tr>
+<tr valign=top><td><b>raster_new</b></td><td>
+<p>The raster constructor.</p>
+</td></tr>
+<tr valign=top><td><b>raster_reset</b></td><td>
+<p>Used to reset the render pool within the raster.</p>
+</td></tr>
+<tr valign=top><td><b>raster_render</b></td><td>
+<p>A function to render a glyph into a given bitmap.</p>
+</td></tr>
+<tr valign=top><td><b>raster_done</b></td><td>
+<p>The raster destructor.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Incremental">
+<h4>FT_Incremental</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font> FT_IncrementalRec_*  <b>FT_Incremental</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>An opaque type describing a user-provided object used to implement "incremental" glyph loading within FreeType. This is used to support embedded fonts in certain environments (e.g. Postscript interpreters), where the glyph data isn't in the font file, or must be overridden by different values.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>It is up to client applications to create and implement <a href="ft2-raster.html#FT_Incremental">FT_Incremental</a> objects, as long as they provide implementations for the methods <a href="ft2-raster.html#FT_Incremental_GetGlyphDataFunc">FT_Incremental_GetGlyphDataFunc</a> <a href="ft2-raster.html#FT_Incremental_FreeGlyphDataFunc">FT_Incremental_FreeGlyphDataFunc</a> and <a href="ft2-raster.html#FT_Incremental_GetGlyphMetricsFunc">FT_Incremental_GetGlyphMetricsFunc</a></p>
+<p>See the description of <a href="ft2-raster.html#FT_Incremental_InterfaceRec">FT_Incremental_InterfaceRec</a> to understand how to use incremental objects with FreeType.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Incremental_Metrics">
+<h4>FT_Incremental_Metrics</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Incremental_MetricsRec_
+  {
+    <a href="ft2-basic_types.html#FT_Long">FT_Long</a>  bearing_x;
+    <a href="ft2-basic_types.html#FT_Long">FT_Long</a>  bearing_y;
+    <a href="ft2-basic_types.html#FT_Long">FT_Long</a>  advance;
+
+  } FT_Incremental_MetricsRec, *<b>FT_Incremental_Metrics</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A small structure used to contain the basic glyph metrics returned by the <a href="ft2-raster.html#FT_Incremental_GetGlyphMetricsFunc">FT_Incremental_GetGlyphMetricsFunc</a> method.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>bearing_x</b></td><td>
+<p>Left bearing, in font units.</p>
+</td></tr>
+<tr valign=top><td><b>bearing_y</b></td><td>
+<p>Top bearing, in font units.</p>
+</td></tr>
+<tr valign=top><td><b>advance</b></td><td>
+<p>Glyph advance, in font units.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>These correspond to horizontal or vertical metrics depending on the value of the 'vertical' argument to the function <a href="ft2-raster.html#FT_Incremental_GetGlyphMetricsFunc">FT_Incremental_GetGlyphMetricsFunc</a></p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Incremental_GetGlyphDataFunc">
+<h4>FT_Incremental_GetGlyphDataFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-basic_types.html#FT_Error">FT_Error</a>
+  (*<b>FT_Incremental_GetGlyphDataFunc</b>)( <a href="ft2-raster.html#FT_Incremental">FT_Incremental</a>  incremental,
+                                      <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>         glyph_index,
+                                      <a href="ft2-basic_types.html#FT_Data">FT_Data</a>*        adata );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function called by FreeType to access a given glyph's data bytes during <a href="ft2-base_interface.html#FT_Load_Glyph">FT_Load_Glyph</a> or <a href="ft2-base_interface.html#FT_Load_Char">FT_Load_Char</a> if incremental loading is enabled.</p>
+<p>Note that the format of the glyph's data bytes depends on the font file format. For TrueType, it must correspond to the raw bytes within the 'glyf' table. For Postscript formats, it must correspond to the <b>unencrypted</b> charstring bytes, without any 'lenIV' header. It is undefined for any other format.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>incremental</b></td><td>
+<p>Handle to an opaque <a href="ft2-raster.html#FT_Incremental">FT_Incremental</a> handle provided by the client application.</p>
+</td></tr>
+<tr valign=top><td><b>glyph_index</b></td><td>
+<p>Index of relevant glyph.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>adata</b></td><td>
+<p>A structure describing the returned glyph data bytes (which will be accessed as a read-only byte block).</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>If this function returns succesfully the method <a href="ft2-raster.html#FT_Incremental_FreeGlyphDataFunc">FT_Incremental_FreeGlyphDataFunc</a> will be called later to release the data bytes.</p>
+<p>Nested calls to <a href="ft2-raster.html#FT_Incremental_GetGlyphDataFunc">FT_Incremental_GetGlyphDataFunc</a> can happen for compound glyphs.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Incremental_FreeGlyphDataFunc">
+<h4>FT_Incremental_FreeGlyphDataFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>
+  (*<b>FT_Incremental_FreeGlyphDataFunc</b>)( <a href="ft2-raster.html#FT_Incremental">FT_Incremental</a>  incremental,
+                                       <a href="ft2-basic_types.html#FT_Data">FT_Data</a>*        data );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function used to release the glyph data bytes returned by a successful call to <a href="ft2-raster.html#FT_Incremental_GetGlyphDataFunc">FT_Incremental_GetGlyphDataFunc</a></p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>incremental</b></td><td>
+<p>A handle to an opaque <a href="ft2-raster.html#FT_Incremental">FT_Incremental</a> handle provided by the client application.</p>
+</td></tr>
+<tr valign=top><td><b>data</b></td><td>
+<p>A structure describing the glyph data bytes (which will be accessed as a read-only byte block).</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Incremental_GetGlyphMetricsFunc">
+<h4>FT_Incremental_GetGlyphMetricsFunc</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <a href="ft2-basic_types.html#FT_Error">FT_Error</a>
+  (*<b>FT_Incremental_GetGlyphMetricsFunc</b>)
+                      ( <a href="ft2-raster.html#FT_Incremental">FT_Incremental</a>                   incremental,
+                        <a href="ft2-basic_types.html#FT_UInt">FT_UInt</a>                          glyph_index,
+                        <a href="ft2-basic_types.html#FT_Bool">FT_Bool</a>                          vertical,
+                        FT_Incremental_MetricsRec        *ametrics );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A function used to retrieve the basic metrics of a given glyph index before accessing its data. This is necessary because, in certain formats like TrueType, the metrics are stored in a different place from the glyph images proper.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>incremental</b></td><td>
+<p>A handle to an opaque <a href="ft2-raster.html#FT_Incremental">FT_Incremental</a> handle provided by the client application.</p>
+</td></tr>
+<tr valign=top><td><b>glyph_index</b></td><td>
+<p>Index of relevant glyph.</p>
+</td></tr>
+<tr valign=top><td><b>vertical</b></td><td>
+<p>If true, return vertical metrics.</p>
+</td></tr>
+<tr valign=top><td><b>ametrics</b></td><td>
+<p>This parameter is used for both input and output. The original glyph metrics, if any, in font units. If metrics are not available all the values must be set to zero.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>ametrics</b></td><td>
+<p>The replacement glyph metrics in font units.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Incremental_FuncsRec">
+<h4>FT_Incremental_FuncsRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Incremental_FuncsRec_
+  {
+    <a href="ft2-raster.html#FT_Incremental_GetGlyphDataFunc">FT_Incremental_GetGlyphDataFunc</a>     get_glyph_data;
+    <a href="ft2-raster.html#FT_Incremental_FreeGlyphDataFunc">FT_Incremental_FreeGlyphDataFunc</a>    free_glyph_data;
+    <a href="ft2-raster.html#FT_Incremental_GetGlyphMetricsFunc">FT_Incremental_GetGlyphMetricsFunc</a>  get_glyph_metrics;
+
+  } <b>FT_Incremental_FuncsRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A table of functions for accessing fonts that load data incrementally. Used in ?FT_Incremental_Interface?</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>get_glyph_data</b></td><td>
+<p>The function to get glyph data. Must not be null.</p>
+</td></tr>
+<tr valign=top><td><b>free_glyph_data</b></td><td>
+<p>The function to release glyph data. Must not be null.</p>
+</td></tr>
+<tr valign=top><td><b>get_glyph_metrics</b></td><td>
+<p>The function to get glyph metrics. May be null if the font does not provide overriding glyph metrics.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Incremental_InterfaceRec">
+<h4>FT_Incremental_InterfaceRec</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Incremental_InterfaceRec_
+  {
+    <font color="darkblue">const</font> <a href="ft2-raster.html#FT_Incremental_FuncsRec">FT_Incremental_FuncsRec</a>*  funcs;
+    <a href="ft2-raster.html#FT_Incremental">FT_Incremental</a>                  object;
+  
+  } <b>FT_Incremental_InterfaceRec</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure to be used with <a href="ft2-base_interface.html#FT_Open_Face">FT_Open_Face</a> to indicate that the user wants to support incremental glyph loading. You should use it with <a href="ft2-raster.html#FT_PARAM_TAG_INCREMENTAL">FT_PARAM_TAG_INCREMENTAL</a> as in the following example:</p>
+<font color=blue><pre>
+  FT_Incremental_InterfaceRec  inc_int;
+  FT_Parameter                 parameter;
+  FT_Open_Args                 open_args;
+
+
+  // set up incremental descriptor
+  inc_int.funcs  = my_funcs;
+  inc_int.object = my_object;
+
+  // set up optional parameter
+  parameter.tag  = FT_PARAM_TAG_INCREMENTAL;
+  parameter.data = &amp;inc_int;
+
+  // set up FT_Open_Args structure
+  open_args.flags      = (FT_Open_Flags)( FT_OPEN_PATHNAME |
+                                          FT_OPEN_PARAMS   );
+  open_args.pathname   = my_font_pathname;
+  open_args.num_params = 1;
+  open_args.params     = &amp;parameter; // we use one optional argument
+
+  // open the font
+  error = FT_Open_Face( library, &amp;open_args, index, &amp;face );
+  ...
+</pre></font>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_PARAM_TAG_INCREMENTAL">
+<h4>FT_PARAM_TAG_INCREMENTAL</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <b>FT_PARAM_TAG_INCREMENTAL</b>  <a href="ft2-basic_types.html#FT_MAKE_TAG">FT_MAKE_TAG</a>( 'i', 'n', 'c', 'r' )
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A constant used as the tag of <a href="ft2-base_interface.html#FT_Parameter">FT_Parameter</a> structures to indicate an incremental loading object to be used by FreeType.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

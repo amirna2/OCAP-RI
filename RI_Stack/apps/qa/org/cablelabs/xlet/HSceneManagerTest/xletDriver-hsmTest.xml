@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+    
+
+    <!-- HSceneManager Test (z-order) -->
+    <Xlet name="HSMTestRunner" orgID="0x01" appID="0x6670" pauseAfterLast="1000">
+        <!-- Start the test xlet 1 -->
+        <RCEvent name="Start testXlet1" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!-- Start the test xlet 2 -->
+        <RCEvent name="Start testXlet2" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet2" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!-- Start the test xlet 3 -->
+        <RCEvent name="Start testXlet3" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet3" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!--move xlet2 to front -->
+        <RCEvent name="testXlet2 to Front" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+        <RCEvent name="testXlet2 to Front" monitorTimeout="30000" getResultsAfter="true">VK_2</RCEvent>
+
+        <!-- Start the test xlet 4 -->
+        <RCEvent name="Start testXlet4" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet4" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet4" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!-- Start the test xlet 5 -->
+        <RCEvent name="Start testXlet5" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet5" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!--move xlet4 to front - should not occur-->
+        <RCEvent name="testXlet4 to Front" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+        <RCEvent name="testXlet4 to Front" monitorTimeout="30000" getResultsAfter="true">VK_2</RCEvent>
+
+        <!--move xlet3 to front -->
+        <RCEvent name="testXlet3 to Front" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+        <RCEvent name="testXlet3 to Front" monitorTimeout="30000" getResultsAfter="true">VK_2</RCEvent>
+
+        <!-- Start the test xlet 6 -->
+        <RCEvent name="Start testXlet6" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet6" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet6" monitorTimeout="30000">VK_CHANNEL_UP</RCEvent>
+        <RCEvent name="Start testXlet6" monitorTimeout="30000" getResultsAfter="true">VK_PLAY</RCEvent>
+
+        <!--move xlet5 to front -->
+        <RCEvent name="testXlet5 to Front" monitorTimeout="30000">VK_CHANNEL_DOWN</RCEvent>
+        <RCEvent name="testXlet5 to Front" monitorTimeout="30000" getResultsAfter="true">VK_2</RCEvent>
+    </Xlet>
+
+
+</AutoXlet>

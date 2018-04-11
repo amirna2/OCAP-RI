@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+    
+
+    <!-- User Preferences Test -->
+    <Xlet name="UserPrefs" orgID="0x1" appID="0x4640" pauseAfterLast="7000" startupTimeout="180000">
+
+      <RCEvent name="Read from UserPrefMgr 1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs 2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="display prefs 2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Set Preferences (hardcoded) 3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs 4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Set Preferences (hostApp args) 5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_5</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs 6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Set Preferences (hostApp args) 7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_5</RCEvent>
+      <RCEvent name="Set Preferences (hardcoded) 7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs 8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs 8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Set Preferences (hardcoded) 9" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_4</RCEvent>
+      <RCEvent name="Write to UserPrefMgr 9" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr 9" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+
+      <RCEvent name="Set Preferences (hostApp args) A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_5</RCEvent>
+      <RCEvent name="Write to UserPrefMgr A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs A" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs B" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+
+      <RCEvent name="Clear prefs C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_2</RCEvent>
+      <RCEvent name="Write to UserPrefMgr C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_3</RCEvent>
+      <RCEvent name="Read from UserPrefMgr C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="true">VK_1</RCEvent>
+      <RCEvent name="display prefs C" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+    </Xlet>
+
+
+</AutoXlet>

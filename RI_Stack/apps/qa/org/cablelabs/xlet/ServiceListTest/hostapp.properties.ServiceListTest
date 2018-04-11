@@ -1,0 +1,11 @@
+###############################################
+## SERVICELIST TEST
+###############################################
+app.13.application_identifier=0x000000016898
+app.13.application_control_code=AUTOSTART
+app.13.visibility=VISIBLE
+app.13.priority=220
+app.13.application_name=ServiceListTestXlet.java
+app.13.base_directory=/syscwd/qa/xlet
+app.13.initial_class_name=org.cablelabs.xlet.ServiceListTest.ServiceListTestXlet
+

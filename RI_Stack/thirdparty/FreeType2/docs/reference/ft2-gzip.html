@@ -1,0 +1,65 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+GZIP Streams
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FT_Stream_OpenGzip">FT_Stream_OpenGzip</a></td><td></td><td></td><td></td><td></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>This section contains the declaration of Gzip-specific functions.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FT_Stream_OpenGzip">
+<h4>FT_Stream_OpenGzip</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_Stream_OpenGzip</b>( <a href="ft2-system_interface.html#FT_Stream">FT_Stream</a>    stream,
+                      <a href="ft2-system_interface.html#FT_Stream">FT_Stream</a>    source );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>open a new stream to parse gzip-compressed font files. This is mainly used to support the compressed *.pcf.gz fonts that come with XFree86</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>stream</b></td><td>
+<p>target embedding stream</p>
+</td></tr>
+<tr valign=top><td><b>source</b></td><td>
+<p>source stream, used to</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>error code. 0 means success</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>the source stream must be opened <i>before</i> calling this function.</p>
+<p>calling ?FT_Stream_Close? on the new stream will <b>not</b> call ?FT_Stream_Close? on the source stream. None of the stream objects will be released to the heap.</p>
+<p>the stream implementation is very basic, and resets the decompression process each time seeking backwards is needed within the stream</p>
+<p>in certain builds of the library, gzip compression recognition is automatic when calling <a href="ft2-base_interface.html#FT_New_Face">FT_New_Face</a> or <a href="ft2-base_interface.html#FT_Open_Face">FT_Open_Face</a> This means that if no font driver is capable of handling the raw compressed file, the library will try to open a gzip stream from it and re-open the face with it.</p>
+<p>this function may return "FT_Err_Unimplemented" if your build of FreeType was not compiled with zlib support.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

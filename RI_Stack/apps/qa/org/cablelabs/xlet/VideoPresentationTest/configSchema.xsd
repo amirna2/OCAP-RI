@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cablelabs.org/VideoPresentationTest/configSchema" xmlns:tns="http://www.cablelabs.org/VideoPresentationTest/configSchema">
+	<element name="configurations">
+		<complexType>
+			<sequence>
+				<element name="vc" maxOccurs="unbounded">
+					<complexType>
+						<sequence>
+							<element name="source" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="result" maxOccurs="unbounded">
+											<complexType>
+												<sequence>
+													<element name="ava" maxOccurs="1" minOccurs="1">
+														<complexType>
+															<attribute name="xPosition" use="required" type="float" />
+															<attribute name="yPosition" use="required" type="float" />
+															<attribute name="width" use="required" type="float" />
+															<attribute name="height" use="required" type="float" />
+														</complexType>
+													</element>
+													<element name="tva" maxOccurs="1" minOccurs="1">
+														<complexType>
+															<attribute name="xPosition" use="required" type="float" />
+															<attribute name="yPosition" use="required" type="float" />
+															<attribute name="width" use="required" type="float" />
+															<attribute name="height" use="required" type="float" />
+														</complexType>
+													</element>
+													<element name="avaos" maxOccurs="1" minOccurs="1">
+														<complexType>
+															<attribute name="xPosition" use="required" type="float" />
+															<attribute name="yPosition" use="required" type="float" />
+															<attribute name="width" use="required" type="float" />
+															<attribute name="height" use="required" type="float" />
+														</complexType>
+													</element>
+													<element name="tvaos" maxOccurs="1" minOccurs="1">
+														<complexType>
+															<attribute name="xPosition" use="required" type="float" />
+															<attribute name="yPosition" use="required" type="float" />
+															<attribute name="width" use="required" type="float" />
+															<attribute name="height" use="required" type="float" />
+														</complexType>
+													</element>
+												</sequence>
+												<attribute name="dfc" use="required">
+													<simpleType>
+														<restriction base="string">
+															<enumeration value="DFC_PROCESSING_FULL" />
+															<enumeration value="DFC_PROCESSING_LB_16_9" />
+															<enumeration value="DFC_PROCESSING_LB_14_9" />
+															<enumeration value="DFC_PROCESSING_CCO" />
+															<enumeration value="DFC_PROCESSING_PAN_SCAN" />
+															<enumeration value="DFC_PROCESSING_LB_2_21_1_ON_4_3" />
+															<enumeration value="DFC_PROCESSING_LB_2_21_1_ON_16_9" />
+															<enumeration value="DFC_PLATFORM" />
+															<enumeration value="DFC_PROCESSING_16_9_ZOOM" />
+														</restriction>
+													</simpleType>
+												</attribute>
+											</complexType>
+										</element>
+									</sequence>
+									<attribute name="sourceId" type="string" use="required" />
+									<attribute name="afd" use="required">
+										<simpleType>
+											<restriction base="string">
+												<enumeration value="AFD_NOT_PRESENT" />
+												<enumeration value="AFD_16_9_TOP" />
+												<enumeration value="AFD_14_9_TOP" />
+												<enumeration value="AFD_GT_16_9" />
+												<enumeration value="AFD_SAME" />
+												<enumeration value="AFD_4_3" />
+												<enumeration value="AFD_16_9" />
+												<enumeration value="AFD_14_9" />
+												<enumeration value="AFD_4_3_SP_14_9" />
+												<enumeration value="AFD_16_9_SP_14_9" />
+												<enumeration value="AFD_16_9_SP_4_3" />
+											</restriction>
+										</simpleType>
+									</attribute>
+									<attribute name="ar" use="required">
+										<simpleType>
+											<restriction base="string">
+												<enumeration value="ASPECT_RATIO_UNKNOWN" />
+												<enumeration value="ASPECT_RATIO_4_3" />
+												<enumeration value="ASPECT_RATIO_16_9" />
+												<enumeration value="ASPECT_RATIO_2_21_1" />
+											</restriction>
+										</simpleType>
+									</attribute>
+								</complexType>
+							</element>
+						</sequence>
+						<attribute name="parHeight" />
+						<attribute name="parWidth" />
+						<attribute name="scrWidth" />
+						<attribute name="scrHeight" />
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+
+
+
+
+</schema>

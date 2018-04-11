@@ -1,0 +1,24 @@
+
+rxLog.info ("syncTest2 entering...");
+
+try
+{
+	rxLog.info ("syncTest2 registering...");
+	rxSyncClient.register ((byte)1 /* clientId */, (byte)2, 3000);
+
+	rxLog.info ("syncTest2 sleeping 1000...");
+	Thread.currentThread().sleep(1000);
+
+	rxLog.info ("syncTest2 syncing...");
+	rxSyncClient.sync ((byte)0 /* syncId */, 10000);
+
+	rxLog.info ("syncTest2 unregistering...");
+	rxSyncClient.unregister(3000);
+
+	rxLog.info ("syncTest2 done...");
+}
+catch (Exception ex)
+{
+	rxLog.error ("Exception: " , ex);
+
+}

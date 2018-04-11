@@ -1,0 +1,42 @@
+--- orig/ocStbHostSystemLoggingEventEntry.c	2012-01-11 09:27:30.000000000 -0700
++++ ocStbHostSystemLoggingEventEntry.c	2012-01-11 09:25:31.000000000 -0700
+@@ -12,6 +12,7 @@
+ void
+ init_ocStbHostSystemLoggingEventEntry(void)
+ {
++#if 0
+     static oid ocStbHostSystemLoggingEventIndex_oid[] = { 1,3,6,1,4,1,4491,2,3,1,1,4,3,5,5,1,1 };
+     static oid ocStbHostSystemLoggingEventTimeStamp_oid[] = { 1,3,6,1,4,1,4491,2,3,1,1,4,3,5,5,1,2 };
+     static oid ocStbHostSystemLoggingEventMessage_oid[] = { 1,3,6,1,4,1,4491,2,3,1,1,4,3,5,5,1,3 };
+@@ -33,8 +34,10 @@
+                                ocStbHostSystemLoggingEventMessage_oid, OID_LENGTH(ocStbHostSystemLoggingEventMessage_oid),
+                                HANDLER_CAN_RONLY
+         ));
++#endif
+ }
+ 
++#if 0
+ int
+ handle_ocStbHostSystemLoggingEventIndex(netsnmp_mib_handler *handler,
+                           netsnmp_handler_registration *reginfo,
+@@ -70,6 +73,7 @@
+                           netsnmp_agent_request_info   *reqinfo,
+                           netsnmp_request_info         *requests)
+ {
++    int ret;
+     /* We are never called for a GETNEXT if it's registered as a
+        "instance", as it's "magically" handled for us.  */
+ 
+@@ -99,6 +103,7 @@
+                           netsnmp_agent_request_info   *reqinfo,
+                           netsnmp_request_info         *requests)
+ {
++    int ret;
+     /* We are never called for a GETNEXT if it's registered as a
+        "instance", as it's "magically" handled for us.  */
+ 
+@@ -122,3 +127,4 @@
+ 
+     return SNMP_ERR_NOERROR;
+ }
++#endif

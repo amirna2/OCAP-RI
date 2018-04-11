@@ -1,0 +1,37 @@
+<!-- Main Entrypoint for defining the xml4j libraries properties.
+-->
+    <property name="_shared.dirs.3rdparty.xml4j"
+            value="${_shared.dirs.3rdparty}/xml4j" />
+    
+    
+    <!-- xml4j libraries -->
+    <property name="libs.xml4j.2_0_4"
+            value="${_shared.dirs.3rdparty.xml4j}/2.0.4/xml4j.jar" />
+    
+    <property name="javadoc.package-list.xml4j.2_0_4"
+            value="${_shared.dirs.3rdparty.xml4j}/2.0.4/package-list" />
+    <property name="javadoc.url.xml4j.2_0_4"
+            value="http://www-4.ibm.com/software/webservers/appserv/doc/v35/ae/apidocs" />
+    
+    <!-- Never discovered what the license was for this version -->
+    <property name="licenses.xml4j.2_0_4"
+            value="${_shared.dirs.3rdparty.xml4j}/2.0.4/package-list" />
+
+
+    <property name="libs.xml4j.4_0_1"
+            value="${_shared.dirs.3rdparty.xml4j}/4.0.1/xercesImpl.jar" />
+    
+    <property name="javadoc.package-list.xml4j.4_0_1"
+            value="${_shared.dirs.3rdparty.xml4j}/4.0.1/package-list" />
+    <property name="javadoc.url.xml4j.5_0"
+            value="http://jakarta.apache.org/bcel/manual/api/index.html" />
+    
+    <property name="licenses.xml4j.4_0_1"
+            value="${_shared.dirs.3rdparty.xml4j}/4.0.1/xml4j-license.html" />
+
+            
+    
+    
+    <property name="libs.xml4j.current"
+            value="${libs.xml4j.4_0_1}" />
+

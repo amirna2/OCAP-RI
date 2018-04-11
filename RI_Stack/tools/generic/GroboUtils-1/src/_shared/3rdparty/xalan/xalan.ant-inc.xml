@@ -1,0 +1,43 @@
+<!-- Main Entrypoint for defining the BCEL libraries properties.
+-->
+    <property name="_shared.dirs.3rdparty.xalan"
+            value="${_shared.dirs.3rdparty}/xalan" />
+    
+    
+    <!-- Xalan libraries -->
+    <property name="libs.xalan.2_3_1"
+            value="${_shared.dirs.3rdparty.xalan}/2.3.1/xalan.jar" />
+    <property name="libs.xalan.2_3_1.xmlapi"
+            value="${_shared.dirs.3rdparty.xalan}/2.3.1/xml-apis.jar" />
+    
+    <property name="javadoc.package-list.xalan.2_3_1"
+            value="${_shared.dirs.3rdparty.xalan}/2.3.1/package-list" />
+    <property name="javadoc.url.xalan.2_3_1"
+            value="http://xml.apache.org/xalan-j/apidocs" />
+    
+    <property name="licenses.xalan.2_3_1"
+            value="${_shared.dirs.3rdparty.xalan}/2.3.1/LICENSE.txt" />
+
+            
+    
+    <property name="libs.xalan.2_4_0"
+            value="${_shared.dirs.3rdparty.xalan}/2.4.0/xalan.jar" />
+    <property name="libs.xalan.2_4_0.xmlapi"
+            value="${_shared.dirs.3rdparty.xalan}/2.4.0/xml-apis.jar" />
+    
+    <property name="javadoc.package-list.xalan.2_4_0"
+            value="${_shared.dirs.3rdparty.xalan}/2.4.0/package-list" />
+    <property name="javadoc.url.xalan.2_4_0"
+            value="http://xml.apache.org/xalan-j/apidocs" />
+    
+    <property name="licenses.xalan.2_4_0"
+            value="${_shared.dirs.3rdparty.xalan}/2.4.0/LICENSE.txt" />
+
+            
+    
+    
+    <property name="libs.xalan.current"
+            value="${libs.xalan.2_4_0}" />
+    <property name="libs.xalan.current.xmlapi"
+            value="${libs.xalan.2_4_0.xmlapi}" />
+

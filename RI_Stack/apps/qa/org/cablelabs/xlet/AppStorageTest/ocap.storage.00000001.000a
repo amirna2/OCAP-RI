@@ -1,0 +1,21 @@
+<!-- Simple SCDF XML to be used with RegisteredApiManager.register() -->
+<?xml version="1.0"?>
+<!DOCTYPE applicationdescription
+          PUBLIC "-//OCAP//DTD Font Directory 1.0//EN" 
+                 "http://www.opencable.com/ocap/dtd/applicationdescriptionfile-1-0.dtd">
+
+<applicationdescription>
+
+  <dir name="org">
+    <dir name="cablelabs">
+      <dir name="xlet">
+        <dir name="AppStorageTest">
+          <file name="*" size="ignored"/>
+        </dir>
+      </dir>
+    </dir>
+  </dir>
+
+</applicationdescription>
+
+

@@ -1,0 +1,16 @@
+Release Notes 
+
+This release contains Stubs and Javadoc for:
+
+1. OCAP ${project.version} -- released docs and stubs correspond to current released OCAP ${project.version} Specs
+
+Other packages are as follows:
+
+2. OCAP_DS ${ocap.ds.spec.version}
+
+3. OCAP_DVR ${ocap.dvr.spec.version}
+
+4. OCAP_FP ${ocap.fp.spec.version}
+
+5. OCAP_HN ${ocap.hn.spec.version}
+

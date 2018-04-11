@@ -1,0 +1,12 @@
+<?xml version="1.0" ?> 
+<!DOCTYPE permissionrequestfile PUBLIC "-//OCAP//DTD Permission Request File 1.0//EN" "http://www.opencable.com/ocap/dtd/ocappermissionrequestfile-1-0.dtd"> 
+ 
+<permissionrequestfile appid="0x4606" orgid="0x00000001"> 
+
+	<!-- We can lookup objects from any service, but only from our org -->
+	<ocap:ixc scope="xservice" oid="1" action="lookup" />
+
+	<!-- We can only bind objects that start with the name "MyObject" -->
+	<ocap:ixc name="MyObject*" action="bind" />
+
+</permissionrequestfile> 

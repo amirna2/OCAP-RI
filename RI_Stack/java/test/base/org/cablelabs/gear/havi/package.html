@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+</head>
+<body bgcolor="white">
+
+The <code>org.cablelabs.gear.havi</code> package (and its sub-packages) contain
+the extensions to the HAVi Level 2 User Interface component library that 
+make up the SNAP2 GEAR for HAVi product.  
+It includes, among other things, JavaBean <code>Component</code> classes, 
+HAVi <code>HLook</code> implementations, and utility and support classes.  
+The package targets the HAVi API in general, not relying on any particular
+implementation (including the SNAP2 HAVi implementation).  
+
+<h2>Package Specification</h2>
+
+The <code>org.cablelabs.gear.havi</code> package is made up of the 
+following types of HAVi-compatible classes:
+
+  <ul>
+    <li> Replacement components
+    <li> Additional JavaBeans components
+    <li> Containers
+    <li> Support classes
+  </ul>
+
+Additionally, the {@link org.cablelabs.gear.havi.decorator} subpackage contains 
+the SNAP2 GEAR implementations of the <code>HLook</code> interface,
+with some notable additions.  
+
+<h3>Replacement Components</h3>
+
+The core of the <code>org.cablelabs.gear.havi</code> package is made up
+of JavaBeans-compatible implementations of the HAVi UI interfaces
+(e.g., {@link org.havi.ui.HNavigable} and {@link org.havi.ui.HActionable}).
+These implementations are meant as a functional replacement for the
+HAVi implementations (e.g., <code>HStaticIcon</code>, 
+<code>HStaticText</code>, <code>HGraphicButton</code>, and 
+<code>HTextButton</code>).  
+
+<p>
+
+One notable difference between the GEAR for HAVi components and those that
+they replace is the lack of distinction between content types.  Where
+HAVi has separate class hierarchies for text-based, image-based, and
+animation-based components, the GEAR replacements only have one.  
+The {@link org.cablelabs.gear.havi.Label} class is a replacement for 
+{@link org.havi.ui.HStaticText}, {@link org.havi.ui.HStaticIcon}, as well
+as {@link org.havi.ui.HStaticAnimation}.  
+The {@link org.cablelabs.gear.havi.Button} class is a replacement for 
+{@link org.havi.ui.HTextButton} and {@link org.havi.ui.HGraphicButton}
+(HAVi does not define an <code>HActionable</code> <code>HAnimateEffect</code>
+implementation).
+This functionality is enabled simply by the fact that the GEAR component
+hiearchy places no restrictions on the <code>HLook</code> implementations
+that can be associated with a component.  Whether a <code>Button</code>
+functions like an <code>HTextButton</code> or a <code>HGraphicButton</code>
+is simply dependent upon the type of content and the look associated with
+it.
+
+<p>
+
+GEAR for HAVi's support of the three types of <code>HVisible</code>
+content doesn't stop there.  The entire <code>Label</code> hierarchy
+implements the {@link org.havi.ui.HAnimateEffect} interface.  It is 
+possible for a button to display an image, an animation, and text all
+at the same time.  
+
+<p>
+
+Also, the GEAR for HAVi components adhere to the JavaBeans specification
+with respect to naming conventions allowing them to be used within 
+JavaBeans design tools.  Proper getter and setter methods are provided
+for all properties, including so-called <i>indexed</i> properties.  
+This is one of the shortcomings of the HAVi components that necessitated
+the GEAR for HAVi extensions.  
+
+<h3>Support classes</h3>
+
+GEAR for HAVi also provides implementations of the HAVi 
+{@link org.havi.ui.HTextLayoutManager text layout manager} interface
+and the <code>java.awt.LayoutManager</code> interface.  
+The {@link org.cablelabs.gear.havi.GearTextLayoutManager} provides additional
+features beyond the HAVi default.
+The {@link org.cablelabs.gear.havi.SnapLayout} layout manager can be used
+to automatically set up <code>HNavigable</code> focus traversals.  
+
+<h3>Additional Components</h3>
+
+In addition to the replacement components, GEAR for HAVi also provides a
+number of useful JavaBeans-compatible components.  Notable among this 
+group is the {@link org.cablelabs.gear.havi.BackgroundVideo} component
+which is useful in JavaTV environments for sizing and positioning of
+the background video stream.  
+
+<h3>Containers</h3>
+
+GEAR for HAVi provides a hierarchy of <code>HContainer</code> extensions.
+At the top of this hierarchy is the 
+{@link org.cablelabs.gear.havi.FocusContainer} class which is essentially
+an <code>HContainer</code> which implements the <code>HNavigable</code>
+interface.  The main purpose of a <code>FocusContainer</code> is to 
+simplify the job of component traversals.  
+The {@link org.cablelabs.gear.havi.SnapContainer} class extends 
+<code>FocusContainer</code> to automatically set up focus traversals 
+between child components.  
+And finally, the {@link org.cablelabs.gear.havi.GearPanel} class provides
+support for background fill/images and double-buffering.  
+
+<!--
+<h2>Related Documentation</h2>
+
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+<ul>
+	<li><i><u>Insert</u> references here...</i>
+</ul>
+-->
+
+<!-- Put @see and @since tags down here. -->
+
+@since Gear 1.0
+
+@author Aaron Kamienski
+@version $Revision: 1.4 $, $Date: 2002/06/03 21:33:19 $
+
+</body>
+</html>

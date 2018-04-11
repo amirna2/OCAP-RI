@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+</head>
+<body bgcolor="white">
+
+The <code>org.cablelabs.impl.manager</code> package represents the <i>Java Manager
+Framework</i> for the OCAP-1.0 implementation.  This includes the basic 
+<code>Manager</code> interface, as well as sub-interfaces for specific management
+functionality (e.g., <code>ApplicationManager</code>).
+
+<h2>Java Manager Framework</h2>
+
+The architecture of the <i>Java Manager Framework</i> is centered around
+the <code>ManagerManager</code> class -- the manager of managers.  It's 
+primary purpose is to serve as the gateway to all concrete implementations
+of the <code>Manager</code> interfaces.  Manager instances are accessed 
+via the {@link org.cablelabs.impl.manager.ManagerManager#getInstance(Class)} 
+method; created and initialized on demand.  The <code>ManagerManager</code> 
+class also includes methods for pre-launching and shutting down all 
+<code>Manager</code>s.
+
+<p>
+
+The <code>ManagerManager</code> is configurable, allowing different
+concrete implementations of <code>Manager</code> interfaces to be 
+specified.  This allows the rest of the OCAP-1.0 implementation to
+rely on the manager interfaces and not the specific implementation.
+
+<p>
+
+The following <code>Manager</code> sub-interfaces are defined:
+
+<ul>
+<li> {@link org.cablelabs.impl.manager.ApplicationManager}
+<li> {@link org.cablelabs.impl.manager.CallerContextManager}
+<li> {@link org.cablelabs.impl.manager.EASManager}
+<li> {@link org.cablelabs.impl.manager.EventManager}
+<li> {@link org.cablelabs.impl.manager.FocusManager}
+<li> {@link org.cablelabs.impl.manager.GraphicsManager}
+<li> {@link org.cablelabs.impl.manager.NetManager}
+<li> {@link org.cablelabs.impl.manager.ResourceManager}
+<li> {@link org.cablelabs.impl.manager.ServiceManager}
+<li> {@link org.cablelabs.impl.manager.SignallingManager}
+<li> {@link org.cablelabs.impl.manager.SystemManager}
+<li> {@link org.cablelabs.impl.manager.TimerManager}
+</ul>
+
+<h2>CallerContext</h2>
+
+The {@link org.cablelabs.impl.manager.CallerContext} interface, as well as 
+its associated manager (the <code>CallerContextManager</code>) serve as 
+the gateway to the <i>logical VM rule</i> for other managers.  The OCAP-1.0
+specification requires that each application appear to run within
+its own <i>logical</i> VM instance.  To the <i>Java Manager Framework</i>,
+the <code>CallerContext</code> is the embodiment of the logical VM
+instance.  
+<p>
+Manager implementation code can retrieve a reference to
+the logical VM context for the calling application using the 
+{@link org.cablelabs.impl.manager.CallerContextManager#getCurrentContext}
+method.  The <code>CallerContext</code> instance can be used to 
+map various resources within the manager implementation (e.g., by
+using it as a key in a table).  However, the <code>CallerContext</code>
+interface provides explicit support for resource attribution and
+lifecycle change notification via the {@link org.cablelabs.impl.manager.CallbackData}
+interface.
+<p>
+The <code>CallerContext</code> interface allows a manager to associate
+<code>CallbackData</code> objects with the caller context.  These objects
+can encapsulate whatever data the manager wishes to associate with the
+caller context.  In addition, the <code>CallbackData</code> object is
+notified when the lifecycle of the caller context changes.  
+The <code>CallbackData</code> object serves as both a data wrapper and
+a callback interface.
+<p>
+The <code>CallerContext</code> interface also provides the ability to
+execute code within the context of the calling application.  This is done
+via the {@link org.cablelabs.impl.manager.CallerContext#runInContext} methods.
+The use of <code>runInContext</code> is preferred when calling application-installed
+listener callbacks so that application code is executed only within the context
+of the application.  In other words, application code is executed on 
+application-specific thread(s).
+
+<h2>AppDomain</h2>
+
+The {@link org.cablelabs.impl.manager.AppDomain} interface provide for the
+implementation of service selection as it relates to application acquisition
+and launching.  An instance of <code>AppDomain</code> is maintained by
+each instance of <code>ServiceContext</code>.
+
+<!-- Put @see and @since tags down here. -->
+
+@since Gear 1.0
+
+@author Aaron Kamienski
+@version $Revision$, $Date$
+
+</body>
+</html>

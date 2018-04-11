@@ -1,0 +1,117 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+Window FNT Fonts
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FT_WinFNT_HeaderRec_">FT_WinFNT_HeaderRec_</a></td><td></td><td><a href="#FT_Get_WinFNT_Header">FT_Get_WinFNT_Header</a></td><td></td><td></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>This section contains the declaration of Windows FNT specific functions.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FT_WinFNT_HeaderRec_">
+<h4>FT_WinFNT_HeaderRec_</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  <b>FT_WinFNT_HeaderRec_</b>
+  {
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  version;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>   file_size;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    copyright[60];
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  file_type;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  nominal_point_size;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  vertical_resolution;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  horizontal_resolution;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  ascent;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  <font color="darkblue">internal_leading</font>;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  external_leading;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    italic;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    underline;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    strike_out;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  weight;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    <font color="darkblue">charset</font>;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  pixel_width;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  pixel_height;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    pitch_and_family;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  avg_width;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  max_width;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    first_char;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    last_char;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    default_char;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    break_char;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  bytes_per_row;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>   device_offset;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>   face_name_offset;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>   bits_pointer;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>   bits_offset;
+    <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>    reserved;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>   flags;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  A_space;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  B_space;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  C_space;
+    <a href="ft2-basic_types.html#FT_UShort">FT_UShort</a>  color_table_offset;
+    <a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>   reserved1[4];
+
+  } FT_WinFNT_HeaderRec, *FT_WinFNT_Header;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Windows FNT Header info.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Get_WinFNT_Header">
+<h4>FT_Get_WinFNT_Header</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  FT_EXPORT( <a href="ft2-basic_types.html#FT_Error">FT_Error</a> )
+  <b>FT_Get_WinFNT_Header</b>( <a href="ft2-base_interface.html#FT_Face">FT_Face</a>              face,
+                        FT_WinFNT_HeaderRec *header );
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Retrieves a Windows FNT font info header.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>face</b></td><td>
+<p>handle to input face</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>output</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>header</b></td><td>
+<p>WinFNT header.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>return</b></em></td></tr><tr><td>
+<p>FreeType error code. 0 means success.</p>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>This function only works with Windows FNT faces, returning an erro otherwise.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

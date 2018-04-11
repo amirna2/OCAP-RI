@@ -1,0 +1,447 @@
+// COPYRIGHT_BEGIN
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+//  
+//  Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+//  
+//  This software is available under multiple licenses: 
+//  
+//  (1) BSD 2-clause 
+//   Redistribution and use in source and binary forms, with or without modification, are
+//   permitted provided that the following conditions are met:
+//        ·Redistributions of source code must retain the above copyright notice, this list 
+//             of conditions and the following disclaimer.
+//        ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+//             and the following disclaimer in the documentation and/or other materials provided with the 
+//             distribution.
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+//   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+//   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+//   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+//   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+//   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+//   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+//   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+//   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+//   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//  
+//  (2) GPL Version 2
+//   This program is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, version 2. This program is distributed
+//   in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+//   even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//   PURPOSE. See the GNU General Public License for more details.
+//  
+//   You should have received a copy of the GNU General Public License along
+//   with this program.If not, see<http:www.gnu.org/licenses/>.
+//  
+//  (3)CableLabs License
+//   If you or the company you represent has a separate agreement with CableLabs
+//   concerning the use of this code, your rights and obligations with respect
+//   to this code shall be as set forth therein. No license is granted hereunder
+//   for any other purpose.
+//  
+//   Please contact CableLabs if you need additional information or 
+//   have any questions.
+//  
+//       CableLabs
+//       858 Coal Creek Cir
+//       Louisville, CO 80027-9750
+//       303 661-9100
+// COPYRIGHT_END
+
+
+int milliNanoConversion = 1000000;
+boolean startHNPlayback(boolean isRemoteService,int cdsIndex, int contentItemIndex)
+{
+    int playbackType = rxDriverCore.PLAYBACK_TYPE_JMF;
+    if(isRemoteService)
+    {
+         playbackType = rxDriverCore.PLAYBACK_TYPE_SERVICE;
+    }
+
+    return rxDriverHN.playbackStart(playbackType, cdsIndex, contentItemIndex, 30);
+}
+
+void hnPlayNext()
+{
+    rxDriverHN.playNext();
+}
+
+void hnPlayPrevious()
+{
+    rxDriverHN.playPrevious();
+}
+
+
+float getPlayerRate(int rateIndex)
+{
+    return rxDriverCore.getPlayRate(rateIndex);
+}   
+
+int getPlayerRateIndex(float playRate)
+{
+    return rxDriverCore.getPlayRateIndex(playRate);
+}   
+
+float getPlaybackRate()
+{
+    return rxDriverCore.getPlaybackRate();
+}
+
+boolean setPlayerRate(float playRate)
+{
+    int rateIndex = getPlayerRateIndex(playRate);
+    return setPlayerRate(rateIndex);
+}
+
+boolean setPlayerRate(int playRateIndex)
+{
+    return rxDriverCore.playbackChangeRate(playRateIndex);
+}
+
+boolean startPlayback()
+{
+    return rxDriverDVR.playbackStart(0, 30);
+}
+
+boolean stopPlayback()
+{
+   boolean retVal = false;
+   retVal = rxDriverCore.playbackStop(30);
+   if (retVal == false)
+   {
+       rxLog.callTrace ("Failure stopping the playback ", this.callstack);
+   }
+   else
+   {
+       rxLog.callTrace ("Success in stopping the playback ", this.callstack);
+   }
+   return retVal;
+}
+
+boolean waitForSecs(int playbackSecs)
+{
+    boolean returnValue = true;
+    try
+    {
+        if (playbackSecs != -1)
+        {
+            Thread.sleep(playbackSecs * 1000);
+            returnValue = true;
+        }
+    }
+    catch(Exception e)
+    {
+        returnValue = false;
+    }
+    return returnValue;
+}
+
+double getPlaybackDurationSecs()
+{
+    return rxDriverCore.getPlaybackDurationSecs();
+}
+
+long getPlaybackPosition()
+{
+  // returns the nano second time.
+  return rxDriverCore.getPlaybackPosition();
+}
+
+long getPlaybackPositionNS()
+{
+    // returns playbackPosition time in nano-seconds.
+     return rxDriverCore.getPlaybackPositionNS();
+}
+
+int getMediaTimeSecs()
+{
+    // returns media time in seconds.
+    int mediaTimeSecs = (int)rxDriverCore.getPlaybackPositionSecs();
+    return mediaTimeSecs;
+}
+
+boolean checkPlaybackPosition(int secs)
+{
+    boolean returnValue = false;
+    long mediaTimeMS = getPlaybackPosition()/milliNanoConversion;
+    rxLog.info("playbackPosition is at "+mediaTimeMS +" ms");
+    if(mediaTimeMS < (secs*1000))
+    {
+        returnValue = true;
+    }
+    return returnValue;
+}
+
+boolean checkPlaybackPosition(int timeLow, int timeHigh)
+{
+    boolean returnValue = true;
+    long mediaTimeMS = getPlaybackPosition()/milliNanoConversion;
+    rxLog.info("playbackPosition is at "+mediaTimeMS +" ms");
+    if(mediaTimeMS < (timeLow*1000) || mediaTimeMS > (timeHigh*1000))
+    {
+        returnValue = false;
+    }
+    return returnValue;
+}
+
+boolean waitForState(long timeOutSecs, int playbackState)
+{
+    int waitCnt = 0;
+    while (waitCnt <= timeOutSecs)
+    {
+        try
+        {
+            int currentPlaybackState = rxDriverCore.playbackGetState();
+            rxLog.info("waiting for state = " + getPlaybackStateStr(playbackState) + 
+                    ", current state = " + getPlaybackStateStr(currentPlaybackState) + 
+                    ", elapsed secs: " + waitCnt + ", max allowed: " + timeOutSecs);
+            
+            if (currentPlaybackState != playbackState)
+            {
+                Thread.sleep(1000);
+                waitCnt++;
+            }
+            else
+            {
+                rxLog.info("waitForState() at desired state: "+ playbackState);
+                return true;
+            }
+        }
+        catch(Exception e)
+        {
+            rxLog.warn("waitForState() caught Exception: "+ e.toString(), e);
+            return false;
+        }
+    };
+    return false;
+}
+
+boolean waitForBOS(long timeOutSecs)
+{
+    return waitForState(timeOutSecs, rxDriverCore.PLAYBACK_STATE_BEGINNING_OF_CONTENT);
+}
+boolean waitForEOS(long timeOutSecs)
+{
+    return waitForState(timeOutSecs, rxDriverCore.PLAYBACK_STATE_END_OF_CONTENT);
+}
+
+boolean playInScaledMode()
+{
+    // this plays in quarter screen
+    boolean retVal = rxDriverCore.playbackTransformVideo((float)0.5, (float)0.5, 0, 0);
+}
+
+int getDurationSecs()
+{
+    // Convert nanosecs to secs
+    int durationSecs = (int)rxDriverCore.getPlaybackDurationSecs();
+    return durationSecs;
+}
+
+String getPlaybackStateStr(int playbackState)
+{
+    String playbackStateStr = "Unknown";
+    switch (playbackState)
+    {
+        case rxDriverCore.PLAYBACK_STATE_BEGINNING_OF_CONTENT:
+            playbackStateStr = "BOS";
+            break;
+        case rxDriverCore.PLAYBACK_STATE_END_OF_CONTENT:
+            playbackStateStr = "EOS";
+            break;
+        case rxDriverCore.PLAYBACK_STATE_PRESENTING:
+            playbackStateStr = "PRESENTING";
+            break;
+        case rxDriverCore.PLAYBACK_STATE_PAUSED:
+            playbackStateStr = "PAUSED";
+            break;
+        case rxDriverCore.PLAYBACK_STATE_FAILED:
+            playbackStateStr = "FAILED";
+            break;
+        default:
+            // returning unknown
+    }
+    return playbackStateStr;
+}
+
+/**
+ * Method which initiates rewind at specified rate, until BOS is encountered,
+ * waiting a maximum amount of time calculated using current media time and allowing
+ * a range using supplied tolerance.
+ * 
+ * @param   testName        name of caller, used in logging
+ * @param   rate            desired rate of playback to set
+ * @param   toleranceSecs   amount of time in secs used for +/- range
+ * 
+ * @return  string indicating failure, null if no failures occur
+ */
+String rewindToBOS(String testName, float rate, int toleranceSecs)
+{
+    String failureReason = null;
+
+    if (null != (failureReason = rateChangeHelper(testName, rate)))
+    {
+        return failureReason;
+    }
+
+    rxLog.info(testName + " - rewind to BOS at " + rate + " has started");
+    
+    // determine amount of time to wait for BOS
+    int waitTime = -(getMediaTimeSecs() / rate) + toleranceSecs;
+    if (!waitForBOS(waitTime))
+    {
+        failureReason = "Failed to receive playback event: PLAYER_CONTROLLER_BEGINNING_OF_CONTENT within " +
+                        waitTime + " seconds for rewind rate " + rate;
+        rxLog.callTrace("Failure Did not receive PLAYER_CONTROLLER_BEGINNING_OF_CONTENT within " +
+                        waitTime + " seconds for rewind rate " + rate + ": current playbackPosition is " +
+                        getMediaTimeSecs(), this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed receive PLAYER_CONTROLLER_BEGINNING_OF_CONTENT within " +
+            waitTime + " seconds for rewind rate of " + rate);
+
+    return failureReason;
+}
+/*
+String fwdToEOS(String testName, float playerRate)
+{
+    int playbackLength = getDurationSecs();
+    return fwdToEOS(testName, playerRate, playbackLength, 10);
+}
+*/
+/**
+ * Method which initiates fast forwards at specified rate, until EOS is encountered,
+ * waiting a maximum amount of time calculated using supplied length and allowing
+ * a range using supplied tolerance.
+ * 
+ * @param   testName            name of caller, used in logging
+ * @param   playerRate          desired rate of playback to set
+ * @param   playbackLengthSecs  amount of time in secs of content in normal play time
+ * @param   toleranceSecs       amount of time in secs used for +/- range
+ * 
+ * @return  string indicating failure, null if no failures occur
+ */
+String fwdToEOS(String testName, float playerRate, int playbackLengthSecs, int toleranceSecs)
+{
+    String failureReason = null;
+    
+    if ((failureReason = rateChangeHelper(testName,playerRate)) != null)
+    {
+        return failureReason;
+    }
+    rxLog.info(testName + " - Fast Fwd to EOS at " + playerRate + " has started");
+    
+    //Determine EOS wait time
+    int currentTime = getMediaTimeSecs();
+    int eosWaitTime = ((playbackLengthSecs - currentTime)/playerRate) + toleranceSecs;
+    
+    rxLog.info(testName + " - waiting " + eosWaitTime + " secs for EOS event, duration: " + playbackLengthSecs +
+                ", current time: " + currentTime + ", rate: " + playerRate);
+    
+    // check for EOS
+    if (!waitForEOS(eosWaitTime))
+    {
+        failureReason = "Failed to receive playback event: PLAYER_CONTROLLER_END_OF_CONTENT";
+        rxLog.callTrace ("Failure - Did not receive PLAYER_CONTROLLER_END_OF_CONTENT: ", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Received EOS at end of ffwd at rate " + playerRate);
+    
+    return failureReason;
+}
+
+/*
+String play(String testName, int durationSecs, int toleranceSecs)
+{
+    String failureReason = null;
+
+    float rate = (float) 1.0;
+    failureReason = rateChangeHelper(testName, rate);
+ 
+    int startPlayTime = getMediaTimeSecs();
+
+    // Wait for playback
+    if (!waitForSecs(durationSecs))
+    {
+        failureReason = testName + " Problems with playback";
+        rxLog.callTrace (testName + " - Failure while waiting for playback", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed playback for " + durationSecs + " seconds");
+
+    // verify current media time is within range 
+    int currentTime = getMediaTimeSecs();
+    int minTime = startPlayTime + durationSecs - toleranceSecs;
+    int maxTime = startPlayTime + durationSecs + toleranceSecs;
+    if (currentTime > maxTime || currentTime < minTime)
+    {
+        failureReason = testName + " At unexpected media time after playing for " + durationSecs + " secs";
+        rxLog.callTrace(testName + " - Failure - unexpected media time after playing for " + 
+                        durationSecs + " secs.  Media Time is " + currentTime + " secs, expected it to be between " +
+                        minTime + " and " + maxTime, this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Media time is within range after playback for " + durationSecs + " seconds");
+
+    return failureReason;
+}
+*/
+
+/**
+ * Method which initiates playback at specified trick mode, waits for specified duration and
+ * then verifies that media time is within expected range using supplied tolerance.
+ * 
+ * @param   testName        name of caller, used in logging
+ * @param   durationSecs    amount of time in secs to play at 1x
+ * @param   toleranceSecs   amount of time in secs used for +/- range
+ * 
+ * @return  string indicating failure, null if no failures occur
+ */
+String playToMediaTime(String testName, float rate, int waitTimeSecs, int toleranceSecs)
+{
+    String failureReason = null;
+
+    if ((failureReason = rateChangeHelper(testName, rate)) != null)
+    {
+        return failureReason;
+    }
+    rxLog.info(testName + " - Playback at " + rate + " has started");    
+
+    int trickStartTime = getMediaTimeSecs();
+    
+    // Wait for playback
+    if (!waitForSecs(waitTimeSecs))
+    {
+        failureReason = testName + " Problems with playback";
+        rxLog.callTrace(testName + " - Failure while waiting for playback", this.callstack);
+        return failureReason;
+    }
+    rxLog.info(testName + " - Completed playback for " + waitTimeSecs + " seconds");
+    
+    // Verify current media time is within range
+    int currentTime = getMediaTimeSecs();
+    int minTime = trickStartTime + (waitTimeSecs*rate) - toleranceSecs;
+    int maxTime = trickStartTime + (waitTimeSecs*rate) + toleranceSecs;
+    if (minTime < 0)
+    {
+        minTime = 0;
+    }
+    if (maxTime < 0)
+    {
+        maxTime = toleranceSecs;
+    }
+    if (currentTime < minTime || currentTime > maxTime)
+    {
+        failureReason = testName + " - Unexpected mediatime for the playback after trickmode of " + rate;
+        rxLog.callTrace(testName + " - Unexpected mediatime for the playback after trickomde of " + rate +
+                        ". The mediatime expected to be between " + minTime + " and " + maxTime +
+                         " but current time is " + currentTime, this.callstack);
+        return failureReason;
+    }
+    return failureReason;
+}
+
+

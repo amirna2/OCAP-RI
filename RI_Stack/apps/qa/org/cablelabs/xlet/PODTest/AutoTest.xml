@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+   	<!-- TEST SEQUENCE 1 
+   		Get the instance
+  	 -->
+  	 
+ 	<Xlet name="PODTest" orgID="0x1" appID="0x7202" pauseAfterLast="5000" startupTimeout="10000">
+		<RCEvent name="isReady" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_8</RCEvent>
+ 	</Xlet>
+ 	<Xlet name="PODTest" orgID="0x1" appID="0x7202" pauseAfterLast="5000" startupTimeout="10000">
+		<RCEvent name="getManufacturerID" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_6</RCEvent>
+ 	</Xlet> 	
+ 	<Xlet name="PODTest" orgID="0x1" appID="0x7202" pauseAfterLast="5000" startupTimeout="10000">
+		<RCEvent name="getVersionNumber" pauseBeforeNext="1000" monitorTimeout="0" getResultsAfter="true">VK_7</RCEvent>
+ 	</Xlet> 
+</AutoXlet>
+   

@@ -1,0 +1,801 @@
+<html>
+<header>
+<title>FreeType-2.1.4 API Reference</title>
+<basefont face="Verdana,Geneva,Arial,Helvetica">
+<style content="text/css">
+  P { text-align=justify }
+  H1 { text-align=center }
+  LI { text-align=justify }
+</style>
+</header>
+<body text=#000000
+      bgcolor=#FFFFFF
+      link=#0000EF
+      vlink=#51188E
+      alink=#FF0000>
+<center><h1>FreeType-2.1.4 API Reference</h1></center>
+
+<center><h1>
+Basic Data Types
+</h1></center>
+<h2>Synopsys</h2><font color="cyan">
+<center><table cellspacing=5 cellpadding=0 border=0>
+<tr><td></td><td><a href="#FT_Byte">FT_Byte</a></td><td></td><td><a href="#FT_Error">FT_Error</a></td><td></td><td><a href="#FT_Pixel_Mode">FT_Pixel_Mode</a></td></tr>
+<tr><td></td><td><a href="#FT_Char">FT_Char</a></td><td></td><td><a href="#FT_Fixed">FT_Fixed</a></td><td></td><td><a href="#ft_pixel_mode_xxx">ft_pixel_mode_xxx</a></td></tr>
+<tr><td></td><td><a href="#FT_Int">FT_Int</a></td><td></td><td><a href="#FT_Pointer">FT_Pointer</a></td><td></td><td><a href="#FT_Palette_Mode">FT_Palette_Mode</a></td></tr>
+<tr><td></td><td><a href="#FT_UInt">FT_UInt</a></td><td></td><td><a href="#FT_Pos">FT_Pos</a></td><td></td><td><a href="#FT_Bitmap">FT_Bitmap</a></td></tr>
+<tr><td></td><td><a href="#FT_Short">FT_Short</a></td><td></td><td><a href="#FT_Vector">FT_Vector</a></td><td></td><td><a href="#FT_IMAGE_TAG">FT_IMAGE_TAG</a></td></tr>
+<tr><td></td><td><a href="#FT_UShort">FT_UShort</a></td><td></td><td><a href="#FT_BBox">FT_BBox</a></td><td></td><td><a href="#FT_Glyph_Format">FT_Glyph_Format</a></td></tr>
+<tr><td></td><td><a href="#FT_Long">FT_Long</a></td><td></td><td><a href="#FT_Matrix">FT_Matrix</a></td><td></td><td><a href="#ft_glyph_format_xxx">ft_glyph_format_xxx</a></td></tr>
+<tr><td></td><td><a href="#FT_ULong">FT_ULong</a></td><td></td><td><a href="#FT_FWord">FT_FWord</a></td><td></td><td><a href="#FT_Data">FT_Data</a></td></tr>
+<tr><td></td><td><a href="#FT_Bool">FT_Bool</a></td><td></td><td><a href="#FT_UFWord">FT_UFWord</a></td><td></td><td><a href="#FT_Generic_Finalizer">FT_Generic_Finalizer</a></td></tr>
+<tr><td></td><td><a href="#FT_Offset">FT_Offset</a></td><td></td><td><a href="#FT_F2Dot14">FT_F2Dot14</a></td><td></td><td><a href="#FT_Generic">FT_Generic</a></td></tr>
+<tr><td></td><td><a href="#FT_PtrDist">FT_PtrDist</a></td><td></td><td><a href="#FT_UnitVector">FT_UnitVector</a></td><td></td><td><a href="#FT_MAKE_TAG">FT_MAKE_TAG</a></td></tr>
+<tr><td></td><td><a href="#FT_String">FT_String</a></td><td></td><td><a href="#FT_F26Dot6">FT_F26Dot6</a></td><td></td><td></td></tr>
+</table></center><br><br>
+</font>
+<center><table width=87%><tr><td>
+<p>This section contains the basic data types defined by FreeType 2, ranging from simple scalar types to bitmap descriptors. More font-specific structures are defined in a different section.</p>
+</td></tr></table></center><br>
+<center><table width=75%><tr><td>
+<a name="FT_Byte">
+<h4>FT_Byte</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">unsigned</font> <font color="darkblue">char</font>  <b>FT_Byte</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple typedef for the <i>unsigned</i> char type.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Char">
+<h4>FT_Char</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">signed</font> <font color="darkblue">char</font>  <b>FT_Char</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple typedef for the <i>signed</i> char type.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Int">
+<h4>FT_Int</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">int</font>  <b>FT_Int</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A typedef for the int type.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_UInt">
+<h4>FT_UInt</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">unsigned</font> <font color="darkblue">int</font>  <b>FT_UInt</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A typedef for the unsigned int type.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Short">
+<h4>FT_Short</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">signed</font> <font color="darkblue">short</font>  <b>FT_Short</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A typedef for signed short.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_UShort">
+<h4>FT_UShort</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">unsigned</font> <font color="darkblue">short</font>  <b>FT_UShort</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A typedef for unsigned short.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Long">
+<h4>FT_Long</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">signed</font> <font color="darkblue">long</font>  <b>FT_Long</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A typedef for signed long.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_ULong">
+<h4>FT_ULong</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">unsigned</font> <font color="darkblue">long</font>  <b>FT_ULong</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A typedef for unsigned long.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Bool">
+<h4>FT_Bool</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">unsigned</font> <font color="darkblue">char</font>  <b>FT_Bool</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A typedef of unsigned char, used for simple booleans.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Offset">
+<h4>FT_Offset</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> size_t  <b>FT_Offset</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This is equivalent to the ANSI C `size_t' type, i.e. the largest <i>unsigned</i> integer type used to express a file size or position, or a memory block size.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_PtrDist">
+<h4>FT_PtrDist</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> size_t  <b>FT_PtrDist</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This is equivalent to the ANSI C `ptrdiff_t' type, i.e. the largest <i>signed</i> integer type used to express the distance between two pointers.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_String">
+<h4>FT_String</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">char</font>  <b>FT_String</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple typedef for the char type, usually used for strings.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Error">
+<h4>FT_Error</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">int</font>  <b>FT_Error</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>The FreeType error code type. A value of 0 is always interpreted as a successful operation.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Fixed">
+<h4>FT_Fixed</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">signed</font> <font color="darkblue">long</font>  <b>FT_Fixed</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This type is used to store 16.16 fixed float values, like scales or matrix coefficients.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Pointer">
+<h4>FT_Pointer</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>*  <b>FT_Pointer</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple typedef for a typeless pointer.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Pos">
+<h4>FT_Pos</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">signed</font> <font color="darkblue">long</font>  <b>FT_Pos</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>The type FT_Pos is a 32-bit integer used to store vectorial coordinates. Depending on the context, these can represent distances in integer font units, or 26.6 fixed float pixel coordinates.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Vector">
+<h4>FT_Vector</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Vector_
+  {
+    <a href="ft2-basic_types.html#FT_Pos">FT_Pos</a>  x;
+    <a href="ft2-basic_types.html#FT_Pos">FT_Pos</a>  y;
+
+  } <b>FT_Vector</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple structure used to store a 2D vector; coordinates are of the FT_Pos type.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>x</b></td><td>
+<p>The horizontal coordinate.</p>
+</td></tr>
+<tr valign=top><td><b>y</b></td><td>
+<p>The vertical coordinate.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_BBox">
+<h4>FT_BBox</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_BBox_
+  {
+    <a href="ft2-basic_types.html#FT_Pos">FT_Pos</a>  xMin, yMin;
+    <a href="ft2-basic_types.html#FT_Pos">FT_Pos</a>  xMax, yMax;
+
+  } <b>FT_BBox</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to hold an outline's bounding box, i.e., the coordinates of its extrema in the horizontal and vertical directions.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>xMin</b></td><td>
+<p>The horizontal minimum (left-most).</p>
+</td></tr>
+<tr valign=top><td><b>yMin</b></td><td>
+<p>The vertical minimum (bottom-most).</p>
+</td></tr>
+<tr valign=top><td><b>xMax</b></td><td>
+<p>The horizontal maximum (right-most).</p>
+</td></tr>
+<tr valign=top><td><b>yMax</b></td><td>
+<p>The vertical maximum (top-most).</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Matrix">
+<h4>FT_Matrix</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Matrix_
+  {
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>  xx, xy;
+    <a href="ft2-basic_types.html#FT_Fixed">FT_Fixed</a>  yx, yy;
+
+  } <b>FT_Matrix</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple structure used to store a 2x2 matrix. Coefficients are in 16.16 fixed float format. The computation performed is:</p>
+<font color=blue><pre>
+   x' = x*xx + y*xy                                             
+   y' = x*yx + y*yy                                             
+</pre></font>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>xx</b></td><td>
+<p>Matrix coefficient.</p>
+</td></tr>
+<tr valign=top><td><b>xy</b></td><td>
+<p>Matrix coefficient.</p>
+</td></tr>
+<tr valign=top><td><b>yx</b></td><td>
+<p>Matrix coefficient.</p>
+</td></tr>
+<tr valign=top><td><b>yy</b></td><td>
+<p>Matrix coefficient.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_FWord">
+<h4>FT_FWord</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">signed</font> <font color="darkblue">short</font>  <b>FT_FWord</b>;   /* distance in FUnits */
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A signed 16-bit integer used to store a distance in original font units.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_UFWord">
+<h4>FT_UFWord</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">unsigned</font> <font color="darkblue">short</font>  <b>FT_UFWord</b>;  /* <font color="darkblue">unsigned</font> distance */
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>An unsigned 16-bit integer used to store a distance in original font units.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_F2Dot14">
+<h4>FT_F2Dot14</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">signed</font> <font color="darkblue">short</font>  <b>FT_F2Dot14</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A signed 2.14 fixed float type used for unit vectors.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_UnitVector">
+<h4>FT_UnitVector</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_UnitVector_
+  {
+    <a href="ft2-basic_types.html#FT_F2Dot14">FT_F2Dot14</a>  x;
+    <a href="ft2-basic_types.html#FT_F2Dot14">FT_F2Dot14</a>  y;
+
+  } <b>FT_UnitVector</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A simple structure used to store a 2D vector unit vector. Uses FT_F2Dot14 types.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>x</b></td><td>
+<p>Horizontal coordinate.</p>
+</td></tr>
+<tr valign=top><td><b>y</b></td><td>
+<p>Vertical coordinate.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_F26Dot6">
+<h4>FT_F26Dot6</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">signed</font> <font color="darkblue">long</font>  <b>FT_F26Dot6</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A signed 26.6 fixed float type used for vectorial pixel coordinates.</p>
+</td></tr></table></center><br>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Pixel_Mode">
+<h4>FT_Pixel_Mode</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">enum</font>  FT_Pixel_Mode_
+  {
+    <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_NONE</a> = 0,
+    <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_MONO</a>,
+    <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_GRAY</a>,
+    <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_GRAY2</a>,
+    <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_GRAY4</a>,
+    <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_LCD</a>,
+    <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_LCD_V</a>,
+
+    FT_PIXEL_MODE_MAX      /* do not remove */
+
+  } <b>FT_Pixel_Mode</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>An enumeration type used to describe the format of pixels in a given bitmap. Note that additional formats may be added in the future.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>FT_PIXEL_MODE_NONE</b></td><td>
+<p>Value 0 is reserved.</p>
+</td></tr>
+<tr valign=top><td><b>FT_PIXEL_MODE_MONO</b></td><td>
+<p>A monochrome bitmap, using 1 bit per pixel. Note that pixels are stored in most-significant order (MSB), which means that the left-most pixel in a byte has value 128.</p>
+</td></tr>
+<tr valign=top><td><b>FT_PIXEL_MODE_GRAY</b></td><td>
+<p>An 8-bit bitmap, generally used to represent anti-aliased glyph images. Each pixel is stored in one byte. Note that the number of value "gray" levels is stored in the `num_bytes' field of the <a href="ft2-basic_types.html#FT_Bitmap">FT_Bitmap</a> structure (it generally is 256).</p>
+</td></tr>
+<tr valign=top><td><b>FT_PIXEL_MODE_GRAY2</b></td><td>
+<p>A 2-bit/pixel bitmap, used to represent embedded anti-aliased bitmaps in font files according to the OpenType specification. We haven't found a single font using this format, however.</p>
+</td></tr>
+<tr valign=top><td><b>FT_PIXEL_MODE_GRAY4</b></td><td>
+<p>A 4-bit/pixel bitmap, used to represent embedded anti-aliased bitmaps in font files according to the OpenType specification. We haven't found a single font using this format, however.</p>
+</td></tr>
+<tr valign=top><td><b>FT_PIXEL_MODE_LCD</b></td><td>
+<p>An 8-bit bitmap, used to represent RGB or BGR decimated glyph images used for display on LCD displays; the bitmap's width is three times wider than the original glyph image. See also <a href="ft2-base_interface.html#FT_Render_Mode">FT_RENDER_MODE_LCD</a></p>
+</td></tr>
+<tr valign=top><td><b>FT_PIXEL_MODE_LCD_V</b></td><td>
+<p>An 8-bit bitmap, used to represent RGB or BGR decimated glyph images used for display on rotated LCD displays; the bitmap's height is three times taller than the original glyph image. See also <a href="ft2-base_interface.html#FT_Render_Mode">FT_RENDER_MODE_LCD_V</a></p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="ft_pixel_mode_xxx">
+<h4>ft_pixel_mode_xxx</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <a href="ft2-basic_types.html#ft_pixel_mode_xxx">ft_pixel_mode_none</a>   <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_NONE</a>
+#define <a href="ft2-basic_types.html#ft_pixel_mode_xxx">ft_pixel_mode_mono</a>   <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_MONO</a>
+#define <a href="ft2-basic_types.html#ft_pixel_mode_xxx">ft_pixel_mode_grays</a>  <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_GRAY</a>
+#define <a href="ft2-basic_types.html#ft_pixel_mode_xxx">ft_pixel_mode_pal2</a>   <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_GRAY2</a>
+#define <a href="ft2-basic_types.html#ft_pixel_mode_xxx">ft_pixel_mode_pal4</a>   <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_GRAY4</a>
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A list of deprecated constants. Use the corresponding <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_Pixel_Mode</a> values instead.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>ft_pixel_mode_none</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_NONE</a></p>
+</td></tr>
+<tr valign=top><td><b>ft_pixel_mode_mono</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_MONO</a></p>
+</td></tr>
+<tr valign=top><td><b>ft_pixel_mode_grays</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_GRAY</a></p>
+</td></tr>
+<tr valign=top><td><b>ft_pixel_mode_pal2</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_GRAY2</a></p>
+</td></tr>
+<tr valign=top><td><b>ft_pixel_mode_pal4</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Pixel_Mode">FT_PIXEL_MODE_GRAY4</a></p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Palette_Mode">
+<h4>FT_Palette_Mode</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">enum</font>  FT_Palette_Mode_
+  {
+    ft_palette_mode_rgb = 0,
+    ft_palette_mode_rgba,
+
+    ft_palettte_mode_max   /* do not remove */
+
+  } <b>FT_Palette_Mode</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>THIS TYPE IS DEPRECATED. DO NOT USE IT!</p>
+<p>An enumeration type used to describe the format of a bitmap palette, used with ft_pixel_mode_pal4 and ft_pixel_mode_pal8.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>ft_palette_mode_rgb</b></td><td>
+<p>The palette is an array of 3-bytes RGB records.</p>
+</td></tr>
+<tr valign=top><td><b>ft_palette_mode_rgba</b></td><td>
+<p>The palette is an array of 4-bytes RGBA records.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>As ft_pixel_mode_pal2, pal4 and pal8 are currently unused by FreeType, these types are not handled by the library itself.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Bitmap">
+<h4>FT_Bitmap</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Bitmap_
+  {
+    <font color="darkblue">int</font>             rows;
+    <font color="darkblue">int</font>             width;
+    <font color="darkblue">int</font>             pitch;
+    <font color="darkblue">unsigned</font> <font color="darkblue">char</font>*  buffer;
+    <font color="darkblue">short</font>           num_grays;
+    <font color="darkblue">char</font>            pixel_mode;
+    <font color="darkblue">char</font>            palette_mode;
+    <font color="darkblue">void</font>*           palette;
+
+  } <b>FT_Bitmap</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A structure used to describe a bitmap or pixmap to the raster. Note that we now manage pixmaps of various depths through the `pixel_mode' field.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>rows</b></td><td>
+<p>The number of bitmap rows.</p>
+</td></tr>
+<tr valign=top><td><b>width</b></td><td>
+<p>The number of pixels in bitmap row.</p>
+</td></tr>
+<tr valign=top><td><b>pitch</b></td><td>
+<p>The pitch's absolute value is the number of bytes taken by one bitmap row, including padding. However, the pitch is positive when the bitmap has a `down' flow, and negative when it has an `up' flow. In all cases, the pitch is an offset to add to a bitmap pointer in order to go down one row.</p>
+</td></tr>
+<tr valign=top><td><b>buffer</b></td><td>
+<p>A typeless pointer to the bitmap buffer. This value should be aligned on 32-bit boundaries in most cases.</p>
+</td></tr>
+<tr valign=top><td><b>num_grays</b></td><td>
+<p>This field is only used with `FT_PIXEL_MODE_GRAY'; it gives the number of gray levels used in the bitmap.</p>
+</td></tr>
+<tr valign=top><td><b>pixel_mode</b></td><td>
+<p>The pixel_mode, i.e., how pixel bits are stored.</p>
+</td></tr>
+<tr valign=top><td><b>palette_mode</b></td><td>
+<p>This field is only used with paletted pixel modes; it indicates how the palette is stored.</p>
+</td></tr>
+<tr valign=top><td><b>palette</b></td><td>
+<p>A typeless pointer to the bitmap palette; only used for paletted pixel modes.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>For now, the only pixel mode supported by FreeType are mono and grays. However, drivers might be added in the future to support more `colorful' options.</p>
+<p>When using pixel modes pal2, pal4 and pal8 with a void `palette' field, a gray pixmap with respectively 4, 16, and 256 levels of gray is assumed. This, in order to be compatible with some embedded bitmap formats defined in the TrueType specification.</p>
+<p>Note that no font was found presenting such embedded bitmaps, so this is currently completely unhandled by the library.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_IMAGE_TAG">
+<h4>FT_IMAGE_TAG</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#ifndef <b>FT_IMAGE_TAG</b>
+#define <b>FT_IMAGE_TAG</b>( value, _x1, _x2, _x3, _x4 )  \
+          value = ( ( (<font color="darkblue">unsigned</font> <font color="darkblue">long</font>)_x1 &lt;&lt; 24 ) | \
+                    ( (<font color="darkblue">unsigned</font> <font color="darkblue">long</font>)_x2 &lt;&lt; 16 ) | \
+                    ( (<font color="darkblue">unsigned</font> <font color="darkblue">long</font>)_x3 &lt;&lt; 8  ) | \
+                      (<font color="darkblue">unsigned</font> <font color="darkblue">long</font>)_x4         )
+#endif /* <b>FT_IMAGE_TAG</b> */
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This macro converts four letter tags into an unsigned long.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>Since many 16bit compilers don't like 32bit enumerations, you should redefine this macro in case of problems to something like this:</p>
+<p>#define FT_IMAGE_TAG( value, _x1, _x2, _x3, _x4 ) (value)</p>
+<p>to get a simple enumeration without assigning special numbers.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Glyph_Format">
+<h4>FT_Glyph_Format</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">enum</font>  FT_Glyph_Format_
+  {
+    <a href="ft2-basic_types.html#FT_IMAGE_TAG">FT_IMAGE_TAG</a>( <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_NONE</a>, 0, 0, 0, 0 ),
+
+    <a href="ft2-basic_types.html#FT_IMAGE_TAG">FT_IMAGE_TAG</a>( <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_COMPOSITE</a>, 'c', 'o', 'm', 'p' ),
+    <a href="ft2-basic_types.html#FT_IMAGE_TAG">FT_IMAGE_TAG</a>( <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_BITMAP</a>,    'b', 'i', 't', 's' ),
+    <a href="ft2-basic_types.html#FT_IMAGE_TAG">FT_IMAGE_TAG</a>( <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_OUTLINE</a>,   'o', 'u', 't', 'l' ),
+    <a href="ft2-basic_types.html#FT_IMAGE_TAG">FT_IMAGE_TAG</a>( <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_PLOTTER</a>,   'p', 'l', 'o', 't' )
+
+  } <b>FT_Glyph_Format</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>An enumeration type used to describe the format of a given glyph image. Note that this version of FreeType only supports two image formats, even though future font drivers will be able to register their own format.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>FT_GLYPH_FORMAT_NONE</b></td><td>
+<p>The value 0 is reserved and does describe a glyph format.</p>
+</td></tr>
+<tr valign=top><td><b>FT_GLYPH_FORMAT_COMPOSITE</b></td><td>
+<p>The glyph image is a composite of several other images. This format is <i>only</i> used with ?FT_LOAD_FLAG_NO_RECURSE? and is used to report compound glyphs (like accented characters).</p>
+</td></tr>
+<tr valign=top><td><b>FT_GLYPH_FORMAT_BITMAP</b></td><td>
+<p>The glyph image is a bitmap, and can be described as an <a href="ft2-basic_types.html#FT_Bitmap">FT_Bitmap</a> You generally need to access the `bitmap' field of the <a href="ft2-base_interface.html#FT_GlyphSlotRec">FT_GlyphSlotRec</a> structure to read it.</p>
+</td></tr>
+<tr valign=top><td><b>FT_GLYPH_FORMAT_OUTLINE</b></td><td>
+<p>The glyph image is a vertorial outline made of line segments and Bezier arcs; it can be described as an <a href="ft2-outline_processing.html#FT_Outline">FT_Outline</a> you generally want to access the `outline' field of the <a href="ft2-base_interface.html#FT_GlyphSlotRec">FT_GlyphSlotRec</a> structure to read it.</p>
+</td></tr>
+<tr valign=top><td><b>FT_GLYPH_FORMAT_PLOTTER</b></td><td>
+<p>The glyph image is a vectorial path with no inside/outside contours. Some Type 1 fonts, like those in the Hershey family, contain glyphs in this format. These are described as <a href="ft2-outline_processing.html#FT_Outline">FT_Outline</a> but FreeType isn't currently capable of rendering them correctly.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="ft_glyph_format_xxx">
+<h4>ft_glyph_format_xxx</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <a href="ft2-basic_types.html#ft_glyph_format_xxx">ft_glyph_format_none</a>       <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_NONE</a>
+#define <a href="ft2-basic_types.html#ft_glyph_format_xxx">ft_glyph_format_composite</a>  <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_COMPOSITE</a>
+#define <a href="ft2-basic_types.html#ft_glyph_format_xxx">ft_glyph_format_bitmap</a>     <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_BITMAP</a>
+#define <a href="ft2-basic_types.html#ft_glyph_format_xxx">ft_glyph_format_outline</a>    <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_OUTLINE</a>
+#define <a href="ft2-basic_types.html#ft_glyph_format_xxx">ft_glyph_format_plotter</a>    <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_PLOTTER</a>
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>A list of decprecated constants. Use the corresponding <a href="ft2-basic_types.html#FT_Glyph_Format">FT_Glyph_Format</a> values instead.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>values</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>ft_glyph_format_none</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_NONE</a></p>
+</td></tr>
+<tr valign=top><td><b>ft_glyph_format_composite</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_COMPOSITE</a></p>
+</td></tr>
+<tr valign=top><td><b>ft_glyph_format_bitmap</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_BITMAP</a></p>
+</td></tr>
+<tr valign=top><td><b>ft_glyph_format_outline</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_OUTLINE</a></p>
+</td></tr>
+<tr valign=top><td><b>ft_glyph_format_plotter</b></td><td>
+<p>see <a href="ft2-basic_types.html#FT_Glyph_Format">FT_GLYPH_FORMAT_PLOTTER</a></p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Data">
+<h4>FT_Data</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Data_
+  {
+    <font color="darkblue">const</font> <a href="ft2-basic_types.html#FT_Byte">FT_Byte</a>*  pointer;
+    <a href="ft2-basic_types.html#FT_Int">FT_Int</a>          length;
+
+  } <b>FT_Data</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Read-only binary data represented as a pointer and a length.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>pointer</b></td><td>
+<p>The data.</p>
+</td></tr>
+<tr valign=top><td><b>length</b></td><td>
+<p>The length of the data in bytes.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Generic_Finalizer">
+<h4>FT_Generic_Finalizer</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">void</font>  (*<b>FT_Generic_Finalizer</b>)(<font color="darkblue">void</font>*  object);
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Describes a function used to destroy the `client' data of any FreeType object. See the description of the FT_Generic type for details of usage.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>input</b></em></td></tr><tr><td>
+<p>The address of the FreeType object which is under finalization. Its client data is accessed through its `generic' field.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_Generic">
+<h4>FT_Generic</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+  <font color="darkblue">typedef</font> <font color="darkblue">struct</font>  FT_Generic_
+  {
+    <font color="darkblue">void</font>*                 data;
+    <a href="ft2-basic_types.html#FT_Generic_Finalizer">FT_Generic_Finalizer</a>  finalizer;
+
+  } <b>FT_Generic</b>;
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>Client applications often need to associate their own data to a variety of FreeType core objects. For example, a text layout API might want to associate a glyph cache to a given size object.</p>
+<p>Most FreeType object contains a `generic' field, of type FT_Generic, which usage is left to client applications and font servers.</p>
+<p>It can be used to store a pointer to client-specific data, as well as the address of a `finalizer' function, which will be called by FreeType when the object is destroyed (for example, the previous client example would put the address of the glyph cache destructor in the `finalizer' field).</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>fields</b></em></td></tr><tr><td>
+<table valign=top cellpadding=3>
+<tr valign=top><td><b>data</b></td><td>
+<p>A typeless pointer to any client-specified data. This field is completely ignored by the FreeType library.</p>
+</td></tr>
+<tr valign=top><td><b>finalizer</b></td><td>
+<p>A pointer to a `generic finalizer' function, which will be called when the object is destroyed. If this field is set to NULL, no code will be called.</p>
+</td></tr>
+</table>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+<center><table width=75%><tr><td>
+<a name="FT_MAKE_TAG">
+<h4>FT_MAKE_TAG</h4>
+</a>
+<center><table width=87%><tr bgcolor=#D6E8FF width=100%><td><pre>
+
+#define <b>FT_MAKE_TAG</b>( _x1, _x2, _x3, _x4 ) \
+          ( ( (<a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>)_x1 &lt;&lt; 24 ) |     \
+            ( (<a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>)_x2 &lt;&lt; 16 ) |     \
+            ( (<a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>)_x3 &lt;&lt;  8 ) |     \
+              (<a href="ft2-basic_types.html#FT_ULong">FT_ULong</a>)_x4         )
+
+</pre></table></center><br>
+<center><table width=87%><tr><td>
+<p>This macro converts four letter tags which are used to label TrueType tables into an unsigned long to be used within FreeType.</p>
+</td></tr></table></center><br>
+<center><table width=87% cellpadding=5><tr bgcolor=#EEEEFF><td><em><b>note</b></em></td></tr><tr><td>
+<p>The produced values <b>must</b> be 32bit integers. Don't redefine this macro.</p>
+</td></tr></table></center>
+</td></tr></table><hr width=75%></center>
+</body>
+</html>

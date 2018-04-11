@@ -1,0 +1,81 @@
+<project name="security" default="build" basedir=".">
+
+<property environment="env"/>
+
+<property name="javax.source.dir" value="${basedir}/javax/source"/>
+<property name="gnu-crypto.source.dir" value="${basedir}/gnu-crypto/source"/>
+<property name="jzlib.source.dir" value="${basedir}/jzlib/source"/>
+<property name="jessie.source.dir" value="${basedir}/jessie/source"/>
+
+<property name="base.build.dir" value="build"/>
+
+<property name="javax.build.dir" value="${base.build.dir}/javax/classes"/>
+<property name="gnu-crypto.build.dir" value="${base.build.dir}/gnu-crypto/classes"/>
+<property name="jzlib.build.dir" value="${base.build.dir}/jzlib/classes"/>
+<property name="jessie.build.dir" value="${base.build.dir}/jessie/classes"/>
+
+<property name="javax.lib.dir" value="${base.build.dir}/javax/lib"/>
+<property name="lib.dir" value="${base.build.dir}/lib"/>
+
+<property name="security.tools.dir" value="${env.OCAPROOT}/tools/generic/security"/>
+
+<target name="clean" description="Delete build folder">
+	<delete dir="${base.build.dir}"/>
+</target>
+
+<target name="prepare" depends="clean">
+	<mkdir dir="${base.build.dir}"/>
+    <mkdir dir="${javax.build.dir}"/>
+    <mkdir dir="${javax.lib.dir}"/>
+    <mkdir dir="${gnu-crypto.build.dir}"/>
+    <mkdir dir="${jzlib.build.dir}"/>
+    <mkdir dir="${jessie.build.dir}"/>
+	<mkdir dir="${lib.dir}"/>
+</target>
+
+<path id="javax.path.ref">
+    <fileset dir="${javax.lib.dir}" includes="*.jar"/>
+</path>
+
+<target name="build.javax" depends="prepare">
+	<javac includeAntRuntime="false" debug="true" source="1.4" target="1.4" srcdir="${javax.source.dir}" destdir="${javax.build.dir}"/>
+    <jar jarfile="${javax.lib.dir}/javax.jar" basedir="${javax.build.dir}"/>
+</target>
+
+<target name="build.crypto" depends="prepare">
+	<javac includeAntRuntime="false" debug="true" source="1.4" target="1.4" srcdir="${gnu-crypto.source.dir}" destdir="${gnu-crypto.build.dir}"/>
+    <copy todir="${gnu-crypto.build.dir}">
+        <fileset dir="${gnu-crypto.source.dir}" includes="**/*.properties"/>
+    </copy>
+</target>
+
+<target name="build.jzlib" depends="prepare">
+	<javac includeAntRuntime="false" debug="true" source="1.4" target="1.4" srcdir="${jzlib.source.dir}" destdir="${jzlib.build.dir}"/>
+</target>
+
+<target name="build.jessie" depends="prepare">
+    <javac includeAntRuntime="false" debug="true" source="1.4" target="1.4" srcdir="${jessie.source.dir}" destdir="${jessie.build.dir}">
+        <compilerarg value="-Xbootclasspath/p:${toString:javax.path.ref}"/>
+        <classpath>
+            <pathelement path="${gnu-crypto.build.dir}"/>
+            <pathelement path="${jzlib.build.dir}"/>
+        </classpath>
+    </javac>
+    <copy todir="${jessie.build.dir}">
+        <fileset dir="${jessie.source.dir}" includes="**/*.properties"/>
+    </copy>
+</target>
+
+<target name="build" depends="prepare, build.javax, build.crypto, build.jzlib, build.jessie" description="Build security jar - includes JCE, JSSE classes, dependencies and Jessie implementation">
+    <jar jarfile="${lib.dir}/security.jar">
+		<fileset dir="${jessie.build.dir}"/>
+        <fileset dir="${jzlib.build.dir}"/>
+        <fileset dir="${gnu-crypto.build.dir}"/>
+		<zipgroupfileset dir="${javax.lib.dir}" includes="**/*.jar" />
+	</jar>
+</target>
+
+<target name="deploy" description="Copy security.jar to tools/generic/security folder">
+	<copy file="${lib.dir}/security.jar" todir="${security.tools.dir}"/>
+</target>
+</project>

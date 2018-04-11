@@ -1,0 +1,61 @@
+<!-- ANT includes for the _shared files in all project 
+
+Include this after the 'project' and 'version' defines, but before everything
+else.
+
+-->
+
+    <property name="_shared.dirs.base"
+            value="${basedir}/../_shared" />
+
+    
+    <!-- Include the loaded, included XML files as defined in the ent file's
+        loaded files.
+        
+        Note that this creates a dependency upon parent directories knowledge
+        of sub-directories.  However, using the standardized naming convention,
+        this should be a safe assumption.
+        -->
+    &inc._shared.3rdparty;
+    &inc._shared.license;
+    &inc._shared.xdocs;
+    
+    <!-- don't include deployed -->
+    
+    <!-- this must be after all other includes -->
+    &inc._shared.common-ant;
+    
+    <!-- must be included for tests to work right for JDK 1.1 and pre-autodoc
+        generation.  JDK 1.1 doesn't recoginize the 'java.class.path' relative
+        paths correctly on all platforms. -->
+    
+    <path id="classpath.bootstrap.xml">
+        <pathelement location="${libs.ant.1_5_1.core}" />
+        <pathelement location="${libs.ant.1_5_1.optional}" />
+        <pathelement location="${libs.xerces.2_2_0.api}" />
+        <pathelement location="${libs.xerces.2_2_0.impl}" />
+    </path>
+
+
+    
+    <path id="classpath.bootstrap.ant">
+        <pathelement location="${libs.ant.1_5_1.core}" />
+        <pathelement location="${libs.ant.1_5_1.optional}" />
+    </path>
+
+    
+    <path id="classpath.bootstrap">
+        <!--
+        <pathelement location="${_shared.dirs.base}/bootstrap/GroboTesting-1.0.0alpha0-core.jar" />
+        -->
+        <pathelement location="${_shared.dirs.base}/bootstrap/GroboTestingAutodoc-1.0.0alpha1-core.jar" />
+        <pathelement location="${_shared.dirs.base}/bootstrap/GroboTestingTP-1.0.0alpha1-core.jar" />
+        <pathelement location="${_shared.dirs.base}/bootstrap/GroboPMTI-1.0.0alpha1-core.jar" />
+        <pathelement location="${_shared.dirs.base}/bootstrap/GroboUtilClasses-1.0.0alpha1-core.jar" />
+        <pathelement location="${_shared.dirs.base}/bootstrap/GroboUtilXML-1.0.0alpha1-core.jar" />
+    </path>
+
+    <path id="classpath.bootstrap.core">
+        <pathelement path="${java.class.path}" />
+    </path>
+    

@@ -1,0 +1,9 @@
+<!-- Javadoc links for this version
+    To be included in a <javadoc> tag.
+-->
+    
+    <link offline="true"
+        href="${javadoc.url.xerces.2_0_2}"
+        packagelistLoc="${javadoc.package-list.xerces.2_0_2}"
+    />
+

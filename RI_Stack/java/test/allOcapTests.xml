@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- COPYRIGHT_BEGIN
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER
+
+Copyright (C) 2008-2013, Cable Television Laboratories, Inc. 
+
+This software is available under multiple licenses: 
+
+(1) BSD 2-clause 
+ Redistribution and use in source and binary forms, with or without modification, are
+ permitted provided that the following conditions are met:
+      ·Redistributions of source code must retain the above copyright notice, this list 
+           of conditions and the following disclaimer.
+      ·Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
+           and the following disclaimer in the documentation and/or other materials provided with the 
+           distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(2) GPL Version 2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, version 2. This program is distributed
+ in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE. See the GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program.If not, see<http:www.gnu.org/licenses/>.
+
+(3)CableLabs License
+ If you or the company you represent has a separate agreement with CableLabs
+ concerning the use of this code, your rights and obligations with respect
+ to this code shall be as set forth therein. No license is granted hereunder
+ for any other purpose.
+
+ Please contact CableLabs if you need additional information or 
+ have any questions.
+
+     CableLabs
+     858 Coal Creek Cir
+     Louisville, CO 80027-9750
+     303 661-9100
+     COPYRIGHT_END -->
+<!DOCTYPE VTE [
+        <!ELEMENT VTE (#PCDATA)>
+           <!ELEMENT TEST (#PCDATA)>
+                  <!ATTLIST TEST name CDATA " ">
+                  <!ATTLIST TEST id CDATA " ">
+                  <!ATTLIST TEST goldFile CDATA " ">
+                  <!ATTLIST TEST type CDATA " ">
+                  <!ATTLIST TEST location CDATA " ">
+                  <!ATTLIST TEST configFile CDATA " ">
+                  <!ATTLIST TEST configData CDATA " ">
+        <!ELEMENT RUN (#PCDATA)>
+]>
+
+<VTE>
+
+    <TEST name="org.dvb.lang.DVBClassLoaderTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+
+    <TEST name="org.ocap.service.ServiceTypePermissionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+
+    <TEST name="org.ocap.application.AppFilterTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.ocap.application.AppPatternTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.ocap.application.AppManagerProxyTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+
+    <TEST name="org.dvb.application.AppIDTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.application.AppStateChangeEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.application.AppsControlPermissionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.application.AppsDatabaseEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.application.AppsDatabaseTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.application.CurrentServiceFilterTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.application.IllegalProfileParameterExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.application.RunningApplicationsFilterTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+
+    <TEST name="org.cablelabs.impl.manager.application.AppClassLoaderTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.AppContextTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.AppDomainImplTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.AppEventQueueTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.AppIconImplTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.AppManagerProxyImplTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.AppManagerTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.AppStateTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.AppThreadGroupTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.XletAppContextTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.application.XletAppTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+
+    <TEST name="org.cablelabs.impl.awt.MPEToolkitTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.eas.BasicSectionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.eas.EASMgrImplTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.eas.TextScrollTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.eas.EASParserTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.ManagerManagerTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.ResourceManagerClientTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.manager.CallerContextMulticasterTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.cablelabs.impl.ocap.hardware.HostImplTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="javax.tv.util.TVTimerSpecTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="javax.tv.util.TVTimerTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="javax.tv.util.TVTimerWentOffEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.DSMCCExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.DSMCCObjectTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.DSMCCStreamEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.DSMCCStreamTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.IllegalObjectTypeExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.InsufficientResourcesExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.InvalidAddressExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.InvalidFormatEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.InvalidFormatExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.InvalidPathnameEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.InvalidPathNameExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.LoadingAbortedEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.MPEGDeliveryErrorEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.MPEGDeliveryExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.NotEntitledEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.NotEntitledExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.NothingToAbortExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.NotLoadedExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.NPTDiscontinuityEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.NPTPresentEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.NPTRateChangeEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.NPTRateTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.NPTRemovedEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.ObjectChangeEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.ServerDeliveryErrorEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.ServerDeliveryExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.ServiceDomainTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.ServiceXFRErrorEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.ServiceXFRExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.ServiceXFRReferenceTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.StreamEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.SuccessEventTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.dsmcc.UnknownEventExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.io.persistent.FileAccessPermissionsTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.io.persistent.FileAttributesTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.DVBAlphaCompositeTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.DVBBufferedImageTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.DVBColorTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.DVBGraphicsTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.DVBRasterFormatExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.DVBRasterFormatExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.DVBTextLayoutManagerTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.FontFactoryTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.FontFormatExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.FontNotAvailableExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.dvb.ui.UnsupportedDrawingOperationExceptionTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.ocap.OcapSystemTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.ocap.mpeg.PODExtendedChannelTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.ocap.hardware.HostTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.ocap.hardware.pod.PODTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.ocap.media.ClosedCaptioningAttributeTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.ocap.system.EASModuleRegistrarTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.ocap.test.OCAPTestTest" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+    <TEST name="org.davic.mpeg.sections.PosNegTSFTest_1" id="192" goldFile="none" type="JUNIT" location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+<!--
+    <TEST name=org.cablelabs.impl.manager.dvrmgr.SchedulerTests" id="192" goldFile="none"type="JUNIT"location="qa/ocap-test.jar" configFile="none" configData="none" > Suite Test Number: 1 </TEST>
+-->
+</VTE>

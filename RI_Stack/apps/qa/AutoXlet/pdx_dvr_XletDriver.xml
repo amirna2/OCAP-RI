@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+   <!-- DvrTest -->
+   <Xlet name="DVRTest" orgID="0x1" appID="0x7203" pauseAfterLast="7000" startupTimeout="180000">
+
+      <RCEvent name="Select Group 1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Select Group 1" pauseBeforeNext="1000" monitorTimeout="30000" getResultsAfter="false">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="TestDigitalRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestDigitalRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingPlayback" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestRecordingPlayback" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingPlaybackwithJMFPlayer" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestRecordingPlaybackwithJMFPlayer" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingPlaybackSetMediaTime" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestRecordingPlaybackSetMediaTime" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBasicConsecutiveRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestBasicConsecutiveRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestBasicConsecutiveRecordings2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestBasicConsecutiveRecordings2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestSimultaneousRecordings - distinct locators" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestSimultaneousRecordings - distinct locators" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestSimultaneousRecordings - distinct locators" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestAdjacentRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestAdjacentRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestAdjacentRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Basic TSB Recording:ocap0x868" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Basic TSB Recording:ocap0x868" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Test Basic TSB Recording:ocap0x868" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Immediate TSB Recording (recording now bug):ocap://0x868" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Immediate TSB Recording (recording now bug):ocap://0x868" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="Test Immediate TSB Recording (recording now bug):ocap://0x868" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Basic TSB Recording:ocap:0x3eb" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Basic TSB Recording:ocap:0x3eb" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Test Basic TSB Recording:ocap:0x3eb" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Immediate TSB Recording (recording now bug):ocap://0x3eb" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Immediate TSB Recording (recording now bug):ocap://0x3eb" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="Test Immediate TSB Recording (recording now bug):ocap://0x3eb" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TSBRecording NIRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TSBRecording NIRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TSBRecording NIRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TSBSCRecordingTuneAway1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TSBSCRecordingTuneAway1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TSBSCRecordingTuneAway1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TSBSCRecordingTuneAway2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TSBSCRecordingTuneAway2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TSBSCRecordingTuneAway2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Overlapping Entries" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Overlapping Entries" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Test Overlapping Entries" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Basic Record and Cancel" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Test Basic Record and Cancel" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="Test Basic Record and Cancel" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Basic Schedule" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Test Basic Schedule" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Test Basic Schedule" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Basic Recording Alert Listener" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Test Basic Recording Alert Listener" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="Test Basic Recording Alert Listener" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="TestMgrGetEntriesComplete_B2102_1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestMgrGetEntriesComplete_B2102_1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestMgrGetEntriesComplete_B2102_1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestMgrGetEntriesPending_B2102_2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestMgrGetEntriesPending_B2102_2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestMgrGetEntriesPending_B2102_2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestSortRecordingListTimeOrder_B2102_3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestSortRecordingListTimeOrder_B2102_3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestSortRecordingListTimeOrder_B2102_3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+<!--
+      <RCEvent name="TestInProgToInsufSpace_B2102_4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestInProgToInsufSpace_B2102_4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestInProgToInsufSpace_B2102_4" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestInsufToInProg_B2102_5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestInsufToInProg_B2102_5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestInsufToInProg_B2102_5" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+-->
+      <RCEvent name="TestSimpleAppData" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestSimpleAppData" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestSimpleAppData" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestParentAddAppData" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestParentAddAppData" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestParentAddAppData" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestParentAddAppData_Max_Keys" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestParentAddAppData_Max_Keys" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestParentAddAppData_Max_Keys" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestParentAddAppData_IllegalArgumentException" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestParentAddAppData_IllegalArgumentException" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestParentAddAppData_IllegalArgumentException" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestParentAddAppData_NoMoreDataEntriesException" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestParentAddAppData_NoMoreDataEntriesException" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestParentAddAppData_NoMoreDataEntriesException" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="360000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent> 
+
+      <RCEvent name="Test Simple Scheduled Recording Contention " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Test Simple Scheduled Recording Contention " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Test Simple Scheduled Recording Contention " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test SimpleScheduledRecordingContentionHandler " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Test SimpleScheduledRecordingContentionHandler " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Test SimpleScheduledRecordingContentionHandler " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="OverlappingScheduledRecordingContention1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="OverlappingScheduledRecordingContention1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="OverlappingScheduledRecordingContention1 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="OverlappingScheduledRecordingContention2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="OverlappingScheduledRecordingContention2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="OverlappingScheduledRecordingContention2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="ScheduledRecordingContention_5 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="ScheduledRecordingContention_5 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="ScheduledRecordingContention_5 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="ScheduledRecordingContention_6 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="ScheduledRecordingContention_6 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="ScheduledRecordingContention_6 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="ScheduledRecordingContention_7 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="ScheduledRecordingContention_7 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="ScheduledRecordingContention_7 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="ScheduledRecordingContention_8 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="ScheduledRecordingContention_8 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="ScheduledRecordingContention_8 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test SimpleRescheduledRecording1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Test SimpleRescheduledRecording1 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Test SimpleRescheduledRecording1 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test SimpleRescheduledRecording2 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="Test SimpleRescheduledRecording2 " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Test SimpleRescheduledRecording2 " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestOverlappingRescheduledRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestOverlappingRescheduledRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestOverlappingRescheduledRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestOverlappingRescheduledRecording2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestOverlappingRescheduledRecording2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestOverlappingRescheduledRecording2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestMultOverlapRescheduledRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestMultOverlapRescheduledRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestMultOverlapRescheduledRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestOverlappingRescheduledRecording3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestOverlappingRescheduledRecording3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestOverlappingRescheduledRecording3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingReservationReassignment-1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestRecordingReservationReassignment-1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestRecordingReservationReassignment-1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingReservationReassignment-2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestRecordingReservationReassignment-2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestRecordingReservationReassignment-2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="ScheduleSeriesRecording " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="ScheduleSeriesRecording " pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="ScheduleSeriesRecording " pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="secExpirationScenario_1 Test" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="secExpirationScenario_1 Test" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="secExpirationScenario_1 Test" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+     <RCEvent name="Series: Delete Parent at root level. (s1)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Series: Delete Parent at root level. (s1)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Series: Delete Parent at root level. (s1)" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: Test DeletionDetails.UserDeleted (s2)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.UserDeleted (s2)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.UserDeleted (s2)" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s3)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s3)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s3)" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s4)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s4)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s4)" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s5)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s5)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s5)" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s6)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s6)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s6)" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s7)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s7)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s7)" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s8)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s8)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="Series: Test DeletionDetails.EXPIRED (s8)" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test Series Reschedule" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>  
+      <RCEvent name="Test Series Reschedule" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>   
+      <RCEvent name="Test Series Reschedule" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent> 
+
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_ENTER</RCEvent>
+      <RCEvent name="DeleteAllRecordings" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_COLORED_KEY_3</RCEvent>
+
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_ABC" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_ABC" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_ABC" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_ACB" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_ACB" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_ACB" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_CBA" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_CBA" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_CBA" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="GatingTest-RecordingNIAndSCConflict_ABC" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="GatingTest-RecordingNIAndSCConflict_ABC" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="GatingTest-RecordingNIAndSCConflict_ABC" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="GatingTest-RecordingNIAndSCConflict_ACB" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="GatingTest-RecordingNIAndSCConflict_ACB" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="GatingTest-RecordingNIAndSCConflict_ACB" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="GatingTest-RecordingNIAndSCConflict_CBA" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="GatingTest-RecordingNIAndSCConflict_CBA" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="GatingTest-RecordingNIAndSCConflict_CBA" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_ABCD" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_ABCD" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="GatingTest-RecordingAndServiceConflict_ABCD" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRetentionPriority1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestRetentionPriority1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestRetentionPriority1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRetentionPriority2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestRetentionPriority2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestRetentionPriority2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRetentionPriority3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestRetentionPriority3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestRetentionPriority3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRetentionPriority4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestRetentionPriority4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRetentionPriority4" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestPlaybackExpiredRecording1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestPlaybackExpiredRecording1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestPlaybackExpiredRecording1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestPlaybackExpiredRecording2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestPlaybackExpiredRecording2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestPlaybackExpiredRecording2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestPurgeDuringPlayback" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestPurgeDuringPlayback" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestPurgeDuringPlayback" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestPurgeOnExpiration" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestPurgeOnExpiration" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestPurgeOnExpiration" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestPurgeExpiration" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestPurgeExpiration" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestPurgeExpiration" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Test reschedule past expiration" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="Test reschedule past expiration" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="Test reschedule past expiration" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingID:Basic" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestRecordingID:Basic" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestRecordingID:Basic" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordingID:IllegalArgumentException" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestRecordingID:IllegalArgumentException" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestRecordingID:IllegalArgumentException" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: TestSeriesContention1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Series: TestSeriesContention1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Series: TestSeriesContention1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: TestSeriesContention2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Series: TestSeriesContention2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Series: TestSeriesContention2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: TestSeriesContention3 - delete request" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Series: TestSeriesContention3 - delete request" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="Series: TestSeriesContention3 - delete request" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Series: TestSeriesContention3 - delete service" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="Series: TestSeriesContention3 - delete service" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="Series: TestSeriesContention3 - delete service" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRetentionContention1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestRetentionContention1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestRetentionContention1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRetentionContention2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestRetentionContention2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestRetentionContention2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+   
+      <RCEvent name="TestRetentionContention3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent> 
+      <RCEvent name="TestRetentionContention3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestRetentionContention3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestRetentionContention3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Tests in-progress recording losing resources" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Tests in-progress recording losing resources" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Tests in-progress recording losing resources" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Tests in-progress recording losing resources" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="Tests in-progress recording losing resources - long rec" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="Tests in-progress recording losing resources - long rec" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="Tests in-progress recording losing resources - long rec" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="Tests in-progress recording losing resources - long rec" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestCancelRecording1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestCancelRecording1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestCancelRecording1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestCancelRecording1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestCancelRecording3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestCancelRecording2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestCancelRecording2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestCancelRecording2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestCancelRecording3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestCancelRecording3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestCancelRecording3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestCancelRecording3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestCancelRecording4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestCancelRecording4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestCancelRecording4" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestCancelRecording4" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestAddBeforeStartListener1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestAddBeforeStartListener1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestAddBeforeStartListener1" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestAddBeforeStartListener1" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestAddBeforeStartListener2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestAddBeforeStartListener2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestAddBeforeStartListener2" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestAddBeforeStartListener2" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestAddBeforeStartListener3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestAddBeforeStartListener3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestAddBeforeStartListener3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestAddBeforeStartListener3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRecordWithConflicts" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRecordWithConflicts" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRecordWithConflicts" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRecordWithConflicts" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestGetPrioritizationList" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestGetPrioritizationList" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestGetPrioritizationList" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestGetPrioritizationList" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestSetPrioritizationList" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestSetPrioritizationList" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestSetPrioritizationList" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestSetPrioritizationList" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestSimpleScheduleRecordingContention" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestSimpleScheduleRecordingContention" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestSimpleScheduleRecordingContention" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestSimpleScheduleRecordingContention" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestReschedule (source IDs)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestReschedule (source IDs)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestReschedule (source IDs)" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_7</RCEvent>
+      <RCEvent name="TestReschedule (source IDs)" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRCW_0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_0" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestRCW_0" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRCW_3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_3" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_9</RCEvent>
+      <RCEvent name="TestRCW_3" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRCW_5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRCW_5" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_0</RCEvent>
+      <RCEvent name="TestRCW_5" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRCW_6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRCW_6" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_6" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRCW_7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRCW_7" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRCW_7" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRCW_8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRCW_8" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_3</RCEvent>
+      <RCEvent name="TestRCW_8" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRCW_SetWarningTimeInFuture" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_SetWarningTimeInFuture" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRCW_SetWarningTimeInFuture" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestRCW_SetWarningTimeInFuture" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRCW_SetWarningTimeInPast" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_SetWarningTimeInPast" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRCW_SetWarningTimeInPast" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_5</RCEvent>
+      <RCEvent name="TestRCW_SetWarningTimeInPast" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestRCW_ResolveContentionBeforeWarning" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestRCW_ResolveContentionBeforeWarning" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestRCW_ResolveContentionBeforeWarning" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_6</RCEvent>
+      <RCEvent name="TestRCW_ResolveContentionBeforeWarning" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_1</RCEvent>
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_2</RCEvent>
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_8</RCEvent>
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="3000" getResultsAfter="false">VK_4</RCEvent>
+      <RCEvent name="TestAnalogRecording" pauseBeforeNext="1000" monitorTimeout="900000" getResultsAfter="true">VK_ENTER</RCEvent>
+
+   </Xlet>
+
+   <Xlet name="AutoXletDoneXlet" orgID="0x1" appID="0x4444" pauseAfterLast="3000">
+   </Xlet>
+
+</AutoXlet>

@@ -1,0 +1,25 @@
+<!-- Main Entrypoint for defining all 3rd party libraries.
+    
+-->
+    <!--
+        Include all elements defined as sub-directories from our 'ent'
+        file.
+    -->
+    
+    <property name="_shared.dirs.3rdparty"
+        value="${_shared.dirs.base}/3rdparty" />
+    
+    &inc._shared.3rdparty.ant;
+    &inc._shared.3rdparty.bcel;
+    &inc._shared.3rdparty.easymock;
+    &inc._shared.3rdparty.junit;
+    &inc._shared.3rdparty.log4j;
+    &inc._shared.3rdparty.mockobjects;
+    &inc._shared.3rdparty.sax;
+    &inc._shared.3rdparty.xalan;
+    &inc._shared.3rdparty.xerces;
+    &inc._shared.3rdparty.xml4j;
+    &inc._shared.3rdparty.jdk;
+
+    
+

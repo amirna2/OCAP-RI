@@ -1,0 +1,3 @@
+# files to be excluded from dvr junit test compilation
+org/cablelabs/impl/manager/resource/RecordingRezMgrTest.java
+org/cablelabs/impl/ocap/resource/DVRResourceContextTest.java

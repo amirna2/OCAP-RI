@@ -1,0 +1,3 @@
+Application Integration Tests
+
+This directory contains the source and dependent files for the tests which are application-wide in scope.

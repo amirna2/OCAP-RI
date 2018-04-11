@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE AutoXlet [
+<!ELEMENT AutoXlet (Xlet+)>
+<!ELEMENT Xlet (RCEvent*)>
+    <!ATTLIST Xlet 
+    name CDATA #REQUIRED
+    orgID CDATA #REQUIRED
+    appID CDATA #REQUIRED
+    pauseAfterLast CDATA #IMPLIED
+	startupTimeout CDATA #IMPLIED>
+<!ELEMENT RCEvent (#PCDATA)>
+    <!ATTLIST RCEvent 
+    name CDATA #IMPLIED
+    pauseBeforeNext CDATA #IMPLIED
+    monitorTimeout CDATA #IMPLIED
+    getResultsAfter (true|false) #IMPLIED>
+<!ELEMENT Repeat (RCEvent+)>
+    <!ATTLIST Repeat
+    count CDATA #REQUIRED>
+]>
+<AutoXlet>
+   	<!-- TEST SEQUENCE 1 
+   		Do one recording and make sure that space allocated decreases by at least
+   		the size of the recording.
+  	 -->
+ 	<Xlet name="MediaStorageVolumeXlet" orgID="0x1" appID="0x6001" pauseAfterLast="5000" startupTimeout="10000">
+		<RCEvent name="OneRecording" pauseBeforeNext="1000" monitorTimeout="180000" getResultsAfter="true">VK_1</RCEvent>
+ 	</Xlet>
+ 	
+    <!-- TEST SEQUENCE 2 
+        Do one recording and make sure that the space allocated for the recording is recovered after deletion
+     -->
+    <Xlet name="MediaStorageVolumeXlet" orgID="0x1" appID="0x6001" pauseAfterLast="5000" startupTimeout="10000">
+        <RCEvent name="OneRecordingExpires" pauseBeforeNext="1000" monitorTimeout="180000" getResultsAfter="true">VK_2</RCEvent>
+    </Xlet>
+    
+    <!-- TEST SEQUENCE 3 
+        Do one recording and make sure that the space allocated for the recording is recovered after deletion
+     -->
+    <Xlet name="MediaStorageVolumeXlet" orgID="0x1" appID="0x6001" pauseAfterLast="5000" startupTimeout="10000">
+        <RCEvent name="OneRecordingDeleted" pauseBeforeNext="1000" monitorTimeout="180000" getResultsAfter="true">VK_3</RCEvent>
+    </Xlet>
+    
+    <!-- TEST SEQUENCE 4 
+        Do multiple recordings and make sure that space allocated decreases by at least
+        the size of the recordings.
+     -->
+    <Xlet name="MediaStorageVolumeXlet" orgID="0x1" appID="0x6001" pauseAfterLast="5000" startupTimeout="10000">
+        <RCEvent name="MultipleRecordings" pauseBeforeNext="1000" monitorTimeout="180000" getResultsAfter="true">VK_4</RCEvent>
+    </Xlet>
+    
+    <!-- TEST SEQUENCE 5 
+        Do multiple recordings and make sure that the space allocated for the recordings is recovered after recordings expire
+     -->
+    <Xlet name="MediaStorageVolumeXlet" orgID="0x1" appID="0x6001" pauseAfterLast="5000" startupTimeout="10000">
+        <RCEvent name="MultRecordingsExpired" pauseBeforeNext="1000" monitorTimeout="180000" getResultsAfter="true">VK_5</RCEvent>
+    </Xlet>
+    
+    <!-- TEST SEQUENCE 6 
+        Do multiple recordings and make sure that the space allocated for the recordings is recovered after recordings are deleted
+     -->
+    <Xlet name="MediaStorageVolumeXlet" orgID="0x1" appID="0x6001" pauseAfterLast="5000" startupTimeout="10000">
+        <RCEvent name="MultRecordingsDeleted" pauseBeforeNext="1000" monitorTimeout="180000" getResultsAfter="true">VK_6</RCEvent>
+    </Xlet>
+ 	
+</AutoXlet>
+   

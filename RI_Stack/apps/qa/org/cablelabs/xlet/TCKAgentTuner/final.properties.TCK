@@ -1,0 +1,2 @@
+OCAP.xait.ignore=true
+OCAP.mgrmgr.manager.OcapSecurity=org.cablelabs.impl.manager.security.NoAccessControl
